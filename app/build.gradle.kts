@@ -91,4 +91,11 @@ dependencies {
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
     implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.6.0")
 
+
+    //Implementacao do bottom navigation
+    implementation ("androidx.compose.material:material:1.4.2")
+
+    //Dependencias do navControler
+    implementation("androidx.navigation:navigation-compose:2.6.0")
+
 }
