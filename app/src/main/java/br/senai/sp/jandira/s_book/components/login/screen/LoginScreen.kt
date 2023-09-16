@@ -1,24 +1,38 @@
 package br.senai.sp.jandira.s_book.components.login.screen
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import br.senai.sp.jandira.s_book.components.login.components.Form
 import br.senai.sp.jandira.s_book.components.login.components.Header
 import br.senai.sp.jandira.s_book.components.universal.DefaultButtonScreen
 import br.senai.sp.jandira.s_book.components.universal.GoogleScreen
 import br.senai.sp.jandira.s_book.components.universal.TextContinueScreen
 import br.senai.sp.jandira.s_book.components.universal.TextNotContScreen
+import androidx.lifecycle.LifecycleCoroutineScope
+import br.senai.sp.jandira.s_book.repository.LoginRepository
+import kotlinx.coroutines.launch
 
-@Preview(showSystemUi = true)
+
 @Composable
-fun LoginScreen(){
+fun LoginScreen(lifecycleScope: LifecycleCoroutineScope){
+
+    var emailState by remember {
+        mutableStateOf("")
+    }
+    var senhaState by remember {
+        mutableStateOf("")
+    }
 
     Surface (
         modifier = Modifier
@@ -31,29 +45,36 @@ fun LoginScreen(){
             ,
             verticalArrangement = Arrangement.SpaceAround,
             horizontalAlignment = Alignment.CenterHorizontally,
-
-
-
         ) {
-
             Header()
+            Form(emailState, senhaState, onEmailChange = { emailState = it },
+                onSenhaChange = { senhaState = it })
 
-//            Spacer(modifier = Modifier.height(63.dp))
-            Form()
+            DefaultButtonScreen(text = "Entrar", onClick = {
+                login(emailState, senhaState, lifecycleScope)
+            })
 
-            DefaultButtonScreen(text = "Entrar") {}
 
-//            Spacer(modifier = Modifier.height(53.dp))
             TextContinueScreen()
-
-//            Spacer(modifier = Modifier.height(12.dp))
             GoogleScreen()
-
-//            Spacer(modifier = Modifier.height(1.dp))
             TextNotContScreen()
         }
+    }
+}
 
+fun login (email: String, senha: String, lifecycleScope: LifecycleCoroutineScope) {
 
+    val loginRepository = LoginRepository()
+    lifecycleScope.launch {
+        val response = loginRepository.loginUsuario(email, senha)
+
+        if(response.isSuccessful){
+            Log.e("login", "login: ${response.body()}", )
+        }else{
+            val erroBody = response.errorBody()?.string()
+
+            Log.e("login", "login: $erroBody")
+        }
     }
 
 }

@@ -20,53 +20,55 @@ import br.senai.sp.jandira.s_book.components.universal.TextBoxScreen
 import br.senai.sp.jandira.s_book.components.universal.TextFieldPasswordScreen
 
 @Composable
-fun Form(){
+fun Form(email: String, senha: String, onEmailChange: (String) -> Unit, onSenhaChange: (String) -> Unit) {
+    Column(
+        modifier = Modifier
+            .padding(8.dp)
+            .fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(12.dp, Alignment.Top),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        TextBoxScreen(
+            label = "Email",
+            valor = email,
+            aoMudar = {
+                onEmailChange(it) // Chame a função de callback para atualizar o email
+            }
+        )
+        TextFieldPasswordScreen(
+            label = "Senha",
+            valor = senha,
+            aoMudar = {
+                onSenhaChange(it) // Chame a função de callback para atualizar a senha
+            }
+        )
 
-    var emailState by remember {
-        mutableStateOf("")
-    }
-
-    var senhaState by remember {
-        mutableStateOf("")
-    }
-
-
-        Column (
+        Text(
+            text = "Esqueci a senha",
             modifier = Modifier
-                .padding(8.dp)
-                .fillMaxWidth(),
-            verticalArrangement = Arrangement.spacedBy(12.dp, Alignment.Top),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-            TextBoxScreen(
-                label = "Email",
-                valor = emailState,
-                aoMudar = {
-                    emailState = it
-                }
-            )
-            TextFieldPasswordScreen(
-                label = "Senha" ,
-                valor = senhaState,
-                aoMudar ={
-                    senhaState = it
-                }
-            )
-
-            Text(
-                text = "Esqueci a senha",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(end = 45.dp),
-                color = Color(159,152,152,),
-                textAlign = TextAlign.End
-            )
-        }
-
+                .fillMaxWidth()
+                .padding(end = 45.dp),
+            color = Color(159, 152, 152),
+            textAlign = TextAlign.End
+        )
+    }
 }
 
 @Preview(showSystemUi = true)
 @Composable
 fun FormPreview() {
-    Form()
+    var emailState by remember {
+        mutableStateOf("")
+    }
+    var senhaState by remember {
+        mutableStateOf("")
+    }
+
+    // Chame o Form com as funções de callback para atualizar o email e a senha
+    Form(
+        email = emailState,
+        senha = senhaState,
+        onEmailChange = { emailState = it },
+        onSenhaChange = { senhaState = it }
+    )
 }
