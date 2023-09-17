@@ -23,15 +23,15 @@ class MainActivity : ComponentActivity() {
             SBOOKTheme {
 
                 // A surface container using the 'background' color from the theme
-                LoginScreen(lifecycleScope = lifecycleScope)
+                //LoginScreen(lifecycleScope = lifecycleScope)
                 // CreateContScreen()
-//                AddressScreen()
-//                RediscoverPasswordScreen()
-//                ThanksScreen()
-//                ForgotPasswordScreen()
-//                InsertCode()
-//                CategoryList()
-//                CategoryScreen()
+                //AddressScreen()
+                //RediscoverPasswordScreen()
+                //ThanksScreen()
+                //ForgotPasswordScreen()
+                //InsertCode()
+                //CategoryList()
+                //CategoryScreen()
             }
 
         }

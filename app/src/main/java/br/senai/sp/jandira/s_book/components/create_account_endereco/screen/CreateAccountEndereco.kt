@@ -1,11 +1,11 @@
-package br.senai.sp.jandira.s_book.components.create_account.screen
+package br.senai.sp.jandira.s_book.components.create_account_endereco.screen
 
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Surface
+import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,23 +18,19 @@ import br.senai.sp.jandira.s_book.components.universal.TextContinueScreen
 
 @Preview(showSystemUi = true)
 @Composable
-fun CreateContScreen(){
-
-    Surface (
+fun CreateAccountEndereco () {
+    androidx.compose.material3.Surface(
         modifier = Modifier
             .fillMaxSize()
     ) {
-        Column (
+        Column(
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(
                     ScrollState(115)
-                )
-            ,
+                ),
             verticalArrangement = Arrangement.SpaceEvenly,
             horizontalAlignment = Alignment.CenterHorizontally,
-
-
 
 
             ) {
@@ -57,4 +53,3 @@ fun CreateContScreen(){
 
     }
 }
-

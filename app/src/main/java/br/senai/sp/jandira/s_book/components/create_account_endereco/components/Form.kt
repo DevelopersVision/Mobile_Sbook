@@ -1,4 +1,4 @@
-package br.senai.sp.jandira.s_book.components.create_account.components
+package br.senai.sp.jandira.s_book.components.create_account_endereco.components
 
 
 import androidx.compose.foundation.layout.Arrangement
@@ -14,7 +14,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import br.senai.sp.jandira.s_book.components.universal.DefaultButtonScreen
 import br.senai.sp.jandira.s_book.components.universal.TextBoxScreen
 import br.senai.sp.jandira.s_book.components.universal.TextFieldPasswordScreen
 
@@ -22,58 +21,83 @@ import br.senai.sp.jandira.s_book.components.universal.TextFieldPasswordScreen
 @Composable
 fun Form(){
 
-    var cepState by remember {
+    var emailState by remember {
         mutableStateOf("")
     }
 
-    var estadoState by remember {
+    var nomeState by remember {
         mutableStateOf("")
     }
 
-    var cidadeState by remember {
+    var cpfState by remember {
         mutableStateOf("")
     }
-    var logradouroState by remember {
+    var dataNascimentoState by remember {
         mutableStateOf("")
     }
+
+    var senhaState by remember {
+        mutableStateOf("")
+    }
+    var redefinirsenhaState by remember {
+        mutableStateOf("")
+    }
+
+
 
 
     Column (
         modifier = Modifier
             .padding(8.dp)
             .fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(15.dp, Alignment.Top),
+        verticalArrangement = Arrangement.spacedBy(12.dp, Alignment.Top),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         TextBoxScreen(
-            label = "CEP",
-            valor = cepState,
+            label = "Nome",
+            valor = nomeState,
             aoMudar = {
-                cepState = it
+                nomeState = it
             }
         )
         TextBoxScreen(
-            label = "Estado",
-            valor = estadoState,
+            label = "Email",
+            valor = emailState,
             aoMudar = {
-                estadoState = it
+                emailState = it
             }
         )
         TextBoxScreen(
-            label = "Cidade",
-            valor = cidadeState,
+            label = "cpf",
+            valor = cpfState,
             aoMudar = {
-                cidadeState = it
+                cpfState = it
             }
         )
         TextBoxScreen(
-            label = "Logradouo",
-            valor = logradouroState,
+            label = "Data de Nascimento",
+            valor = dataNascimentoState,
             aoMudar = {
-                logradouroState = it
+                dataNascimentoState = it
             }
         )
-        DefaultButtonScreen(text = "Entrar") {}
+        TextFieldPasswordScreen(
+            label = "Senha" ,
+            valor = senhaState,
+            aoMudar ={
+                senhaState = it
+            }
+        )
+        TextFieldPasswordScreen(
+            label = "Confirmar a senha " ,
+            valor = redefinirsenhaState,
+            aoMudar ={
+                redefinirsenhaState = it
+            }
+        )
+        Button(
+            text = "Continar"
+        ) {}
     }
 
 }
