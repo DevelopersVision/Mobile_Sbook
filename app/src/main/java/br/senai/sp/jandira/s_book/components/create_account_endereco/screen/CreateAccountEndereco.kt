@@ -38,7 +38,7 @@ fun CreateAccountEndereco () {
             Header()
 
 //            Spacer(modifier = Modifier.height(63.dp))
-            Form()
+            br.senai.sp.jandira.s_book.components.create_account_endereco.components.Form()
 
 //            Spacer(modifier = Modifier.height(53.dp))
             TextContinueScreen()

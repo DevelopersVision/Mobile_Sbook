@@ -36,6 +36,9 @@ fun Form(){
     var logradouroState by remember {
         mutableStateOf("")
     }
+    var bairroState by remember {
+        mutableStateOf("")
+    }
 
 
     Column (
@@ -67,7 +70,14 @@ fun Form(){
             }
         )
         TextBoxScreen(
-            label = "Logradouo",
+            label = "bairro",
+            valor = bairroState,
+            aoMudar = {
+                bairroState = it
+            }
+        )
+        TextBoxScreen(
+            label = "Logradouro",
             valor = logradouroState,
             aoMudar = {
                 logradouroState = it

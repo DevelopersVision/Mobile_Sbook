@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.lifecycleScope
 import br.senai.sp.jandira.s_book.components.create_account.screen.CreateContScreen
+import br.senai.sp.jandira.s_book.components.create_account_endereco.screen.CreateAccountEndereco
 import br.senai.sp.jandira.s_book.components.login.screen.LoginScreen
 import br.senai.sp.jandira.s_book.components.universal.DefaultButtonScreen
 import br.senai.sp.jandira.s_book.components.universal.GoogleScreen
@@ -24,7 +25,8 @@ class MainActivity : ComponentActivity() {
 
                 // A surface container using the 'background' color from the theme
                 //LoginScreen(lifecycleScope = lifecycleScope)
-                // CreateContScreen()
+//                 CreateContScreen()
+                CreateAccountEndereco()
                 //AddressScreen()
                 //RediscoverPasswordScreen()
                 //ThanksScreen()
