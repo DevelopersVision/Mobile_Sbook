@@ -2,6 +2,7 @@ package br.senai.sp.jandira.s_book.components.create_account_endereco.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -40,7 +41,8 @@ fun Button(
             .width(300.dp)
             .height(48.dp)
             .background(Color(170, 98, 49), shape = RoundedCornerShape(size = 4.dp))
-            .padding(start = 40.dp, top = 13.dp),
+            .padding(start = 40.dp, top = 13.dp)
+            .clickable { onClick() },
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
     ) {

@@ -1,5 +1,6 @@
 package br.senai.sp.jandira.s_book.components.create_account.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,9 +16,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-@Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun  TextContScreen(){
+fun  TextContScreen(
+    onClick: () -> Unit
+){
     Row(
         modifier = Modifier
             . fillMaxWidth()
@@ -40,7 +42,11 @@ fun  TextContScreen(){
                 fontSize = 12.sp,
                 fontWeight = FontWeight(600),
                 color = Color(170,98,49)
-            )
+            ),
+            modifier = Modifier
+                .clickable {
+                    onClick()
+                }
         )
     }
 }

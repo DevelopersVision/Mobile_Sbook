@@ -12,9 +12,16 @@ object RetrofitHelper {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
-
-
     fun getLoginService(): LoginService {
         return retrofitFactory.create(LoginService::class.java)
     }
+
+    fun postCadastroService(): CadastroService {
+        return retrofitFactory.create(CadastroService::class.java)
+    }
+
+    fun postResetPasswordService(): ResetPasswordService {
+        return retrofitFactory.create(ResetPasswordService::class.java)
+    }
+
 }

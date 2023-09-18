@@ -1,10 +1,15 @@
 package br.senai.sp.jandira.s_book.components.forgot_password.components
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -14,11 +19,18 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.LifecycleCoroutineScope
 import br.senai.sp.jandira.s_book.components.universal.DefaultButtonScreen
+import br.senai.sp.jandira.s_book.repository.ResetPasswordRepository
+import kotlinx.coroutines.launch
 
-@Preview(showSystemUi = true)
 @Composable
-fun Footer(){
+fun Footer(lifecycleScope: LifecycleCoroutineScope){
+
+    var emailState by remember {
+        mutableStateOf("")
+    }
+
     Column(
         modifier = Modifier
             .fillMaxWidth(),
@@ -35,8 +47,28 @@ fun Footer(){
             )
         )
         DefaultButtonScreen(
-            text = "Solicitar código"
-        ) {}
+            text = "Solicitar código",
+            onClick = {
+                resetPassword(emailState, lifecycleScope)
+            }
+        )
 
     }
+}
+
+fun resetPassword(email: String, lifecycleScope: LifecycleCoroutineScope) {
+
+    val resetRepository = ResetPasswordRepository()
+    lifecycleScope.launch {
+        val response = resetRepository.resetPassword(email)
+
+        if(response.isSuccessful){
+            Log.e("reset de senha", "reset de senha: ${response.body()}", )
+        }else{
+            val erroBody = response.errorBody()?.string()
+
+            Log.e("reset de senha", "reset de senha: $erroBody")
+        }
+    }
+
 }

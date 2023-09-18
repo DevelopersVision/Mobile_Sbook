@@ -51,7 +51,6 @@ fun Header(){
                     text = "Esqueci",
                     style = TextStyle(
                         fontSize = 32.sp,
-                        fontWeight = FontWeight(800),
                         color = Color(0xFFAC8F83),
                     )
                 )
@@ -60,7 +59,6 @@ fun Header(){
                     text = "minha senha",
                     style = TextStyle(
                         fontSize = 32.sp,
-                        fontWeight = FontWeight(400),
                         color = Color(0xFFAC8F83),
                     )
                 )

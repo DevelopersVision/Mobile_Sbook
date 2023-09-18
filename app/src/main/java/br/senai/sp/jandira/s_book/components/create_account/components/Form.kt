@@ -14,76 +14,127 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import br.senai.sp.jandira.s_book.components.universal.DefaultButtonScreen
+import androidx.navigation.NavController
+import br.senai.sp.jandira.s_book.components.create_account_endereco.components.Button
 import br.senai.sp.jandira.s_book.components.universal.TextBoxScreen
 import br.senai.sp.jandira.s_book.components.universal.TextFieldPasswordScreen
+import br.senai.sp.jandira.s_book.model.CreateAccountView
+import java.util.Date
 
-@Preview(showSystemUi = true)
 @Composable
-fun Form(){
+fun Form(
+    navController: NavController,
+    viewModel: CreateAccountView
+){
 
-    var cepState by remember {
+    var emailState by remember {
         mutableStateOf("")
     }
 
-    var estadoState by remember {
+    var nomeState by remember {
         mutableStateOf("")
     }
 
-    var cidadeState by remember {
+    var cpfState by remember {
         mutableStateOf("")
     }
-    var logradouroState by remember {
+    var dataNascimentoState by remember {
         mutableStateOf("")
     }
-    var bairroState by remember {
+
+    var senhaState by remember {
         mutableStateOf("")
     }
+    var redefinirsenhaState by remember {
+        mutableStateOf("")
+    }
+
+    var data by remember {
+        mutableStateOf("")
+    }
+
+
 
 
     Column (
         modifier = Modifier
             .padding(8.dp)
             .fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(15.dp, Alignment.Top),
+        verticalArrangement = Arrangement.spacedBy(12.dp, Alignment.Top),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         TextBoxScreen(
-            label = "CEP",
-            valor = cepState,
+            label = "Nome",
+            valor = nomeState,
             aoMudar = {
-                cepState = it
+                nomeState = it
             }
         )
         TextBoxScreen(
-            label = "Estado",
-            valor = estadoState,
+            label = "Email",
+            valor = emailState,
             aoMudar = {
-                estadoState = it
+                emailState = it
             }
         )
         TextBoxScreen(
-            label = "Cidade",
-            valor = cidadeState,
+            label = "cpf",
+            valor = cpfState,
             aoMudar = {
-                cidadeState = it
+                cpfState = it
             }
         )
         TextBoxScreen(
-            label = "bairro",
-            valor = bairroState,
+            label = "Data de Nascimento",
+            valor = dataNascimentoState,
             aoMudar = {
-                bairroState = it
+                dataNascimentoState = it
             }
         )
-        TextBoxScreen(
-            label = "Logradouro",
-            valor = logradouroState,
-            aoMudar = {
-                logradouroState = it
+        TextFieldPasswordScreen(
+            label = "Senha" ,
+            valor = senhaState,
+            aoMudar ={
+                senhaState = it
             }
         )
-        DefaultButtonScreen(text = "Entrar") {}
+        TextFieldPasswordScreen(
+            label = "Confirmar a senha " ,
+            valor = redefinirsenhaState,
+            aoMudar ={
+                redefinirsenhaState = it
+            }
+        )
+        Button(
+            text = "Continar",
+            onClick = {
+                cadastro(
+                    nomeState,
+                    emailState,
+                    cpfState,
+                    dataNascimentoState,
+                    senhaState,
+                    redefinirsenhaState,
+                    viewModel
+                )
+                navController.navigate("create_account_endereco")
+            }
+        )
     }
+}
 
+fun cadastro (
+    nome: String?,
+    email: String?,
+    cpf: String?,
+    dataNascimento: String?,
+    senha: String?,
+    confirmarSenha: String?,
+    viewModel: CreateAccountView
+) {
+    viewModel.nome = nome
+    viewModel.email = email
+    viewModel.cpf = cpf
+    viewModel.dataNascimento = dataNascimento
+    viewModel.senha = senha
 }
