@@ -23,6 +23,7 @@ import br.senai.sp.jandira.s_book.components.universal.TextNotContScreen
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import br.senai.sp.jandira.s_book.components.create_account.components.caixa
 import br.senai.sp.jandira.s_book.model.CreateAccountView
 import br.senai.sp.jandira.s_book.repository.LoginRepository
 import kotlinx.coroutines.launch
@@ -59,6 +60,7 @@ fun LoginScreen(
                 login(emailState, senhaState, lifecycleScope!!)
             })
 
+            caixa()
 
             TextContinueScreen()
             GoogleScreen()

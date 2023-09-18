@@ -40,7 +40,7 @@ class MainActivity : ComponentActivity() {
                     val viewModelResetPassword = viewModel<ResetPasswordView>()
 
                     NavHost(
-                        navController = navController, startDestination = "category"
+                        navController = navController, startDestination = "login"
                     ){
                         composable("login") {
                             LoginScreen(navController = navController, lifecycleScope = lifecycleScope)
