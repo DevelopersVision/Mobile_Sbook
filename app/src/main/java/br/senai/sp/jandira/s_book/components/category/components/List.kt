@@ -1,4 +1,4 @@
-package br.senai.sp.jandira.s_book.components.category.components
+ package br.senai.sp.jandira.s_book.components.category.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -28,17 +28,7 @@ fun List(){
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceAround
         ) {
-            ComponentsListOne()
             ComponentsListTwo()
-        }
-        Spacer(modifier = Modifier.height(23.dp))
-        Row (
-            modifier = Modifier
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceAround
-        ) {
-            ComponentsListTwo()
-            ComponentsListOne()
         }
     }
 

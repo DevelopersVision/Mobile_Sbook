@@ -24,4 +24,12 @@ object RetrofitHelper {
         return retrofitFactory.create(ResetPasswordService::class.java)
     }
 
+    fun userCategoryService(): UserCategoryService{
+        return  retrofitFactory.create(UserCategoryService::class.java)
+    }
+
+    fun getCategoryService(): CategoryService{
+        return  retrofitFactory.create(CategoryService::class.java)
+    }
+
 }
