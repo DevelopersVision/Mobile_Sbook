@@ -1,6 +1,7 @@
 package br.senai.sp.jandira.s_book.components.insert_code.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
@@ -30,7 +31,8 @@ fun ButtonCode (
             .width(300.dp)
             .height(48.dp)
             .background(Color(0xFFE6E6E6), shape = RoundedCornerShape( size = 4.dp))
-            .padding(),
+            .padding()
+            .clickable { onClick },
         horizontalArrangement = Arrangement.spacedBy(2.dp, Alignment.CenterHorizontally),
         verticalAlignment = Alignment.CenterVertically
     ) {

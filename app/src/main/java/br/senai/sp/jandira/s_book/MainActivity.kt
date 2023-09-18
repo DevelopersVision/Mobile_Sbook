@@ -12,11 +12,15 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import br.senai.sp.jandira.s_book.components.category.screen.CategoryScreen
 import br.senai.sp.jandira.s_book.components.create_account.screen.CreateContScreen
 import br.senai.sp.jandira.s_book.components.create_account_endereco.screen.CreateAccountEndereco
 import br.senai.sp.jandira.s_book.components.forgot_password.screen.ForgotPasswordScreen
+import br.senai.sp.jandira.s_book.components.insert_code.screen.InsertCode
 import br.senai.sp.jandira.s_book.components.login.screen.LoginScreen
+import br.senai.sp.jandira.s_book.components.rediscover_password.screen.RediscoverPasswordScreen
 import br.senai.sp.jandira.s_book.model.CreateAccountView
+import br.senai.sp.jandira.s_book.model.ResetPasswordView
 
 import br.senai.sp.jandira.s_book.ui.theme.SBOOKTheme
 
@@ -31,13 +35,15 @@ class MainActivity : ComponentActivity() {
                 ) {
 
                     val navController = rememberNavController()
+
                     val viewModelCreateAccount = viewModel<CreateAccountView>()
+                    val viewModelResetPassword = viewModel<ResetPasswordView>()
 
                     NavHost(
-                        navController = navController, startDestination = "login"
+                        navController = navController, startDestination = "category"
                     ){
                         composable("login") {
-                            LoginScreen(navController = navController, lifecycleScope = lifecycleScope, viewModel = viewModelCreateAccount)
+                            LoginScreen(navController = navController, lifecycleScope = lifecycleScope)
                         }
 
                         composable("create_account") {
@@ -49,7 +55,19 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable("forgot_password") {
-                            ForgotPasswordScreen(lifecycleScope = lifecycleScope)
+                            ForgotPasswordScreen(navController = navController, lifecycleScope = lifecycleScope, viewModel = viewModelResetPassword)
+                        }
+
+                        composable("insert_code") {
+                            InsertCode(navController = navController, lifecycleScope = lifecycleScope, viewModel = viewModelResetPassword)
+                        }
+
+                        composable("rediscover_password") {
+                            RediscoverPasswordScreen()
+                        }
+
+                        composable("category"){
+                            CategoryScreen()
                         }
 
                         // A surface container using the 'background' color from the theme

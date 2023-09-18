@@ -8,12 +8,18 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.LifecycleCoroutineScope
+import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.components.insert_code.components.Form
 import br.senai.sp.jandira.s_book.components.insert_code.components.Header
+import br.senai.sp.jandira.s_book.model.ResetPasswordView
 
-@Preview(showSystemUi = true)
 @Composable
-fun InsertCode(){
+fun InsertCode(
+    navController: NavController,
+    lifecycleScope: LifecycleCoroutineScope,
+    viewModel: ResetPasswordView
+){
   Surface(
       modifier = Modifier
           .fillMaxSize()
@@ -24,7 +30,11 @@ fun InsertCode(){
               .fillMaxHeight()
       ) {
           Header()
-          Form()
+          Form(
+              navController,
+              lifecycleScope,
+              viewModel
+          )
       }
   }
 }

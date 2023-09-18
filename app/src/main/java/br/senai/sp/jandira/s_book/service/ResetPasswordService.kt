@@ -12,4 +12,8 @@ interface ResetPasswordService {
     @POST("/v1/sbook/esqueci-senha")
     suspend fun postResetPassword(@Body body: JsonObject): Response<JsonObject>
 
+    @Headers("Content-Type: application/json")
+    @POST("/v1/sbook/validar-token")
+    suspend fun postValidateToken(@Body body: JsonObject): Response<JsonObject>
+
 }

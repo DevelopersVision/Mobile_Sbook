@@ -30,8 +30,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun LoginScreen(
     navController: NavController,
-    lifecycleScope: LifecycleCoroutineScope?,
-    viewModel: CreateAccountView
+    lifecycleScope: LifecycleCoroutineScope?
 ) {
 
     var emailState by remember {
@@ -54,7 +53,7 @@ fun LoginScreen(
         ) {
             Header()
             Form(emailState, senhaState, onEmailChange = { emailState = it },
-                onSenhaChange = { senhaState = it })
+                onSenhaChange = { senhaState = it }, navController)
 
             DefaultButtonScreen(text = "Entrar", onClick = {
                 login(emailState, senhaState, lifecycleScope!!)
@@ -91,7 +90,6 @@ fun LoginScreenPreview() {
 
     LoginScreen(
         navController = navController,
-        lifecycleScope = null,
-        viewModel = CreateAccountView()
+        lifecycleScope = null
     )
 }

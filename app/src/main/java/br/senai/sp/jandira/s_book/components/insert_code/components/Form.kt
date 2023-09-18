@@ -1,5 +1,6 @@
 package br.senai.sp.jandira.s_book.components.insert_code.components
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,25 +16,21 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.LifecycleCoroutineScope
+import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.components.universal.DefaultButtonScreen
+import br.senai.sp.jandira.s_book.model.ResetPasswordView
+import br.senai.sp.jandira.s_book.repository.ResetPasswordRepository
+import kotlinx.coroutines.launch
 
-@Preview(showSystemUi = true)
+
 @Composable
-fun Form(){
-
+fun Form(
+    navController: NavController,
+    lifecycleScope: LifecycleCoroutineScope,
+    viewModel: ResetPasswordView
+){
     var codigoState by remember {
-        mutableStateOf("")
-    }
-
-    var codigo2State by remember {
-        mutableStateOf("")
-    }
-
-    var codigo3State by remember {
-        mutableStateOf("")
-    }
-
-    var codigo4State by remember {
         mutableStateOf("")
     }
 
@@ -50,45 +47,42 @@ fun Form(){
             horizontalArrangement = Arrangement.spacedBy(24.dp, Alignment.CenterHorizontally),
 
             ) {
-            TextFieldCode(
-                label = "",
-                valor = codigoState,
-                aoMudar ={
-                    codigoState = it
-                }
-            )
-            TextFieldCode(
-                label = "",
-                valor = codigo2State,
-                aoMudar ={
-                    codigo2State = it
-                }
-            )
-            TextFieldCode(
-                label = "",
-                valor = codigo3State,
-                aoMudar ={
-                    codigo3State = it
-                }
-            )
-            TextFieldCode(
-                label = "",
-                valor = codigo4State,
-                aoMudar ={
-                    codigo4State = it
-                }
-            )
+                TextFieldCode(
+                    "Codigo",
+                    codigoState,
+                    {
+                        codigoState = it
+                    }
+                    )
         }
         Spacer(modifier = Modifier.height(64.dp))
         ButtonCode(
-            text = "Continuar"
-        ) {
-        }
+            text = "Continuar",
+            onClick = {
+                val resetPasswordRepository = ResetPasswordRepository()
+
+                lifecycleScope.launch {
+                    //var codigoFull = "$codigoState" + "$codigo2State" + "$codigo3State" + "$codigo4State"
+                    val id = viewModel.id
+
+                    val response = resetPasswordRepository.validateToken(id, codigoState.toInt())
+
+                    if (response.isSuccessful) {
+                        Log.e("reset", "reset: ${response.body()}")
+                    } else {
+                        val erroBody = response.errorBody()?.string()
+
+                        Log.e("reset", "reset: $erroBody")
+                    }
+                }
+
+
+
+            }
+        )
         Spacer(modifier = Modifier.height(24.dp))
         DefaultButtonScreen(
             text = "Reenviar código"
-        ) {
-        }
+        ) {}
     }
-
 }

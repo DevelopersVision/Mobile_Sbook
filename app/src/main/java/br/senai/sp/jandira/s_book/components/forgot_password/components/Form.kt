@@ -23,13 +23,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.senai.sp.jandira.s_book.components.universal.TextBoxScreen
 
-@Preview(showSystemUi = true)
 @Composable
-fun Form(){
-
-    var emailState by remember {
-        mutableStateOf("")
-    }
+fun Form(emailState: String, onEmailChange: (String) -> Unit){
 
     Column (
         modifier = Modifier
@@ -57,7 +52,7 @@ fun Form(){
             label = "Email",
             valor = emailState,
             aoMudar = {
-                emailState = it
+                onEmailChange(it)
             }
         )
     }

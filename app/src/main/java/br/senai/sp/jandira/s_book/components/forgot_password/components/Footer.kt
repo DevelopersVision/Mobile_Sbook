@@ -20,16 +20,21 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.LifecycleCoroutineScope
+import androidx.lifecycle.ViewModel
+import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.components.universal.DefaultButtonScreen
+import br.senai.sp.jandira.s_book.model.ResetPasswordView
 import br.senai.sp.jandira.s_book.repository.ResetPasswordRepository
 import kotlinx.coroutines.launch
 
 @Composable
-fun Footer(lifecycleScope: LifecycleCoroutineScope){
-
-    var emailState by remember {
-        mutableStateOf("")
-    }
+fun Footer(
+    navController: NavController,
+    lifecycleScope: LifecycleCoroutineScope,
+    viewModel: ResetPasswordView,
+    emailState: String
+)
+{
 
     Column(
         modifier = Modifier
@@ -49,21 +54,41 @@ fun Footer(lifecycleScope: LifecycleCoroutineScope){
         DefaultButtonScreen(
             text = "Solicitar código",
             onClick = {
-                resetPassword(emailState, lifecycleScope)
+                resetPassword(emailState, lifecycleScope, viewModel, navController)
             }
         )
 
     }
 }
 
-fun resetPassword(email: String, lifecycleScope: LifecycleCoroutineScope) {
+fun resetPassword(
+    email: String,
+    lifecycleScope: LifecycleCoroutineScope,
+    viewModel: ResetPasswordView,
+    navController: NavController,
+) {
 
     val resetRepository = ResetPasswordRepository()
+
     lifecycleScope.launch {
+        Log.e("TagEmail", "resetPassword: $email", )
         val response = resetRepository.resetPassword(email)
+
+        Log.e("Response", "resetPassword: $response", )
 
         if(response.isSuccessful){
             Log.e("reset de senha", "reset de senha: ${response.body()}", )
+
+            Log.e("TAG", "resetPassword: ${response.body()}" )
+
+            viewModel.id = response.body()?.get("id")?.asInt
+            viewModel.email = response.body()?.get("email").toString()
+
+            Log.e("Teste", "resetPassword: ${response.body()?.get("id")?.asInt}" )
+            Log.e("Teste", "resetPassword: ${response.body()?.get("email").toString()}" )
+
+            navController.navigate("insert_code")
+
         }else{
             val erroBody = response.errorBody()?.string()
 
