@@ -49,11 +49,10 @@ fun Form(
             ) {
                 TextFieldCode(
                     "Codigo",
-                    codigoState,
-                    {
-                        codigoState = it
-                    }
-                    )
+                    codigoState
+                ) {
+                    codigoState = it
+                }
         }
         Spacer(modifier = Modifier.height(64.dp))
         ButtonCode(
@@ -62,21 +61,26 @@ fun Form(
                 val resetPasswordRepository = ResetPasswordRepository()
 
                 lifecycleScope.launch {
-                    //var codigoFull = "$codigoState" + "$codigo2State" + "$codigo3State" + "$codigo4State"
-                    val id = viewModel.id
+                    val email = viewModel.email
 
-                    val response = resetPasswordRepository.validateToken(id, codigoState.toInt())
+                    var codigo = codigoState.toInt()
+
+                    Log.e("Codigo", "Form: $codigo", )
+
+                    Log.e("Teste", "Form: $email + $codigo", )
+
+                    val response = resetPasswordRepository.validateToken(email.toString(), codigo)
 
                     if (response.isSuccessful) {
                         Log.e("reset", "reset: ${response.body()}")
+
+                        navController.navigate("change_password")
                     } else {
                         val erroBody = response.errorBody()?.string()
 
                         Log.e("reset", "reset: $erroBody")
                     }
                 }
-
-
 
             }
         )

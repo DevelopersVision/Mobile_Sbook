@@ -71,24 +71,14 @@ fun resetPassword(
     val resetRepository = ResetPasswordRepository()
 
     lifecycleScope.launch {
-        Log.e("TagEmail", "resetPassword: $email", )
         val response = resetRepository.resetPassword(email)
 
-        Log.e("Response", "resetPassword: $response", )
-
         if(response.isSuccessful){
-            Log.e("reset de senha", "reset de senha: ${response.body()}", )
-
-            Log.e("TAG", "resetPassword: ${response.body()}" )
-
             viewModel.id = response.body()?.get("id")?.asInt
-            viewModel.email = response.body()?.get("email").toString()
-
-            Log.e("Teste", "resetPassword: ${response.body()?.get("id")?.asInt}" )
-            Log.e("Teste", "resetPassword: ${response.body()?.get("email").toString()}" )
+            //viewModel.email = response.body()?.get("email").toString()
+            Log.e("Body", "resetPassword: ${response.body()}", )
 
             navController.navigate("insert_code")
-
         }else{
             val erroBody = response.errorBody()?.string()
 

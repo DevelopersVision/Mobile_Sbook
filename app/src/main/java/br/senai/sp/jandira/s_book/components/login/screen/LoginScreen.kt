@@ -60,8 +60,6 @@ fun LoginScreen(
                 login(emailState, senhaState, lifecycleScope!!)
             })
 
-            caixa()
-
             TextContinueScreen()
             GoogleScreen()
             TextNotContScreen(navController)

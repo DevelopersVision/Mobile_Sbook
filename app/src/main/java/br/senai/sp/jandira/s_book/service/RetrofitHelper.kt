@@ -32,4 +32,7 @@ object RetrofitHelper {
         return  retrofitFactory.create(CategoryService::class.java)
     }
 
+    fun putChangePassword(): ChangePasswordService{
+        return  retrofitFactory.create(ChangePasswordService::class.java)
+    }
 }

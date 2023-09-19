@@ -62,8 +62,8 @@ class MainActivity : ComponentActivity() {
                             InsertCode(navController = navController, lifecycleScope = lifecycleScope, viewModel = viewModelResetPassword)
                         }
 
-                        composable("rediscover_password") {
-                            RediscoverPasswordScreen()
+                        composable("change_password") {
+                            RediscoverPasswordScreen(navController = navController, lifecycleScope = lifecycleScope, viewModel = viewModelResetPassword)
                         }
 
                         composable("category"){

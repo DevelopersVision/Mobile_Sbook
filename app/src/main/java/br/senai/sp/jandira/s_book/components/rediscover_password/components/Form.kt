@@ -17,17 +17,12 @@ import br.senai.sp.jandira.s_book.components.universal.TextFieldPasswordScreen
 
 @Preview(showSystemUi = true)
 @Composable
-fun Form (){
-    
-    var novasenhaState by remember {
-        mutableStateOf("")
-    }
-
-    var confirmarsenhaState by remember {
-        mutableStateOf("")
-    }
-
-
+fun Form (
+    passwordState: String,
+    confirmPasswordState: String,
+    onPasswordChange: (String) -> Unit,
+    onConfirmPasswordChange: (String) -> Unit
+){
     Column (
         modifier = Modifier
             .padding(8.dp)
@@ -37,16 +32,16 @@ fun Form (){
     ) {
         TextFieldPasswordScreen(
             label = "Nova senha",
-            valor = novasenhaState,
+            valor = passwordState,
             aoMudar = {
-                novasenhaState = it
+                onPasswordChange(it)
             }
         )
         TextFieldPasswordScreen(
             label = "Confirmar senha" ,
-            valor = confirmarsenhaState,
+            valor = confirmPasswordState,
             aoMudar ={
-                confirmarsenhaState = it
+                onConfirmPasswordChange(it)
             }
         )
     }
