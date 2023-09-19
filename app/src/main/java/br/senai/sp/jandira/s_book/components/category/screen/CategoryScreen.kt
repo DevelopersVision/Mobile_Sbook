@@ -11,8 +11,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import br.senai.sp.jandira.s_book.components.category.components.Button
-import br.senai.sp.jandira.s_book.components.category.components.CategoryList
 import br.senai.sp.jandira.s_book.components.category.components.Header
+import br.senai.sp.jandira.s_book.components.category.components.ListCategory
 
 @Preview(showSystemUi = true)
 @Composable
@@ -21,19 +21,13 @@ fun CategoryScreen(){
         modifier = Modifier
             .fillMaxSize()
     ){
-        Column(
-            modifier = Modifier
-                .fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Header()
-            CategoryList()
-            Spacer(modifier = Modifier.height(30.dp))
+            ListCategory()
+            Spacer(modifier = Modifier.height(32.dp))
             Button(
                 text = "Seguir  e continuar"
-            ) {
-            }
+            ) {}
         }
     }
 }

@@ -2,6 +2,7 @@ package br.senai.sp.jandira.s_book.components.category.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
@@ -27,12 +28,13 @@ fun Button(
 ){
     Row(
         modifier = Modifier
-            .shadow(elevation = 4.dp, spotColor = Color(0x40000000), ambientColor = Color(0x40000000))
             .width(300.dp)
             .height(48.dp)
+            .clickable {
+
+            }
             .border(width = 1.dp, color = Color(0xFFAA6231) )
-            .background(Color(255, 255, 255, 1), shape = RoundedCornerShape( size = 4.dp))
-            .padding(),
+            .background(Color(255, 255, 255, 1), shape = RoundedCornerShape( size = 4.dp)),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
     ) {

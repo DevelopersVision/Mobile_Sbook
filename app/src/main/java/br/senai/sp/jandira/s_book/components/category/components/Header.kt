@@ -1,11 +1,13 @@
 package br.senai.sp.jandira.s_book.components.category.components
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -25,13 +27,11 @@ fun Header(){
     Column (
         modifier = Modifier
             .fillMaxWidth()
-            .height(130.dp)
             .padding(16.dp)
     ) {
         Row (
             modifier = Modifier
-                .fillMaxWidth()
-                .height(30.dp),
+                .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ){
             Text(
@@ -46,23 +46,17 @@ fun Header(){
                 fontWeight = FontWeight(600),
                 color = Color(0xFF808080))
         }
-        Row (
-            modifier = Modifier
-                .width(211.dp)
-                .height(30.dp)
-        ) {
+        Row {
             Text(
                 text = "Venha conhecer seu novo gênero preferido",
                 fontSize = 13.sp,
                 fontWeight = FontWeight(600),
                 color = Color(0xFF808080)
             )
-            Icon(
-                painter =
-                    painterResource(
-                        id = R.drawable.estrelhinha
-                    ),
-                contentDescription = ""
+            Image(
+                painter = painterResource(id = R.drawable.estrelhinha),
+                contentDescription = "",
+                modifier = Modifier.size(16.dp)
             )
         }
     }
