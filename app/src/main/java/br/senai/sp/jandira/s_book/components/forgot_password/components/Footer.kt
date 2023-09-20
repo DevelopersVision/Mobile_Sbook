@@ -74,7 +74,7 @@ fun resetPassword(
         val response = resetRepository.resetPassword(email)
 
         if(response.isSuccessful){
-            viewModel.id = response.body()?.get("id")?.asInt
+            viewModel.email = response.body()?.get("email")?.toString()
             //viewModel.email = response.body()?.get("email").toString()
             Log.e("Body", "resetPassword: ${response.body()}", )
 

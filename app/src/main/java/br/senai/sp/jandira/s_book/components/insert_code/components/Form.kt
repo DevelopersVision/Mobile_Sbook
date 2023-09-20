@@ -72,11 +72,17 @@ fun Form(
                     val response = resetPasswordRepository.validateToken(email.toString(), codigo)
 
                     if (response.isSuccessful) {
-                        Log.e("reset", "reset: ${response.body()}")
+                        Log.e("Response1", "Form: teste1")
+                        Log.e("Response2", "Form: $response")
+                        Log.e("Response3", "Form: teste2")
+
+                        viewModel.id = response.body()?.get("id")?.asInt
 
                         navController.navigate("change_password")
                     } else {
                         val erroBody = response.errorBody()?.string()
+
+                        Log.e("TAG", "Form: $response", )
 
                         Log.e("reset", "reset: $erroBody")
                     }
