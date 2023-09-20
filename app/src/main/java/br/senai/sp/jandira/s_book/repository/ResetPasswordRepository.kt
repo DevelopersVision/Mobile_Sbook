@@ -16,7 +16,7 @@ class ResetPasswordRepository {
         return apiService.postResetPassword(requestBody)
     }
 
-    suspend fun validateToken(email: String, token: Int?): Response<JsonObject> {
+    suspend fun validateToken(email: String?, token: Int?): Response<JsonObject> {
         val requestBody = JsonObject().apply {
             addProperty("email", email)
             addProperty("token", token)

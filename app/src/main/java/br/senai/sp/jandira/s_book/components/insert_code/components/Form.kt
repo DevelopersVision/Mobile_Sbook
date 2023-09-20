@@ -65,11 +65,9 @@ fun Form(
 
                     var codigo = codigoState.toInt()
 
-                    Log.e("Codigo", "Form: $codigo", )
+                    Log.e("Codigo", "Form: $codigo")
 
-                    Log.e("Teste", "Form: $email + $codigo", )
-
-                    val response = resetPasswordRepository.validateToken(email.toString(), codigo)
+                    val response = resetPasswordRepository.validateToken(email, codigo)
 
                     if (response.isSuccessful) {
                         Log.e("Response1", "Form: teste1")

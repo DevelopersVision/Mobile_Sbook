@@ -75,7 +75,9 @@ fun resetPassword(
 
         if(response.isSuccessful){
             viewModel.email = response.body()?.get("email")?.toString()
-            //viewModel.email = response.body()?.get("email").toString()
+
+            Log.e("email", "resetPassword: ${response.body()?.get("email")?.toString()}", )
+
             Log.e("Body", "resetPassword: ${response.body()}", )
 
             navController.navigate("insert_code")
