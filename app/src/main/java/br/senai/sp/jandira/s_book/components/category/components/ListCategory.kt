@@ -2,6 +2,7 @@ package br.senai.sp.jandira.s_book.components.category.components
 
 import android.util.Log
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
@@ -24,17 +25,25 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.LifecycleCoroutineScope
+import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.model.Genero
+import br.senai.sp.jandira.s_book.model.UserCategoryViewModel
 import br.senai.sp.jandira.s_book.repository.CategoryList
 import br.senai.sp.jandira.s_book.service.RetrofitHelper
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 
-@Preview(showSystemUi = true)
+
 @Composable
-fun ListCategory() {
+fun ListCategory(
+    navController: NavController,
+    lifecycleScope: LifecycleCoroutineScope?,
+    viewModel: UserCategoryViewModel
+) {
 
     var listCategory by remember{
         mutableStateOf(listOf<Genero>())
@@ -50,6 +59,7 @@ fun ListCategory() {
             response: Response<CategoryList>
         ) {
             listCategory = response.body()!!.dados
+            val id = response.body()!!.dados[0].id
         }
 
         override fun onFailure(call: Call<CategoryList>, t: Throwable) {
@@ -57,11 +67,19 @@ fun ListCategory() {
         }
     })
 
+    var arrayGeneros by remember { mutableStateOf(listOf<JSONObject>()) }
+
+
     LazyVerticalGrid(
         columns = GridCells.Adaptive(minSize = 144.dp),
         horizontalArrangement = Arrangement.SpaceBetween
     ){
+        //val arrayGeneros = listOf<Genero>()
+
         items(listCategory){
+            var cor by remember{
+                mutableStateOf(0xFFAA6231)
+            }
             var isChecked by remember { mutableStateOf(false) }
 
             Row (
@@ -69,9 +87,29 @@ fun ListCategory() {
                     .height(30.dp)
                     .border(
                         width = 1.dp,
-                        color = Color(0xFFAA6231),
+                        color = Color(cor),
                         shape = RoundedCornerShape(size = 8.dp)
-                    ),
+                    )
+                    .clickable {
+                        val nome = it.nome
+                        val id = it.id
+
+                        if(isChecked == false){
+                            isChecked = true
+                            cor = 0x5C2C0C
+                            var jsonGenero = JSONObject()
+                            jsonGenero.put("id", it.id)
+                            jsonGenero.put("nome", it.nome)
+                            arrayGeneros = arrayGeneros + jsonGenero
+                            Log.e("Murilo e Luiz e Eu", "${arrayGeneros}")
+                        } else {
+                            isChecked = false
+                            cor = 0xFFAA6231
+                            arrayGeneros = arrayGeneros.filter { it.getInt("id") != id }
+                            Log.e("Murilo e Luiz e Eu", "${arrayGeneros}")
+                        }
+
+                    },
                 horizontalArrangement = Arrangement.spacedBy(3.dp),
                 verticalAlignment = Alignment.CenterVertically
             ){
@@ -84,6 +122,8 @@ fun ListCategory() {
                 )
             }
         }
+        viewModel.id_usuario = 1
+        viewModel.generos_preferidos = arrayGeneros
     }
 
 }

@@ -12,6 +12,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import br.senai.sp.jandira.s_book.components.category.components.ListCategory
 import br.senai.sp.jandira.s_book.components.category.screen.CategoryScreen
 import br.senai.sp.jandira.s_book.components.create_account.screen.CreateContScreen
 import br.senai.sp.jandira.s_book.components.create_account_endereco.screen.CreateAccountEndereco
@@ -21,6 +22,7 @@ import br.senai.sp.jandira.s_book.components.login.screen.LoginScreen
 import br.senai.sp.jandira.s_book.components.rediscover_password.screen.RediscoverPasswordScreen
 import br.senai.sp.jandira.s_book.model.CreateAccountView
 import br.senai.sp.jandira.s_book.model.ResetPasswordView
+import br.senai.sp.jandira.s_book.model.UserCategoryViewModel
 
 import br.senai.sp.jandira.s_book.ui.theme.SBOOKTheme
 
@@ -38,9 +40,10 @@ class MainActivity : ComponentActivity() {
 
                     val viewModelCreateAccount = viewModel<CreateAccountView>()
                     val viewModelResetPassword = viewModel<ResetPasswordView>()
+                    val viewModelUserCategory = viewModel<UserCategoryViewModel>()
 
                     NavHost(
-                        navController = navController, startDestination = "login"
+                        navController = navController, startDestination = "category"
                     ){
                         composable("login") {
                             LoginScreen(navController = navController, lifecycleScope = lifecycleScope)
@@ -67,7 +70,7 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable("category"){
-                            CategoryScreen()
+                            CategoryScreen(navController = navController, lifecycleScope = lifecycleScope, viewModel = viewModelUserCategory)
                         }
 
                         // A surface container using the 'background' color from the theme

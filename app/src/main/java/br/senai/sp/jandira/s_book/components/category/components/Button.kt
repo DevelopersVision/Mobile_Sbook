@@ -31,7 +31,7 @@ fun Button(
             .width(300.dp)
             .height(48.dp)
             .clickable {
-
+                onClick()
             }
             .border(width = 1.dp, color = Color(0xFFAA6231) )
             .background(Color(255, 255, 255, 1), shape = RoundedCornerShape( size = 4.dp)),
