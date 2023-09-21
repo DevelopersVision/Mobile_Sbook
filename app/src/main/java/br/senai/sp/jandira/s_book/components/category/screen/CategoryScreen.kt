@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -12,10 +13,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.LifecycleCoroutineScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import br.senai.sp.jandira.s_book.components.category.components.Button
 import br.senai.sp.jandira.s_book.components.category.components.Header
 import br.senai.sp.jandira.s_book.components.category.components.ListCategory
+import br.senai.sp.jandira.s_book.model.CreateAccountView
+import br.senai.sp.jandira.s_book.model.Genero
+import br.senai.sp.jandira.s_book.model.ResetPasswordView
 import br.senai.sp.jandira.s_book.model.UserCategoryViewModel
 import br.senai.sp.jandira.s_book.repository.LoginRepository
 import br.senai.sp.jandira.s_book.repository.UserCategoryRepository
@@ -28,8 +34,6 @@ fun CategoryScreen(
     lifecycleScope: LifecycleCoroutineScope?,
     viewModel: UserCategoryViewModel
 ){
-
-
 
     Surface (
         modifier = Modifier
@@ -56,7 +60,7 @@ fun CategoryScreen(
     }
 }
 
-fun mandarProBanco(id_usuario: Int, generos_preferidos: List<JSONObject>, lifecycleScope: LifecycleCoroutineScope) {
+fun mandarProBanco(id_usuario: Int, generos_preferidos: List<Genero>, lifecycleScope: LifecycleCoroutineScope) {
 
     val userCategoryRepository = UserCategoryRepository()
     lifecycleScope.launch {
@@ -75,4 +79,13 @@ fun mandarProBanco(id_usuario: Int, generos_preferidos: List<JSONObject>, lifecy
             Log.e("registrar as categorias do usuario", "userCategory: $erroBody")
         }
     }
+}
+
+@Preview(showSystemUi = true)
+@Composable
+fun preview(){
+    val navController = rememberNavController()
+    val viewModelUserCategory = viewModel<UserCategoryViewModel>()
+
+    CategoryScreen(navController = navController, lifecycleScope = null, viewModel = viewModelUserCategory)
 }

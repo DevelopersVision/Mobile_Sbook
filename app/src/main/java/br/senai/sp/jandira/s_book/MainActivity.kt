@@ -6,13 +6,11 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import br.senai.sp.jandira.s_book.components.category.components.ListCategory
 import br.senai.sp.jandira.s_book.components.category.screen.CategoryScreen
 import br.senai.sp.jandira.s_book.components.create_account.screen.CreateContScreen
 import br.senai.sp.jandira.s_book.components.create_account_endereco.screen.CreateAccountEndereco
@@ -43,7 +41,7 @@ class MainActivity : ComponentActivity() {
                     val viewModelUserCategory = viewModel<UserCategoryViewModel>()
 
                     NavHost(
-                        navController = navController, startDestination = "category"
+                        navController = navController, startDestination = "login"
                     ){
                         composable("login") {
                             LoginScreen(navController = navController, lifecycleScope = lifecycleScope)

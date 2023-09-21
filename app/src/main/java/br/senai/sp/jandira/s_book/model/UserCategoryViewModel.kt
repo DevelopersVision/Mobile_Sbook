@@ -7,6 +7,6 @@ import org.json.JSONObject
 class UserCategoryViewModel : ViewModel() {
 
     var id_usuario: Int = 0
-    var generos_preferidos: List<JSONObject>? = null
+    var generos_preferidos: List<Genero>? = null
 
 }

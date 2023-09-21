@@ -1,6 +1,8 @@
 package br.senai.sp.jandira.s_book.components.login.screen
 
+import android.content.Context
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -13,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import br.senai.sp.jandira.s_book.components.login.components.Form
 import br.senai.sp.jandira.s_book.components.login.components.Header
@@ -23,15 +26,14 @@ import br.senai.sp.jandira.s_book.components.universal.TextNotContScreen
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import br.senai.sp.jandira.s_book.components.create_account.components.caixa
-import br.senai.sp.jandira.s_book.model.CreateAccountView
+import br.senai.sp.jandira.s_book.model.UsuarioJSon
 import br.senai.sp.jandira.s_book.repository.LoginRepository
+import com.google.gson.Gson
 import kotlinx.coroutines.launch
 
 @Composable
 fun LoginScreen(
-    navController: NavController,
-    lifecycleScope: LifecycleCoroutineScope?
+    navController: NavController, lifecycleScope: LifecycleCoroutineScope?
 ) {
 
     var emailState by remember {
@@ -41,9 +43,10 @@ fun LoginScreen(
         mutableStateOf("")
     }
 
+    val context = LocalContext.current
+
     Surface(
-        modifier = Modifier
-            .fillMaxSize()
+        modifier = Modifier.fillMaxSize()
     ) {
         Column(
             modifier = Modifier
@@ -53,11 +56,16 @@ fun LoginScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Header()
-            Form(emailState, senhaState, onEmailChange = { emailState = it },
-                onSenhaChange = { senhaState = it }, navController)
+            Form(
+                emailState,
+                senhaState,
+                onEmailChange = { emailState = it },
+                onSenhaChange = { senhaState = it },
+                navController
+            )
 
             DefaultButtonScreen(text = "Entrar", onClick = {
-                login(emailState, senhaState, lifecycleScope!!)
+                login(emailState, senhaState, lifecycleScope!!, context)
             })
 
             TextContinueScreen()
@@ -67,20 +75,66 @@ fun LoginScreen(
     }
 }
 
-fun login(email: String, senha: String, lifecycleScope: LifecycleCoroutineScope) {
+fun login(email: String, senha: String, lifecycleScope: LifecycleCoroutineScope, context: Context) {
 
-    val loginRepository = LoginRepository()
-    lifecycleScope.launch {
-        val response = loginRepository.loginUsuario(email, senha)
+    val validacaoDados = dataValidation(email, senha)
 
-        if (response.isSuccessful) {
-            Log.e("login", "login: ${response.body()}")
-        } else {
-            val erroBody = response.errorBody()?.string()
+    if (validacaoDados) {
+        val loginRepository = LoginRepository()
 
-            Log.e("login", "login: $erroBody")
+        lifecycleScope.launch {
+            val response = loginRepository.loginUsuario(email, senha)
+            val code = response.code()
+
+            if (response.isSuccessful) {
+
+                val jsonString = """{"token":"..."}"""
+                // Converter a string JSON para um objeto ApiResponse
+                val gson = Gson()
+                val apiResponse = gson.fromJson(jsonString, UsuarioJSon::class.java)
+                // Acessar o nome do usuário
+                val nomeUsuario = apiResponse.usuario[0].nome
+
+                Log.e("LOGIN - SUCESS - 201", "login: ${response.body()}")
+                Toast.makeText(context, "Bem Vindo $nomeUsuario", Toast.LENGTH_SHORT).show()
+
+            } else {
+
+                when (code) {
+                    404 -> {
+                        Log.e("LOGIN - ERROR - 404", "login: ${response.errorBody()?.string()}")
+                        Toast.makeText(
+                            context, "O EMAIL OU SENHA INFORMADO NÃO É VALIDADO", Toast.LENGTH_LONG
+                        ).show()
+                    }
+                    500 -> {
+                        Log.e("LOGIN - ERROR - 500", "login: ${response.errorBody()?.string()}")
+                        Toast.makeText(context, "SERVIDOR INDISPONIVEL NO MOMENTO", Toast.LENGTH_LONG)
+                            .show()
+                    }
+                    400 -> {
+                        Log.e("LOGIN - ERROR - 400", "login: ${response.errorBody()?.string()}")
+                        Toast.makeText(
+                            context,
+                            "NÃO FORAM PREENCHIDO TODOS OS CAMPOS OBRIGATÓRIOS",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                    403 -> {
+                        Log.e("LOGIN - ERROR - 403", "login: ${response.errorBody()?.string()}")
+                        Toast.makeText(context, "A CONTA ESTÁ DESATIVADA", Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
         }
+    } else {
+        Log.e("LOGIN - ERROR", "login")
+        Toast.makeText(context, "EMAIL OU SENHA NÃO INSERIDO CORRETAMENTE", Toast.LENGTH_LONG).show()
     }
+}
+
+fun dataValidation(email: String, senha: String): Boolean {
+    return !(email == "" || email.length > 255 || senha == "")
 }
 
 @Preview(showSystemUi = true)
@@ -89,7 +143,6 @@ fun LoginScreenPreview() {
     val navController = rememberNavController()
 
     LoginScreen(
-        navController = navController,
-        lifecycleScope = null
+        navController = navController, lifecycleScope = null
     )
 }

@@ -4,5 +4,5 @@ data class UsuarioJSon(
     val token: String,
     val status: Int? = 0,
     val message: String,
-    val usuario: Usuario
+    val usuario: List<Usuario>
 )

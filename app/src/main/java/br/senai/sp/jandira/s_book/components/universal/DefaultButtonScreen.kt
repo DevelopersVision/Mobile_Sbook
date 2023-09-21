@@ -28,31 +28,6 @@ fun DefaultButtonScreen(
     onClick: () -> Unit,
 
     ) {
-//    Row(
-//        modifier = Modifier
-//            .shadow(
-//                elevation = 40.dp,
-//                spotColor = Color(0x40000000),
-//                ambientColor = Color(0x40000000)
-//            )
-//            .width(300.dp)
-//            .height(48.dp)
-//            .background(Color(170, 98, 49), shape = RoundedCornerShape(size = 4.dp))
-//            .padding()
-//            .clickable { onClick },
-//        horizontalArrangement = Arrangement.spacedBy(2.dp, Alignment.CenterHorizontally),
-//        verticalAlignment = Alignment.CenterVertically
-//    ) {
-//        Text(
-//            text = text,
-//            style = TextStyle(
-//                fontSize = 16.sp,
-//                fontWeight = FontWeight(700),
-//                color = Color(0xFFFFFFFF),
-//            )
-//        )
-//    }
-
     TextButton(
         onClick = onClick,
         modifier = Modifier

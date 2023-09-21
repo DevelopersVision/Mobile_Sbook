@@ -4,12 +4,20 @@ import android.util.Log
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Text
@@ -39,9 +47,8 @@ import retrofit2.Response
 
 
 @Composable
-fun ListCategory(
-    navController: NavController,
-    lifecycleScope: LifecycleCoroutineScope?,
+fun FavoriteCollectionsGrid(
+    modifier: Modifier = Modifier,
     viewModel: UserCategoryViewModel
 ) {
 
@@ -49,10 +56,10 @@ fun ListCategory(
         mutableStateOf(listOf<Genero>())
     }
 
-    //Cria uma chamada para o EndPoint
+    // Cria uma chamada para o EndPoint
     val call = RetrofitHelper.getCategoryService().getGeneros()
 
-    //Executar a chamada
+    // Executar a chamada
     call.enqueue(object : Callback<CategoryList>{
         override fun onResponse(
             call: Call<CategoryList>,
@@ -67,16 +74,17 @@ fun ListCategory(
         }
     })
 
-    var arrayGeneros by remember { mutableStateOf(listOf<JSONObject>()) }
-
+    var arrayGeneros by remember { mutableStateOf(listOf<Genero>()) }
 
     LazyVerticalGrid(
-        columns = GridCells.Adaptive(minSize = 144.dp),
-        horizontalArrangement = Arrangement.SpaceBetween
-    ){
-        //val arrayGeneros = listOf<Genero>()
-
-        items(listCategory){
+        columns = GridCells.Fixed(2),
+        contentPadding = PaddingValues(horizontal = 16.dp),
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+        modifier = modifier
+            .fillMaxHeight(0.85f)
+    ) {
+        items(listCategory) { it ->
             var cor by remember{
                 mutableStateOf(0xFFAA6231)
             }
@@ -97,23 +105,19 @@ fun ListCategory(
                         if(isChecked == false){
                             isChecked = true
                             cor = 0x5C2C0C
-                            var jsonGenero = JSONObject()
-                            jsonGenero.put("id", it.id)
-                            jsonGenero.put("nome", it.nome)
+                            var jsonGenero = Genero(it.id, it.nome)
                             arrayGeneros = arrayGeneros + jsonGenero
                             Log.e("Murilo e Luiz e Eu", "${arrayGeneros}")
                         } else {
                             isChecked = false
                             cor = 0xFFAA6231
-                            arrayGeneros = arrayGeneros.filter { it.getInt("id") != id }
+                            arrayGeneros = arrayGeneros.filter { it.id != id }
                             Log.e("Murilo e Luiz e Eu", "${arrayGeneros}")
                         }
-
                     },
                 horizontalArrangement = Arrangement.spacedBy(3.dp),
                 verticalAlignment = Alignment.CenterVertically
-            ){
-
+            ) {
                 Text(
                     text = it.nome,
                     fontSize = 14.sp,
@@ -122,10 +126,20 @@ fun ListCategory(
                 )
             }
         }
-        viewModel.id_usuario = 1
+        viewModel.id_usuario = 2
         viewModel.generos_preferidos = arrayGeneros
     }
-
 }
+
+
+@Composable
+fun ListCategory(
+    navController: NavController,
+    lifecycleScope: LifecycleCoroutineScope?,
+    viewModel: UserCategoryViewModel
+) {
+    FavoriteCollectionsGrid(viewModel = viewModel)
+}
+
 
 
