@@ -44,16 +44,19 @@ import androidx.compose.ui.unit.sp
 import br.senai.sp.jandira.s_book.R
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.icons.filled.LocalOffer
 import br.senai.sp.jandira.s_book.navigation_home_bar.BottomBarScreen
 
 @Preview(showSystemUi = true)
 @Composable
 fun EscolhaFazer() {
 
+    var doacoes = Icons.Default.LocalOffer
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .height(60.dp),
+            .height(120.dp),
         verticalArrangement = Arrangement.spacedBy(15.dp, Alignment.Top),
     ) {
         Text(
@@ -77,7 +80,8 @@ fun EscolhaFazer() {
                     modifier = Modifier
                         .height(90.dp)
                         .width(100.dp)
-                        .shadow(elevation = 2.dp,
+                        .shadow(
+                            elevation = 2.dp,
                             spotColor = Color(0x40000000),
                             ambientColor = Color(0x40000000)
                         ),
@@ -91,9 +95,7 @@ fun EscolhaFazer() {
                         onClick = { /*TODO*/ }
                     ) {
                         Icon(
-                            painter = painterResource(
-                                id = R.drawable.baseline_lock_24
-                            ),
+                            imageVector = doacoes,
                             contentDescription = ""
                         )
                     }

@@ -46,7 +46,7 @@ fun Header() {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .fillMaxHeight()
+                .height(260.dp)
         ) {
             Surface(
                 modifier = Modifier
