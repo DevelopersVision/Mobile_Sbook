@@ -125,4 +125,8 @@ dependencies {
 // Dependência para Hilt (para injeção de dependência no Jetpack Compose)
     implementation("androidx.hilt:hilt-navigation-compose:1.0.0-alpha03")
 
+    implementation("androidx.compose.material3:material3:x.y.z")
+
+    implementation ("androidx.compose.material:material:1.4.2")
+
 }

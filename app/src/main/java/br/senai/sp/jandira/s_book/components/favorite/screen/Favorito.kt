@@ -1,31 +1,53 @@
 package br.senai.sp.jandira.s_book.components.favorite.screen
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.unit.dp
+import br.senai.sp.jandira.s_book.components.favorite.components.Card
+import br.senai.sp.jandira.s_book.components.favorite.components.Header
 
 @Composable
 fun FavoritoScreen() {
-    Box(
+    Surface(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.Magenta),
-        contentAlignment = Alignment.Center
     ) {
-        Text(
-            text = "favoritos",
-            fontSize = 49.sp,
-            fontWeight = FontWeight.Bold,
-            color = Color.White
-        )
+        Column (
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color(245, 245, 245)),
+            verticalArrangement = Arrangement.spacedBy(12.dp, Alignment.Top),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ){
+            Header()
+
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(400.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp, Alignment.Top),
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ){
+                items(3) { item ->
+                    Card()
+                }
+            }
+
+
+        }
     }
 }
 
