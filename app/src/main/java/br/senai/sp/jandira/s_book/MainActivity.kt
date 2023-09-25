@@ -21,6 +21,7 @@ import br.senai.sp.jandira.s_book.components.rediscover_password.screen.Rediscov
 import br.senai.sp.jandira.s_book.model.CreateAccountView
 import br.senai.sp.jandira.s_book.model.ResetPasswordView
 import br.senai.sp.jandira.s_book.model.UserCategoryViewModel
+import br.senai.sp.jandira.s_book.navigation_home_bar.MainScreen
 
 import br.senai.sp.jandira.s_book.ui.theme.SBOOKTheme
 
@@ -41,8 +42,11 @@ class MainActivity : ComponentActivity() {
                     val viewModelUserCategory = viewModel<UserCategoryViewModel>()
 
                     NavHost(
-                        navController = navController, startDestination = "login"
+                        navController = navController, startDestination = "navigation_home_bar"
                     ){
+                        composable("navigation_home_bar") {
+                            MainScreen()
+                        }
                         composable("login") {
                             LoginScreen(navController = navController, lifecycleScope = lifecycleScope)
                         }

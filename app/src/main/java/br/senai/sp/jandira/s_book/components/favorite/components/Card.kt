@@ -1,6 +1,7 @@
 package br.senai.sp.jandira.s_book.components.favorite.components
 
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -17,6 +18,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -40,12 +42,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.senai.sp.jandira.s_book.R
+import br.senai.sp.jandira.s_book.model.Genero
 import br.senai.sp.jandira.s_book.navigation_home_bar.BottomBarScreen.Anuncio.icon
 
 @Composable
 fun Card() {
 
-    val coracao = Icons.Default.Favorite
+    val coracao = Icons.Default.FavoriteBorder
+
+    var isChecked by remember { mutableStateOf(false) }
 
     Surface(
         modifier = Modifier
@@ -131,7 +136,15 @@ fun Card() {
                         modifier = Modifier
                             .width(100.dp)
                             .height(42.dp),
-                        onClick = { }
+                        onClick = {
+                            if(isChecked == false){
+                                isChecked = true
+                                var cor = 0xFFFFFF
+                            } else {
+                                isChecked = false
+                                var cor = 0xF60E1C
+                            }
+                        }
                     ) {
                         Icon(
                             imageVector = coracao ,

@@ -3,6 +3,7 @@ package br.senai.sp.jandira.s_book.components.favorite.screen
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -37,11 +38,11 @@ fun FavoritoScreen() {
             LazyColumn(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(400.dp),
+                    .fillMaxHeight(),
                 verticalArrangement = Arrangement.spacedBy(12.dp, Alignment.Top),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ){
-                items(3) { item ->
+                items(10) { item ->
                     Card()
                 }
             }

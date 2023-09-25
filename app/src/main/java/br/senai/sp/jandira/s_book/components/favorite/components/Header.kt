@@ -11,8 +11,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBackIos
 import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -34,35 +36,37 @@ import br.senai.sp.jandira.s_book.navigation_home_bar.BottomBarScreen
 @Composable
 fun Header(){
 
+    var sair = Icons.Default.ArrowBackIos
+
     Column (
         modifier = Modifier
             .height(60.dp)
             .fillMaxWidth()
             .background(color = Color.White)
-            .shadow(
-                elevation = 6.dp,
-                spotColor = Color(0x40000000),
-                ambientColor = Color(0x40000000)
-            )
         ,
-
         ) {
         Row (
             modifier = Modifier
                 .height(60.dp)
-                .fillMaxWidth()
-                .padding(start = 22.dp, end = 22.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically,
         ) {
 
             IconButton(
                 modifier = Modifier
-                    .width(100.dp)
+                    .width(30.dp)
                     .height(42.dp),
                 onClick = { /*TODO*/ }
             ) {
-                BottomBarScreen.Anuncio.icon = Icons.Default.ArrowBackIosNew
+               Icon(
+                   imageVector = sair,
+                   contentDescription = "",
+                   modifier = Modifier
+                       .width(30.dp)
+                       .height(32.dp),
+                   tint = Color(0xFF784F34)
+               )
             }
 
             Text(
