@@ -18,6 +18,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -44,7 +45,7 @@ import br.senai.sp.jandira.s_book.navigation_home_bar.BottomBarScreen.Anuncio.ic
 @Composable
 fun Card() {
 
-    var isChecked by remember { mutableStateOf(false) }
+    val coracao = Icons.Default.Favorite
 
     Surface(
         modifier = Modifier
@@ -56,7 +57,7 @@ fun Card() {
             .width(300.dp)
             .height(200.dp)
             .background(
-                color = Color(255,255,255,1),
+                color = Color(255, 255, 255, 1),
                 shape = RoundedCornerShape(size = 8.dp)
             )
 
@@ -66,7 +67,7 @@ fun Card() {
                 .height(200.dp)
                 .width(300.dp)
                 .background(
-                    color = Color(255,255,255,1)
+                    color = Color(255, 255, 255, 1)
                 )
         ) {
 
@@ -130,9 +131,12 @@ fun Card() {
                         modifier = Modifier
                             .width(100.dp)
                             .height(42.dp),
-                        onClick = { /*TODO*/ }
+                        onClick = { }
                     ) {
-                        icon = Icons.Default.Favorite
+                        Icon(
+                            imageVector = coracao ,
+                            contentDescription = ""
+                        )
                     }
                 }
             }

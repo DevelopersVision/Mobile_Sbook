@@ -11,6 +11,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
+import br.senai.sp.jandira.s_book.components.feed.components.EscolhaFazer
 
 @Composable
 fun FeedScreen() {
@@ -20,12 +21,7 @@ fun FeedScreen() {
             .background(Color.Magenta),
         contentAlignment = Alignment.Center
     ) {
-        Text(
-            text = "HOME",
-            fontSize = 49.sp,
-            fontWeight = FontWeight.Bold,
-            color = Color.White
-        )
+     EscolhaFazer()
     }
 }
 
