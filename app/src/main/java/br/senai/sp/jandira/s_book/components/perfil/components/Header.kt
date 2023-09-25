@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
@@ -53,15 +54,19 @@ fun Header() {
 
     var camera = Icons.Default.AddAPhoto
 
+
+
     var userRating by remember { mutableStateOf(0) }
 
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .height(300.dp)
+            .padding(top = 32.dp),
+        horizontalArrangement = Arrangement.SpaceAround,
     ) {
         Row(
-            horizontalArrangement = Arrangement.spacedBy(10.dp, Alignment.Start),
+            horizontalArrangement = Arrangement.spacedBy(43.dp, Alignment.Start),
             verticalAlignment = Alignment.Top,
         ) {
             IconButton(
@@ -120,20 +125,47 @@ fun Header() {
                 }
                 RatingBar(maxRating = 5, initialRating = userRating)
 
-                Text(
-                    text = "Thiago Freitas",
-                    fontSize = 20.sp,
-                    fontFamily = FontFamily(Font(R.font.intermedium)),
-                    fontWeight = FontWeight(600),
-                    color = Color(0xFF000000),
-                )
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(4.dp, Alignment.Top),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ) {
+                    Text(
+                        text = "Thiago Freitas",
+                        fontSize = 20.sp,
+                        fontFamily = FontFamily(Font(R.font.intermedium)),
+                        fontWeight = FontWeight(600),
+                        color = Color(0xFF000000),
+                    )
 
-                Text(
-                    text = "Carapicuíba, SP",
-                    fontSize = 14.sp,
-                    fontFamily = FontFamily(Font(R.font.poppinsmedium)),
-                    fontWeight = FontWeight(400),
-                    color = Color(0xFF565454),
+                    Text(
+                        text = "Carapicuíba, SP",
+                        fontSize = 14.sp,
+                        fontFamily = FontFamily(Font(R.font.poppinsmedium)),
+                        fontWeight = FontWeight(400),
+                        color = Color(0xFF565454),
+                    )
+                }
+
+            }
+            IconButton(
+                onClick = { /*TODO*/ },
+                modifier = Modifier
+                    .height(64.dp)
+                    .width(64.dp)
+                    .border(
+                        width = 1.dp,
+                        color = Color(0xFFCECECE),
+                        shape = RoundedCornerShape(size = 8.dp)
+                    )
+            ) {
+                Image(
+                    modifier = Modifier
+                        .height(22.dp)
+                        .width(25.dp),
+                    painter = painterResource(
+                        id = R.drawable.editar
+                    ),
+                    contentDescription = ""
                 )
             }
         }
@@ -154,8 +186,8 @@ fun RatingBar(maxRating: Int = 5, initialRating: Int = 0) {
                     .clickable {
                         currentRating = i
                     }
-                    .width(19.dp)
-                    .height(19.dp)
+                    .width(25.dp)
+                    .height(25.dp)
             )
         }
     }

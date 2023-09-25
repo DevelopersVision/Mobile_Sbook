@@ -4,6 +4,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.ui.graphics.vector.ImageVector
 
@@ -20,7 +21,7 @@ sealed class BottomBarScreen(
     object  Favorite : BottomBarScreen(
         route = "favorite",
         title = "Favoritos",
-        icon = Icons.Default.CheckCircle
+        icon = Icons.Default.Favorite
     )
     object  Anuncio : BottomBarScreen(
         route = "address",
