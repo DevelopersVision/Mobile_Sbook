@@ -38,4 +38,8 @@ object RetrofitHelper {
     fun putChangePassword(): ChangePasswordService{
         return  retrofitFactory.create(ChangePasswordService::class.java)
     }
+
+    fun getAnunciosFavoritadosService(): AnunciosFavoritadosService{
+        return  retrofitFactory.create(AnunciosFavoritadosService::class.java)
+    }
 }
