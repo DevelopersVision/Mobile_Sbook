@@ -22,13 +22,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import br.senai.sp.jandira.s_book.R
 import br.senai.sp.jandira.s_book.components.feed.components.AnunciosProximos
 import br.senai.sp.jandira.s_book.components.feed.components.EscolhaFazer
 import br.senai.sp.jandira.s_book.components.feed.components.Header
 
 @Composable
-fun FeedScreen() {
+fun FeedScreen(
+    navController: NavController
+) {
     Surface(
         modifier = Modifier
             .fillMaxSize()
@@ -39,7 +43,7 @@ fun FeedScreen() {
             modifier = Modifier
                 .fillMaxWidth()
         ){
-            Header()
+            Header(navController)
             EscolhaFazer()
             Spacer(modifier = Modifier.height(16.dp))
             androidx.compose.material.Text(
@@ -71,5 +75,7 @@ fun FeedScreen() {
 @Composable
 @Preview
 fun HomeScreenPreview() {
-    FeedScreen()
+    val navController = rememberNavController()
+
+    FeedScreen(navController = navController)
 }

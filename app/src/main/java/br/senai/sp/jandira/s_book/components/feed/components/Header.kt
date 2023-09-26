@@ -37,10 +37,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.R
 
 @Composable
-fun Header() {
+fun Header(
+    navController: NavController
+) {
 
 
         Column(
@@ -86,7 +89,9 @@ fun Header() {
                         )
 
                         IconButton(
-                            onClick = { /*TODO*/ }
+                            onClick = {
+                                navController.navigate("login")
+                            }
                         ) {
                             Image(
                                 painter = painterResource(
@@ -128,5 +133,5 @@ fun Header() {
 @Preview(showSystemUi = true)
 @Composable
 fun HeaderPreview() {
-    Header()
+//    Header()
 }
