@@ -31,7 +31,8 @@ import br.senai.sp.jandira.s_book.components.feed.components.Header
 
 @Composable
 fun FeedScreen(
-    navController: NavController
+    navController: NavController,
+    navRotasController: NavController
 ) {
     Surface(
         modifier = Modifier
@@ -43,7 +44,7 @@ fun FeedScreen(
             modifier = Modifier
                 .fillMaxWidth()
         ){
-            Header(navController)
+            Header(navController, navRotasController)
             EscolhaFazer()
             Spacer(modifier = Modifier.height(16.dp))
             androidx.compose.material.Text(
@@ -77,5 +78,5 @@ fun FeedScreen(
 fun HomeScreenPreview() {
     val navController = rememberNavController()
 
-    FeedScreen(navController = navController)
+    FeedScreen(navController = navController, navController)
 }

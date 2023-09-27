@@ -42,10 +42,10 @@ class MainActivity : ComponentActivity() {
                     val viewModelUserCategory = viewModel<UserCategoryViewModel>()
 
                     NavHost(
-                        navController = navController, startDestination = "login"
+                        navController = navController, startDestination = "navigation_home_bar"
                     ){
                         composable("navigation_home_bar") {
-                            MainScreen()
+                            MainScreen(navController)
                         }
                         composable("login") {
                             LoginScreen(navController = navController, lifecycleScope = lifecycleScope)

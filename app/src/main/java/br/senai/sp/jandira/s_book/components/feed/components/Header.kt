@@ -42,7 +42,8 @@ import br.senai.sp.jandira.s_book.R
 
 @Composable
 fun Header(
-    navController: NavController
+    navController: NavController,
+    navRotasController: NavController
 ) {
 
 
@@ -90,7 +91,7 @@ fun Header(
 
                         IconButton(
                             onClick = {
-                                navController.navigate("login")
+                                navRotasController.navigate("login")
                             }
                         ) {
                             Image(
