@@ -30,6 +30,7 @@ import br.senai.sp.jandira.s_book.model.UsuarioJSon
 import br.senai.sp.jandira.s_book.repository.LoginRepository
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
+import org.json.JSONObject
 
 @Composable
 fun LoginScreen(
@@ -65,7 +66,8 @@ fun LoginScreen(
             )
 
             DefaultButtonScreen(text = "Entrar", onClick = {
-                login(emailState, senhaState, lifecycleScope!!, context)
+                Log.e("Teste", "LoginScreen: Click" )
+                login(emailState, senhaState, lifecycleScope!!, context, navController)
             })
 
             TextContinueScreen()
@@ -75,7 +77,7 @@ fun LoginScreen(
     }
 }
 
-fun login(email: String, senha: String, lifecycleScope: LifecycleCoroutineScope, context: Context) {
+fun login(email: String, senha: String, lifecycleScope: LifecycleCoroutineScope, context: Context, navController: NavController) {
 
     val validacaoDados = dataValidation(email, senha)
 
@@ -88,18 +90,17 @@ fun login(email: String, senha: String, lifecycleScope: LifecycleCoroutineScope,
 
             if (response.isSuccessful) {
 
-                Log.e("TAG", "login: ${response.body()}", )
+                val jsonString = response.body().toString() // Converta a resposta em uma string JSON
+                val jsonObject = JSONObject(jsonString) // Converta a string JSON em um objeto JSONObject
+                val usuarioObject = jsonObject.getJSONObject("usuario")
 
-                val jsonString = response.body()
-                // Converter a string JSON para um objeto ApiResponse
-                val gson = Gson()
-                val apiResponse = gson.fromJson(jsonString, UsuarioJSon::class.java)
-
-                var nomeUsuario = apiResponse.usuario[0].nome
+                val userObject = usuarioObject.getJSONObject("usuario")
+                val nome = userObject.getString("nome")
 
                 Log.e("LOGIN - SUCESS - 201", "login: ${response.body()}")
-                Toast.makeText(context, "Bem Vindo $nomeUsuario", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Bem Vindo $nome", Toast.LENGTH_SHORT).show()
 
+                navController.navigate("navigation_home_bar")
             } else {
 
                 when (code) {

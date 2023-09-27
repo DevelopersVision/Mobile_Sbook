@@ -18,6 +18,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import br.senai.sp.jandira.s_book.components.create_account.screen.CreateContScreen
 import br.senai.sp.jandira.s_book.components.create_account_endereco.components.Button
 import br.senai.sp.jandira.s_book.components.universal.TextBoxScreen
 import br.senai.sp.jandira.s_book.components.universal.TextFieldPasswordScreen
@@ -120,13 +122,14 @@ fun Form(
                     senhaState,
                     redefinirsenhaState,
                     viewModel,
-                    context
+                    context,
+                    navController
                 )
-                navController.navigate("create_account_endereco")
             }
         )
     }
 }
+
 
 fun cadastro(
     nome: String?,
@@ -136,18 +139,26 @@ fun cadastro(
     senha: String?,
     confirmarSenha: String?,
     viewModel: CreateAccountView,
-    context: Context
+    context: Context,
+    navController: NavController
 ) {
     if (
-        nome == null || nome == ""
+        nome == null || nome == "" ||
+        email == null || email == "" ||
+        cpf == null || cpf == "" ||
+        dataNascimento == null || dataNascimento == "" ||
+        senha == null || senha == ""
     ) {
-
+        Log.e("CADASTRO - ERROR", "CADASTRO_V1: REQUIRE FIELDS")
+        Toast.makeText(context, "NÃO FOI PREENCHIDO TODOS OS CAMPOS", Toast.LENGTH_SHORT).show()
     } else if (senha == confirmarSenha) {
         viewModel.nome = nome
         viewModel.email = email
         viewModel.cpf = cpf
         viewModel.dataNascimento = dataNascimento
         viewModel.senha = senha
+
+        navController.navigate("create_account_endereco")
     } else {
         Log.e("CADASTRO - ERROR", "CADASTRO_V1: SENHA DIFERENTES")
         Toast.makeText(context, "AS SENHA ESTÃO DIFERENTES", Toast.LENGTH_SHORT).show()

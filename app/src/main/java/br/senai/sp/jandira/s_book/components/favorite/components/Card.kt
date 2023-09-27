@@ -4,13 +4,16 @@ package br.senai.sp.jandira.s_book.components.favorite.components
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -44,43 +47,41 @@ import androidx.compose.ui.unit.sp
 import br.senai.sp.jandira.s_book.R
 import br.senai.sp.jandira.s_book.model.Genero
 import br.senai.sp.jandira.s_book.navigation_home_bar.BottomBarScreen.Anuncio.icon
+import coil.compose.AsyncImage
 
 @Composable
-fun Card() {
+fun Card(
+    nome_livro: String,
+    ano_lancamento: String,
+    autor: String,
+    preco: Double,
+    foto: String,
+    onClick: () -> Unit
+) {
 
-    val coracao = Icons.Default.FavoriteBorder
+    val coracao = Icons.Default.Favorite
 
     var isChecked by remember { mutableStateOf(false) }
 
-    Surface(
+    androidx.compose.material.Card(
         modifier = Modifier
             .shadow(
                 elevation = 6.dp,
-                spotColor = Color(0x40000000),
-                ambientColor = Color(0x40000000)
+                spotColor = Color(0xFF000000),
+                ambientColor = Color(0xFF000000)
             )
             .width(300.dp)
             .height(200.dp)
-            .background(
-                color = Color(255, 255, 255, 1),
-                shape = RoundedCornerShape(size = 8.dp)
-            )
-
+            .clickable {
+                onClick()
+            },
     ) {
-        Row(
-            modifier = Modifier
-                .height(200.dp)
-                .width(300.dp)
-                .background(
-                    color = Color(255, 255, 255, 1)
-                )
-        ) {
+        Row() {
 
-            Image(
-                painter =
-                painterResource(id = R.drawable.diario),
+            AsyncImage(
+                model = "${foto}",
                 contentDescription = "",
-                contentScale = ContentScale.FillBounds,
+                contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .width(130.dp)
                     .height(200.dp)
@@ -88,41 +89,39 @@ fun Card() {
 
             Column(
                 modifier = Modifier
-                    .width(300.dp)
                     .fillMaxHeight()
-                    .padding(12.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.Top),
-                horizontalAlignment = Alignment.Start,
+                    .padding(start = 12.dp, top = 10.dp),
+                verticalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(
-                    text = "Diário de um \nBanana",
-                    fontSize = 16.sp,
-                    fontFamily = FontFamily(
-                        Font(R.font.poppinsmedium)
-                    ),
-                    fontWeight = FontWeight(400),
-                    color = Color(0xFF000000),
-                )
-                Text(
-                    text = "J.K Rowling | Abril 2009",
-                    fontSize = 12.sp,
-                    fontFamily = FontFamily(
-                        Font(
-                            R.font.intermedium
-                        )
-                    ),
-                    fontWeight = FontWeight(600),
-                    color = Color(0xFF9F9898),
-                )
+                Column {
+                    Text(
+                        text = "${nome_livro}",
+                        fontSize = 16.sp,
+                        fontFamily = FontFamily(
+                            Font(R.font.poppinsmedium)
+                        ),
+                        fontWeight = FontWeight(400),
+                        color = Color(0xFF000000),
+                    )
+                    Text(
+                        text = " ${autor} | ${ano_lancamento}",
+                        fontSize = 12.sp,
+                        fontFamily = FontFamily(
+                            Font(
+                                R.font.intermedium
+                            )
+                        ),
+                        fontWeight = FontWeight(600),
+                        color = Color(0xFF9F9898),
+                    )
+                }
                 Row(
-                    modifier = Modifier
-                        .padding(top = 40.dp),
-                    horizontalArrangement = Arrangement.spacedBy(13.dp, Alignment.Start),
+                    horizontalArrangement = Arrangement.spacedBy(36.dp, Alignment.Start),
                     verticalAlignment = Alignment.CenterVertically,
 
                     ) {
                     Text(
-                        text = "R$ 34,00",
+                        text = "R$" + preco,
                         fontSize = 24.sp,
                         fontFamily = FontFamily(
                             Font(
@@ -137,18 +136,13 @@ fun Card() {
                             .width(100.dp)
                             .height(42.dp),
                         onClick = {
-                            if(isChecked == false){
-                                isChecked = true
-                                var cor = 0xFFFFFF
-                            } else {
-                                isChecked = false
-                                var cor = 0xF60E1C
-                            }
+
                         }
                     ) {
                         Icon(
                             imageVector = coracao ,
-                            contentDescription = ""
+                            contentDescription = "",
+                            tint = Color(207, 22, 22, 255)
                         )
                     }
                 }
@@ -156,10 +150,4 @@ fun Card() {
         }
     }
 
-}
-
-@Preview(showSystemUi = true)
-@Composable
-fun CardPreview() {
-    Card()
 }

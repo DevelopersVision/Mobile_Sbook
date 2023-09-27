@@ -57,7 +57,7 @@ fun DefaultButtonScreen(
 @Composable
 fun DefaultButtonScreenPreview() {
     DefaultButtonScreen(
-        text = "RediscoverPasswordScreen",
+        text = "Entrar",
         onClick = {}
     )
 }

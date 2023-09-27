@@ -4,10 +4,10 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitHelper {
-    //private const val baseurl = "http://10.107.144.7:8080"
+    private const val baseurl = "http://10.107.144.7:8080"
 
 
-    private const val baseurl = "https://app-nodejs.cyclic.cloud"
+    //private const val baseurl = "https://app-nodejs.cyclic.cloud"
 
     private val retrofitFactory =
         Retrofit.Builder().
