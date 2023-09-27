@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import br.senai.sp.jandira.s_book.components.address.screen.AddressScreen
 import br.senai.sp.jandira.s_book.components.favorite.screen.FavoritoScreen
 import br.senai.sp.jandira.s_book.components.feed.screen.FeedScreen
+import br.senai.sp.jandira.s_book.components.login.screen.LoginScreen
 
 @Composable
 fun ButtonNavGraph(
@@ -17,7 +18,7 @@ fun ButtonNavGraph(
         startDestination = BottomBarScreen.Feed.route,
     ){
         composable(route = BottomBarScreen.Feed.route){
-            FeedScreen()
+            FeedScreen(navController = navController)
         }
         composable(route = BottomBarScreen.Anuncio.route){
             AddressScreen()
@@ -27,6 +28,9 @@ fun ButtonNavGraph(
         }
         composable(route = BottomBarScreen.Profile.route){
             AddressScreen()
+        }
+        composable(route = "login"){
+            LoginScreen(navController = navController, lifecycleScope = null)
         }
     }
 }
