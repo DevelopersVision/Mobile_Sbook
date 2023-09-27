@@ -88,12 +88,14 @@ fun login(email: String, senha: String, lifecycleScope: LifecycleCoroutineScope,
 
             if (response.isSuccessful) {
 
-                val jsonString = """{"token":"..."}"""
+                Log.e("TAG", "login: ${response.body()}", )
+
+                val jsonString = response.body()
                 // Converter a string JSON para um objeto ApiResponse
                 val gson = Gson()
                 val apiResponse = gson.fromJson(jsonString, UsuarioJSon::class.java)
-                // Acessar o nome do usuário
-                val nomeUsuario = apiResponse.usuario[0].nome
+
+                var nomeUsuario = apiResponse.usuario[0].nome
 
                 Log.e("LOGIN - SUCESS - 201", "login: ${response.body()}")
                 Toast.makeText(context, "Bem Vindo $nomeUsuario", Toast.LENGTH_SHORT).show()

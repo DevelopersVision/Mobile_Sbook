@@ -1,6 +1,9 @@
 package br.senai.sp.jandira.s_book.components.create_account.components
 
 
+import android.content.Context
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -24,8 +27,9 @@ import java.util.Date
 @Composable
 fun Form(
     navController: NavController,
-    viewModel: CreateAccountView
-){
+    viewModel: CreateAccountView,
+    context: Context
+) {
 
     var emailState by remember {
         mutableStateOf("")
@@ -56,7 +60,7 @@ fun Form(
 
 
 
-    Column (
+    Column(
         modifier = Modifier
             .padding(8.dp)
             .fillMaxWidth(),
@@ -92,16 +96,16 @@ fun Form(
             }
         )
         TextFieldPasswordScreen(
-            label = "Senha" ,
+            label = "Senha",
             valor = senhaState,
-            aoMudar ={
+            aoMudar = {
                 senhaState = it
             }
         )
         TextFieldPasswordScreen(
-            label = "Confirmar a senha " ,
+            label = "Confirmar a senha ",
             valor = redefinirsenhaState,
-            aoMudar ={
+            aoMudar = {
                 redefinirsenhaState = it
             }
         )
@@ -115,7 +119,8 @@ fun Form(
                     dataNascimentoState,
                     senhaState,
                     redefinirsenhaState,
-                    viewModel
+                    viewModel,
+                    context
                 )
                 navController.navigate("create_account_endereco")
             }
@@ -123,18 +128,28 @@ fun Form(
     }
 }
 
-fun cadastro (
+fun cadastro(
     nome: String?,
     email: String?,
     cpf: String?,
     dataNascimento: String?,
     senha: String?,
     confirmarSenha: String?,
-    viewModel: CreateAccountView
+    viewModel: CreateAccountView,
+    context: Context
 ) {
-    viewModel.nome = nome
-    viewModel.email = email
-    viewModel.cpf = cpf
-    viewModel.dataNascimento = dataNascimento
-    viewModel.senha = senha
+    if (
+        nome == null || nome == ""
+    ) {
+
+    } else if (senha == confirmarSenha) {
+        viewModel.nome = nome
+        viewModel.email = email
+        viewModel.cpf = cpf
+        viewModel.dataNascimento = dataNascimento
+        viewModel.senha = senha
+    } else {
+        Log.e("CADASTRO - ERROR", "CADASTRO_V1: SENHA DIFERENTES")
+        Toast.makeText(context, "AS SENHA ESTÃO DIFERENTES", Toast.LENGTH_SHORT).show()
+    }
 }

@@ -9,6 +9,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.components.create_account.components.Form
@@ -25,6 +26,7 @@ fun CreateContScreen(
     lifecycleScope: LifecycleCoroutineScope,
     viewModel: CreateAccountView
 ){
+    val context = LocalContext.current
 
     Surface (
         modifier = Modifier
@@ -50,7 +52,8 @@ fun CreateContScreen(
 //            Spacer(modifier = Modifier.height(63.dp))
             Form(
                 navController = navController,
-                viewModel = viewModel
+                viewModel = viewModel,
+                context = context
             )
 
 //            Spacer(modifier = Modifier.height(53.dp))

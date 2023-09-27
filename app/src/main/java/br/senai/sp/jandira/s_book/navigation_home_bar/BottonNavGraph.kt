@@ -17,7 +17,7 @@ fun ButtonNavGraph(
         startDestination = BottomBarScreen.Feed.route,
     ){
         composable(route = BottomBarScreen.Feed.route){
-            FeedScreen()
+            FeedScreen(navController)
         }
         composable(route = BottomBarScreen.Anuncio.route){
             AddressScreen()
