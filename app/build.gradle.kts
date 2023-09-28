@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id ("kotlin-kapt") //Kotlin annotation processor tool
 }
 
 android {
@@ -109,24 +110,29 @@ dependencies {
     // Dependência para a biblioteca do Jetpack Compose
     implementation("androidx.compose.ui:ui:1.1.0")
 
-// Dependência para componentes de IU do Jetpack Compose
+    // Dependência para componentes de IU do Jetpack Compose
     implementation("androidx.compose.foundation:foundation:1.1.0")
     implementation("androidx.compose.runtime:runtime:1.1.0")
 
-// Dependência para componentes de IU do Material Design no Jetpack Compose
+    // Dependência para componentes de IU do Material Design no Jetpack Compose
     implementation("androidx.compose.material:material:1.1.0")
 
-// Dependência para componentes de IU do Jetpack Navigation Compose
+    // Dependência para componentes de IU do Jetpack Navigation Compose
     implementation("androidx.navigation:navigation-compose:2.4.0")
 
-// Dependência para ViewModel no Jetpack Compose
+    // Dependência para ViewModel no Jetpack Compose
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha07")
 
-// Dependência para Hilt (para injeção de dependência no Jetpack Compose)
+    // Dependência para Hilt (para injeção de dependência no Jetpack Compose)
     implementation("androidx.hilt:hilt-navigation-compose:1.0.0-alpha03")
 
+    // Dependência do compose material
     implementation("androidx.compose.material3:material3:x.y.z")
-
     implementation ("androidx.compose.material:material:1.4.2")
+
+    /// ROOM DEPENDENCIES (SQLite)
+    implementation ("androidx.room:room-runtime:2.5.2")
+    annotationProcessor ("androidx.room:room-compiler:2.5.2")
+    kapt ("androidx.room:room-compiler:2.5.2")
 
 }
