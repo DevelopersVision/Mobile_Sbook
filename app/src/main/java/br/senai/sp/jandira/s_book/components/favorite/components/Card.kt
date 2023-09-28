@@ -45,6 +45,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.senai.sp.jandira.s_book.R
+import br.senai.sp.jandira.s_book.model.Autores
+import br.senai.sp.jandira.s_book.model.Foto
 import br.senai.sp.jandira.s_book.model.Genero
 import br.senai.sp.jandira.s_book.navigation_home_bar.BottomBarScreen.Anuncio.icon
 import coil.compose.AsyncImage
@@ -52,7 +54,7 @@ import coil.compose.AsyncImage
 @Composable
 fun Card(
     nome_livro: String,
-    ano_lancamento: String,
+    ano_lancamento: Int,
     autor: String,
     preco: Double,
     foto: String,

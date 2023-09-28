@@ -28,6 +28,7 @@ import br.senai.sp.jandira.s_book.components.favorite.components.Header
 import br.senai.sp.jandira.s_book.model.Anuncio
 import br.senai.sp.jandira.s_book.model.AnunciosFavoritosBaseResponse
 import br.senai.sp.jandira.s_book.model.Genero
+import br.senai.sp.jandira.s_book.model.JsonFavoritados
 import br.senai.sp.jandira.s_book.repository.CategoryList
 import br.senai.sp.jandira.s_book.service.RetrofitHelper
 import retrofit2.Call
@@ -38,11 +39,15 @@ import retrofit2.Response
 fun FavoritoScreen() {
 
     var listAnuncios by remember{
-        mutableStateOf(listOf<Anuncio>())
+        mutableStateOf(listOf<JsonFavoritados>())
     }
+
+
 
     // Cria uma chamada para o EndPoint
     val call = RetrofitHelper.getAnunciosFavoritadosService().getAnunciosFavoritosByUsuarioId(3)
+
+    Log.e("Call", "${call}")
 
     // Executar a chamada
     call.enqueue(object : Callback<AnunciosFavoritosBaseResponse> {
@@ -50,8 +55,10 @@ fun FavoritoScreen() {
             call: Call<AnunciosFavoritosBaseResponse>,
             response: Response<AnunciosFavoritosBaseResponse>
         ) {
-            listAnuncios = response.body()!!.anuncios_favoritados
-            Log.e("Isso ta nulo", "${listAnuncios}")
+            listAnuncios = response.body()!!.anuncios
+            Log.e("ListaAAAAAAAAANUNCIOS", "${response}")
+            Log.e("ListaBOOOOOOOOODYY", "${response.body()}")
+            Log.e("AAAAAAAAAAAAAAAA", "${listAnuncios}")
 
         }
 
@@ -60,6 +67,7 @@ fun FavoritoScreen() {
 
         }
     })
+
 
     val context = LocalContext.current
 
@@ -78,11 +86,11 @@ fun FavoritoScreen() {
         ){
             items(listAnuncios) { item ->
                 Card(
-                    nome_livro = item.nome_livro,
-                    ano_lancamento = item.ano_lancamento,
-                    foto = item.foto,
-                    autor = item.autor,
-                    preco = item.preco,
+                    nome_livro = item.anuncio.nome,
+                    ano_lancamento = item.anuncio.ano_lancamento,
+                    foto = item.foto.foto,
+                    autor = item.autores.nome,
+                    preco = item.anuncio.preco,
                     onClick = {}
                 )
             }
