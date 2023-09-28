@@ -14,6 +14,7 @@ import androidx.navigation.compose.rememberNavController
 import br.senai.sp.jandira.s_book.components.category.screen.CategoryScreen
 import br.senai.sp.jandira.s_book.components.create_account.screen.CreateContScreen
 import br.senai.sp.jandira.s_book.components.create_account_endereco.screen.CreateAccountEndereco
+import br.senai.sp.jandira.s_book.components.favorite.screen.FavoritoScreen
 import br.senai.sp.jandira.s_book.components.forgot_password.screen.ForgotPasswordScreen
 import br.senai.sp.jandira.s_book.components.insert_code.screen.InsertCode
 import br.senai.sp.jandira.s_book.components.login.screen.LoginScreen
@@ -42,7 +43,7 @@ class MainActivity : ComponentActivity() {
                     val viewModelUserCategory = viewModel<UserCategoryViewModel>()
 
                     NavHost(
-                        navController = navController, startDestination = "navigation_home_bar"
+                        navController = navController, startDestination = "favorite"
                     ){
                         composable("navigation_home_bar") {
                             MainScreen(navController)
@@ -73,6 +74,10 @@ class MainActivity : ComponentActivity() {
 
                         composable("category"){
                             CategoryScreen(navController = navController, lifecycleScope = lifecycleScope, viewModel = viewModelUserCategory)
+                        }
+
+                        composable("favorite"){
+                            FavoritoScreen()
                         }
 
                         // A surface container using the 'background' color from the theme

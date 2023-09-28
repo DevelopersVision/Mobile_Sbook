@@ -4,5 +4,5 @@ data class AnunciosFavoritosBaseResponse (
     val status: Int,
     val message: String,
     val quantidade: Int,
-    val anuncios_favoritados: List<Anuncio>
+    val anuncios: List<Anuncio>
 )
