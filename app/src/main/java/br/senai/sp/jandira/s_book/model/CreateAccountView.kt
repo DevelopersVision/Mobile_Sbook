@@ -8,9 +8,4 @@ class CreateAccountView: ViewModel() {
     var cpf: String? = ""
     var dataNascimento: String? = ""
     var senha: String? = ""
-    var cep: String? = ""
-    var estado: String? = ""
-    var bairro: String? = ""
-    var cidade: String? = ""
-    var ufEstado: String? = ""
 }

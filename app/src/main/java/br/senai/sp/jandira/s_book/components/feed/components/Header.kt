@@ -62,8 +62,8 @@ fun Header(
                     ),
                     contentDescription = "",
                     modifier = Modifier
-                        .width(700.dp)
-                        .height(220.dp)
+                        .fillMaxWidth()
+                        .height(230.dp)
                 )
                 Column(
                     modifier = Modifier

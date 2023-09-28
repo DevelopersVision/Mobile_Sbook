@@ -72,8 +72,8 @@ dependencies {
 
 
     //Modificar imagem
-    implementation("io.coil-kt:coil-compose:1.5.1")
-    implementation("io.coil-kt:coil:1.5.1")
+    implementation("io.coil-kt:coil-compose:2.3.0")
+    implementation("io.coil-kt:coil:2.3.0")
 
     // Para utilização da lazyColunm
     implementation("androidx.compose.foundation:foundation:1.0.3")

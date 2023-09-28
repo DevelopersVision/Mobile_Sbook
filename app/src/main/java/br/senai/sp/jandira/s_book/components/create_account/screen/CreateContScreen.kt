@@ -67,7 +67,7 @@ fun CreateContScreen(
 //            Spacer(modifier = Modifier.height(6.dp))
             TextContScreen(
                 onClick = {
-                    navController.navigate("login")
+                    navController.navigate("category")
                 }
             )
         }

@@ -58,6 +58,13 @@ fun Form(){
             valor = cepState,
             aoMudar = {
                 cepState = it
+            }
+        )
+        TextBoxScreen(
+            label = "Estado",
+            valor = estadoState,
+            aoMudar = {
+                estadoState = it
 
                 if(cepState.length >= 7){
                     val call = RetrofitHelperViaCep.getLocal().getLocal(cepState.toInt())
@@ -65,7 +72,7 @@ fun Form(){
                     call.enqueue(object: Callback<ViaCep>{
                         override fun onResponse(call: Call<ViaCep>, response: Response<ViaCep>) {
                             Log.e("response", "onResponse: $response", )
-                            Log.e("responseBody", "onResponse: ${response.body()}", )
+                            Log.e("responseBody", "onResponse: ${response.body()}")
 
                             val cep = response.body()
                         }
@@ -75,13 +82,6 @@ fun Form(){
                         }
                     })
                 }
-            }
-        )
-        TextBoxScreen(
-            label = "Estado",
-            valor = estadoState,
-            aoMudar = {
-                estadoState = it
             }
         )
         TextBoxScreen(

@@ -1,6 +1,7 @@
 package br.senai.sp.jandira.s_book.components.category.components
 
 import android.util.Log
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -30,6 +31,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -86,13 +88,26 @@ fun FavoriteCollectionsGrid(
     ) {
         items(listCategory) { it ->
             var cor by remember{
-                mutableStateOf(0xFFAA6231)
+                mutableStateOf(0x5C2C0C)
             }
             var isChecked by remember { mutableStateOf(false) }
 
+            var altura = 30
+
+            if(it.nome.length > 26){
+                altura = 48
+            }
+
             Row (
                 modifier = Modifier
-                    .height(30.dp)
+                    .height(altura.dp)
+                    .background(
+                        if(!isChecked){
+                            Color(0xFFFFFFFF)
+                        }else{
+                            Color(0x5C2C0C)
+                        }
+                    )
                     .border(
                         width = 1.dp,
                         color = Color(cor),
@@ -102,7 +117,7 @@ fun FavoriteCollectionsGrid(
                         val nome = it.nome
                         val id = it.id
 
-                        if(isChecked == false){
+                        if(!isChecked){
                             isChecked = true
                             cor = 0x5C2C0C
                             var jsonGenero = Genero(it.id, it.nome)
@@ -110,19 +125,20 @@ fun FavoriteCollectionsGrid(
                             Log.e("Murilo e Luiz e Eu", "${arrayGeneros}")
                         } else {
                             isChecked = false
-                            cor = 0xFFAA6231
+                            cor = 0xFFCCFFFF.toInt()
                             arrayGeneros = arrayGeneros.filter { it.id != id }
                             Log.e("Murilo e Luiz e Eu", "${arrayGeneros}")
                         }
                     },
-                horizontalArrangement = Arrangement.spacedBy(3.dp),
+                horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
                     text = it.nome,
                     fontSize = 14.sp,
                     fontWeight = FontWeight(600),
-                    color = Color(0xFF000000)
+                    color = Color(0xFF000000),
+                    textAlign = TextAlign.Center
                 )
             }
         }
