@@ -1,4 +1,4 @@
-package br.senai.sp.jandira.s_book.components.forgot_password.components
+package br.senai.sp.jandira.s_book.components.cep.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -9,24 +9,22 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import br.senai.sp.jandira.s_book.R
 import br.senai.sp.jandira.s_book.components.universal.TextBoxScreen
 
-
+@Preview(showSystemUi = true)
 @Composable
-fun Form(emailState: String, onEmailChange: (String) -> Unit){
-
+fun Header(){
     Column (
         modifier = Modifier
             .padding(8.dp)
@@ -34,27 +32,25 @@ fun Form(emailState: String, onEmailChange: (String) -> Unit){
         verticalArrangement = Arrangement.spacedBy(12.dp, Alignment.Top),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Box(
+        Column(
             modifier = Modifier
                 .width(280.dp)
-                .height(50.dp)
+                .height(60.dp)
         ){
             Text(
-                text = "Prezado cliente, digitar seu email      para recuperação de senha",
-                style = TextStyle(
+                text = "Adicionar Endereço no Cadastro",
                     fontSize = 16.sp,
-                    fontWeight = FontWeight(700),
+                fontFamily = FontFamily(Font(R.font.intermedium)),
+                fontWeight = FontWeight(700),
                     color = Color(0xFF000000),
-                )
+            )
+            Text(
+                text = "Agora, Insira o CEP para cadastrar seu\nendereço",
+                fontSize = 12.sp,
+                fontFamily = FontFamily(Font(R.font.intermedium)),
+                fontWeight = FontWeight(400),
+                color = Color(0xFF000000),
             )
         }
-
-        TextBoxScreen(
-            label = "Email",
-            valor = emailState,
-            aoMudar = {
-                onEmailChange(it)
-            }
-        )
     }
 }

@@ -28,6 +28,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -85,9 +86,11 @@ fun AnunciosProximos() {
                                 id = R.drawable.diario
                             ),
                             contentDescription = "",
+                            contentScale = ContentScale.Crop,
                             modifier = Modifier
                                 .width(96.dp)
                                 .height(147.dp)
+                                .padding(top = 12.dp)
                         )
 
                     }
@@ -179,9 +182,11 @@ fun AnunciosProximos() {
                                 id = R.drawable.diario
                             ),
                             contentDescription = "",
+                            contentScale = ContentScale.Crop,
                             modifier = Modifier
                                 .width(96.dp)
                                 .height(147.dp)
+                                .padding(top = 12.dp)
                         )
 
                     }

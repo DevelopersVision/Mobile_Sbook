@@ -63,7 +63,7 @@ fun Header(
                     contentDescription = "",
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(230.dp)
+                        .height(229.dp)
                 )
                 Column(
                     modifier = Modifier
@@ -78,7 +78,7 @@ fun Header(
                     ) {
                         Image(
                             painter = painterResource(
-                                id = R.drawable.logoi
+                                id = R.drawable.logo
                             ),
                             contentDescription = "",
                             modifier = Modifier

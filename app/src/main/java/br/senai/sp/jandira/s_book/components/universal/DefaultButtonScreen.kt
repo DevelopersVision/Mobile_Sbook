@@ -38,7 +38,7 @@ fun DefaultButtonScreen(
             )
             .width(300.dp)
             .height(48.dp)
-            .background(Color(170, 98, 49), shape = RoundedCornerShape(size = 4.dp))
+            .background(Color(0xFFDA6C27), shape = RoundedCornerShape(size = 4.dp))
             .padding()
     ) {
         Text(

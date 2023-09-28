@@ -40,7 +40,7 @@ fun Button(
             )
             .width(300.dp)
             .height(48.dp)
-            .background(Color(170, 98, 49), shape = RoundedCornerShape(size = 4.dp))
+            .background(Color(0xFFDA6C27), shape = RoundedCornerShape(size = 4.dp))
             .padding(start = 40.dp, top = 13.dp)
             .clickable { onClick },
         horizontalArrangement = Arrangement.SpaceBetween,

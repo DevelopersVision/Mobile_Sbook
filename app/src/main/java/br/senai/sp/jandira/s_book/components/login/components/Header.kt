@@ -33,7 +33,7 @@ fun Header(){
         ) {
             Column(){
                 Image(
-                    painter = painterResource(id = R.drawable.logoi),
+                    painter = painterResource(id = R.drawable.logo),
                     contentDescription = "",
                     modifier = Modifier
                         .size(52.dp)
