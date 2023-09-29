@@ -19,9 +19,9 @@ import br.senai.sp.jandira.s_book.components.forgot_password.screen.ForgotPasswo
 import br.senai.sp.jandira.s_book.components.insert_code.screen.InsertCode
 import br.senai.sp.jandira.s_book.components.login.screen.LoginScreen
 import br.senai.sp.jandira.s_book.components.rediscover_password.screen.RediscoverPasswordScreen
-import br.senai.sp.jandira.s_book.model.CreateAccountView
-import br.senai.sp.jandira.s_book.model.ResetPasswordView
-import br.senai.sp.jandira.s_book.model.UserCategoryViewModel
+import br.senai.sp.jandira.s_book.view_model.CreateAccountView
+import br.senai.sp.jandira.s_book.view_model.ResetPasswordView
+import br.senai.sp.jandira.s_book.view_model.UserCategoryViewModel
 import br.senai.sp.jandira.s_book.navigation_home_bar.MainScreen
 
 import br.senai.sp.jandira.s_book.ui.theme.SBOOKTheme

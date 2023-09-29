@@ -15,16 +15,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
-import br.senai.sp.jandira.s_book.components.create_account.screen.CreateContScreen
 import br.senai.sp.jandira.s_book.components.create_account_endereco.components.Button
 import br.senai.sp.jandira.s_book.components.universal.TextBoxScreen
 import br.senai.sp.jandira.s_book.components.universal.TextFieldPasswordScreen
-import br.senai.sp.jandira.s_book.model.CreateAccountView
-import java.util.Date
+import br.senai.sp.jandira.s_book.view_model.CreateAccountView
 
 @Composable
 fun Form(

@@ -1,8 +1,7 @@
-package br.senai.sp.jandira.s_book.model
+package br.senai.sp.jandira.s_book.view_model
 
 import androidx.lifecycle.ViewModel
-import com.google.gson.JsonObject
-import org.json.JSONObject
+import br.senai.sp.jandira.s_book.model.Genero
 
 class UserCategoryViewModel : ViewModel() {
 

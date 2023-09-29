@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -19,14 +18,10 @@ import androidx.navigation.compose.rememberNavController
 import br.senai.sp.jandira.s_book.components.category.components.Button
 import br.senai.sp.jandira.s_book.components.category.components.Header
 import br.senai.sp.jandira.s_book.components.category.components.ListCategory
-import br.senai.sp.jandira.s_book.model.CreateAccountView
 import br.senai.sp.jandira.s_book.model.Genero
-import br.senai.sp.jandira.s_book.model.ResetPasswordView
-import br.senai.sp.jandira.s_book.model.UserCategoryViewModel
-import br.senai.sp.jandira.s_book.repository.LoginRepository
+import br.senai.sp.jandira.s_book.view_model.UserCategoryViewModel
 import br.senai.sp.jandira.s_book.repository.UserCategoryRepository
 import kotlinx.coroutines.launch
-import org.json.JSONObject
 
 @Composable
 fun CategoryScreen(

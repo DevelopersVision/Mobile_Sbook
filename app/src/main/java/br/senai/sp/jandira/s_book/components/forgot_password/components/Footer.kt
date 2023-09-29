@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.components.universal.DefaultButtonScreen
-import br.senai.sp.jandira.s_book.model.ResetPasswordView
+import br.senai.sp.jandira.s_book.view_model.ResetPasswordView
 import br.senai.sp.jandira.s_book.repository.ResetPasswordRepository
 import kotlinx.coroutines.launch
 

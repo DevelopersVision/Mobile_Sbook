@@ -10,16 +10,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import br.senai.sp.jandira.s_book.components.create_account.components.Form
 import br.senai.sp.jandira.s_book.components.create_account.components.Header
 import br.senai.sp.jandira.s_book.components.create_account.components.TextContScreen
 import br.senai.sp.jandira.s_book.components.universal.GoogleScreen
 import br.senai.sp.jandira.s_book.components.universal.TextContinueScreen
-import br.senai.sp.jandira.s_book.model.CreateAccountView
+import br.senai.sp.jandira.s_book.view_model.CreateAccountView
 
 
 @Composable

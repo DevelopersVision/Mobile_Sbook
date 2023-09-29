@@ -17,7 +17,7 @@ import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.components.forgot_password.components.Footer
 import br.senai.sp.jandira.s_book.components.forgot_password.components.Form
 import br.senai.sp.jandira.s_book.components.forgot_password.components.Header
-import br.senai.sp.jandira.s_book.model.ResetPasswordView
+import br.senai.sp.jandira.s_book.view_model.ResetPasswordView
 
 @Composable
 fun ForgotPasswordScreen(

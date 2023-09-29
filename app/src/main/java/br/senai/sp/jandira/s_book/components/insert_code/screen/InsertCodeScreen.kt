@@ -11,7 +11,7 @@ import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.components.insert_code.components.Form
 import br.senai.sp.jandira.s_book.components.insert_code.components.Header
-import br.senai.sp.jandira.s_book.model.ResetPasswordView
+import br.senai.sp.jandira.s_book.view_model.ResetPasswordView
 
 @Composable
 fun InsertCode(

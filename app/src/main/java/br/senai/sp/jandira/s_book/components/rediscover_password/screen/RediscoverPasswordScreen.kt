@@ -1,6 +1,5 @@
 package br.senai.sp.jandira.s_book.components.rediscover_password.screen
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
@@ -19,15 +18,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.components.rediscover_password.components.Form
 import br.senai.sp.jandira.s_book.components.rediscover_password.components.Header
 import br.senai.sp.jandira.s_book.components.universal.DefaultButtonScreen
-import br.senai.sp.jandira.s_book.model.CreateAccountView
-import br.senai.sp.jandira.s_book.model.ResetPasswordView
+import br.senai.sp.jandira.s_book.view_model.ResetPasswordView
 import br.senai.sp.jandira.s_book.repository.ChangePasswordRepository
 import kotlinx.coroutines.launch
 
