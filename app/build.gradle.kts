@@ -1,7 +1,6 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    id ("kotlin-kapt") //Kotlin annotation processor tool
 }
 
 android {
@@ -130,9 +129,9 @@ dependencies {
     implementation("androidx.compose.material3:material3:x.y.z")
     implementation ("androidx.compose.material:material:1.4.2")
 
-    /// ROOM DEPENDENCIES (SQLite)
-    implementation ("androidx.room:room-runtime:2.5.2")
-    annotationProcessor ("androidx.room:room-compiler:2.5.2")
-    kapt ("androidx.room:room-compiler:2.5.2")
+//    /// ROOM DEPENDENCIES (SQLite)
+//    implementation ("androidx.room:room-runtime:2.5.2")
+//    annotationProcessor ("androidx.room:room-compiler:2.5.2")
+//    ksp("androidx.room:room-compiler:2.5.2")
 
 }
