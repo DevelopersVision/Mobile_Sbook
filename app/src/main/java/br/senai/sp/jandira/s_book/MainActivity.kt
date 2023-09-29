@@ -80,6 +80,10 @@ class MainActivity : ComponentActivity() {
                             FavoritoScreen()
                         }
 
+                        composable("favorite"){
+                            FavoritoScreen()
+                        }
+
                         // A surface container using the 'background' color from the theme
                         //LoginScreen(lifecycleScope = lifecycleScope)
                         //CreateContScreen(navController = navController)
