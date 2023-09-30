@@ -2,6 +2,7 @@ package br.senai.sp.jandira.s_book.components.create_account_endereco.components
 
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -18,38 +19,43 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.LifecycleCoroutineScope
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.components.universal.DefaultButtonScreen
 import br.senai.sp.jandira.s_book.components.universal.TextBoxScreen
+import br.senai.sp.jandira.s_book.functions.createAccountApp
 import br.senai.sp.jandira.s_book.model.ViaCep
 import br.senai.sp.jandira.s_book.service.RetrofitHelperViaCep
+import br.senai.sp.jandira.s_book.view_model.CreateAccountView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-@Preview(showSystemUi = true)
 @Composable
-fun Form(){
+fun Form(
+    navController: NavController,
+    lifecycleScope: LifecycleCoroutineScope,
+    viewModel: CreateAccountView
+){
+    val context = LocalContext.current
 
-
-
-    var estadoState by remember {
-        mutableStateOf("")
-    }
-
-    var cidadeState by remember {
-        mutableStateOf("")
-    }
-    var logradouroState by remember {
-        mutableStateOf("")
-    }
-    var bairroState by remember {
-        mutableStateOf("")
-    }
+    val nome = viewModel.nome
+    val cpf = viewModel.cpf
+    val dataNascimento = viewModel.dataNascimento
+    val cep = viewModel.cep
+    val email = viewModel.email
+    val senha = viewModel.senha
+    val ufEstado = viewModel.ufEstado
+    val cidade = viewModel.cidade
+    val logradouro = viewModel.logradouro
+    val bairro = viewModel.bairro
 
     var isChecked by remember { mutableStateOf(false) }
 
@@ -61,33 +67,21 @@ fun Form(){
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
 
-        TextBoxScreen(
+        TextBoxScreenEndereco(
             label = "Estado",
-            valor = estadoState,
-            aoMudar = {
-                estadoState = it
-            }
+            valor = ufEstado!!
         )
-        TextBoxScreen(
+        TextBoxScreenEndereco(
             label = "Cidade",
-            valor = cidadeState,
-            aoMudar = {
-                cidadeState = it
-            }
+            valor = cidade!!
         )
-        TextBoxScreen(
+        TextBoxScreenEndereco(
             label = "bairro",
-            valor = bairroState,
-            aoMudar = {
-                bairroState = it
-            }
+            valor = bairro!!
         )
-        TextBoxScreen(
+        TextBoxScreenEndereco(
             label = "Logradouro",
-            valor = logradouroState,
-            aoMudar = {
-                logradouroState = it
-            }
+            valor = logradouro!!
         )
         Row (
             modifier = Modifier
@@ -114,9 +108,25 @@ fun Form(){
             )
         }
         DefaultButtonScreen(text = "Entrar") {
-
+            if(isChecked){
+                createAccountApp(
+                    nome!!, cpf!!, dataNascimento!!, email!!, senha!!, cep!!, ufEstado!!, cidade, bairro, logradouro, navController, lifecycleScope, "category", context
+                )
+            }else{
+                Toast.makeText(context, "Marque que concorda com os termos e politicas", Toast.LENGTH_LONG).show()
+            }
         }
     }
 }
+//nome: String,
+//cpf: String,
+//dataNascimento: String,
+//email: String,
+//senha: String,
+//cep: String,
+//ufEstado: String,
+//cidade: String,
+//bairro: String,
+//logradouro: String,
 
 

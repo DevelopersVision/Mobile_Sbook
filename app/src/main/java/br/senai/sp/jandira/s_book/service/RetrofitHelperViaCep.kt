@@ -13,6 +13,6 @@ object RetrofitHelperViaCep {
             .build()
 
     fun getLocal(): ViaCepService {
-        return RetrofitHelperViaCep.retrofitFactoryViaCep.create(ViaCepService::class.java)
+        return retrofitFactoryViaCep.create(ViaCepService::class.java)
     }
 }

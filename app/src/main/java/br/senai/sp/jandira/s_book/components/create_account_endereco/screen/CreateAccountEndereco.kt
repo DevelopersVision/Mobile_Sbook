@@ -1,5 +1,6 @@
 package br.senai.sp.jandira.s_book.components.create_account_endereco.screen
 
+import android.util.Log
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -8,8 +9,11 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.LifecycleCoroutineScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import br.senai.sp.jandira.s_book.components.create_account_endereco.components.Form
 import br.senai.sp.jandira.s_book.components.create_account.components.Header
 import br.senai.sp.jandira.s_book.components.create_account.components.TextContScreen
@@ -26,6 +30,7 @@ fun CreateAccountEndereco (
     lifecycleScope: LifecycleCoroutineScope,
     viewModel: CreateAccountView
 ) {
+
     androidx.compose.material3.Surface(
         modifier = Modifier
             .fillMaxSize()
@@ -45,7 +50,7 @@ fun CreateAccountEndereco (
             Header()
 
 //            Spacer(modifier = Modifier.height(63.dp))
-            Form()
+            Form(navController, lifecycleScope, viewModel)
 
 //            Spacer(modifier = Modifier.height(53.dp))
             TextContinueScreen()
@@ -60,7 +65,5 @@ fun CreateAccountEndereco (
                 }
             )
         }
-
-
     }
 }

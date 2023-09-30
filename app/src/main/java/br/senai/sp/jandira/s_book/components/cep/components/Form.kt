@@ -16,11 +16,9 @@ import br.senai.sp.jandira.s_book.components.universal.TextBoxScreen
 
 
 @Composable
-fun Form (){
-    var emailState by remember {
-        mutableStateOf("")
-    }
-
+fun Form (
+    cep: String, onCepChange: (String) -> Unit
+){
     Column(
         modifier = Modifier
             .padding(8.dp)
@@ -29,9 +27,9 @@ fun Form (){
     ) {
         TextBoxScreen(
             label = "cep" ,
-            valor = emailState,
+            valor = cep,
             aoMudar = {
-                emailState = it
+                onCepChange(it)
             }
         )
     }

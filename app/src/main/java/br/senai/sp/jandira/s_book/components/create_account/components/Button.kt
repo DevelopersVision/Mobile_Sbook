@@ -42,7 +42,7 @@ fun Button(
             .height(48.dp)
             .background(Color(0xFFDA6C27), shape = RoundedCornerShape(size = 4.dp))
             .padding(start = 40.dp, top = 13.dp)
-            .clickable { onClick },
+            .clickable { onClick() },
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
     ) {

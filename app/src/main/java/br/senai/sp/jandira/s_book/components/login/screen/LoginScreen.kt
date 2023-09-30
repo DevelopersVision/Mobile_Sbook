@@ -26,9 +26,10 @@ import br.senai.sp.jandira.s_book.components.universal.TextNotContScreen
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import br.senai.sp.jandira.s_book.model.UsuarioJSon
+import br.senai.sp.jandira.s_book.functions.dataValidation
+import br.senai.sp.jandira.s_book.functions.saveLogin
 import br.senai.sp.jandira.s_book.repository.LoginRepository
-import com.google.gson.Gson
+import br.senai.sp.jandira.s_book.sqlite_repository.UserRepository
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 
@@ -95,10 +96,25 @@ fun login(email: String, senha: String, lifecycleScope: LifecycleCoroutineScope,
                 val usuarioObject = jsonObject.getJSONObject("usuario")
 
                 val userObject = usuarioObject.getJSONObject("usuario")
+                val enderecoObject = usuarioObject.getJSONObject("endereco")
+
                 val nome = userObject.getString("nome")
+                val token = jsonObject.getString("token")
+                val email = userObject.getString("email")
+                val cep = enderecoObject.getString("cep")
+                val idEndereco = enderecoObject.getInt("id")
 
                 Log.e("LOGIN - SUCESS - 201", "login: ${response.body()}")
                 Toast.makeText(context, "Bem Vindo $nome", Toast.LENGTH_SHORT).show()
+
+//                saveLogin(
+//                    context = context,
+//                    nome = nome,
+//                    token = token,
+//                    email = email,
+//                    cep = cep,
+//                    idEndereco = idEndereco
+//                )
 
                 navController.navigate("navigation_home_bar")
             } else {
@@ -134,10 +150,6 @@ fun login(email: String, senha: String, lifecycleScope: LifecycleCoroutineScope,
         Log.e("LOGIN - ERROR", "login")
         Toast.makeText(context, "EMAIL OU SENHA NÃO INSERIDO CORRETAMENTE", Toast.LENGTH_LONG).show()
     }
-}
-
-fun dataValidation(email: String, senha: String): Boolean {
-    return !(email == "" || email.length > 255 || senha == "")
 }
 
 @Preview(showSystemUi = true)

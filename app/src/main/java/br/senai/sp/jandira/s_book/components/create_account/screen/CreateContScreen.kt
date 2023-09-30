@@ -23,7 +23,6 @@ import br.senai.sp.jandira.s_book.view_model.CreateAccountView
 @Composable
 fun CreateContScreen(
     navController: NavController,
-    lifecycleScope: LifecycleCoroutineScope,
     viewModel: CreateAccountView
 ){
     val context = LocalContext.current
@@ -65,7 +64,7 @@ fun CreateContScreen(
 //            Spacer(modifier = Modifier.height(6.dp))
             TextContScreen(
                 onClick = {
-                    navController.navigate("category")
+                    navController.navigate("login")
                 }
             )
         }

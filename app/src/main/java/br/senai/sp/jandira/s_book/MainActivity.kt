@@ -12,6 +12,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import br.senai.sp.jandira.s_book.components.category.screen.CategoryScreen
+import br.senai.sp.jandira.s_book.components.cep.screen.CepScreen
 import br.senai.sp.jandira.s_book.components.create_account.screen.CreateContScreen
 import br.senai.sp.jandira.s_book.components.create_account_endereco.screen.CreateAccountEndereco
 import br.senai.sp.jandira.s_book.components.favorite.screen.FavoritoScreen
@@ -43,7 +44,7 @@ class MainActivity : ComponentActivity() {
                     val viewModelUserCategory = viewModel<UserCategoryViewModel>()
 
                     NavHost(
-                        navController = navController, startDestination = "favorite"
+                        navController = navController, startDestination = "navigation_home_bar"
                     ){
                         composable("navigation_home_bar") {
                             MainScreen(navController)
@@ -53,7 +54,7 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable("create_account") {
-                            CreateContScreen(navController = navController, lifecycleScope = lifecycleScope, viewModel = viewModelCreateAccount)
+                            CreateContScreen(navController = navController, viewModel = viewModelCreateAccount)
                         }
 
                         composable("create_account_endereco") {
@@ -80,8 +81,8 @@ class MainActivity : ComponentActivity() {
                             FavoritoScreen()
                         }
 
-                        composable("favorite"){
-                            FavoritoScreen()
+                        composable("cep"){
+                            CepScreen(navController = navController, viewModel = viewModelCreateAccount)
                         }
 
                         // A surface container using the 'background' color from the theme

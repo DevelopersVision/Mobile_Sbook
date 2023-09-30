@@ -40,9 +40,8 @@ fun Form(
     var cpfState by remember {
         mutableStateOf("")
     }
-    var dataNascimentoState by remember {
-        mutableStateOf("")
-    }
+
+    var selectedDate by remember { mutableStateOf("") }
 
     var senhaState by remember {
         mutableStateOf("")
@@ -50,12 +49,6 @@ fun Form(
     var redefinirsenhaState by remember {
         mutableStateOf("")
     }
-
-    var data by remember {
-        mutableStateOf("")
-    }
-
-
 
 
     Column(
@@ -86,12 +79,10 @@ fun Form(
                 cpfState = it
             }
         )
-        TextBoxScreen(
-            label = "Data de Nascimento",
-            valor = dataNascimentoState,
-            aoMudar = {
-                dataNascimentoState = it
-            }
+        caixa(
+            context,
+            selectedDate,
+            onDateChange = {selectedDate = it}
         )
         TextFieldPasswordScreen(
             label = "Senha",
@@ -114,7 +105,7 @@ fun Form(
                     nomeState,
                     emailState,
                     cpfState,
-                    dataNascimentoState,
+                    selectedDate,
                     senhaState,
                     redefinirsenhaState,
                     viewModel,
@@ -154,7 +145,7 @@ fun cadastro(
         viewModel.dataNascimento = dataNascimento
         viewModel.senha = senha
 
-        navController.navigate("create_account_endereco")
+        navController.navigate("cep")
     } else {
         Log.e("CADASTRO - ERROR", "CADASTRO_V1: SENHA DIFERENTES")
         Toast.makeText(context, "AS SENHA ESTÃO DIFERENTES", Toast.LENGTH_SHORT).show()

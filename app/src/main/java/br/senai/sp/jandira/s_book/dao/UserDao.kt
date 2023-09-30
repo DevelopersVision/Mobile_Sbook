@@ -11,7 +11,7 @@ import br.senai.sp.jandira.s_book.models_private.User
 interface UserDao {
 
     @Insert
-    fun save(user:User): Int
+    fun save(user:User): Long
 
     @Update
     fun update(user: User): Int
@@ -21,5 +21,8 @@ interface UserDao {
 
     @Query("SELECT * FROM tbl_user WHERE id = :id")
     fun findUserById(id: Int): User
+
+    @Query("SELECT * FROM tbl_user")
+    fun findUsers(): User
 
 }

@@ -14,5 +14,5 @@ import retrofit2.http.Path
 interface ViaCepService {
 
     @GET("{cep}/json")
-    fun getLocal(@Path("cep") id: Int): Call<ViaCep>
+    fun getEndereco(@Path("cep") cep: String): Call<ViaCep>
 }
