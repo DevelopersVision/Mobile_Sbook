@@ -1,5 +1,6 @@
 package br.senai.sp.jandira.s_book.components.perfil.components
 
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
@@ -8,7 +9,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
@@ -17,7 +17,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -35,7 +34,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
@@ -45,6 +43,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.senai.sp.jandira.s_book.R
+import br.senai.sp.jandira.s_book.model.Usuario
+import br.senai.sp.jandira.s_book.model.UsuarioJSon
+import br.senai.sp.jandira.s_book.model.ResponseUsuario
+import br.senai.sp.jandira.s_book.service.RetrofitHelper
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 @Preview(showSystemUi = true)
 @Composable
@@ -54,9 +59,29 @@ fun Header() {
 
     var camera = Icons.Default.AddAPhoto
 
-
-
     var userRating by remember { mutableStateOf(0) }
+
+    var user by remember {
+        mutableStateOf(Usuario(0, "", "", "", "", "", false, "", "", "", "", "", ""))
+    }
+
+    // Cria uma chamada para o EndPoint
+    val call = RetrofitHelper.getUserByIdService().getUsuarioById(2)
+
+    // Executar a chamada
+    call.enqueue(object : Callback<ResponseUsuario> {
+        override fun onResponse(
+            call: Call<ResponseUsuario>,
+            response: Response<ResponseUsuario>
+        ) {
+            Log.e("TAG", "onResponse: ${response.body()}", )
+            user = response.body()?.dados!!
+        }
+
+        override fun onFailure(call: Call<ResponseUsuario>, t: Throwable) {
+
+        }
+    })
 
     Row(
         modifier = Modifier
@@ -129,8 +154,9 @@ fun Header() {
                     verticalArrangement = Arrangement.spacedBy(4.dp, Alignment.Top),
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
+
                     Text(
-                        text = "Thiago Freitas",
+                        text = user.nome,
                         fontSize = 20.sp,
                         fontFamily = FontFamily(Font(R.font.intermedium)),
                         fontWeight = FontWeight(600),
@@ -138,12 +164,13 @@ fun Header() {
                     )
 
                     Text(
-                        text = "Carapicuíba, SP",
+                        text = "${user.cidade}, ${user.estado}",
                         fontSize = 14.sp,
                         fontFamily = FontFamily(Font(R.font.poppinsmedium)),
                         fontWeight = FontWeight(400),
                         color = Color(0xFF565454),
                     )
+
                 }
 
             }

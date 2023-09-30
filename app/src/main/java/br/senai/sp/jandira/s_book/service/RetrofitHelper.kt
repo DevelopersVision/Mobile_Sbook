@@ -4,10 +4,10 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitHelper {
-    //private const val baseurl = "http://localhost:8080"
+    private const val baseurl = "http://192.168.0.29:8080"
 
 
-    private const val baseurl = "https://app-nodejs.cyclic.cloud"
+    //private const val baseurl = "https://app-nodejs.cyclic.cloud"
 
     private val retrofitFactory =
         Retrofit.Builder().
@@ -41,5 +41,9 @@ object RetrofitHelper {
 
     fun getAnunciosFavoritadosService(): AnunciosFavoritadosService{
         return  retrofitFactory.create(AnunciosFavoritadosService::class.java)
+    }
+
+    fun getUserByIdService(): UserService{
+        return  retrofitFactory.create(UserService::class.java)
     }
 }

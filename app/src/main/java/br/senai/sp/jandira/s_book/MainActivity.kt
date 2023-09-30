@@ -19,6 +19,8 @@ import br.senai.sp.jandira.s_book.components.favorite.screen.FavoritoScreen
 import br.senai.sp.jandira.s_book.components.forgot_password.screen.ForgotPasswordScreen
 import br.senai.sp.jandira.s_book.components.insert_code.screen.InsertCode
 import br.senai.sp.jandira.s_book.components.login.screen.LoginScreen
+import br.senai.sp.jandira.s_book.components.perfil.components.Header
+import br.senai.sp.jandira.s_book.components.perfil.screen.PerfilScreen
 import br.senai.sp.jandira.s_book.components.rediscover_password.screen.RediscoverPasswordScreen
 import br.senai.sp.jandira.s_book.view_model.CreateAccountView
 import br.senai.sp.jandira.s_book.view_model.ResetPasswordView
@@ -44,7 +46,7 @@ class MainActivity : ComponentActivity() {
                     val viewModelUserCategory = viewModel<UserCategoryViewModel>()
 
                     NavHost(
-                        navController = navController, startDestination = "navigation_home_bar"
+                        navController = navController, startDestination = "perfil"
                     ){
                         composable("navigation_home_bar") {
                             MainScreen(navController)
@@ -83,6 +85,10 @@ class MainActivity : ComponentActivity() {
 
                         composable("cep"){
                             CepScreen(navController = navController, viewModel = viewModelCreateAccount)
+                        }
+
+                        composable("perfil"){
+                            Header()
                         }
 
 

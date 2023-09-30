@@ -21,6 +21,10 @@ import br.senai.sp.jandira.s_book.components.create_account_endereco.components.
 import br.senai.sp.jandira.s_book.components.universal.TextBoxScreen
 import br.senai.sp.jandira.s_book.components.universal.TextFieldPasswordScreen
 import br.senai.sp.jandira.s_book.view_model.CreateAccountView
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+import java.util.TimeZone
 
 @Composable
 fun Form(
@@ -139,10 +143,13 @@ fun cadastro(
         Log.e("CADASTRO - ERROR", "CADASTRO_V1: REQUIRE FIELDS")
         Toast.makeText(context, "NÃO FOI PREENCHIDO TODOS OS CAMPOS", Toast.LENGTH_SHORT).show()
     } else if (senha == confirmarSenha) {
+
+        val data = dataNascimento.toAmericanDateFormat()
+
         viewModel.nome = nome
         viewModel.email = email
         viewModel.cpf = cpf
-        viewModel.dataNascimento = dataNascimento
+        viewModel.dataNascimento = data
         viewModel.senha = senha
 
         navController.navigate("cep")
@@ -150,4 +157,16 @@ fun cadastro(
         Log.e("CADASTRO - ERROR", "CADASTRO_V1: SENHA DIFERENTES")
         Toast.makeText(context, "AS SENHA ESTÃO DIFERENTES", Toast.LENGTH_SHORT).show()
     }
+}
+
+fun String.toAmericanDateFormat(
+    pattern: String = "yyyy-MM-dd"
+): String {
+    val date = Date(this)
+    val formatter = SimpleDateFormat(
+        pattern, Locale("pt-br")
+    ).apply {
+        timeZone = TimeZone.getTimeZone("GMT")
+    }
+    return formatter.format(date)
 }

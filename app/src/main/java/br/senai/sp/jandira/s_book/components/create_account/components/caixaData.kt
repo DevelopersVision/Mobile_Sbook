@@ -93,7 +93,7 @@ fun caixa(
 }
 
 fun Long.toBrazilianDateFormat(
-    pattern: String = "yyyy-MM-dd"
+    pattern: String = "dd/MM/yyyy" //"yyyy-MM-dd"
 ): String {
     val date = Date(this)
     val formatter = SimpleDateFormat(
