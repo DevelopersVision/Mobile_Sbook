@@ -34,17 +34,6 @@ fun createAccountApp (
         )
         val code = response.code()
 
-        Log.e("TESTE", "createAccountApp: $nome", )
-        Log.e("TESTE", "createAccountApp: $cpf", )
-        Log.e("TESTE", "createAccountApp: $dataNascimento", )
-        Log.e("TESTE", "createAccountApp: $email", )
-        Log.e("TESTE", "createAccountApp: $senha", )
-        Log.e("TESTE", "createAccountApp: $cep", )
-        Log.e("TESTE", "createAccountApp: $ufEstado", )
-        Log.e("TESTE", "createAccountApp: $cidade", )
-        Log.e("TESTE", "createAccountApp: $bairro", )
-        Log.e("TESTE", "createAccountApp: $logradouro", )
-
         Log.e("Response", "createAccountApp: $response", )
         Log.e("ResponseBody", "createAccountApp: ${response.body()}", )
 

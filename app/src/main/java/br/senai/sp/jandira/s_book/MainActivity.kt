@@ -85,17 +85,7 @@ class MainActivity : ComponentActivity() {
                             CepScreen(navController = navController, viewModel = viewModelCreateAccount)
                         }
 
-                        // A surface container using the 'background' color from the theme
-                        //LoginScreen(lifecycleScope = lifecycleScope)
-                        //CreateContScreen(navController = navController)
-                        //CreateAccountEndereco()
-                        //AddressScreen()
-                        //RediscoverPasswordScreen()
-                        //ThanksScreen()
-                        //ForgotPasswordScreen()
-                        //InsertCode()
-                        //CategoryList()
-                        //CategoryScreen()
+
                     }
                 }
             }
