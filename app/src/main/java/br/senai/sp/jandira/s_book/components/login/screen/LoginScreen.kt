@@ -112,6 +112,7 @@ fun login(
                 val token = jsonObject.getString("token")
                 val email = userObject.getString("email")
                 val foto = userObject.getString("foto")
+                val cpf = userObject.getString("cpf")
                 val dataNascimento = userObject.getString("data_nascimento")
                 val cep = enderecoObject.getString("cep")
                 val logradouro = enderecoObject.getString("logradouro")
@@ -122,15 +123,6 @@ fun login(
 
                 Log.e("LOGIN - SUCESS - 201", "login: ${response.body()}")
                 Toast.makeText(context, "Bem Vindo $nome", Toast.LENGTH_SHORT).show()
-
-//                deleteUserSQLite(context = context, 1)
-//                deleteUserSQLite(context = context, 2)
-
-                Log.e(
-                    "Dados", "login: " +
-                        "$id - $nome - $token - $email - $cep - $idEndereco - $senha"  +
-                        "$foto - $dataNascimento - $logradouro - $bairro - $cidade - $ufEstado"
-                )
 
 
                 if (UserRepository(context).findUsers().isEmpty()){
@@ -148,7 +140,8 @@ fun login(
                         bairro = bairro,
                         cidade = cidade,
                         ufEstado = ufEstado,
-                        senha = senha
+                        senha = senha,
+                        cpf = cpf
                     )
 
                     navController.navigate("navigation_home_bar")
@@ -169,7 +162,8 @@ fun login(
                         bairro = bairro,
                         cidade = cidade,
                         ufEstado = ufEstado,
-                        senha = senha
+                        senha = senha,
+                        cpf = cpf
                     )
 
                     navController.navigate("navigation_home_bar")
@@ -197,9 +191,10 @@ fun login(
 
                     400 -> {
                         Log.e("LOGIN - ERROR - 400", "login: ${response.errorBody()?.string()}")
+
                         Toast.makeText(
                             context,
-                            "NÃO FORAM PREENCHIDO TODOS OS CAMPOS OBRIGATÓRIOS",
+                            "A SENHA INFORMADA NÃO É VALIDADA",
                             Toast.LENGTH_LONG
                         ).show()
                     }

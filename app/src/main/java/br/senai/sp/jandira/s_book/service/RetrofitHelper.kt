@@ -4,7 +4,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitHelper {
-    private const val baseurl = "http://192.168.15.35:8080"
+    private const val baseurl = "http://192.168.0.80:8080"
 
 
     //private const val baseurl = "https://app-nodejs.cyclic.cloud"

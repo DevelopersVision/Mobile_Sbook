@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -34,6 +35,8 @@ fun FeedScreen(
     navController: NavController,
     navRotasController: NavController
 ) {
+    val context = LocalContext.current
+
     Surface(
         modifier = Modifier
             .fillMaxSize()
@@ -44,7 +47,7 @@ fun FeedScreen(
             modifier = Modifier
                 .fillMaxWidth()
         ){
-            Header(navController, navRotasController)
+            Header(navController, navRotasController, context)
             EscolhaFazer()
             Spacer(modifier = Modifier.height(16.dp))
             androidx.compose.material.Text(

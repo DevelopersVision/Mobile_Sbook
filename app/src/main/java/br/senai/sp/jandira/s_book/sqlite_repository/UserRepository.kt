@@ -28,4 +28,8 @@ class UserRepository(context: Context) {
         return  db.userDao().delete(id)
     }
 
+    fun deleteAllUser(): Int{
+        return  db.userDao().deleteAll()
+    }
+
 }

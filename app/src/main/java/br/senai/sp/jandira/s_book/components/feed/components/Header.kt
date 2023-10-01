@@ -1,5 +1,6 @@
 package br.senai.sp.jandira.s_book.components.feed.components
 
+import android.content.Context
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
@@ -30,6 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -39,13 +41,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.R
+import br.senai.sp.jandira.s_book.sqlite_repository.UserRepository
 
 @Composable
 fun Header(
     navController: NavController,
-    navRotasController: NavController
+    navRotasController: NavController,
+    context: Context
 ) {
-
 
         Column(
             modifier = Modifier
@@ -91,7 +94,11 @@ fun Header(
 
                         IconButton(
                             onClick = {
-                                navRotasController.navigate("login")
+                                if(UserRepository(context).findUsers().isEmpty()){
+                                    navRotasController.navigate("login")
+                                }else{
+                                    navRotasController.navigate("perfil")
+                                }
                             }
                         ) {
                             Image(

@@ -18,7 +18,8 @@ fun saveLogin (
     bairro: String,
     cidade: String,
     ufEstado: String,
-    senha: String
+    senha: String,
+    cpf: String
 ): Long {
     val newUser = User(
         id = id,
@@ -33,7 +34,8 @@ fun saveLogin (
         bairro = bairro,
         cidade = cidade,
         ufEstado = ufEstado,
-        senha = senha
+        senha = senha,
+        cpf = cpf
     )
 
     return UserRepository(context).save(newUser)

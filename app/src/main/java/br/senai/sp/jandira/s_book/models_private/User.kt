@@ -12,6 +12,7 @@ data class User(
     val senha: String = "",
     val foto: String = "",
     val dataNascimento: String = "",
+    val cpf: String = "",
     val idEndereco: Int = 0,
     val cep: String = "",
     val logradouro: String = "",

@@ -1,5 +1,6 @@
 package br.senai.sp.jandira.s_book.components.perfil.components
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -13,17 +14,40 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.R
+import br.senai.sp.jandira.s_book.models_private.User
+import br.senai.sp.jandira.s_book.sqlite_repository.UserRepository
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+import java.util.TimeZone
 
-@Preview(showSystemUi = true)
 @Composable
-fun Dados() {
+fun Dados(
+    navController: NavController
+) {
+
+    val context = LocalContext.current
+
+    val dadaUser = UserRepository(context).findUsers()
+
+    var array = User()
+
+    var data = ""
+
+    if(dadaUser.isNotEmpty()){
+        array = dadaUser[0]
+
+        data = converterData(array.dataNascimento)
+    }
 
     Column(
         modifier = Modifier
@@ -48,7 +72,7 @@ fun Dados() {
 
                 )
             Text(
-                text = "tifreitas10@gmail.com",
+                text = array.email,
                 fontSize = 16.sp,
                 fontFamily = FontFamily(Font(R.font.intermedium)),
                 fontWeight = FontWeight(600),
@@ -80,7 +104,7 @@ fun Dados() {
 
                 )
             Text(
-                text = "064.234.655-08",
+                text = array.cpf,
                 fontSize = 16.sp,
                 fontFamily = FontFamily(Font(R.font.intermedium)),
                 fontWeight = FontWeight(600),
@@ -112,7 +136,7 @@ fun Dados() {
 
                 )
             Text(
-                text = "14/06/2006",
+                text = data,
                 fontSize = 16.sp,
                 fontFamily = FontFamily(Font(R.font.intermedium)),
                 fontWeight = FontWeight(600),
@@ -144,7 +168,7 @@ fun Dados() {
 
                 )
             Text(
-                text = "06310-410",
+                text = array.cep,
                 fontSize = 16.sp,
                 fontFamily = FontFamily(Font(R.font.intermedium)),
                 fontWeight = FontWeight(600),
@@ -162,6 +186,15 @@ fun Dados() {
         Spacer(modifier = Modifier.height(12.dp))
         ButtonExit(
             text = "Sair"
-        ) {}
+        ) {
+            UserRepository(context).deleteUser(array.id.toInt())
+
+            navController.navigate("navigation_home_bar")
+        }
     }
+}
+
+fun converterData(data: String): String {
+    // Substituir o caractere de hífen pelo caractere de barra
+    return data.replace("-", "/")
 }
