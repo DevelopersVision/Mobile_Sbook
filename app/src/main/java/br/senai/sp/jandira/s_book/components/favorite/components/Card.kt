@@ -56,7 +56,8 @@ fun Card(
     nome_livro: String,
     ano_lancamento: Int,
     autor: String,
-    preco: Double,
+    tipo_anuncio: String,
+    preco: Double?,
     foto: String,
     onClick: () -> Unit
 ) {
@@ -122,17 +123,44 @@ fun Card(
                     verticalAlignment = Alignment.CenterVertically,
 
                     ) {
-                    Text(
-                        text = "R$" + preco,
-                        fontSize = 24.sp,
-                        fontFamily = FontFamily(
-                            Font(
-                                R.font.poppinsmedium
-                            )
-                        ),
-                        fontWeight = FontWeight(600),
-                        color = Color(0xFF000000),
-                    )
+                    if(tipo_anuncio == "Doação"){
+                        Text(
+                            text = "Doa-se",
+                            fontSize = 24.sp,
+                            fontFamily = FontFamily(
+                                Font(
+                                    R.font.poppinsmedium
+                                )
+                            ),
+                            fontWeight = FontWeight(600),
+                            color = Color(0xFF000000),
+                        )
+                    } else if (tipo_anuncio == "Troca"){
+                        Text(
+                            text = "Troca-se",
+                            fontSize = 24.sp,
+                            fontFamily = FontFamily(
+                                Font(
+                                    R.font.poppinsmedium
+                                )
+                            ),
+                            fontWeight = FontWeight(600),
+                            color = Color(0xFF000000),
+                        )
+                    } else{
+                        Text(
+                            text = "R$" + preco,
+                            fontSize = 24.sp,
+                            fontFamily = FontFamily(
+                                Font(
+                                    R.font.poppinsmedium
+                                )
+                            ),
+                            fontWeight = FontWeight(600),
+                            color = Color(0xFF000000),
+                        )
+                    }
+
                     IconButton(
                         modifier = Modifier
                             .width(100.dp)

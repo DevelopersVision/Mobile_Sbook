@@ -47,7 +47,7 @@ fun FavoritoScreen() {
     // Cria uma chamada para o EndPoint
     val call = RetrofitHelper.getAnunciosFavoritadosService().getAnunciosFavoritosByUsuarioId(3)
 
-    Log.e("Call", "${call}")
+    Log.e("API Call", "Antes da chamada da API: ${listAnuncios}")
 
     // Executar a chamada
     call.enqueue(object : Callback<AnunciosFavoritosBaseResponse> {
@@ -56,15 +56,12 @@ fun FavoritoScreen() {
             response: Response<AnunciosFavoritosBaseResponse>
         ) {
             listAnuncios = response.body()!!.anuncios
-            Log.e("ListaAAAAAAAAANUNCIOS", "${response}")
-            Log.e("ListaBOOOOOOOOODYY", "${response.body()}")
-            Log.e("AAAAAAAAAAAAAAAA", "${listAnuncios}")
 
         }
 
 
         override fun onFailure(call: Call<AnunciosFavoritosBaseResponse>, t: Throwable) {
-
+            Log.d("API Call", "Depois da chamada da API: ${listAnuncios}")
         }
     })
 
@@ -88,8 +85,9 @@ fun FavoritoScreen() {
                 Card(
                     nome_livro = item.anuncio.nome,
                     ano_lancamento = item.anuncio.ano_lancamento,
-                    foto = item.foto.foto,
-                    autor = item.autores.nome,
+                    foto = item.foto[0].foto,
+                    tipo_anuncio = item.tipo_anuncio[0].tipo,
+                    autor = item.autores[0].nome,
                     preco = item.anuncio.preco,
                     onClick = {}
                 )

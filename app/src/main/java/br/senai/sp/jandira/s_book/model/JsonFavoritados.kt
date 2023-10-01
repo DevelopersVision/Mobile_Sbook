@@ -6,8 +6,8 @@ data class JsonFavoritados(
     val endereco: Endereco,
     val estado_livro: EstadoLivro,
     val editora: Editora,
-    val foto: Foto,
-    val generos: Genero,
-    val tipo_anuncio: TipoAnuncio,
-    val autores: Autores
+    val foto: List<Foto>,
+    val generos: List<Genero>,
+    val tipo_anuncio: List<TipoAnuncio>,
+    val autores: List<Autores>
 )

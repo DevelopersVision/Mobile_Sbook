@@ -13,6 +13,7 @@ dependencyResolutionManagement {
     }
 }
 
+
 rootProject.name = "S-BOOK"
 include(":app")
  

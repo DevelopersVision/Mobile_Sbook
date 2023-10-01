@@ -7,7 +7,7 @@ data class Anuncio(
     val data_criacao: String,
     val status_anuncio: Boolean,
     val edicao: String,
-    val preco: Double,
+    val preco: Double?,
     val descricao: String,
     val numero_paginas: Int,
     val anunciante: Int

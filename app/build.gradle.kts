@@ -25,6 +25,7 @@ android {
     }
 
     buildTypes {
+
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -59,6 +60,8 @@ android {
 tasks.withType(type = KspTaskJvm::class) {
     kotlinOptions.jvmTarget = JavaVersion.VERSION_1_8.toString()
 }
+
+
 
 dependencies {
 
