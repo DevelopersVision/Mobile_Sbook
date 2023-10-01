@@ -46,7 +46,7 @@ class MainActivity : ComponentActivity() {
                     val viewModelUserCategory = viewModel<UserCategoryViewModel>()
 
                     NavHost(
-                        navController = navController, startDestination = "perfil"
+                        navController = navController, startDestination = "navigation_home_bar"
                     ){
                         composable("navigation_home_bar") {
                             MainScreen(navController)

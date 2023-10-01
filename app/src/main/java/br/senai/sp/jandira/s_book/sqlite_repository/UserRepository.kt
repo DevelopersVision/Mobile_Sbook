@@ -12,15 +12,20 @@ class UserRepository(context: Context) {
         return db.userDao().save(user)
     }
 
+    fun update(user: User): Long{
+        return db.userDao().update(user).toLong()
+    }
+
     fun findUserByEmail(id: Int): User{
         return db.userDao().findUserById(id)
     }
 
-    fun findUsers(): User{
+    fun findUsers(): List<User> {
         return db.userDao().findUsers()
     }
 
-    fun deleteUser(user: User): Int{
-        return  db.userDao().delete(user)
+    fun deleteUser(id: Int): Int{
+        return  db.userDao().delete(id)
     }
+
 }

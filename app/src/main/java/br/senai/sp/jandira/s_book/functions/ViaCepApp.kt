@@ -23,14 +23,16 @@ fun pegarCEP(cep: String, navController: NavController, rota: String, viewModel:
 
                 val response = response.body()
 
-                viewModel.cep = response?.cep
-                viewModel.bairro = response?.bairro
-                viewModel.ufEstado = response?.uf
-                viewModel.cidade = response?.localidade
-                viewModel.logradouro = response?.logradouro
+                if(response != null){
+                    viewModel.cep = response.cep
+                    viewModel.bairro = response.bairro
+                    viewModel.ufEstado = response.uf
+                    viewModel.cidade = response.localidade
+                    viewModel.logradouro = response.logradouro
 
-                Log.e("VIACEP - SUCESS - 200", "cep: $response")
-                navController.navigate(rota)
+                    Log.e("VIACEP - SUCESS - 200", "cep: $response")
+                    navController.navigate(rota)
+                }
             }
 
             override fun onFailure(call: Call<ViaCep>, t: Throwable) {

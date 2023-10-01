@@ -4,15 +4,10 @@ import android.content.Context
 import br.senai.sp.jandira.s_book.models_private.User
 import br.senai.sp.jandira.s_book.sqlite_repository.UserRepository
 
-fun saveLogin (
+fun EditUser(
     context: Context,
     nome: String,
-    token: String,
-    email: String,
     cep: String,
-    idEndereco: Int,
-    id: Long,
-    foto: String,
     dataNascimento: String,
     logradouro: String,
     bairro: String,
@@ -20,14 +15,10 @@ fun saveLogin (
     ufEstado: String,
     senha: String
 ): Long {
-    val newUser = User(
-        id = id,
+
+    val userUpdate = User(
         nome = nome,
-        token = token,
-        email = email,
         cep = cep,
-        idEndereco = idEndereco,
-        foto = foto,
         dataNascimento = dataNascimento,
         logradouro = logradouro,
         bairro = bairro,
@@ -36,9 +27,12 @@ fun saveLogin (
         senha = senha
     )
 
-    return UserRepository(context).save(newUser)
+    return UserRepository(context).update(userUpdate)
 }
 
-fun deleteUserSQLite(context: Context, id: Int): Int {
-    return UserRepository(context).deleteUser(id)
-}
+//fun EditData(
+//    context: Context,
+//    token: String,
+//){
+//
+//}

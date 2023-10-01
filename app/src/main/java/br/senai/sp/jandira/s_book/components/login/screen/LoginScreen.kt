@@ -27,6 +27,7 @@ import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import br.senai.sp.jandira.s_book.functions.dataValidation
+import br.senai.sp.jandira.s_book.functions.deleteUserSQLite
 import br.senai.sp.jandira.s_book.functions.saveLogin
 import br.senai.sp.jandira.s_book.repository.LoginRepository
 import br.senai.sp.jandira.s_book.sqlite_repository.UserRepository
@@ -67,7 +68,7 @@ fun LoginScreen(
             )
 
             DefaultButtonScreen(text = "Entrar", onClick = {
-                Log.e("Teste", "LoginScreen: Click" )
+                Log.e("Teste", "LoginScreen: Click")
                 login(emailState, senhaState, lifecycleScope!!, context, navController)
             })
 
@@ -78,7 +79,13 @@ fun LoginScreen(
     }
 }
 
-fun login(email: String, senha: String, lifecycleScope: LifecycleCoroutineScope, context: Context, navController: NavController) {
+fun login(
+    email: String,
+    senha: String,
+    lifecycleScope: LifecycleCoroutineScope,
+    context: Context,
+    navController: NavController
+) {
 
     val validacaoDados = dataValidation(email, senha)
 
@@ -91,32 +98,83 @@ fun login(email: String, senha: String, lifecycleScope: LifecycleCoroutineScope,
 
             if (response.isSuccessful) {
 
-                val jsonString = response.body().toString() // Converta a resposta em uma string JSON
-                val jsonObject = JSONObject(jsonString) // Converta a string JSON em um objeto JSONObject
+                val jsonString =
+                    response.body().toString() // Converta a resposta em uma string JSON
+                val jsonObject =
+                    JSONObject(jsonString) // Converta a string JSON em um objeto JSONObject
                 val usuarioObject = jsonObject.getJSONObject("usuario")
 
                 val userObject = usuarioObject.getJSONObject("usuario")
                 val enderecoObject = usuarioObject.getJSONObject("endereco")
 
+                val id = userObject.getLong("id")
                 val nome = userObject.getString("nome")
                 val token = jsonObject.getString("token")
                 val email = userObject.getString("email")
+                val foto = userObject.getString("foto")
+                val dataNascimento = userObject.getString("data_nascimento")
                 val cep = enderecoObject.getString("cep")
+                val logradouro = enderecoObject.getString("logradouro")
+                val bairro = enderecoObject.getString("bairro")
+                val cidade = enderecoObject.getString("cidade")
+                val ufEstado = enderecoObject.getString("estado")
                 val idEndereco = enderecoObject.getInt("id")
 
                 Log.e("LOGIN - SUCESS - 201", "login: ${response.body()}")
                 Toast.makeText(context, "Bem Vindo $nome", Toast.LENGTH_SHORT).show()
 
-//                saveLogin(
-//                    context = context,
-//                    nome = nome,
-//                    token = token,
-//                    email = email,
-//                    cep = cep,
-//                    idEndereco = idEndereco
-//                )
+//                deleteUserSQLite(context = context, 1)
+//                deleteUserSQLite(context = context, 2)
 
-                navController.navigate("navigation_home_bar")
+                Log.e(
+                    "Dados", "login: " +
+                        "$id - $nome - $token - $email - $cep - $idEndereco - $senha"  +
+                        "$foto - $dataNascimento - $logradouro - $bairro - $cidade - $ufEstado"
+                )
+
+
+                if (UserRepository(context).findUsers().isEmpty()){
+                    saveLogin(
+                        context = context,
+                        id = id,
+                        nome = nome,
+                        token = token,
+                        email = email,
+                        cep = cep,
+                        idEndereco = idEndereco,
+                        foto = foto,
+                        dataNascimento = dataNascimento,
+                        logradouro = logradouro,
+                        bairro = bairro,
+                        cidade = cidade,
+                        ufEstado = ufEstado,
+                        senha = senha
+                    )
+
+                    navController.navigate("navigation_home_bar")
+                }else{
+                    deleteUserSQLite(context = context, id.toInt())
+
+                    saveLogin(
+                        context = context,
+                        id = id,
+                        nome = nome,
+                        token = token,
+                        email = email,
+                        cep = cep,
+                        idEndereco = idEndereco,
+                        foto = foto,
+                        dataNascimento = dataNascimento,
+                        logradouro = logradouro,
+                        bairro = bairro,
+                        cidade = cidade,
+                        ufEstado = ufEstado,
+                        senha = senha
+                    )
+
+                    navController.navigate("navigation_home_bar")
+                }
+
             } else {
 
                 when (code) {
@@ -126,11 +184,17 @@ fun login(email: String, senha: String, lifecycleScope: LifecycleCoroutineScope,
                             context, "O EMAIL OU SENHA INFORMADO NÃO É VALIDADO", Toast.LENGTH_LONG
                         ).show()
                     }
+
                     500 -> {
                         Log.e("LOGIN - ERROR - 500", "login: ${response.errorBody()?.string()}")
-                        Toast.makeText(context, "SERVIDOR INDISPONIVEL NO MOMENTO", Toast.LENGTH_LONG)
+                        Toast.makeText(
+                            context,
+                            "SERVIDOR INDISPONIVEL NO MOMENTO",
+                            Toast.LENGTH_LONG
+                        )
                             .show()
                     }
+
                     400 -> {
                         Log.e("LOGIN - ERROR - 400", "login: ${response.errorBody()?.string()}")
                         Toast.makeText(
@@ -139,6 +203,7 @@ fun login(email: String, senha: String, lifecycleScope: LifecycleCoroutineScope,
                             Toast.LENGTH_LONG
                         ).show()
                     }
+
                     403 -> {
                         Log.e("LOGIN - ERROR - 403", "login: ${response.errorBody()?.string()}")
                         Toast.makeText(context, "A CONTA ESTÁ DESATIVADA", Toast.LENGTH_LONG).show()
@@ -148,7 +213,8 @@ fun login(email: String, senha: String, lifecycleScope: LifecycleCoroutineScope,
         }
     } else {
         Log.e("LOGIN - ERROR", "login")
-        Toast.makeText(context, "EMAIL OU SENHA NÃO INSERIDO CORRETAMENTE", Toast.LENGTH_LONG).show()
+        Toast.makeText(context, "EMAIL OU SENHA NÃO INSERIDO CORRETAMENTE", Toast.LENGTH_LONG)
+            .show()
     }
 }
 

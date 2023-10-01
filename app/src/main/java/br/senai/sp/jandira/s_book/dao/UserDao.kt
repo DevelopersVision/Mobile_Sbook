@@ -16,13 +16,13 @@ interface UserDao {
     @Update
     fun update(user: User): Int
 
-    @Delete
-    fun delete(user: User): Int
+    @Query("DELETE FROM tbl_user WHERE id = :id")
+    fun delete(id: Int): Int
 
     @Query("SELECT * FROM tbl_user WHERE id = :id")
     fun findUserById(id: Int): User
 
     @Query("SELECT * FROM tbl_user")
-    fun findUsers(): User
+    fun findUsers(): List<User>
 
 }

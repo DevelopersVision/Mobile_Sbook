@@ -69,19 +69,19 @@ fun Form(
 
         TextBoxScreenEndereco(
             label = "Estado",
-            valor = ufEstado!!
+            valor = ufEstado
         )
         TextBoxScreenEndereco(
             label = "Cidade",
-            valor = cidade!!
+            valor = cidade
         )
         TextBoxScreenEndereco(
             label = "bairro",
-            valor = bairro!!
+            valor = bairro
         )
         TextBoxScreenEndereco(
             label = "Logradouro",
-            valor = logradouro!!
+            valor = logradouro
         )
         Row (
             modifier = Modifier
