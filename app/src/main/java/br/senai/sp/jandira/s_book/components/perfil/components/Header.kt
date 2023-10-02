@@ -180,7 +180,9 @@ fun Header(
 
             }
             IconButton(
-                onClick = { /*TODO*/ },
+                onClick = {
+                    navController.navigate("EditUser")
+                },
                 modifier = Modifier
                     .height(64.dp)
                     .width(64.dp)

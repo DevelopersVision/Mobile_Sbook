@@ -11,6 +11,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import br.senai.sp.jandira.s_book.components.EditUser.screen.EditUser
 import br.senai.sp.jandira.s_book.components.announceDetail.screen.AnnouceDetail
 import br.senai.sp.jandira.s_book.components.category.screen.CategoryScreen
 import br.senai.sp.jandira.s_book.components.cep.screen.CepScreen
@@ -91,8 +92,13 @@ class MainActivity : ComponentActivity() {
                         composable("perfil"){
                             PerfilScreen(navController)
                         }
+
                         composable("annouceDetail"){
                             AnnouceDetail(navController)
+                        }
+
+                        composable("EditUser"){
+                            EditUser(navController)
                         }
                     }
                 }

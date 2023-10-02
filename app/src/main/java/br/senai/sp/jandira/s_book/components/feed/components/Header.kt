@@ -103,7 +103,7 @@ fun Header(
                         ) {
                             Image(
                                 painter = painterResource(
-                                    id = R.drawable.susanna_profile
+                                    id = R.drawable.padrao
                                 ),
                                 contentDescription = "",
                                 modifier = Modifier
