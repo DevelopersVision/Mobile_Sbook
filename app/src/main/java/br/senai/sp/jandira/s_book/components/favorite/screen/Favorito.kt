@@ -23,6 +23,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.components.favorite.components.Card
 import br.senai.sp.jandira.s_book.components.favorite.components.Header
 import br.senai.sp.jandira.s_book.model.Anuncio
@@ -31,21 +32,29 @@ import br.senai.sp.jandira.s_book.model.Genero
 import br.senai.sp.jandira.s_book.model.JsonFavoritados
 import br.senai.sp.jandira.s_book.repository.CategoryList
 import br.senai.sp.jandira.s_book.service.RetrofitHelper
+import br.senai.sp.jandira.s_book.sqlite_repository.UserRepository
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 @Composable
-fun FavoritoScreen() {
+fun FavoritoScreen(
+    navController: NavController,
+    navRotasController: NavController,
+) {
+
+    val context = LocalContext.current
 
     var listAnuncios by remember{
         mutableStateOf(listOf<JsonFavoritados>())
     }
+    
+    val array = UserRepository(context).findUsers()
 
-
+    val user = array[0]
 
     // Cria uma chamada para o EndPoint
-    val call = RetrofitHelper.getAnunciosFavoritadosService().getAnunciosFavoritosByUsuarioId(3)
+    val call = RetrofitHelper.getAnunciosFavoritadosService().getAnunciosFavoritosByUsuarioId(user.id)
 
     Log.e("API Call", "Antes da chamada da API: ${listAnuncios}")
 
@@ -65,8 +74,6 @@ fun FavoritoScreen() {
         }
     })
 
-
-    val context = LocalContext.current
 
     Column (
         modifier = Modifier
@@ -89,7 +96,9 @@ fun FavoritoScreen() {
                     tipo_anuncio = item.tipo_anuncio[0].tipo,
                     autor = item.autores[0].nome,
                     preco = item.anuncio.preco,
-                    onClick = {}
+                    onClick = {
+                        navRotasController.navigate("annouceDetail")
+                    }
                 )
             }
         }
@@ -98,8 +107,8 @@ fun FavoritoScreen() {
     }
 }
 
-@Composable
-@Preview
-fun FavoritoScreenPreview() {
-    FavoritoScreen()
-}
+//@Composable
+//@Preview
+//fun FavoritoScreenPreview() {
+//    FavoritoScreen()
+//}

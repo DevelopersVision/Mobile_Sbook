@@ -25,7 +25,9 @@ fun ButtonNavGraph(
 
         }
         composable(route = BottomBarScreen.Favorite.route){
-            FavoritoScreen()
+            FavoritoScreen(
+                navController = navController, navRotasController
+            )
         }
         composable(route = BottomBarScreen.Profile.route){
 

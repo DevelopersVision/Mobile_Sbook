@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
@@ -15,20 +16,22 @@ import br.senai.sp.jandira.s_book.components.announceDetail.components.FooterDes
 import br.senai.sp.jandira.s_book.components.announceDetail.components.Header
 
 
+
 @Composable
 fun AnnouceDetail(
     navController: NavController
 ){
     Surface(
         modifier = Modifier
-            .fillMaxSize()
+            .fillMaxSize(),
     ){
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(
                     ScrollState(115)
-                )
+                ),
+            horizontalAlignment = Alignment.CenterHorizontally
         ){
             Header()
             CardInformacao()

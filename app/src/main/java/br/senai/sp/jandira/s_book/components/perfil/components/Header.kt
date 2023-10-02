@@ -42,6 +42,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.R
 import br.senai.sp.jandira.s_book.model.Usuario
 import br.senai.sp.jandira.s_book.model.UsuarioJSon
@@ -53,7 +54,10 @@ import retrofit2.Response
 
 @Preview(showSystemUi = true)
 @Composable
-fun Header() {
+fun Header(
+    navController: NavController,
+    navRotasController: NavController,
+) {
 
     var icons = Icons.Default.ArrowBack
 
@@ -95,7 +99,9 @@ fun Header() {
             verticalAlignment = Alignment.Top,
         ) {
             IconButton(
-                onClick = { /*TODO*/ },
+                onClick = {
+                          navController.navigate("feed")
+                },
                 modifier = Modifier
                     .height(64.dp)
                     .width(64.dp)

@@ -11,6 +11,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import br.senai.sp.jandira.s_book.components.announceDetail.screen.AnnouceDetail
 import br.senai.sp.jandira.s_book.components.category.screen.CategoryScreen
 import br.senai.sp.jandira.s_book.components.cep.screen.CepScreen
 import br.senai.sp.jandira.s_book.components.create_account.screen.CreateContScreen
@@ -80,7 +81,7 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable("favorite"){
-                            FavoritoScreen()
+                            FavoritoScreen(navController = navController, navRotasController = navController)
                         }
 
                         composable("cep"){
@@ -88,10 +89,11 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable("perfil"){
-                            PerfilScreen(navController)
+                            PerfilScreen(navController = navController, navController)
                         }
-
-
+                        composable("annouceDetail"){
+                            AnnouceDetail(navController)
+                        }
                     }
                 }
             }

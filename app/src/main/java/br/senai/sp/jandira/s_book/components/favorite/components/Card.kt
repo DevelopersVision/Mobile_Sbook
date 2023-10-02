@@ -119,7 +119,7 @@ fun Card(
                     )
                 }
                 Row(
-                    horizontalArrangement = Arrangement.spacedBy(36.dp, Alignment.Start),
+                    horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically,
 
                     ) {
@@ -166,7 +166,7 @@ fun Card(
                             .width(100.dp)
                             .height(42.dp),
                         onClick = {
-
+                            onClick
                         }
                     ) {
                         Icon(

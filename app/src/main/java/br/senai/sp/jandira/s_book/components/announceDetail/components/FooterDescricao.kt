@@ -32,6 +32,7 @@ fun FooterDescricao() {
             .height(404.dp)
             .padding(start = 18.dp),
         verticalArrangement = Arrangement.spacedBy(24.dp, Alignment.Top),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
             text = "Descrição",

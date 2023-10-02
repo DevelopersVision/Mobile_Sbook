@@ -46,7 +46,7 @@ fun CardInformacao() {
     Surface(
         modifier = Modifier
             .fillMaxWidth()
-            .height(400.dp)
+            .height(339.dp)
     ) {
         Column(
             modifier = Modifier
