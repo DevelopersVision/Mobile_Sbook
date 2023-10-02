@@ -52,11 +52,10 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-@Preview(showSystemUi = true)
+
 @Composable
 fun Header(
-    navController: NavController,
-    navRotasController: NavController,
+    navController: NavController
 ) {
 
     var icons = Icons.Default.ArrowBack
@@ -100,7 +99,7 @@ fun Header(
         ) {
             IconButton(
                 onClick = {
-                          navController.navigate("feed")
+                         navController.navigate("navigation_home_bar")
                 },
                 modifier = Modifier
                     .height(64.dp)

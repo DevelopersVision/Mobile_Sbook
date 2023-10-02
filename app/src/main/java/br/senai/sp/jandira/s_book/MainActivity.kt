@@ -89,7 +89,7 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable("perfil"){
-                            PerfilScreen(navController = navController, navController)
+                            PerfilScreen(navController)
                         }
                         composable("annouceDetail"){
                             AnnouceDetail(navController)

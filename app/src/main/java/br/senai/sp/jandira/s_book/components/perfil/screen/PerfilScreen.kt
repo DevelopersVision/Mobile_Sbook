@@ -12,8 +12,7 @@ import br.senai.sp.jandira.s_book.components.perfil.components.Header
 
 @Composable
 fun PerfilScreen(
-    navController: NavController,
-    navRotasController: NavController,
+    navController: NavController
 ){
 
     Surface(
@@ -25,7 +24,7 @@ fun PerfilScreen(
                 .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Header(navController = navController, navRotasController)
+            Header(navController = navController)
             Dados(navController)
         }
     }
