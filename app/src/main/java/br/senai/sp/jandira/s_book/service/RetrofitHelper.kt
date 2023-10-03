@@ -50,4 +50,8 @@ object RetrofitHelper {
     fun getUserByIdService(): UserService{
         return  retrofitFactory.create(UserService::class.java)
     }
+
+    fun getAnunciosService(): AnuncisosFeedService{
+        return  retrofitFactory.create(AnuncisosFeedService::class.java)
+    }
 }
