@@ -29,12 +29,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.R
 import br.senai.sp.jandira.s_book.navigation_home_bar.BottomBarScreen
 
-@Preview(showSystemUi = true)
+//@Preview(showSystemUi = true)
 @Composable
-fun Header(){
+fun Header(
+    navController: NavController,
+    navRotasController: NavController
+){
 
     var sair = Icons.Default.ArrowBackIos
 
@@ -57,7 +61,9 @@ fun Header(){
                 modifier = Modifier
                     .width(30.dp)
                     .height(42.dp),
-                onClick = { /*TODO*/ }
+                onClick = {
+                    navRotasController.navigate("navigation_home_bar")
+                }
             ) {
                Icon(
                    imageVector = sair,

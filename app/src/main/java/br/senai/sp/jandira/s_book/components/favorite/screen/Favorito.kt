@@ -79,7 +79,9 @@ fun FavoritoScreen(
         modifier = Modifier
             .fillMaxSize(),
     ){
-        Header()
+        Header(
+            navController = navController, navRotasController = navRotasController
+        )
 
         LazyColumn(
             modifier = Modifier

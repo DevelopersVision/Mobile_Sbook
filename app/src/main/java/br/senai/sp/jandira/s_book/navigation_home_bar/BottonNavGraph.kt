@@ -21,13 +21,13 @@ fun ButtonNavGraph(
         composable(route = BottomBarScreen.Feed.route){
             FeedScreen(navController = navController, navRotasController)
         }
-        composable(route = BottomBarScreen.Anuncio.route){
-
-        }
         composable(route = BottomBarScreen.Favorite.route){
             FavoritoScreen(
                 navController = navController, navRotasController
             )
+        }
+        composable(route = BottomBarScreen.Anuncio.route){
+
         }
         composable(route = BottomBarScreen.Profile.route){
 

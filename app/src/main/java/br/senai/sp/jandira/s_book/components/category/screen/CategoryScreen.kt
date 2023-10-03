@@ -35,13 +35,12 @@ fun CategoryScreen(
             .fillMaxSize()
     ){
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Header()
+            Header( navController = navController)
             ListCategory(navController, lifecycleScope, viewModel)
             Spacer(modifier = Modifier.height(32.dp))
             Button(
                 text = "Seguir  e continuar",
                 onClick = {
-
                     val id_usuario = viewModel.id_usuario
                     val generos_preferidos = viewModel.generos_preferidos
                     if (generos_preferidos != null) {
@@ -49,6 +48,7 @@ fun CategoryScreen(
                             mandarProBanco(id_usuario, generos_preferidos, lifecycleScope)
                         }
                     }
+                    navController
                 }
             )
         }
