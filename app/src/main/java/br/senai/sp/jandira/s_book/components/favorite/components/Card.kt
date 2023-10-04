@@ -47,14 +47,23 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.LifecycleCoroutineScope
 import br.senai.sp.jandira.s_book.R
+import br.senai.sp.jandira.s_book.model.AnunciosFavoritosBaseResponse
 import br.senai.sp.jandira.s_book.model.Autores
+import br.senai.sp.jandira.s_book.model.DesfavoritarBaseResponse
 import br.senai.sp.jandira.s_book.model.Foto
 import br.senai.sp.jandira.s_book.model.Genero
+import br.senai.sp.jandira.s_book.model.JsonFavoritados
+import br.senai.sp.jandira.s_book.model.VerificarFavoritoBaseResponse
+import br.senai.sp.jandira.s_book.models_private.User
 import br.senai.sp.jandira.s_book.navigation_home_bar.BottomBarScreen.Anuncio.icon
 import br.senai.sp.jandira.s_book.repository.AnunciosFavoritadosRepository
+import br.senai.sp.jandira.s_book.service.RetrofitHelper
 import br.senai.sp.jandira.s_book.sqlite_repository.UserRepository
 import coil.compose.AsyncImage
 import kotlinx.coroutines.launch
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 @Composable
 fun Card(
@@ -70,12 +79,19 @@ fun Card(
 ) {
     val context = LocalContext.current
     val array = UserRepository(context).findUsers()
+    var user = User()
 
-    val user = array[0]
+    if (array.isNotEmpty()) {
+        user = array[0]
+    }
 
     val coracao = Icons.Default.Favorite
 
     var isChecked by remember { mutableStateOf(false) }
+
+
+
+
 
     androidx.compose.material.Card(
         modifier = Modifier
@@ -134,7 +150,7 @@ fun Card(
                     verticalAlignment = Alignment.CenterVertically,
 
                     ) {
-                    if(tipo_anuncio == "Doação"){
+                    if (tipo_anuncio == "Doação") {
                         Text(
                             text = "Doa-se",
                             fontSize = 24.sp,
@@ -146,7 +162,7 @@ fun Card(
                             fontWeight = FontWeight(600),
                             color = Color(0xFF000000),
                         )
-                    } else if (tipo_anuncio == "Troca"){
+                    } else if (tipo_anuncio == "Troca") {
                         Text(
                             text = "Troca-se",
                             fontSize = 24.sp,
@@ -158,7 +174,7 @@ fun Card(
                             fontWeight = FontWeight(600),
                             color = Color(0xFF000000),
                         )
-                    } else{
+                    } else {
                         Text(
                             text = "R$" + preco,
                             fontSize = 24.sp,
@@ -177,15 +193,48 @@ fun Card(
                             .width(50.dp)
                             .height(42.dp),
                         onClick = {
-                            if(isChecked == false){
-                                isChecked = true
-                                var cor = 0xFFFFFF
-                                favoritarAnuncio(id_anuncio = id, id_usuario = user.id, lifecycleScope = lifecycleScope)
-                            } else {
-                                isChecked = false
-                                var cor = 0xF60E1C
-                                desfavoritarAnuncio(id_anuncio = id, id_usuario = user.id, lifecycleScope = lifecycleScope)
-                            }
+                                // Cria uma chamada para o EndPoint
+                                val call = RetrofitHelper.getAnunciosFavoritadosService()
+                                    .verificarFavorito(user.id, id)
+
+
+                                // Executar a chamada
+                                call.enqueue(object : Callback<VerificarFavoritoBaseResponse> {
+                                    override fun onResponse(
+                                        call: Call<VerificarFavoritoBaseResponse>,
+                                        response: Response<VerificarFavoritoBaseResponse>
+                                    ) {
+
+                                        Log.e("BODY", "onResponse: ${response.body()}")
+
+                                        if (response.isSuccessful) {
+
+                                            Log.e("Ja ta favoritado bixo burro", "Plim")
+                                            isChecked = false
+                                            var cor = 0xF60E1C
+
+                                            removerDosFavoritos(id_anuncio = id, id_usuario = user.id)
+                                        } else {
+                                            Log.e("MORREU", "morreu")
+                                            Log.e(
+                                                "ErrorBody",
+                                                "burrei: ${response.errorBody()?.string()!!}",
+                                            )
+                                            isChecked = true
+                                            var cor = 0xFFFFFF
+                                            favoritarAnuncio(id_anuncio = id, id_usuario = user.id, lifecycleScope = lifecycleScope)
+                                        }
+                                    }
+
+
+                                    override fun onFailure(
+                                        call: Call<VerificarFavoritoBaseResponse>,
+                                        t: Throwable
+                                    ) {
+                                        Log.d("mudou o nome", "Depois da chamada da API:")
+                                    }
+                                })
+
                         }
                     ) {
                         androidx.compose.material3.Icon(
@@ -200,7 +249,7 @@ fun Card(
 
 }
 
-fun favoritarAnuncio(id_usuario: Long, id_anuncio: Int, lifecycleScope: LifecycleCoroutineScope){
+fun favoritarAnuncio(id_usuario: Long, id_anuncio: Int, lifecycleScope: LifecycleCoroutineScope) {
     val favoriteRepositoy = AnunciosFavoritadosRepository()
 
     lifecycleScope.launch {
@@ -218,20 +267,21 @@ fun favoritarAnuncio(id_usuario: Long, id_anuncio: Int, lifecycleScope: Lifecycl
 
 }
 
-fun desfavoritarAnuncio(id_usuario: Long, id_anuncio: Int, lifecycleScope: LifecycleCoroutineScope){
-    val favoriteRepositoy = AnunciosFavoritadosRepository()
+fun removerDosFavoritos(id_usuario: Long, id_anuncio: Int){
+    val call = RetrofitHelper.getAnunciosFavoritadosService().destavoritarAnuncio(id_usuario, id_anuncio)
 
-    lifecycleScope.launch {
-        val response = favoriteRepositoy.removerAnuncioDosFavoritos(id_usuario, id_anuncio)
-
-        if (response.isSuccessful) {
-            Log.e("registrar nos favoritados", "bodyy: ${response.body()}")
-        } else {
-            val erroBody = response.errorBody()?.string()
-
-            Log.e("registrar os erros", "bodyerrado: $erroBody")
+    call.enqueue(object : Callback<DesfavoritarBaseResponse> {
+        override fun onResponse(
+            call: Call<DesfavoritarBaseResponse>,
+            response: Response<DesfavoritarBaseResponse>
+        ) {
         }
-    }
 
-
+        override fun onFailure(
+            call: Call<DesfavoritarBaseResponse>,
+            t: Throwable
+        ) {
+            Log.d("mudou o nome", "Depois da chamada da API:")
+        }
+    })
 }
