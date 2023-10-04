@@ -51,7 +51,7 @@ class MainActivity : ComponentActivity() {
                         navController = navController, startDestination = "navigation_home_bar"
                     ){
                         composable("navigation_home_bar") {
-                            MainScreen(navController)
+                            MainScreen(navController, lifecycleScope)
                         }
                         composable("login") {
                             LoginScreen(navController = navController, lifecycleScope = lifecycleScope)
@@ -82,7 +82,7 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable("favorite"){
-                            FavoritoScreen(navController = navController, navRotasController = navController)
+                            FavoritoScreen(navController = navController, lifecycleScope = lifecycleScope ,navRotasController = navController)
                         }
 
                         composable("cep"){

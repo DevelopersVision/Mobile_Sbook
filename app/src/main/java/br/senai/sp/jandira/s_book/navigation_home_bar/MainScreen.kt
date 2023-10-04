@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -26,13 +27,18 @@ import androidx.navigation.compose.rememberNavController
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
-    navRotasController: NavController
+    navRotasController: NavController,
+    lifecycleScope: LifecycleCoroutineScope
 ) {
     val navController = rememberNavController()
     Scaffold(
         bottomBar = { BottonBar(navController = navController)}
     ) {
-        ButtonNavGraph(navController = navController, navRotasController = navRotasController)
+        ButtonNavGraph(
+            navController = navController,
+            navRotasController = navRotasController,
+            lifecycleScope = lifecycleScope
+        )
     }
 }
 

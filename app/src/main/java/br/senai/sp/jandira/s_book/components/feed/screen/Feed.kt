@@ -116,7 +116,7 @@ fun FeedScreen(
                         tipo_anuncio = item.tipo_anuncio[0].tipo,
                         autor = item.autores[0].nome,
                         preco = item.anuncio.preco,
-                        lifecycleScope = lifecycleScope,
+                        lifecycleScope = lifecycleScope!!,
                         id = item.anuncio.id,
                         onClick = {
                             navRotasController.navigate("annouceDetail")
