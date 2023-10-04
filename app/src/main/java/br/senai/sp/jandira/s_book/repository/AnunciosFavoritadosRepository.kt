@@ -9,7 +9,7 @@ class AnunciosFavoritadosRepository {
 
     private val apiService = RetrofitHelper.getAnunciosFavoritadosService()
 
-    suspend fun inserirAnuncioAosFavoritos(id_usuario: Int, id_anuncio: Int): Response<JsonObject>{
+    suspend fun inserirAnuncioAosFavoritos(id_usuario: Long, id_anuncio: Int): Response<JsonObject>{
         val requestBody = JsonObject().apply {
             addProperty("id_usuario", id_usuario)
             addProperty("id_anuncio", id_anuncio)
@@ -18,7 +18,7 @@ class AnunciosFavoritadosRepository {
         return apiService.favoritarAnuncio(requestBody)
     }
 
-    suspend fun removerAnuncioDosFavoritos(id_usuario: Int, id_anuncio: Int): Response<JsonObject>{
+    suspend fun removerAnuncioDosFavoritos(id_usuario: Long, id_anuncio: Int): Response<JsonObject>{
         val requestBody = JsonObject().apply {
             addProperty("id_usuario", id_usuario)
             addProperty("id_anuncio", id_anuncio)

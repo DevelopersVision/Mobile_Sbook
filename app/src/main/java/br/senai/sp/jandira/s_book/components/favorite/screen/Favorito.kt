@@ -23,6 +23,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.components.favorite.components.Card
 import br.senai.sp.jandira.s_book.components.favorite.components.Header
@@ -41,6 +42,7 @@ import retrofit2.Response
 fun FavoritoScreen(
     navController: NavController,
     navRotasController: NavController,
+    lifecycleScope: LifecycleCoroutineScope?
 ) {
 
     val context = LocalContext.current
@@ -98,6 +100,8 @@ fun FavoritoScreen(
                     tipo_anuncio = item.tipo_anuncio[0].tipo,
                     autor = item.autores[0].nome,
                     preco = item.anuncio.preco,
+                    lifecycleScope = lifecycleScope ,
+                    id = item.anuncio.id,
                     onClick = {
                         navRotasController.navigate("annouceDetail")
                     }

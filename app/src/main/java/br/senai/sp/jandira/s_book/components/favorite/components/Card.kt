@@ -37,6 +37,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -44,23 +45,33 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.LifecycleCoroutineScope
 import br.senai.sp.jandira.s_book.R
 import br.senai.sp.jandira.s_book.model.Autores
 import br.senai.sp.jandira.s_book.model.Foto
 import br.senai.sp.jandira.s_book.model.Genero
 import br.senai.sp.jandira.s_book.navigation_home_bar.BottomBarScreen.Anuncio.icon
+import br.senai.sp.jandira.s_book.repository.AnunciosFavoritadosRepository
+import br.senai.sp.jandira.s_book.sqlite_repository.UserRepository
 import coil.compose.AsyncImage
+import kotlinx.coroutines.launch
 
 @Composable
 fun Card(
+    id: Int,
     nome_livro: String,
     ano_lancamento: Int,
     autor: String,
     tipo_anuncio: String,
     preco: Double?,
     foto: String,
+    lifecycleScope: LifecycleCoroutineScope,
     onClick: () -> Unit
 ) {
+    val context = LocalContext.current
+    val array = UserRepository(context).findUsers()
+
+    val user = array[0]
 
     val coracao = Icons.Default.Favorite
 
@@ -163,21 +174,64 @@ fun Card(
 
                     IconButton(
                         modifier = Modifier
-                            .width(100.dp)
+                            .width(50.dp)
                             .height(42.dp),
                         onClick = {
-                            onClick
+                            if(isChecked == false){
+                                isChecked = true
+                                var cor = 0xFFFFFF
+                                favoritarAnuncio(id_anuncio = id, id_usuario = user.id, lifecycleScope = lifecycleScope)
+                            } else {
+                                isChecked = false
+                                var cor = 0xF60E1C
+                                desfavoritarAnuncio(id_anuncio = id, id_usuario = user.id, lifecycleScope = lifecycleScope)
+                            }
                         }
                     ) {
-                        Icon(
-                            imageVector = coracao ,
-                            contentDescription = "",
-                            tint = Color(207, 22, 22, 255)
+                        androidx.compose.material3.Icon(
+                            imageVector = coracao,
+                            contentDescription = ""
                         )
                     }
                 }
             }
         }
     }
+
+}
+
+fun favoritarAnuncio(id_usuario: Long, id_anuncio: Int, lifecycleScope: LifecycleCoroutineScope){
+    val favoriteRepositoy = AnunciosFavoritadosRepository()
+
+    lifecycleScope.launch {
+        val response = favoriteRepositoy.inserirAnuncioAosFavoritos(id_usuario, id_anuncio)
+
+        if (response.isSuccessful) {
+            Log.e("registrar nos favoritados", "bodyy: ${response.body()}")
+        } else {
+            val erroBody = response.errorBody()?.string()
+
+            Log.e("registrar os erros", "bodyerrado: $erroBody")
+        }
+    }
+
+
+}
+
+fun desfavoritarAnuncio(id_usuario: Long, id_anuncio: Int, lifecycleScope: LifecycleCoroutineScope){
+    val favoriteRepositoy = AnunciosFavoritadosRepository()
+
+    lifecycleScope.launch {
+        val response = favoriteRepositoy.removerAnuncioDosFavoritos(id_usuario, id_anuncio)
+
+        if (response.isSuccessful) {
+            Log.e("registrar nos favoritados", "bodyy: ${response.body()}")
+        } else {
+            val erroBody = response.errorBody()?.string()
+
+            Log.e("registrar os erros", "bodyerrado: $erroBody")
+        }
+    }
+
 
 }

@@ -29,6 +29,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import br.senai.sp.jandira.s_book.R
@@ -40,7 +41,9 @@ import br.senai.sp.jandira.s_book.model.AnunciosBaseResponse
 import br.senai.sp.jandira.s_book.model.AnunciosFavoritosBaseResponse
 import br.senai.sp.jandira.s_book.model.JsonAnuncios
 import br.senai.sp.jandira.s_book.model.JsonFavoritados
+import br.senai.sp.jandira.s_book.repository.AnunciosFavoritadosRepository
 import br.senai.sp.jandira.s_book.service.RetrofitHelper
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -48,7 +51,8 @@ import retrofit2.Response
 @Composable
 fun FeedScreen(
     navController: NavController,
-    navRotasController: NavController
+    navRotasController: NavController,
+    lifecycleScope: LifecycleCoroutineScope?
 ) {
     val context = LocalContext.current
 
@@ -112,6 +116,8 @@ fun FeedScreen(
                         tipo_anuncio = item.tipo_anuncio[0].tipo,
                         autor = item.autores[0].nome,
                         preco = item.anuncio.preco,
+                        lifecycleScope = lifecycleScope,
+                        id = item.anuncio.id,
                         onClick = {
                             navRotasController.navigate("annouceDetail")
                         }
@@ -125,10 +131,3 @@ fun FeedScreen(
     }
 }
 
-@Composable
-@Preview
-fun HomeScreenPreview() {
-    val navController = rememberNavController()
-
-    FeedScreen(navController = navController, navController)
-}
