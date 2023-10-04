@@ -41,13 +41,13 @@ fun  GoogleScreen(){
                 .height(42.dp)
         ) {
             Row(
-                horizontalArrangement = Arrangement.spacedBy(22.dp, Alignment.CenterHorizontally),
+                horizontalArrangement = Arrangement.spacedBy(18.dp, Alignment.CenterHorizontally),
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
                     . fillMaxWidth(),
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.search),
+                    painter = painterResource(id = R.drawable.google),
                     contentDescription = "image description",
                     contentScale = ContentScale.FillBounds,
                     modifier = Modifier.size(32.dp)

@@ -103,7 +103,7 @@ fun Form(
             }
         )
         Button(
-            text = "Continar",
+            text = "Continuar",
             onClick = {
                 cadastro(
                     nomeState,

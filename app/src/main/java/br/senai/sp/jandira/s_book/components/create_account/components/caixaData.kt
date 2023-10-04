@@ -26,6 +26,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import br.senai.sp.jandira.s_book.R
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -69,12 +70,10 @@ fun caixa(
             DatePicker(state = datePickerState)
         }
     }
-
     OutlinedTextField(
         value = selectedDate,
         onValueChange = { },
         modifier = Modifier
-            .padding(8.dp)
             .width(300.dp)
             .onFocusEvent {
                 if (it.isFocused) {
@@ -82,7 +81,12 @@ fun caixa(
                 }
             },
         label = {
-            Text("Data de Nascimento")
+            Text(
+                "Data de Nascimento",
+                fontSize = 12.sp,
+                color = Color(159, 152, 152, 255)
+                )
+
         },
         readOnly = true,
         colors = TextFieldDefaults.outlinedTextFieldColors(

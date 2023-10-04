@@ -7,11 +7,13 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -31,47 +33,33 @@ fun Button(
     text: String,
     onClick: () -> Unit
 ) {
-    Row(
+    androidx.compose.material3.Button(
+        onClick = { /*TODO*/ },
         modifier = Modifier
-            .shadow(
-                elevation = 4.dp,
-                spotColor = Color(0x40000000),
-                ambientColor = Color(0x40000000)
-            )
             .width(300.dp)
-            .height(48.dp)
-            .background(Color(0xFFDA6C27), shape = RoundedCornerShape(size = 4.dp))
-            .padding(start = 40.dp, top = 13.dp)
-            .clickable { onClick() },
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically,
+            .height(48.dp),
+        shape = RoundedCornerShape(4.dp),
+        colors = ButtonDefaults.buttonColors(Color(218, 108, 39, 255)),
     ) {
-        Box(
-            modifier = Modifier
-                .fillMaxHeight()
-                .width(150.dp)
-        ){
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier.fillMaxWidth()
+        ) {
             Text(
                 text = text,
                 style = TextStyle(
                     fontSize = 16.sp,
                     fontWeight = FontWeight(700),
-                    color = Color(0xFFFFFFFF),
+                    color = Color(0xFFFFFFFF)
                 )
+
             )
-        }
-        Box(
-            modifier = Modifier
-                .fillMaxHeight()
-                .width(100.dp)
-        ){
             Image(
                 painter = painterResource(id = R.drawable.vector),
                 contentDescription = null,
-                modifier = Modifier.size(21.dp)
+                modifier = Modifier.size(24.dp)
             )
         }
-
     }
 
 
