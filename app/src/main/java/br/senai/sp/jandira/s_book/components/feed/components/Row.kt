@@ -47,19 +47,19 @@ fun Rowa() {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(250.dp)
+                .height(255.dp)
         ) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(250.dp),
+                    .height(255.dp),
                 horizontalArrangement = Arrangement.spacedBy(16.dp, Alignment.Start),
                 verticalAlignment = Alignment.Top,
             ) {
                 Column(
                     modifier = Modifier
                         .width(132.dp)
-                        .height(235.dp),
+                        .height(255.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.Top),
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {

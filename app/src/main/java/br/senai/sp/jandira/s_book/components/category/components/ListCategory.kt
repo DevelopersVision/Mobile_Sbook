@@ -149,7 +149,6 @@ fun FavoriteCollectionsGrid(
 
             }
         }
-        viewModel.id_usuario = 2
         viewModel.generos_preferidos = arrayGeneros
     }
 }

@@ -3,6 +3,7 @@ package br.senai.sp.jandira.s_book.components.feed.components
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -37,91 +38,84 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.senai.sp.jandira.s_book.R
+import coil.compose.AsyncImage
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview(showSystemUi = true)
 @Composable
-fun AnunciosProximos() {
+fun AnunciosProximos(
+    id: Int,
+    nome_livro: String,
+    ano_lancamento: Int,
+    autor: String,
+    tipo_anuncio: String,
+    preco: Double?,
+    foto: String,
+) {
 
     val coracao = Icons.Default.FavoriteBorder
 
     var isChecked by remember { mutableStateOf(false) }
 
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(280.dp),
-        verticalArrangement = Arrangement.spacedBy(15.dp, Alignment.Top),
-    ) {
-        Row(
+        Box(
             modifier = Modifier
-                .fillMaxWidth()
+                .width(156.dp)
                 .height(260.dp),
-            horizontalArrangement = Arrangement.SpaceAround
         ) {
-
-            Card(
+            Column(
                 modifier = Modifier
                     .width(156.dp)
-                    .height(260.dp),
-                onClick = { /*TODO*/ }
+                    .height(260.dp)
+                    .background(
+                        color =
+                        Color(0xFFFFFFFF)
+                    ),
+                verticalArrangement = Arrangement.SpaceBetween
             ) {
                 Column(
                     modifier = Modifier
-                        .width(156.dp)
-                        .height(260.dp)
-                        .background(
-                            color =
-                            Color(0xFFFFFFFF)
-                        ),
-                    verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.Top)
+                        .width(156.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Column(
+                    AsyncImage(
+                        model = "${foto}",
+                        contentDescription = "",
+                        contentScale = ContentScale.Crop,
                         modifier = Modifier
-                            .width(156.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally
+                            .width(96.dp)
+                            .height(147.dp)
+                            .padding(top = 12.dp)
+                    )
+
+                }
+                Text(
+                    modifier = Modifier
+                        .padding(start = 12.dp),
+                    text = "${nome_livro}",
+                    fontSize = 12.sp,
+                    fontFamily = FontFamily(Font(R.font.poppinsmedium)),
+                    fontWeight = FontWeight(400),
+                    color = Color(0xFF000000),
+                )
+                Text(
+                    modifier = Modifier
+                        .padding(start = 12.dp),
+                    text = "${autor}",
+                    fontSize = 10.sp,
+                    fontFamily = FontFamily(Font(R.font.intermedium)),
+                    fontWeight = FontWeight(600),
+                    color = Color(0xFF9F9898),
+                )
+                Row(
+                    modifier = Modifier
+                        .padding(start = 12.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically,
+
                     ) {
-                        Image(
-                            painter = painterResource(
-                                id = R.drawable.diario
-                            ),
-                            contentDescription = "",
-                            contentScale = ContentScale.Crop,
-                            modifier = Modifier
-                                .width(96.dp)
-                                .height(147.dp)
-                                .padding(top = 12.dp)
-                        )
-
-                    }
-                    Text(
-                        modifier = Modifier
-                            .padding(start = 12.dp),
-                        text = "Diário de um \nBanana",
-                        fontSize = 12.sp,
-                        fontFamily = FontFamily(Font(R.font.poppinsmedium)),
-                        fontWeight = FontWeight(400),
-                        color = Color(0xFF000000),
-                    )
-                    Text(
-                        modifier = Modifier
-                            .padding(start = 12.dp),
-                        text = "J.K Rowling | Abril 2009",
-                        fontSize = 10.sp,
-                        fontFamily = FontFamily(Font(R.font.intermedium)),
-                        fontWeight = FontWeight(600),
-                        color = Color(0xFF9F9898),
-                    )
-                    Row(
-                        modifier = Modifier
-                            .padding(start = 12.dp),
-                        horizontalArrangement = Arrangement.spacedBy(13.dp, Alignment.Start),
-                        verticalAlignment = Alignment.CenterVertically,
-
-                        ) {
+                    if (tipo_anuncio == "Doação") {
                         androidx.compose.material3.Text(
-                            text = "R$ 34,00",
-                            fontSize = 12.sp,
+                            text = "Doa-se",
+                            fontSize = 24.sp,
                             fontFamily = FontFamily(
                                 Font(
                                     R.font.poppinsmedium
@@ -130,94 +124,10 @@ fun AnunciosProximos() {
                             fontWeight = FontWeight(600),
                             color = Color(0xFF000000),
                         )
-                        IconButton(
-                            modifier = Modifier
-                                .width(50.dp)
-                                .height(42.dp),
-                            onClick = {
-                                if(isChecked == false){
-                                    isChecked = true
-                                    var cor = 0xFFFFFF
-                                } else {
-                                    isChecked = false
-                                    var cor = 0xF60E1C
-                                }
-                            }
-                        ) {
-                            androidx.compose.material3.Icon(
-                                imageVector = coracao,
-                                contentDescription = ""
-                            )
-                        }
-                    }
-                }
-
-            }
-
-            // Segundo Card
-
-            Card(
-                modifier = Modifier
-                    .width(156.dp)
-                    .height(260.dp),
-                onClick = { /*TODO*/ }
-            ) {
-                Column(
-                    modifier = Modifier
-                        .width(156.dp)
-                        .height(260.dp)
-                        .background(
-                            color =
-                            Color(0xFFFFFFFF)
-                        ),
-                    verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.Top)
-                ) {
-                    Column(
-                        modifier = Modifier
-                            .width(156.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Image(
-                            painter = painterResource(
-                                id = R.drawable.diario
-                            ),
-                            contentDescription = "",
-                            contentScale = ContentScale.Crop,
-                            modifier = Modifier
-                                .width(96.dp)
-                                .height(147.dp)
-                                .padding(top = 12.dp)
-                        )
-
-                    }
-                    Text(
-                        modifier = Modifier
-                            .padding(start = 12.dp),
-                        text = "Diário de um \nBanana",
-                        fontSize = 12.sp,
-                        fontFamily = FontFamily(Font(R.font.poppinsmedium)),
-                        fontWeight = FontWeight(400),
-                        color = Color(0xFF000000),
-                    )
-                    Text(
-                        modifier = Modifier
-                            .padding(start = 12.dp),
-                        text = "J.K Rowling | Abril 2009",
-                        fontSize = 10.sp,
-                        fontFamily = FontFamily(Font(R.font.intermedium)),
-                        fontWeight = FontWeight(600),
-                        color = Color(0xFF9F9898),
-                    )
-                    Row(
-                        modifier = Modifier
-                            .padding(start = 12.dp),
-                        horizontalArrangement = Arrangement.spacedBy(13.dp, Alignment.Start),
-                        verticalAlignment = Alignment.CenterVertically,
-
-                        ) {
+                    } else if (tipo_anuncio == "Troca") {
                         androidx.compose.material3.Text(
-                            text = "R$ 34,00",
-                            fontSize = 12.sp,
+                            text = "Troca-se",
+                            fontSize = 20.sp,
                             fontFamily = FontFamily(
                                 Font(
                                     R.font.poppinsmedium
@@ -226,29 +136,39 @@ fun AnunciosProximos() {
                             fontWeight = FontWeight(600),
                             color = Color(0xFF000000),
                         )
-                        IconButton(
-                            modifier = Modifier
-                                .width(50.dp)
-                                .height(42.dp),
-                            onClick = {
-                                if(isChecked == false){
-                                    isChecked = true
-                                    var cor = 0xFFFFFF
-                                } else {
-                                    isChecked = false
-                                    var cor = 0xF60E1C
-                                }
+                    } else {
+                        androidx.compose.material3.Text(
+                            text = "R$" + preco,
+                            fontSize = 20.sp,
+                            fontFamily = FontFamily(
+                                Font(
+                                    R.font.poppinsmedium
+                                )
+                            ),
+                            fontWeight = FontWeight(600),
+                            color = Color(0xFF000000),
+                        )
+                    }
+                    IconButton(
+                        modifier = Modifier
+                            .width(50.dp)
+                            .height(42.dp),
+                        onClick = {
+                            if (isChecked == false) {
+                                isChecked = true
+                                var cor = 0xFFFFFF
+                            } else {
+                                isChecked = false
+                                var cor = 0xF60E1C
                             }
-                        ) {
-                            androidx.compose.material3.Icon(
-                                imageVector = coracao,
-                                contentDescription = ""
-                            )
                         }
+                    ) {
+                        androidx.compose.material3.Icon(
+                            imageVector = coracao,
+                            contentDescription = ""
+                        )
                     }
                 }
-
             }
         }
     }
-}
