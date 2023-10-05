@@ -42,13 +42,15 @@ fun CategoryScreen(
                 text = "Seguir  e continuar",
                 onClick = {
                     val id_usuario = viewModel.id_usuario
+
+                    Log.e("idUsuario", "CategoryScreen: $id_usuario", )
                     val generos_preferidos = viewModel.generos_preferidos
                     if (generos_preferidos != null) {
                         if (lifecycleScope != null) {
                             mandarProBanco(id_usuario, generos_preferidos, lifecycleScope)
                         }
                     }
-                    navController
+                    navController.navigate("login")
                 }
             )
         }
@@ -66,7 +68,9 @@ fun mandarProBanco(id_usuario: Int, generos_preferidos: List<Genero>, lifecycleS
         Log.e("Response", "mandarProBanco: $response", )
         Log.e("ResponseBidy", "mandarProBanco: ${response.body()}", )
 
+
         if (response.isSuccessful) {
+
             Log.e("registrar as categorias do usuario", "userCategory: ${response.body()}")
         } else {
             val erroBody = response.errorBody()?.string()

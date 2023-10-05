@@ -148,6 +148,10 @@ dependencies {
     annotationProcessor ("androidx.room:room-compiler:2.5.2")
     ksp("androidx.room:room-compiler:2.5.2")
 
+    // Web tortura
+    implementation("io.ktor:ktor-client-android:1.7.4")
+    implementation("io.ktor:ktor-client-websockets:1.7.4")
+
 
 
 }

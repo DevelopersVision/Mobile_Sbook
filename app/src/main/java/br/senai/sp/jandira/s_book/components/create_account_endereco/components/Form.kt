@@ -34,6 +34,7 @@ import br.senai.sp.jandira.s_book.functions.createAccountApp
 import br.senai.sp.jandira.s_book.model.ViaCep
 import br.senai.sp.jandira.s_book.service.RetrofitHelperViaCep
 import br.senai.sp.jandira.s_book.view_model.CreateAccountView
+import br.senai.sp.jandira.s_book.view_model.UserCategoryViewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -42,7 +43,8 @@ import retrofit2.Response
 fun Form(
     navController: NavController,
     lifecycleScope: LifecycleCoroutineScope,
-    viewModel: CreateAccountView
+    viewModel: CreateAccountView,
+    viewModelUserCategory: UserCategoryViewModel
 ){
     val context = LocalContext.current
 
@@ -110,7 +112,7 @@ fun Form(
         DefaultButtonScreen(text = "Entrar") {
             if(isChecked){
                 createAccountApp(
-                    nome!!, cpf!!, dataNascimento!!, email!!, senha!!, cep!!, ufEstado!!, cidade, bairro, logradouro, navController, lifecycleScope, "category", context
+                    nome!!, cpf!!, dataNascimento!!, email!!, senha!!, cep!!, ufEstado!!, cidade, bairro, logradouro, navController, lifecycleScope, "category", context, viewModelUserCategory
                 )
             }else{
                 Toast.makeText(context, "Marque que concorda com os termos e politicas", Toast.LENGTH_LONG).show()

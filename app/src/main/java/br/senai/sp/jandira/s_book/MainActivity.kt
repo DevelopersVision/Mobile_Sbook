@@ -62,7 +62,7 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable("create_account_endereco") {
-                            CreateAccountEndereco(navController = navController, lifecycleScope = lifecycleScope, viewModel = viewModelCreateAccount)
+                            CreateAccountEndereco(navController = navController, lifecycleScope = lifecycleScope, viewModel = viewModelCreateAccount, viewModelUserCategory)
                         }
 
                         composable("forgot_password") {

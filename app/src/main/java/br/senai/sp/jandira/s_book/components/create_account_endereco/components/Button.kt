@@ -32,10 +32,13 @@ import androidx.compose.ui.res.painterResource
 @Composable
 fun Button(
     text: String,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+
 ) {
     androidx.compose.material3.Button(
-        onClick = { /*TODO*/ },
+        onClick = {
+                  onClick()
+        },
         modifier = Modifier
             .width(300.dp)
             .height(48.dp),

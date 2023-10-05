@@ -34,7 +34,9 @@ fun Button(
     onClick: () -> Unit
 ) {
     androidx.compose.material3.Button(
-        onClick = { /*TODO*/ },
+        onClick = {
+                  onClick()
+        },
         modifier = Modifier
             .width(300.dp)
             .height(48.dp),
