@@ -119,16 +119,15 @@ fun FeedScreen(
                 items(listAnuncios) { item ->
                     AnunciosProximos(
                         nome_livro = item.anuncio.nome,
-                        ano_lancamento = item.anuncio.ano_lancamento,
                         foto = item.foto[0].foto,
                         tipo_anuncio = item.tipo_anuncio[0].tipo,
                         autor = item.autores[0].nome,
                         preco = item.anuncio.preco,
                         id = item.anuncio.id,
+                        navController = navRotasController
                     )
                 }
             }
-
         }
     }
 }
