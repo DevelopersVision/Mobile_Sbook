@@ -222,6 +222,8 @@ fun Card(
                                             )
                                             isChecked = true
                                             var cor = 0xFFFFFF
+                                            Log.e("Log de Hoje felipe", "${id}")
+                                            Log.e("Log de Hoje felipe", "${user.id}")
                                             favoritarAnuncio(id_anuncio = id, id_usuario = user.id, lifecycleScope = lifecycleScope)
                                         }
                                     }
