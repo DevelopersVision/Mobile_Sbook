@@ -3,6 +3,7 @@ package br.senai.sp.jandira.s_book.components.feed.components
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -45,13 +47,15 @@ import br.senai.sp.jandira.s_book.R
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.filled.LocalOffer
+import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.navigation_home_bar.BottomBarScreen
 
-@Preview(showSystemUi = true)
-@Composable
-fun EscolhaFazer() {
 
-    var doacoes = Icons.Default.LocalOffer
+@Composable
+fun EscolhaFazer(
+    onclick: Unit
+) {
+
 
     Column(
         modifier = Modifier
@@ -68,45 +72,127 @@ fun EscolhaFazer() {
             fontWeight = FontWeight(400),
             color = Color(0xFF565454),
         )
-        LazyRow(
+        Row(
             modifier = Modifier
                 .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceEvenly
-            ) {
-            items(3) {
+        ) {
 
+            Column(
+                modifier = Modifier
+                    .height(96.dp)
+                    .width(96.dp)
+                    .shadow(
+                        elevation = 4.dp,
+                        ambientColor = Color(0x40000000),
+                        shape = RoundedCornerShape(8.dp)
+                    )
+                    .background(color = Color(0xFFDDA35D))
+                    .clickable {
+                               onclick
+                    },
+                verticalArrangement = Arrangement.SpaceAround,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
                 Column(
                     modifier = Modifier
-                        .height(90.dp)
                         .width(100.dp)
-                        .shadow(
-                            elevation = 2.dp,
-                            spotColor = Color(0x40000000),
-                            ambientColor = Color(0x40000000)
+                        .padding(start = 12.dp, top = 12.dp),
+                    horizontalAlignment = Alignment.Start
+                ){
+                    Icon(
+                        painter = painterResource(
+                            id = R.drawable.doacao
                         ),
-                    verticalArrangement = Arrangement.SpaceAround,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    IconButton(
+                        contentDescription = "",
                         modifier = Modifier
-                            .height(30.dp)
-                            .width(100.dp),
-                        onClick = { /*TODO*/ }
-                    ) {
-                        Icon(
-                            imageVector = doacoes,
-                            contentDescription = ""
-                        )
-                    }
-                    Text(
-                        text = "Doações",
-                        fontSize = 16.sp,
-                        fontFamily = FontFamily(Font(R.font.poppinsmedium)),
-                        fontWeight = FontWeight(400),
-                        color = Color(92,44,12),
+                            .size(30.dp),
                     )
                 }
+                Text(
+                    text = "Doações",
+                    fontSize = 16.sp,
+                    fontFamily = FontFamily(Font(R.font.poppinsmedium)),
+                    fontWeight = FontWeight(400),
+                    color = Color(92, 44, 12),
+                )
+            }
+
+            // segundo card
+
+            Column(
+                modifier = Modifier
+                    .height(96.dp)
+                    .width(96.dp)
+                    .shadow(
+                        elevation = 4.dp,
+                        ambientColor = Color(0x40000000),
+                        shape = RoundedCornerShape(8.dp)
+                    ),
+                verticalArrangement = Arrangement.SpaceAround,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Column(
+                    modifier = Modifier
+                        .width(100.dp)
+                        .padding(start = 12.dp, top = 12.dp),
+                    horizontalAlignment = Alignment.Start
+                ){
+                    Icon(
+                        painter = painterResource(
+                            id = R.drawable.pesquisa
+                        ),
+                        contentDescription = "",
+                        modifier = Modifier
+                            .size(30.dp),
+                    )
+                }
+                Text(
+                    text = "Procurar",
+                    fontSize = 16.sp,
+                    fontFamily = FontFamily(Font(R.font.poppinsmedium)),
+                    fontWeight = FontWeight(400),
+                    color = Color(92, 44, 12),
+                )
+            }
+
+            // terceiro card
+
+            Column(
+                modifier = Modifier
+                    .height(96.dp)
+                    .width(96.dp)
+                    .shadow(
+                        elevation = 4.dp,
+                        ambientColor = Color(0x40000000),
+                        shape = RoundedCornerShape(8.dp)
+                    ),
+                verticalArrangement = Arrangement.SpaceAround,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Column(
+                    modifier = Modifier
+                        .width(100.dp)
+                        .padding(start = 12.dp, top = 12.dp),
+                    horizontalAlignment = Alignment.Start
+                ){
+                    Icon(
+                        painter = painterResource(
+                            id = R.drawable.livro
+                        ),
+                        contentDescription = "",
+                        modifier = Modifier
+                            .size(30.dp),
+                    )
+                }
+                Text(
+                    text = "Quero \nAnunciar",
+                    fontSize = 16.sp,
+                    fontFamily = FontFamily(Font(R.font.poppinsmedium)),
+                    fontWeight = FontWeight(400),
+                    color = Color(92, 44, 12),
+                )
             }
         }
 

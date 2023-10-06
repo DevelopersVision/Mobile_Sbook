@@ -5,17 +5,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
-import br.senai.sp.jandira.s_book.R
-import br.senai.sp.jandira.s_book.components.Filters.components.CheckFilter
-import br.senai.sp.jandira.s_book.components.Filters.components.ComponentsFiltro
+import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.components.Filters.components.Form
 import br.senai.sp.jandira.s_book.components.universal.HeaderFilter
 
-@Preview(showSystemUi = true)
+
 @Composable
-fun FiltersScreen() {
+fun FiltersScreen(
+    navController: NavController
+) {
     Surface(
         modifier = Modifier
             .fillMaxSize()
@@ -24,7 +22,10 @@ fun FiltersScreen() {
             modifier = Modifier
                 .fillMaxSize()
         ) {
-            HeaderFilter(text = "Filtros")
+            HeaderFilter(
+                text = "Filtros",
+                onclick = navController.navigate("navigation_home_bar")
+            )
             Form()
         }
     }

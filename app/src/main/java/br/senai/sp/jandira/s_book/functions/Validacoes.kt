@@ -1,6 +1,5 @@
 package br.senai.sp.jandira.s_book.functions
 
-import android.util.Log
 
 fun validationCEP (cep: String): Boolean{
     return !(cep.length > 12 || cep.length < 6)

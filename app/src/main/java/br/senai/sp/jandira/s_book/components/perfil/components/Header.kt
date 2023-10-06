@@ -39,13 +39,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.R
 import br.senai.sp.jandira.s_book.model.Usuario
-import br.senai.sp.jandira.s_book.model.UsuarioJSon
 import br.senai.sp.jandira.s_book.model.ResponseUsuario
 import br.senai.sp.jandira.s_book.service.RetrofitHelper
 import retrofit2.Call

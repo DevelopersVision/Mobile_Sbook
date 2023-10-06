@@ -12,6 +12,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import br.senai.sp.jandira.s_book.components.EditUser.screen.EditUser
+import br.senai.sp.jandira.s_book.components.Filters.screen.FiltersScreen
 import br.senai.sp.jandira.s_book.components.announceDetail.screen.AnnouceDetail
 import br.senai.sp.jandira.s_book.components.category.screen.CategoryScreen
 import br.senai.sp.jandira.s_book.components.cep.screen.CepScreen
@@ -21,7 +22,6 @@ import br.senai.sp.jandira.s_book.components.favorite.screen.FavoritoScreen
 import br.senai.sp.jandira.s_book.components.forgot_password.screen.ForgotPasswordScreen
 import br.senai.sp.jandira.s_book.components.insert_code.screen.InsertCode
 import br.senai.sp.jandira.s_book.components.login.screen.LoginScreen
-import br.senai.sp.jandira.s_book.components.perfil.components.Header
 import br.senai.sp.jandira.s_book.components.perfil.screen.PerfilScreen
 import br.senai.sp.jandira.s_book.components.rediscover_password.screen.RediscoverPasswordScreen
 import br.senai.sp.jandira.s_book.view_model.CreateAccountView
@@ -99,6 +99,10 @@ class MainActivity : ComponentActivity() {
 
                         composable("EditUser"){
                             EditUser(navController)
+                        }
+
+                        composable("Filters"){
+                            FiltersScreen(navController = navController)
                         }
                     }
                 }
