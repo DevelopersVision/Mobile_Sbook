@@ -16,7 +16,7 @@ fun Form(){
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .height(41.dp)
+            .height(410.dp)
     ) {
         ComponentsFiltro(
             text = "Gênero",
