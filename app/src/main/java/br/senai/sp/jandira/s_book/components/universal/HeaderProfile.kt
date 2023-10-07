@@ -29,8 +29,8 @@ fun HeaderProfile() {
         modifier = Modifier
             .fillMaxWidth()
             .height(100.dp)
-            .background(Color.White)
-            .padding(20.dp, 0.dp),
+            .padding(10.dp, 0.dp)
+            .background(Color.White),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {

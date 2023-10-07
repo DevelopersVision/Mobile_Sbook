@@ -1,6 +1,7 @@
-package br.senai.sp.jandira.s_book.components.profile.components
+package br.senai.sp.jandira.s_book.components.universal
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -23,27 +24,19 @@ import br.senai.sp.jandira.s_book.R
 @Preview
 @Composable
 fun ButtonProfile() {
-
     TextButton(
         onClick = {},
         modifier = Modifier
-            .shadow(
-                elevation = 40.dp,
-                spotColor = Color(0x40000000),
-                ambientColor = Color(0x40000000)
-            )
-            .width(300.dp)
-            .height(48.dp)
-            .background(Color(0xFFDA6C27), shape = RoundedCornerShape(size = 4.dp))
-            .padding()
+            .fillMaxWidth()
+            .height(41.dp)
+            .background(color = Color(0xFFDA6C27), shape = RoundedCornerShape(size = 8.dp))
     ) {
         Text(
-            text = "",
+            text = "Editar Conta",
             fontSize = 14.sp,
             fontFamily = FontFamily(Font(R.font.intermedium)),
             fontWeight = FontWeight(600),
             color = Color(0xFFFFFFFF),
         )
     }
-
 }
