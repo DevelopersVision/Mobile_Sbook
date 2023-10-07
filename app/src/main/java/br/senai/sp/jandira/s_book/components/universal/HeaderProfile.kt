@@ -25,33 +25,28 @@ import br.senai.sp.jandira.s_book.R
 @Preview
 @Composable
 fun HeaderProfile() {
-    Row (
+    Row(
         modifier = Modifier
-            .fillMaxWidth()
-            .height(100.dp)
-            .padding(10.dp, 0.dp)
-            .background(Color.White),
+            .fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Image(
             painter = painterResource(id = R.drawable.seta_voltar),
-            contentDescription = "Seta Voltar",
+            contentDescription = "",
             modifier = Modifier
-                .size(50.dp)
+                .size(24.dp)
         )
         Text(
             text = "Perfil",
             fontSize = 20.sp,
-            fontFamily = FontFamily(Font(R.font.intermedium)),
-            fontWeight = FontWeight(600),
-            color = Color(0xFF37474F),
+            color = Color(55, 71, 79, 255),
+            fontWeight = FontWeight(600)
         )
         Image(
             painter = painterResource(id = R.drawable.logo),
-            contentDescription = "Logo",
-            modifier = Modifier
-                .size(60.dp)
+            contentDescription = "",
+            modifier = Modifier.size(52.dp)
         )
     }
 }

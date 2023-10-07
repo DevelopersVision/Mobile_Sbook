@@ -21,18 +21,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.senai.sp.jandira.s_book.R
 
-@Preview
 @Composable
-fun ButtonProfile() {
+fun ButtonProfile(text: String) {
     TextButton(
         onClick = {},
         modifier = Modifier
             .fillMaxWidth()
-            .height(41.dp)
+            .height(40.dp)
             .background(color = Color(0xFFDA6C27), shape = RoundedCornerShape(size = 8.dp))
     ) {
         Text(
-            text = "Editar Conta",
+            text = text,
             fontSize = 14.sp,
             fontFamily = FontFamily(Font(R.font.intermedium)),
             fontWeight = FontWeight(600),

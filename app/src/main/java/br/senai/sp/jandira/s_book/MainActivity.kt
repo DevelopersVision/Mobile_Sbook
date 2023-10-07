@@ -102,11 +102,11 @@ class MainActivity : ComponentActivity() {
                             AnnouceDetail(navController)
                         }
 
-                        composable("EditUser"){
+                        composable("editUser"){
                             EditUser(navController)
                         }
 
-                        composable("Filters"){
+                        composable("filters"){
                             FiltersScreen(navController = navController)
                         }
                     }

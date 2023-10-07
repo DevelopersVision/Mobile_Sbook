@@ -6,12 +6,15 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
@@ -21,6 +24,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
@@ -43,47 +47,42 @@ fun CardProfile() {
 
     var userRating by remember { mutableStateOf(0) }
 
-    Column(
+    Card(
         modifier = Modifier
             .shadow(
-                elevation = 10.dp,
-                spotColor = Color(0x40000000),
-                ambientColor = Color(0x40000000)
+                elevation = 6.dp,
+                spotColor = Color(0xFF000000),
+                ambientColor = Color(0xFF000000)
             )
-            .width(350.dp)
-            .height(200.dp)
-            .background(color = Color(0xFFFFFFFF), shape = RoundedCornerShape(size = 4.dp))
-            .padding(20.dp),
-        verticalArrangement = Arrangement.spacedBy(18.dp)
+            .fillMaxWidth()
+            .height(200.dp),
+        shape = RoundedCornerShape(size = 4.dp)
     ) {
-        Row(
+        Column(
             modifier = Modifier
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(20.dp)
+                .fillMaxHeight()
+                .padding(20.dp),
+            verticalArrangement = Arrangement.SpaceBetween
         ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
 //            AsyncImage(
 //                model = "https://photografos.com.br/wp-content/uploads/2020/09/fotografia-para-perfil.jpg",
 //                contentDescription = "Foto de perfil",
 //                modifier = Modifier.size(90.dp)
 //            )
-            Image(
-                painter = painterResource(id = R.drawable.susanna_profile),
-                contentDescription = "Foto de perfil",
-                modifier = Modifier
-                    .size(100.dp)
-                    .clip(RoundedCornerShape(8.dp)),
-                contentScale = ContentScale.FillBounds
-            )
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(25.dp)
-            )  {
-                Column(
+                Image(
+                    painter = painterResource(id = R.drawable.susanna_profile),
+                    contentDescription = "Foto de perfil",
                     modifier = Modifier
-                        .fillMaxWidth(),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
+                        .size(100.dp)
+                        .clip(RoundedCornerShape(8.dp)),
+                    contentScale = ContentScale.FillBounds
+                )
+                Column()  {
                     Text(
                         text = "Maria Joaquina",
                         fontSize = 16.sp,
@@ -98,15 +97,15 @@ fun CardProfile() {
                         fontWeight = FontWeight(500),
                         color = Color(0xFF808080)
                     )
+                    Spacer(modifier = Modifier.height(24.dp))
+                    br.senai.sp.jandira.s_book.components.perfil.components.RatingBar(
+                        maxRating = 5,
+                        initialRating = userRating
+                    )
                 }
-
-                br.senai.sp.jandira.s_book.components.perfil.components.RatingBar(
-                    maxRating = 5,
-                    initialRating = userRating
-                )
             }
+        ButtonProfile("Editar Conta")
         }
-        ButtonProfile()
     }
 }
 

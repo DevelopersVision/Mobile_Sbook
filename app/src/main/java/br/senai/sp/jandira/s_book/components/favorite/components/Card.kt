@@ -77,7 +77,7 @@ fun Card(
                 spotColor = Color(0xFF000000),
                 ambientColor = Color(0xFF000000)
             )
-            .width(300.dp)
+            .fillMaxWidth()
             .height(200.dp)
             .clickable {
                 onClick()

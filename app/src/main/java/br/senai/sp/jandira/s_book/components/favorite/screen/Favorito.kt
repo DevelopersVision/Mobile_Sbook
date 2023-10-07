@@ -117,7 +117,7 @@ fun FavoritoScreen(
             },
             modifier = Modifier.fillMaxWidth(),
             colors = TextFieldDefaults.textFieldColors(
-                backgroundColor = Color.White,
+                backgroundColor = Color.Transparent,
                 focusedIndicatorColor = Color.Black,
                 unfocusedIndicatorColor = Color.Black,
                 disabledIndicatorColor = Color.Black,

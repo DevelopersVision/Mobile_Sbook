@@ -35,7 +35,7 @@ fun CreateContScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(
-                    ScrollState(115)
+                    ScrollState(0)
                 )
             ,
             verticalArrangement = Arrangement.SpaceEvenly,
