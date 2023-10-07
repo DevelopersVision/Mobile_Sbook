@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -69,9 +70,6 @@ fun Card(
     var isChecked by remember { mutableStateOf(false) }
 
 
-
-
-
     androidx.compose.material.Card(
         modifier = Modifier
             .shadow(
@@ -127,7 +125,7 @@ fun Card(
                 Row(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically,
-
+                    modifier = Modifier.fillMaxWidth()
                     ) {
                     if (tipo_anuncio == "Doação") {
                         Text(

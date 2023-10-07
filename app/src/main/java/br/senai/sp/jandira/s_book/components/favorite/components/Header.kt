@@ -3,11 +3,13 @@ package br.senai.sp.jandira.s_book.components.favorite.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIos
@@ -22,70 +24,43 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.R
 
-//@Preview(showSystemUi = true)
 @Composable
 fun Header(
     navController: NavController,
     navRotasController: NavController
 ){
-
-    var sair = Icons.Default.ArrowBackIos
-
-    Column (
+    Row(
         modifier = Modifier
-            .height(60.dp)
-            .fillMaxWidth()
-            .background(color = Color.White)
-        ,
-        ) {
-        Row (
+            .fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.arrow_left),
+            contentDescription = "",
             modifier = Modifier
-                .height(60.dp)
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceEvenly,
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-
-            IconButton(
-                modifier = Modifier
-                    .width(30.dp)
-                    .height(42.dp),
-                onClick = {
+                .size(24.dp)
+                .clickable {
                     navRotasController.navigate("navigation_home_bar")
                 }
-            ) {
-               Icon(
-                   imageVector = sair,
-                   contentDescription = "",
-                   modifier = Modifier
-                       .width(30.dp)
-                       .height(32.dp),
-                   tint = Color(0xFF784F34)
-               )
-            }
-
-            Text(
-                text = "Meus favoritos",
-                fontSize = 16.sp,
-                fontFamily = FontFamily(Font(R.font.poppinsmedium)),
-                fontWeight = FontWeight(600),
-                color = Color(0xFF808080),
-            )
-
-            Image(
-                painter =
-                painterResource(id = R.drawable.logo),
-                contentDescription = "",
-                modifier = Modifier
-                    .width(52.dp)
-                    .height(51.48207.dp),
-            )
-        }
+        )
+        Text(
+            text = "Favoritos",
+            fontSize = 20.sp,
+            color = Color(55, 71, 79, 255),
+            fontWeight = FontWeight(600)
+        )
+        Image(
+            painter = painterResource(id = R.drawable.logo),
+            contentDescription = "",
+            modifier = Modifier.size(52.dp)
+        )
     }
 
 }
