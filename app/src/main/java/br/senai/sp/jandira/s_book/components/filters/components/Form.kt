@@ -1,4 +1,4 @@
-package br.senai.sp.jandira.s_book.components.Filters.components
+package br.senai.sp.jandira.s_book.components.filters.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth

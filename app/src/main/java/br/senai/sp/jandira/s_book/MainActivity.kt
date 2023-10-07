@@ -12,7 +12,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import br.senai.sp.jandira.s_book.components.EditUser.screen.EditUser
-import br.senai.sp.jandira.s_book.components.Filters.screen.FiltersScreen
+import br.senai.sp.jandira.s_book.components.filters.screen.FiltersScreen
 import br.senai.sp.jandira.s_book.components.announceDetail.screen.AnnouceDetail
 import br.senai.sp.jandira.s_book.components.category.screen.CategoryScreen
 import br.senai.sp.jandira.s_book.components.cep.screen.CepScreen
@@ -23,6 +23,7 @@ import br.senai.sp.jandira.s_book.components.forgot_password.screen.ForgotPasswo
 import br.senai.sp.jandira.s_book.components.insert_code.screen.InsertCode
 import br.senai.sp.jandira.s_book.components.login.screen.LoginScreen
 import br.senai.sp.jandira.s_book.components.perfil.screen.PerfilScreen
+import br.senai.sp.jandira.s_book.components.profile.screen.ProfileScreen
 import br.senai.sp.jandira.s_book.components.rediscover_password.screen.RediscoverPasswordScreen
 import br.senai.sp.jandira.s_book.view_model.CreateAccountView
 import br.senai.sp.jandira.s_book.view_model.ResetPasswordView
@@ -48,7 +49,7 @@ class MainActivity : ComponentActivity() {
                     val viewModelUserCategory = viewModel<UserCategoryViewModel>()
 
                     NavHost(
-                        navController = navController, startDestination = "navigation_home_bar"
+                        navController = navController, startDestination = "profile"
                     ){
                         composable("navigation_home_bar") {
                             MainScreen(navController, lifecycleScope)
@@ -91,6 +92,10 @@ class MainActivity : ComponentActivity() {
 
                         composable("perfil"){
                             PerfilScreen(navController)
+                        }
+
+                        composable("profile"){
+                            ProfileScreen()
                         }
 
                         composable("annouceDetail"){

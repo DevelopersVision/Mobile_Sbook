@@ -1,4 +1,4 @@
-package br.senai.sp.jandira.s_book.components.Filters.components
+package br.senai.sp.jandira.s_book.components.filters.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -10,7 +10,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
+import androidx.compose.material3.Checkbox
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -24,10 +29,12 @@ import br.senai.sp.jandira.s_book.R
 
 //@Preview(showSystemUi = true)
 @Composable
-fun ComponentsFiltro(
+fun CheckFilter(
     text : String,
     icon : Painter
 ) {
+
+    var isChecked by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -57,6 +64,20 @@ fun ComponentsFiltro(
                 fontWeight = FontWeight(500),
                 color = Color(0xFF000000),
             )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 12.dp),
+                horizontalArrangement = Arrangement.End
+            ){
+                Checkbox(
+                    checked = isChecked,
+                    onCheckedChange = {
+                        isChecked = it
+                    }
+                )
+            }
+
         }
         Column(
             modifier = Modifier
