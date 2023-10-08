@@ -53,7 +53,7 @@ import br.senai.sp.jandira.s_book.navigation_home_bar.BottomBarScreen
 
 @Composable
 fun EscolhaFazer(
-    onclick: Unit
+    onclick: () -> Unit
 ) {
 
 
@@ -90,7 +90,7 @@ fun EscolhaFazer(
                     )
                     .background(color = Color(0xFFDDA35D))
                     .clickable {
-                               onclick
+                               onclick()
                     },
                 verticalArrangement = Arrangement.SpaceAround,
                 horizontalAlignment = Alignment.CenterHorizontally

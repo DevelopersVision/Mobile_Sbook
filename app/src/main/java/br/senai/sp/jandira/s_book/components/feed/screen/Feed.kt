@@ -85,7 +85,7 @@ fun FeedScreen(
         ){
             Header(navController, navRotasController, context)
             EscolhaFazer(
-                onclick = navRotasController.navigate("Filters")
+                onclick = {navRotasController.navigate("Filters")}
             )
             Spacer(modifier = Modifier.height(16.dp))
             androidx.compose.material.Text(

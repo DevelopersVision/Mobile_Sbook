@@ -24,7 +24,7 @@ fun FiltersScreen(
         ) {
             HeaderFilter(
                 text = "Filtros",
-                onclick = navController.navigate("navigation_home_bar")
+                onclick = {navController.navigate("navigation_home_bar")}
             )
             Form()
         }

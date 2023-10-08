@@ -26,7 +26,7 @@ import br.senai.sp.jandira.s_book.R
 @Composable
 fun HeaderFilter(
     text : String,
-    onclick : Unit
+    onclick : () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -42,7 +42,7 @@ fun HeaderFilter(
         ) {
             IconButton(
                 onClick = {
-                    onclick
+                    onclick()
                 }
             ) {
                 Icon(
