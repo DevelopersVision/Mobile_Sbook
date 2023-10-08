@@ -18,10 +18,15 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.FloatingActionButton
+import androidx.compose.material.Icon
 import androidx.compose.material.OutlinedTextField
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -68,12 +73,12 @@ fun FavoritoScreen(
         mutableStateOf("")
     }
 
-    val array = UserRepository(context).findUsers()
-
-    val user = array[0]
+//    val array = UserRepository(context).findUsers()
+//
+//    val user = array[0]
 
     // Cria uma chamada para o EndPoint
-    val call = RetrofitHelper.getAnunciosFavoritadosService().getAnunciosFavoritosByUsuarioId(user.id)
+    val call = RetrofitHelper.getAnunciosFavoritadosService().getAnunciosFavoritosByUsuarioId(1)
 
     Log.e("API Call", "Antes da chamada da API1: ${listAnuncios}")
 
@@ -93,74 +98,88 @@ fun FavoritoScreen(
         }
     })
 
-
-    Column (
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(24.dp),
-    ){
-        Header(
-            navController = navController, navRotasController = navRotasController
-        )
-        Spacer(modifier = Modifier.height(46.dp))
-        Text(
-            text = "Veja o que você mais gostou",
-            fontSize = 24.sp,
-            fontWeight = FontWeight(600),
-            modifier = Modifier.width(228.dp)
-        )
-
-        TextField(
-            value = filterState,
-            onValueChange = {
-                filterState = it
-            },
-            modifier = Modifier.fillMaxWidth(),
-            colors = TextFieldDefaults.textFieldColors(
-                backgroundColor = Color.Transparent,
-                focusedIndicatorColor = Color.Black,
-                unfocusedIndicatorColor = Color.Black,
-                disabledIndicatorColor = Color.Black,
-                errorIndicatorColor = Color.Black
-            ),
-            textStyle = TextStyle(
-                color = Color.Black,
-                fontSize = 20.sp
-            ),
-            leadingIcon = {
+    Scaffold(
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = { /*TODO*/ },
+                backgroundColor = Color(221, 163, 93, 255),
+                modifier = Modifier.size(64.dp)
+            ) {
                 Image(
-                    painter = painterResource(id = R.drawable.pesquisa),
+                    painter = painterResource(id = R.drawable.user),
                     contentDescription = "",
                     modifier = Modifier.size(24.dp)
                 )
             }
-        )
-        Spacer(modifier = Modifier.height(24.dp))
-        LazyColumn(
+        }
+    ) { contentPadding ->
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight(),
-            verticalArrangement = Arrangement.spacedBy(24.dp, Alignment.Top),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ){
-            items(listAnuncios) { item ->
-                Card(
-                    nome_livro = item.anuncio.nome,
-                    ano_lancamento = item.anuncio.ano_lancamento,
-                    foto = item.foto[0].foto,
-                    tipo_anuncio = item.tipo_anuncio[0].tipo,
-                    autor = item.autores[0].nome,
-                    preco = item.anuncio.preco,
-                    lifecycleScope = lifecycleScope!! ,
-                    id = item.anuncio.id,
-                    onClick = {
-                        navRotasController.navigate("annouceDetail")
-                    }
-                )
+                .fillMaxSize()
+                .padding(contentPadding)
+                .padding(24.dp)
+        ) {
+            Header(
+                navController = navController, navRotasController = navRotasController
+            )
+            Spacer(modifier = Modifier.height(46.dp))
+            Text(
+                text = "Veja o que você mais gostou",
+                fontSize = 24.sp,
+                fontWeight = FontWeight(600),
+                modifier = Modifier.width(228.dp)
+            )
+
+            TextField(
+                value = filterState,
+                onValueChange = {
+                    filterState = it
+                },
+                modifier = Modifier.fillMaxWidth(),
+                colors = TextFieldDefaults.textFieldColors(
+                    backgroundColor = Color.Transparent,
+                    focusedIndicatorColor = Color.Black,
+                    unfocusedIndicatorColor = Color.Black,
+                    disabledIndicatorColor = Color.Black,
+                    errorIndicatorColor = Color.Black
+                ),
+                textStyle = TextStyle(
+                    color = Color.Black,
+                    fontSize = 20.sp
+                ),
+                leadingIcon = {
+                    Image(
+                        painter = painterResource(id = R.drawable.pesquisa),
+                        contentDescription = "",
+                        modifier = Modifier.size(24.dp)
+                    )
+                }
+            )
+            Spacer(modifier = Modifier.height(24.dp))
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight(),
+                verticalArrangement = Arrangement.spacedBy(24.dp, Alignment.Top),
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                items(listAnuncios) { item ->
+                    Card(
+                        nome_livro = item.anuncio.nome,
+                        ano_lancamento = item.anuncio.ano_lancamento,
+                        foto = item.foto[0].foto,
+                        tipo_anuncio = item.tipo_anuncio[0].tipo,
+                        autor = item.autores[0].nome,
+                        preco = item.anuncio.preco,
+                        lifecycleScope = lifecycleScope!!,
+                        id = item.anuncio.id,
+                        onClick = {
+                            navRotasController.navigate("annouceDetail")
+                        }
+                    )
+                }
             }
         }
-
-
     }
 }
 
