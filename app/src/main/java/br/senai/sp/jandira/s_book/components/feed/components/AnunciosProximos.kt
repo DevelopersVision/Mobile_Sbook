@@ -33,8 +33,10 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.R
+import br.senai.sp.jandira.s_book.view_model.AnuncioViewMODEL
 import coil.compose.AsyncImage
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -46,13 +48,18 @@ fun AnunciosProximos(
     tipo_anuncio: String,
     preco: Double?,
     foto: String,
-    navController: NavController
+    navController: NavController,
+    viewModel: ViewModel,
+    onClick: () -> Unit
 ) {
+
+
 
     val coracao = Icons.Default.FavoriteBorder
 
     var isChecked by remember { mutableStateOf(false) }
 
+<<<<<<< HEAD
     Card(
         modifier = Modifier
             .width(156.dp)
@@ -70,6 +77,18 @@ fun AnunciosProximos(
         Column(
             modifier = Modifier.padding(12.dp),
             verticalArrangement = Arrangement.SpaceBetween
+=======
+        Box(
+            modifier = Modifier
+                .width(156.dp)
+                .height(250.dp)
+                .clickable {
+                    onClick(
+
+                    )
+                    navController.navigate("annouceDetail")
+                },
+>>>>>>> 2355e520934729fc4d4f716fa531529e37275e85
         ) {
             Column(
                 modifier = Modifier.fillMaxWidth(),

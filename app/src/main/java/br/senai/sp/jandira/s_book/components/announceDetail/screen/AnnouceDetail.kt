@@ -1,5 +1,6 @@
 package br.senai.sp.jandira.s_book.components.announceDetail.screen
 
+import android.util.Log
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,13 +13,15 @@ import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.components.announceDetail.components.CardInformacao
 import br.senai.sp.jandira.s_book.components.announceDetail.components.FooterDescricao
 import br.senai.sp.jandira.s_book.components.announceDetail.components.Header
-
+import br.senai.sp.jandira.s_book.view_model.AnuncioViewMODEL
 
 
 @Composable
 fun AnnouceDetail(
-    navController: NavController
+    navController: NavController,
+    viewMODEL: AnuncioViewMODEL
 ){
+    Log.e("viewZuada", "${viewMODEL}")
     Surface(
         modifier = Modifier
             .fillMaxSize(),
@@ -31,9 +34,9 @@ fun AnnouceDetail(
                 ),
             horizontalAlignment = Alignment.CenterHorizontally
         ){
-            Header()
-            CardInformacao()
-            FooterDescricao()
+            Header(viewMODEL)
+            CardInformacao(viewMODEL)
+            FooterDescricao(viewMODEL)
         }
     }
 }

@@ -58,4 +58,6 @@ object RetrofitHelper {
     fun getAnunciosService(): AnuncisosFeedService{
         return  retrofitFactory.create(AnuncisosFeedService::class.java)
     }
+
+
 }

@@ -1,5 +1,6 @@
 package br.senai.sp.jandira.s_book.components.announceDetail.components
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -19,10 +20,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import br.senai.sp.jandira.s_book.R
+import br.senai.sp.jandira.s_book.view_model.AnuncioViewMODEL
+import coil.compose.AsyncImage
 
-@Preview(showSystemUi = true)
+
 @Composable
-fun Header(){
+fun Header(viewMODEL: AnuncioViewMODEL){
+
+    Log.e("Log de HJJJJJJJJJJJJJ", "${viewMODEL.foto}")
 
     Column (
         modifier = Modifier
@@ -31,10 +36,8 @@ fun Header(){
         verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.Top),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Image(
-            painter = painterResource(
-                id = R.drawable.diario
-            ),
+        AsyncImage(
+            model = "${viewMODEL.foto}",
             contentDescription = "",
             contentScale = ContentScale.Crop,
             modifier = Modifier
