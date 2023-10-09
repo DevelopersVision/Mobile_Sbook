@@ -19,6 +19,11 @@ import br.senai.sp.jandira.s_book.components.cep.screen.CepScreen
 import br.senai.sp.jandira.s_book.components.create_account.screen.CreateContScreen
 import br.senai.sp.jandira.s_book.components.create_account_endereco.screen.CreateAccountEndereco
 import br.senai.sp.jandira.s_book.components.favorite.screen.FavoritoScreen
+import br.senai.sp.jandira.s_book.components.filterGenero.screen.FilterGeneroScreen
+import br.senai.sp.jandira.s_book.components.filter_ano.screen.FilterAnoScreen
+import br.senai.sp.jandira.s_book.components.filter_idioma.screen.FilterIdiomaScreen
+import br.senai.sp.jandira.s_book.components.filter_localizacao.screen.FilterLocalizacaoScreen
+import br.senai.sp.jandira.s_book.components.filter_localizacao_cidades.screen.FilterLocalizacaoCidadeScreen
 import br.senai.sp.jandira.s_book.components.forgot_password.screen.ForgotPasswordScreen
 import br.senai.sp.jandira.s_book.components.insert_code.screen.InsertCode
 import br.senai.sp.jandira.s_book.components.login.screen.LoginScreen
@@ -113,6 +118,26 @@ class MainActivity : ComponentActivity() {
 
                         composable("my_announce"){
                             MyAnnounceScreen(navRotasController = navController, lifecycleScope = lifecycleScope)
+                        }
+
+                        composable("filterGenero"){
+                            FilterGeneroScreen(navController)
+                        }
+
+                        composable("filter_localizacao"){
+                            FilterLocalizacaoScreen(navController)
+                        }
+
+                        composable("filter_localizacao_cidades"){
+                            FilterLocalizacaoCidadeScreen(navController)
+                        }
+
+                        composable("filter_idioma"){
+                            FilterIdiomaScreen(navController)
+                        }
+
+                        composable("filter_ano"){
+                            FilterAnoScreen(navController)
                         }
                     }
                 }

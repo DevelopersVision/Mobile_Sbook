@@ -1,4 +1,4 @@
-package br.senai.sp.jandira.s_book.components.filters.components
+package br.senai.sp.jandira.s_book.components.filter_localizacao.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -11,57 +11,66 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowForwardIos
+import androidx.compose.material3.Checkbox
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.senai.sp.jandira.s_book.R
 
-//@Preview(showSystemUi = true)
 @Composable
-fun ComponentsFiltro(
+fun Estados(
     text : String,
-    icon : Painter,
-    onclck : () -> Unit
+    onclick : () -> Unit
 ) {
+    val icon = Icons.Default.ArrowForwardIos
 
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .height(64.dp)
-            .clickable {
-                       onclck()
-            },
+            .height(64.dp),
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(54.dp)
-                .padding(start = 12.dp),
+                .padding(start = 12.dp)
+                .clickable {
+                           onclick()
+                },
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Icon(
-                painter = icon,
-                contentDescription = "",
-                modifier = Modifier
-                    .width(24.dp)
-                    .height(19.dp),
-                tint = Color(0xFF000000)
-            )
             Text(
                 text = text,
-                fontSize = 16.sp,
-                fontFamily = FontFamily(Font(R.font.poppinsmedium)),
+                fontSize = 14.sp,
+                fontFamily = FontFamily(Font(R.font.intermedium)),
                 fontWeight = FontWeight(500),
-                color = Color(0xFF000000),
+                color = Color(0xFF808080),
             )
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(end = 12.dp),
+                horizontalArrangement = Arrangement.End
+            ){
+                Icon(
+                    imageVector = icon,
+                    contentDescription = ""
+                )
+            }
+
         }
         Column(
             modifier = Modifier
@@ -70,5 +79,4 @@ fun ComponentsFiltro(
                 .background(color = Color(0xFFE0E0E0))
         ) {}
     }
-
 }

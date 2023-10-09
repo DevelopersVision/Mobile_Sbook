@@ -1,5 +1,7 @@
 package br.senai.sp.jandira.s_book.components.universal
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -21,6 +23,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -29,63 +34,37 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.senai.sp.jandira.s_book.R
 
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TextFieldPasswordScreen(label : String, valor: String, aoMudar: (String) -> Unit ){
-
-    var passwordVisibilityState by remember {
-        mutableStateOf(false)
-    }
+fun SearchFilter(
+    label : String,
+    valor: String,
+    aoMudar: (String) -> Unit
+){
 
     OutlinedTextField(
         value = valor,
         onValueChange = { aoMudar(it) },
         modifier = Modifier
             .height(60.dp)
-            .width(300.dp),
-        shape = RoundedCornerShape(4.dp),
-        visualTransformation =
-        if(!passwordVisibilityState){
-            PasswordVisualTransformation()
-        }else{
-            VisualTransformation.None
-        },
+            .width(320.dp)
+            .background(Color(235,235,235)),
+        shape = RoundedCornerShape(12.dp),
         label = {
             Text(
                 text = label,
-                fontSize = 12.sp,
-                color = Color(159, 152, 152, 255)
+                fontSize = 16.sp,
+                fontFamily = FontFamily(Font(R.font.intermedium)),
+                fontWeight = FontWeight(600),
+                color = Color(0xFF808080),
             )
         },
-        colors = TextFieldDefaults.outlinedTextFieldColors(
-            focusedBorderColor = colorResource(id = R.color.cinza ),
-            unfocusedBorderColor = colorResource(id = R.color.cinza )
-        ),
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-        trailingIcon = {
-            IconButton(
-                onClick = {
-                    passwordVisibilityState = !passwordVisibilityState
-                }
-            ) {
-                Icon(
-                    imageVector =
-                    if(passwordVisibilityState){
-                        Icons.Default.Visibility
-                    } else {
-                        Icons.Default.VisibilityOff
-                    },
-                    contentDescription = null,
-                    tint = Color(0xFFA7A5A4)
-
-                )
-            }
-        }
     )
 }
 
 @Preview(showBackground = true)
 @Composable
-fun TextFieldPasswordPreview() {
-    TextFieldPasswordScreen( label = "Senha", valor = "", aoMudar = {})
+fun SearchFilterPreview() {
+    SearchFilter( label = "Gênero", valor = "", aoMudar = {})
 }

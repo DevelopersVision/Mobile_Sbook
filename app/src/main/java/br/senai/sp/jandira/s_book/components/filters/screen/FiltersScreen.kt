@@ -26,7 +26,7 @@ fun FiltersScreen(
                 text = "Filtros",
                 onclick = {navController.navigate("navigation_home_bar")}
             )
-            Form()
+            Form(navController = navController)
         }
     }
 }

@@ -8,27 +8,36 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.R
 
-@Preview(showSystemUi = true)
+
 @Composable
-fun Form(){
+fun Form(
+    navController: NavController
+){
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .height(410.dp)
+            .height(420.dp)
     ) {
         ComponentsFiltro(
             text = "Gênero",
             icon = painterResource(
                 id = R.drawable.book
-            )
+            ),
+            onclck = {
+                navController.navigate("filterGenero")
+            }
         )
         ComponentsFiltro(
             text = "Localização",
             icon = painterResource(
                 id = R.drawable.localizar
-            )
+            ),
+            onclck = {
+                navController.navigate("filter_localizacao")
+            }
         )
         CheckFilter(
             text = "Novo",
@@ -52,13 +61,19 @@ fun Form(){
             text = "Ano de publicação",
             icon = painterResource(
                 id = R.drawable.calendario
-            )
+            ),
+            onclck = {
+                navController.navigate("filter_ano")
+            }
         )
         ComponentsFiltro(
             text = "Idioma",
             icon = painterResource(
                 id = R.drawable.idioma
-            )
+            ),
+            onclck = {
+                navController.navigate("filter_idioma")
+            }
         )
     }
 }
