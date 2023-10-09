@@ -9,6 +9,7 @@ import androidx.navigation.compose.composable
 import br.senai.sp.jandira.s_book.components.favorite.screen.FavoritoScreen
 import br.senai.sp.jandira.s_book.components.feed.screen.FeedScreen
 import br.senai.sp.jandira.s_book.components.login.screen.LoginScreen
+import br.senai.sp.jandira.s_book.view_model.AnuncioViewMODEL
 
 @Composable
 fun ButtonNavGraph(
@@ -21,7 +22,7 @@ fun ButtonNavGraph(
         startDestination = BottomBarScreen.Feed.route,
     ){
         composable(route = BottomBarScreen.Feed.route){
-            FeedScreen(navController = navController, lifecycleScope = lifecycleScope ,navRotasController = navRotasController)
+            FeedScreen(navController = navController, lifecycleScope = lifecycleScope ,navRotasController = navRotasController, viewMODEL = AnuncioViewMODEL())
         }
         composable(route = BottomBarScreen.Favorite.route){
             FavoritoScreen(

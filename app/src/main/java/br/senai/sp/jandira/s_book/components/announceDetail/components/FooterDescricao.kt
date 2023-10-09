@@ -21,10 +21,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.senai.sp.jandira.s_book.R
+import br.senai.sp.jandira.s_book.view_model.AnuncioViewMODEL
 
-@Preview(showSystemUi = true)
+
 @Composable
-fun FooterDescricao() {
+fun FooterDescricao(viewMODEL: AnuncioViewMODEL) {
 
     Column(
         modifier = Modifier
@@ -42,9 +43,7 @@ fun FooterDescricao() {
             color = Color(0xFF000000),
         )
         Text(
-            text = "A escola não é uma experiência agradável para " +
-                    "o quase adolescente Greg Heffley, mas sim um campo minado que ele " +
-                    "precisa enfrentar.",
+            text = "${viewMODEL.descricao}",
             fontSize = 16.sp,
             fontFamily = FontFamily(Font(R.font.intermedium)),
             fontWeight = FontWeight(400),
@@ -79,7 +78,7 @@ fun FooterDescricao() {
                     color = Color(0xFF000000),
                 )
                 Text(
-                    text = "2022",
+                    text = "${viewMODEL.ano_edicao}",
                     fontSize = 14.sp,
                     fontFamily = FontFamily(Font(R.font.intermedium)),
                     fontWeight = FontWeight(400),
@@ -111,7 +110,7 @@ fun FooterDescricao() {
                     color = Color(0xFF000000),
                 )
                 Text(
-                    text = "Thiago Freitas",
+                    text = "${viewMODEL.autor}",
                     fontSize = 14.sp,
                     fontFamily = FontFamily(Font(R.font.intermedium)),
                     fontWeight = FontWeight(400),
@@ -143,7 +142,7 @@ fun FooterDescricao() {
                     color = Color(0xFF000000),
                 )
                 Text(
-                    text = "Saraiva",
+                    text = "${viewMODEL.editora}",
                     fontSize = 14.sp,
                     fontFamily = FontFamily(Font(R.font.intermedium)),
                     fontWeight = FontWeight(400),
@@ -175,7 +174,7 @@ fun FooterDescricao() {
                     color = Color(0xFF000000),
                 )
                 Text(
-                    text = "Português",
+                    text = "${viewMODEL.idioma}",
                     fontSize = 14.sp,
                     fontFamily = FontFamily(Font(R.font.intermedium)),
                     fontWeight = FontWeight(400),
