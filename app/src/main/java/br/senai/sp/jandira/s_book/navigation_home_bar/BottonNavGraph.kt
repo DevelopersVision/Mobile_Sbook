@@ -35,7 +35,7 @@ fun ButtonNavGraph(
                 )
             }else{
                 LoginScreen(
-                    navController = navController,
+                    navController = navRotasController,
                     lifecycleScope = lifecycleScope
                 )
             }
