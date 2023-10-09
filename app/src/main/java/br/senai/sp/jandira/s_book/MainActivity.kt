@@ -29,7 +29,7 @@ import br.senai.sp.jandira.s_book.components.insert_code.screen.InsertCode
 import br.senai.sp.jandira.s_book.components.login.screen.LoginScreen
 import br.senai.sp.jandira.s_book.components.my_announces.screen.MyAnnounceScreen
 import br.senai.sp.jandira.s_book.components.perfil.screen.PerfilScreen
-import br.senai.sp.jandira.s_book.components.profile.screen.ProfileScreen
+import br.senai.sp.jandira.s_book.components.profile.screens.ProfileScreen
 import br.senai.sp.jandira.s_book.components.rediscover_password.screen.RediscoverPasswordScreen
 import br.senai.sp.jandira.s_book.view_model.CreateAccountView
 import br.senai.sp.jandira.s_book.view_model.ResetPasswordView
@@ -145,4 +145,3 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-

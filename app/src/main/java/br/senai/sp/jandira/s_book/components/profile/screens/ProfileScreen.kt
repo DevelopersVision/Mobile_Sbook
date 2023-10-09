@@ -1,4 +1,4 @@
-package br.senai.sp.jandira.s_book.components.profile.screen
+package br.senai.sp.jandira.s_book.components.profile.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
