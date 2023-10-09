@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.repository.CadastroRepository
+import br.senai.sp.jandira.s_book.view_model.UserCategoryViewModel
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 
@@ -23,7 +24,8 @@ fun createAccountApp (
     navController: NavController,
     lifecycleScope: LifecycleCoroutineScope,
     rota: String,
-    context: Context
+    context: Context,
+    viewModelUserCategory: UserCategoryViewModel
 ){
     val createAccountRepository = CadastroRepository()
 
@@ -34,16 +36,27 @@ fun createAccountApp (
         )
         val code = response.code()
 
-        Log.e("Response", "createAccountApp: $response", )
-        Log.e("ResponseBody", "createAccountApp: ${response.body()}", )
-
         if(response.isSuccessful){
 
             Log.e("CADASTRO - SUCESS - 201", "cadastro: ${response.body()}")
+
+            val jsonString = response.body().toString()
+            val jsonObject = JSONObject(jsonString)
+            val id = jsonObject.getInt("id")
+
+            Log.e("jsonString", "$jsonString")
+            Log.e("jsonObject", "$jsonObject")
+            Log.e("id", "$id")
+
+            viewModelUserCategory.id_usuario = id
+
+            val idboroca = viewModelUserCategory.id_usuario
+
+            Log.e("teste", "createAccountApp: ${idboroca}", )
+
             Toast.makeText(context, "Bem Vindo $nome", Toast.LENGTH_SHORT).show()
 
             navController.navigate(rota)
-
         }else{
             when (code) {
                 404 -> {

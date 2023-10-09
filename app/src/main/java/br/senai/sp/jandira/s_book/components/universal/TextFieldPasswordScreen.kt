@@ -80,7 +80,6 @@ fun TextFieldPasswordScreen(label : String, valor: String, aoMudar: (String) -> 
 
                 )
             }
-
         }
     )
 }

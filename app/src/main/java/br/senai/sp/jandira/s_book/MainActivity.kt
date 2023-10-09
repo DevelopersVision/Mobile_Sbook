@@ -12,17 +12,24 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import br.senai.sp.jandira.s_book.components.EditUser.screen.EditUser
+import br.senai.sp.jandira.s_book.components.filters.screen.FiltersScreen
 import br.senai.sp.jandira.s_book.components.announceDetail.screen.AnnouceDetail
 import br.senai.sp.jandira.s_book.components.category.screen.CategoryScreen
 import br.senai.sp.jandira.s_book.components.cep.screen.CepScreen
 import br.senai.sp.jandira.s_book.components.create_account.screen.CreateContScreen
 import br.senai.sp.jandira.s_book.components.create_account_endereco.screen.CreateAccountEndereco
 import br.senai.sp.jandira.s_book.components.favorite.screen.FavoritoScreen
+import br.senai.sp.jandira.s_book.components.filterGenero.screen.FilterGeneroScreen
+import br.senai.sp.jandira.s_book.components.filter_ano.screen.FilterAnoScreen
+import br.senai.sp.jandira.s_book.components.filter_idioma.screen.FilterIdiomaScreen
+import br.senai.sp.jandira.s_book.components.filter_localizacao.screen.FilterLocalizacaoScreen
+import br.senai.sp.jandira.s_book.components.filter_localizacao_cidades.screen.FilterLocalizacaoCidadeScreen
 import br.senai.sp.jandira.s_book.components.forgot_password.screen.ForgotPasswordScreen
 import br.senai.sp.jandira.s_book.components.insert_code.screen.InsertCode
 import br.senai.sp.jandira.s_book.components.login.screen.LoginScreen
-import br.senai.sp.jandira.s_book.components.perfil.components.Header
+import br.senai.sp.jandira.s_book.components.my_announces.screen.MyAnnounceScreen
 import br.senai.sp.jandira.s_book.components.perfil.screen.PerfilScreen
+import br.senai.sp.jandira.s_book.components.profile.screen.ProfileScreen
 import br.senai.sp.jandira.s_book.components.rediscover_password.screen.RediscoverPasswordScreen
 import br.senai.sp.jandira.s_book.view_model.CreateAccountView
 import br.senai.sp.jandira.s_book.view_model.ResetPasswordView
@@ -62,7 +69,7 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable("create_account_endereco") {
-                            CreateAccountEndereco(navController = navController, lifecycleScope = lifecycleScope, viewModel = viewModelCreateAccount)
+                            CreateAccountEndereco(navController = navController, lifecycleScope = lifecycleScope, viewModel = viewModelCreateAccount, viewModelUserCategory)
                         }
 
                         composable("forgot_password") {
@@ -93,12 +100,44 @@ class MainActivity : ComponentActivity() {
                             PerfilScreen(navController)
                         }
 
+                        composable("profile"){
+                            ProfileScreen()
+                        }
+
                         composable("annouceDetail"){
                             AnnouceDetail(navController)
                         }
 
-                        composable("EditUser"){
+                        composable("editUser"){
                             EditUser(navController)
+                        }
+
+                        composable("filters"){
+                            FiltersScreen(navController = navController)
+                        }
+
+                        composable("my_announce"){
+                            MyAnnounceScreen(navRotasController = navController, lifecycleScope = lifecycleScope)
+                        }
+
+                        composable("filterGenero"){
+                            FilterGeneroScreen(navController)
+                        }
+
+                        composable("filter_localizacao"){
+                            FilterLocalizacaoScreen(navController)
+                        }
+
+                        composable("filter_localizacao_cidades"){
+                            FilterLocalizacaoCidadeScreen(navController)
+                        }
+
+                        composable("filter_idioma"){
+                            FilterIdiomaScreen(navController)
+                        }
+
+                        composable("filter_ano"){
+                            FilterAnoScreen(navController)
                         }
                     }
                 }

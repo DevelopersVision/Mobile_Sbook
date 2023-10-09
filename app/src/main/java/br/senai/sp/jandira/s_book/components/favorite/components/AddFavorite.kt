@@ -41,14 +41,23 @@ fun AddFavorite() {
             contentDescription = "image description",
             contentScale = ContentScale.Crop
         )
-        Text(
-            text = "Nenhum favorito ainda :(\nEscolha o que você mais gostou",
-            fontSize = 16.sp,
-            fontFamily = FontFamily(Font(R.font.poppinsmedium)),
-            fontWeight = FontWeight(500),
-            color = Color(0xFFAA6231),
-            textAlign = TextAlign.Center,
-        )
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Text(
+                text = "Nenhum favorito ainda :(",
+                fontSize = 16.sp,
+                fontFamily = FontFamily(Font(R.font.poppinsmedium)),
+                fontWeight = FontWeight(500),
+                color = Color(0xFFAA6231),
+                textAlign = TextAlign.Center
+            )
+            Text(
+                text = "Escolha o que você mais gostou",
+                fontSize = 16.sp,
+                fontFamily = FontFamily(Font(R.font.poppinsmedium)),
+                fontWeight = FontWeight(500),
+                textAlign = TextAlign.Center
+            )
+        }
         TextButton(
             onClick = {
 

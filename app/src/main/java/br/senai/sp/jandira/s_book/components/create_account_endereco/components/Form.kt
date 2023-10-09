@@ -1,7 +1,6 @@
 package br.senai.sp.jandira.s_book.components.create_account_endereco.components
 
 
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -22,27 +21,22 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.LifecycleCoroutineScope
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.components.universal.DefaultButtonScreen
-import br.senai.sp.jandira.s_book.components.universal.TextBoxScreen
 import br.senai.sp.jandira.s_book.functions.createAccountApp
-import br.senai.sp.jandira.s_book.model.ViaCep
-import br.senai.sp.jandira.s_book.service.RetrofitHelperViaCep
 import br.senai.sp.jandira.s_book.view_model.CreateAccountView
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import br.senai.sp.jandira.s_book.view_model.UserCategoryViewModel
+
 
 @Composable
 fun Form(
     navController: NavController,
     lifecycleScope: LifecycleCoroutineScope,
-    viewModel: CreateAccountView
+    viewModel: CreateAccountView,
+    viewModelUserCategory: UserCategoryViewModel
 ){
     val context = LocalContext.current
 
@@ -110,7 +104,7 @@ fun Form(
         DefaultButtonScreen(text = "Entrar") {
             if(isChecked){
                 createAccountApp(
-                    nome!!, cpf!!, dataNascimento!!, email!!, senha!!, cep!!, ufEstado!!, cidade, bairro, logradouro, navController, lifecycleScope, "category", context
+                    nome!!, cpf!!, dataNascimento!!, email!!, senha!!, cep!!, ufEstado!!, cidade, bairro, logradouro, navController, lifecycleScope, "category", context, viewModelUserCategory
                 )
             }else{
                 Toast.makeText(context, "Marque que concorda com os termos e politicas", Toast.LENGTH_LONG).show()

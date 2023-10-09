@@ -20,15 +20,15 @@ import br.senai.sp.jandira.s_book.components.create_account.components.TextContS
 import br.senai.sp.jandira.s_book.components.universal.GoogleScreen
 import br.senai.sp.jandira.s_book.components.universal.TextContinueScreen
 import br.senai.sp.jandira.s_book.view_model.CreateAccountView
-
-
+import br.senai.sp.jandira.s_book.view_model.UserCategoryViewModel
 
 
 @Composable
 fun CreateAccountEndereco (
     navController: NavController,
     lifecycleScope: LifecycleCoroutineScope,
-    viewModel: CreateAccountView
+    viewModel: CreateAccountView,
+    viewModelUserCategory: UserCategoryViewModel
 ) {
 
     androidx.compose.material3.Surface(
@@ -50,7 +50,7 @@ fun CreateAccountEndereco (
             Header()
 
 //            Spacer(modifier = Modifier.height(63.dp))
-            Form(navController, lifecycleScope, viewModel)
+            Form(navController, lifecycleScope, viewModel, viewModelUserCategory)
 
 //            Spacer(modifier = Modifier.height(53.dp))
             TextContinueScreen()

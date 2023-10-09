@@ -92,14 +92,17 @@ fun resetPassword(
 
                 navController.navigate("insert_code")
             } else {
-                if (code == 400)
-                    Log.e("FORGOT PASSWORD - ERROR - 400", "login: ${response.errorBody()?.string()}")
+                if (code == 400) {
+                    Log.e(
+                        "FORGOT PASSWORD - ERROR - 400",
+                        "login: ${response.errorBody()?.string()}"
+                    )
                     Toast.makeText(
                         context,
                         "O NÃO FOI DIGITADO OU NÃO É VÁLIDO",
                         Toast.LENGTH_LONG
                     ).show()
-
+                }
                 Log.e("FORGOT PASSWORD", "forgot_password: ${response.errorBody()?.string()}")
             }
         }
