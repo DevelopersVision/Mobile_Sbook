@@ -49,7 +49,6 @@ fun AnunciosProximos(
     preco: Double?,
     foto: String,
     navController: NavController,
-    viewModel: ViewModel,
     onClick: () -> Unit
 ) {
 

@@ -97,7 +97,6 @@ fun FeedScreen(
                 filter = { navRotasController.navigate("Filters") }
             )
             Spacer(modifier = Modifier.height(18.dp))
-<<<<<<< HEAD
             Text(
                 text = "Anúncios mais próximos",
                 fontSize = 16.sp,
@@ -121,61 +120,10 @@ fun FeedScreen(
                             autor = item.autores[0].nome,
                             preco = item.anuncio.preco,
                             id = item.anuncio.id,
-                            navController = navRotasController
+                            navController = navRotasController,
+                            onClick = {},
                         )
                     }
-=======
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(2),
-                contentPadding = PaddingValues(horizontal = 16.dp),
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-                modifier = Modifier
-                    .fillMaxHeight(0.85f)
-            ) {
-                items(listAnuncios) { item ->
-                    AnunciosProximos(
-                        nome_livro = item.anuncio.nome,
-                        foto = item.foto[0].foto,
-                        tipo_anuncio = item.tipo_anuncio[0].tipo,
-                        autor = item.autores[0].nome,
-                        preco = item.anuncio.preco,
-                        id = item.anuncio.id,
-                        navController = navRotasController,
-                        viewModel = viewMODEL,
-                        onClick = {
-                            Log.e("", "")
-                            viewMODEL.foto = item.foto
-                            Log.e("Foto indo pra view model", "${viewMODEL.foto}")
-                            viewMODEL.nome = item.anuncio.nome
-                            Log.e("nome indo pra view model", "${viewMODEL.nome}")
-                            viewMODEL.generos = item.generos
-                            viewMODEL.tipo_anuncio = item.tipo_anuncio
-                            Log.e("Anunciante indo pra view model", "${item.anuncio.anunciante}")
-
-                            val anunciante = getAnunciante(item.anuncio.anunciante) { usuario ->
-                                Log.e("Log", "${usuario}")
-                                if (usuario != null) {
-                                    viewMODEL.anunciante_foto = usuario.foto
-                                    Log.e("foto do anunciante", "${viewMODEL.anunciante_foto}")
-                                    viewMODEL.anunciante_nome = usuario.nome
-                                    viewMODEL.cidade_anuncio = usuario.cidade
-                                    viewMODEL.estado_anuncio = usuario.estado
-                                } else {
-                                    Log.e("Anunciante", "null")
-                                }
-                            }
-
-                            viewMODEL.descricao = item.anuncio.descricao
-
-                            viewMODEL.ano_edicao = item.anuncio.ano_lancamento
-                            viewMODEL.autor = item.autores
-                            viewMODEL.editora = item.editora
-                            viewMODEL.idioma = item.idioma
-
-                        }
-                    )
->>>>>>> 2355e520934729fc4d4f716fa531529e37275e85
                 }
                 Spacer(modifier = Modifier.height(20.dp))
             }
