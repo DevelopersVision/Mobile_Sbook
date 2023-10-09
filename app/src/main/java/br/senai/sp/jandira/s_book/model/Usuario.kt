@@ -1,7 +1,7 @@
 package br.senai.sp.jandira.s_book.model
 
 data class Usuario(
-    val id_usuario: Int,
+    val id_usuario: Long,
     val nome: String,
     val data_nascimento: String,
     val data_criacao: String,

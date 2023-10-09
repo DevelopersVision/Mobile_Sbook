@@ -1,5 +1,6 @@
 package br.senai.sp.jandira.s_book.components.announceDetail.components
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -31,11 +32,18 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import br.senai.sp.jandira.s_book.R
+import br.senai.sp.jandira.s_book.view_model.AnuncioViewMODEL
+import coil.compose.AsyncImage
 
-@Preview(showSystemUi = true)
+
 @Composable
-fun CardInformacao() {
+fun CardInformacao(
+    viewMODEL: AnuncioViewMODEL
+) {
+
+    Log.e("viewZuada", "${viewMODEL}")
 
     var favorito = Icons.Default.FavoriteBorder
 
@@ -62,8 +70,9 @@ fun CardInformacao() {
                     .padding(top = 24.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
+                Log.e("nome que a view model passou", "${viewMODEL.nome}")
                 Text(
-                    text = "Diário de um\nBanana",
+                    text = "${viewMODEL.nome}",
                     fontSize = 24.sp,
                     fontFamily = FontFamily(Font(R.font.intermedium)),
                     fontWeight = FontWeight(600),
@@ -98,7 +107,7 @@ fun CardInformacao() {
                        .height(35.dp)
                ) {
                    Text(
-                       text = "Ficção Científica, Romance, Comédia, \nSuspense",
+                       text = "${viewMODEL.generos}",
                        fontSize = 14.sp,
                        fontFamily = FontFamily(Font(R.font.intermedium)),
                        fontWeight = FontWeight(600),
@@ -110,7 +119,7 @@ fun CardInformacao() {
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Text(
-                    text = "Disponível para trocas",
+                    text = "${viewMODEL.tipo_anuncio}",
                     fontSize = 24.sp,
                     fontFamily = FontFamily(Font(R.font.intermedium)),
                     fontWeight = FontWeight(700),
@@ -131,8 +140,9 @@ fun CardInformacao() {
                             .size(60.dp),
                         shape = CircleShape,
                     ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.susanna_profile),
+
+                        AsyncImage(
+                            model = "${viewMODEL.anunciante_foto}",
                             contentDescription = "image description",
                             contentScale = ContentScale.Crop
                         )
@@ -143,14 +153,14 @@ fun CardInformacao() {
                             .height(70.dp)
                     ) {
                         Text(
-                            text = "Max Kellerman",
+                            text = "${viewMODEL.autor}",
                             fontSize = 20.sp,
                             fontFamily = FontFamily(Font(R.font.intermedium)),
                             fontWeight = FontWeight(600),
                             color = Color(0xFF000000),
                         )
                         Text(
-                            text = "Carapícuiba, São Paulo",
+                            text = "${viewMODEL.cidade_anuncio}, ${viewMODEL.estado_anuncio}",
                             fontSize = 12.sp,
                             fontFamily = FontFamily(Font(R.font.intermedium)),
                             fontWeight = FontWeight(600),

@@ -37,6 +37,7 @@ import br.senai.sp.jandira.s_book.view_model.UserCategoryViewModel
 import br.senai.sp.jandira.s_book.navigation_home_bar.MainScreen
 
 import br.senai.sp.jandira.s_book.ui.theme.SBOOKTheme
+import br.senai.sp.jandira.s_book.view_model.AnuncioViewMODEL
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,6 +54,7 @@ class MainActivity : ComponentActivity() {
                     val viewModelCreateAccount = viewModel<CreateAccountView>()
                     val viewModelResetPassword = viewModel<ResetPasswordView>()
                     val viewModelUserCategory = viewModel<UserCategoryViewModel>()
+                    val viewModelAnuncio = viewModel<AnuncioViewMODEL>()
 
                     NavHost(
                         navController = navController, startDestination = "navigation_home_bar"
@@ -105,7 +107,7 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable("annouceDetail"){
-                            AnnouceDetail(navController)
+                            AnnouceDetail(navController, viewModelAnuncio)
                         }
 
                         composable("editUser"){

@@ -10,6 +10,6 @@ data class Anuncio(
     val preco: Double?,
     val descricao: String,
     val numero_paginas: Int,
-    val anunciante: Int
+    val anunciante: Long
 
 )
