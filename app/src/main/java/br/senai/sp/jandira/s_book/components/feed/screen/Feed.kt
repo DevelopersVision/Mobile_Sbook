@@ -53,7 +53,7 @@ fun FeedScreen(
         mutableStateOf(listOf<JsonAnuncios>())
     }
 
-    val call = RetrofitHelper.getAnunciosService().getAnuncios()
+    val call = RetrofitHelper.getAnunciosService().getAnuncios(1)
 
     Log.e("API Call", "Antes da chamada da API: ${listAnuncios}")
 
