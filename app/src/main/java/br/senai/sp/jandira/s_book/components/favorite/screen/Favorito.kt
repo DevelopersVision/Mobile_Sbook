@@ -73,12 +73,12 @@ fun FavoritoScreen(
         mutableStateOf("")
     }
 
-//    val array = UserRepository(context).findUsers()
-//
-//    val user = array[0]
+    val array = UserRepository(context).findUsers()
+
+    val user = array[0]
 
     // Cria uma chamada para o EndPoint
-    val call = RetrofitHelper.getAnunciosFavoritadosService().getAnunciosFavoritosByUsuarioId(1)
+    val call = RetrofitHelper.getAnunciosFavoritadosService().getAnunciosFavoritosByUsuarioId(user.id)
 
     Log.e("API Call", "Antes da chamada da API1: ${listAnuncios}")
 
@@ -99,6 +99,7 @@ fun FavoritoScreen(
     })
 
     Scaffold(
+        modifier = Modifier.padding(bottom = 52.dp),
         floatingActionButton = {
             FloatingActionButton(
                 onClick = { /*TODO*/ },
@@ -179,6 +180,7 @@ fun FavoritoScreen(
                     )
                 }
             }
+            Spacer(modifier = Modifier.height(135.dp))
         }
     }
 }

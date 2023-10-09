@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,7 +15,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -49,7 +53,7 @@ fun FeedScreen(
 ) {
     val context = LocalContext.current
 
-    var listAnuncios by remember{
+    var listAnuncios by remember {
         mutableStateOf(listOf<JsonAnuncios>())
     }
 
@@ -73,51 +77,51 @@ fun FeedScreen(
         }
     })
 
-    Surface(
+    Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.White),
-        color = Color(0xFFF5F5F5)
+            .verticalScroll(rememberScrollState())
     ) {
+        Header(navController, navRotasController, context)
         Column(
             modifier = Modifier
-                .fillMaxWidth()
-        ){
-            Header(navController, navRotasController, context)
+                .fillMaxSize()
+                .padding(16.dp)
+        ) {
             EscolhaFazer(
-                onclick = {navRotasController.navigate("Filters")}
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            androidx.compose.material.Text(
-                modifier = Modifier
-                    .padding(start = 21.dp),
-                text = "Anúncios mais próximos",
-                fontSize = 16.sp,
-                fontFamily = FontFamily(Font(R.font.poppinsmedium)),
-                fontWeight = FontWeight(400),
-                color = Color.Black,
+                filter = { navRotasController.navigate("Filters") }
             )
             Spacer(modifier = Modifier.height(18.dp))
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(2),
-                contentPadding = PaddingValues(horizontal = 16.dp),
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-                modifier = Modifier
-                    .fillMaxHeight(0.85f)
-            ) {
-                items(listAnuncios) { item ->
-                    AnunciosProximos(
-                        nome_livro = item.anuncio.nome,
-                        foto = item.foto[0].foto,
-                        tipo_anuncio = item.tipo_anuncio[0].tipo,
-                        autor = item.autores[0].nome,
-                        preco = item.anuncio.preco,
-                        id = item.anuncio.id,
-                        navController = navRotasController
-                    )
+            Text(
+                text = "Anúncios mais próximos",
+                fontSize = 16.sp,
+                fontWeight = FontWeight(700),
+                color = Color(92, 44, 12, 255)
+            )
+            Spacer(modifier = Modifier.height(18.dp))
+
+            val pairs = listAnuncios.chunked(2)
+
+            for (pair in pairs) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(48.dp)
+                ) {
+                    for (item in pair) {
+                        AnunciosProximos(
+                            nome_livro = item.anuncio.nome,
+                            foto = item.foto[0].foto,
+                            tipo_anuncio = item.tipo_anuncio[0].tipo,
+                            autor = item.autores[0].nome,
+                            preco = item.anuncio.preco,
+                            id = item.anuncio.id,
+                            navController = navRotasController
+                        )
+                    }
                 }
+                Spacer(modifier = Modifier.height(20.dp))
             }
+            Spacer(modifier = Modifier.height(48.dp))
         }
     }
 }

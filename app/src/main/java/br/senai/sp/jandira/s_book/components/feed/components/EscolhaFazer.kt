@@ -53,150 +53,119 @@ import br.senai.sp.jandira.s_book.navigation_home_bar.BottomBarScreen
 
 @Composable
 fun EscolhaFazer(
-    onclick: () -> Unit
+    filter: () -> Unit
 ) {
-
-
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(120.dp),
-        verticalArrangement = Arrangement.spacedBy(15.dp, Alignment.Top),
-    ) {
+    Column() {
         Text(
-            modifier = Modifier
-                .padding(start = 21.dp),
             text = "O que você quer fazer?",
             fontSize = 12.sp,
-            fontFamily = FontFamily(Font(R.font.poppinsmedium)),
             fontWeight = FontWeight(400),
             color = Color(0xFF565454),
         )
+        Spacer(modifier = Modifier.height(18.dp))
         Row(
-            modifier = Modifier
-                .fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceEvenly
+            horizontalArrangement = Arrangement.spacedBy(24.dp)
         ) {
-
-            Column(
+            Card(
                 modifier = Modifier
-                    .height(96.dp)
-                    .width(96.dp)
+                    .size(96.dp)
                     .shadow(
-                        elevation = 4.dp,
-                        ambientColor = Color(0x40000000),
-                        shape = RoundedCornerShape(8.dp)
-                    )
-                    .background(color = Color(0xFFDDA35D))
-                    .clickable {
-                               onclick()
-                    },
-                verticalArrangement = Arrangement.SpaceAround,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Column(
-                    modifier = Modifier
-                        .width(100.dp)
-                        .padding(start = 12.dp, top = 12.dp),
-                    horizontalAlignment = Alignment.Start
-                ){
-                    Icon(
-                        painter = painterResource(
-                            id = R.drawable.doacao
-                        ),
-                        contentDescription = "",
-                        modifier = Modifier
-                            .size(30.dp),
-                    )
-                }
-                Text(
-                    text = "Doações",
-                    fontSize = 16.sp,
-                    fontFamily = FontFamily(Font(R.font.poppinsmedium)),
-                    fontWeight = FontWeight(400),
-                    color = Color(92, 44, 12),
-                )
-            }
-
-            // segundo card
-
-            Column(
-                modifier = Modifier
-                    .height(96.dp)
-                    .width(96.dp)
-                    .shadow(
-                        elevation = 4.dp,
-                        ambientColor = Color(0x40000000),
+                        elevation = 6.dp,
+                        spotColor = Color(0xFF000000),
+                        ambientColor = Color(0xFF000000),
                         shape = RoundedCornerShape(8.dp)
                     ),
-                verticalArrangement = Arrangement.SpaceAround,
-                horizontalAlignment = Alignment.CenterHorizontally
+                shape = RoundedCornerShape(8.dp),
+                backgroundColor = Color(221, 163, 93, 255)
             ) {
                 Column(
                     modifier = Modifier
-                        .width(100.dp)
+                        .fillMaxSize()
                         .padding(start = 12.dp, top = 12.dp),
-                    horizontalAlignment = Alignment.Start
-                ){
-                    Icon(
-                        painter = painterResource(
-                            id = R.drawable.pesquisa
-                        ),
+                    horizontalAlignment = Alignment.Start,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Icon(painter = painterResource(id = R.drawable.doacao),
                         contentDescription = "",
-                        modifier = Modifier
-                            .size(30.dp),
+                        modifier = Modifier.size(30.dp)
+                    )
+                    Spacer(modifier = Modifier.height(12.dp))
+                    Text(
+                        text = "Doações",
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight(400),
+                        color = Color(92, 44, 12, 255)
                     )
                 }
-                Text(
-                    text = "Procurar",
-                    fontSize = 16.sp,
-                    fontFamily = FontFamily(Font(R.font.poppinsmedium)),
-                    fontWeight = FontWeight(400),
-                    color = Color(92, 44, 12),
-                )
             }
 
-            // terceiro card
-
-            Column(
+            Card(
                 modifier = Modifier
-                    .height(96.dp)
-                    .width(96.dp)
+                    .size(96.dp)
+                    .clickable { filter() }
                     .shadow(
-                        elevation = 4.dp,
-                        ambientColor = Color(0x40000000),
+                        elevation = 6.dp,
+                        spotColor = Color(0xFF000000),
+                        ambientColor = Color(0xFF000000),
                         shape = RoundedCornerShape(8.dp)
                     ),
-                verticalArrangement = Arrangement.SpaceAround,
-                horizontalAlignment = Alignment.CenterHorizontally
+                shape = RoundedCornerShape(8.dp)
             ) {
                 Column(
                     modifier = Modifier
-                        .width(100.dp)
+                        .fillMaxSize()
                         .padding(start = 12.dp, top = 12.dp),
-                    horizontalAlignment = Alignment.Start
-                ){
-                    Icon(
-                        painter = painterResource(
-                            id = R.drawable.livro
-                        ),
+                    horizontalAlignment = Alignment.Start,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Icon(painter = painterResource(id = R.drawable.pesquisa),
                         contentDescription = "",
-                        modifier = Modifier
-                            .size(30.dp),
+                        modifier = Modifier.size(30.dp)
+                    )
+                    Spacer(modifier = Modifier.height(12.dp))
+                    Text(
+                        text = "Procurar",
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight(400),
+                        color = Color(92, 44, 12, 255)
                     )
                 }
-                Text(
-                    text = "Quero \nAnunciar",
-                    fontSize = 16.sp,
-                    fontFamily = FontFamily(Font(R.font.poppinsmedium)),
-                    fontWeight = FontWeight(400),
-                    color = Color(92, 44, 12),
-                )
+            }
+
+            Card(
+                modifier = Modifier
+                    .size(96.dp)
+                    .shadow(
+                        elevation = 6.dp,
+                        spotColor = Color(0xFF000000),
+                        ambientColor = Color(0xFF000000),
+                        shape = RoundedCornerShape(8.dp)
+                    ),
+                shape = RoundedCornerShape(8.dp)
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(start = 12.dp, top = 12.dp),
+                    horizontalAlignment = Alignment.Start,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Icon(painter = painterResource(id = R.drawable.livro),
+                        contentDescription = "",
+                        modifier = Modifier.size(30.dp)
+                    )
+                    Spacer(modifier = Modifier.height(12.dp))
+                    Text(
+                        text = "Quero anunciar",
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight(400),
+                        color = Color(92, 44, 12, 255)
+                    )
+                }
             }
         }
-
     }
-
 }
 

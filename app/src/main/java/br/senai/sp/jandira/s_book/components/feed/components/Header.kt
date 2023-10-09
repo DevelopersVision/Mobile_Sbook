@@ -5,11 +5,14 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Card
 import androidx.compose.material.IconButton
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -34,92 +37,46 @@ fun Header(
     navRotasController: NavController,
     context: Context
 ) {
-
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(200.dp),
+        shape = RoundedCornerShape(bottomStart = 16.dp, bottomEnd = 16.dp)
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.fundo),
+            contentDescription = "",
+            contentScale = ContentScale.FillBounds
+        )
         Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .height(260.dp)
+                .fillMaxHeight()
+                .padding(16.dp),
+            verticalArrangement = Arrangement.SpaceBetween
         ) {
-            Surface(
-                modifier = Modifier
-                    .fillMaxWidth()
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Image(
-                    painter = painterResource(
-                        id = R.drawable.fundo
-                    ),
+                    painter = painterResource(id = R.drawable.logo),
                     contentDescription = "",
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(229.dp)
+                    modifier = Modifier.size(52.dp)
                 )
-                Column(
-                    modifier = Modifier
-                        .height(220.dp)
-                        .padding(15.dp),
-                    verticalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween
-
-                    ) {
-                        Image(
-                            painter = painterResource(
-                                id = R.drawable.logo
-                            ),
-                            contentDescription = "",
-                            modifier = Modifier
-                                .size(52.dp)
-                                .padding(4.dp)
-                                .clip(CircleShape),
-                            contentScale = ContentScale.Crop
-
-                        )
-
-                        IconButton(
-                            onClick = {
-                                if(UserRepository(context).findUsers().isEmpty()){
-                                    navRotasController.navigate("login")
-                                }else{
-                                    navRotasController.navigate("perfil")
-                                }
-                            }
-                        ) {
-                            Image(
-                                painter = painterResource(
-                                    id = R.drawable.padrao
-                                ),
-                                contentDescription = "",
-                                modifier = Modifier
-                                    .size(51.dp)
-                                    .padding(4.dp)
-                                    .clip(CircleShape),
-                                contentScale = ContentScale.Crop
-
-                            )
-                        }
-                    }
-                    Column(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalAlignment = Alignment.Start
-                    ) {
-                        Column(
-                            modifier = Modifier
-                                .padding(start = 24.dp)
-                        ) {
-                            Text(
-                                text = "Bem-Vindo, Usúario(a)!",
-                                color = Color.White,
-                                fontSize = 24.sp,
-                                fontWeight = FontWeight.W700
-                            )
-                        }
-                    }
-                }
+                Image(
+                    painter = painterResource(id = R.drawable.padrao),
+                    contentDescription = "",
+                    modifier = Modifier.size(32.dp)
+                )
             }
+            Text(
+                text = "Bem-Vindo, Usúario(a)!",
+                color = Color.White,
+                fontSize = 20.sp,
+                fontWeight = FontWeight(700)
+            )
         }
-
+    }
 }
 
 

@@ -6,9 +6,13 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FavoriteBorder
@@ -21,6 +25,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.Font
@@ -48,122 +53,116 @@ fun AnunciosProximos(
 
     var isChecked by remember { mutableStateOf(false) }
 
-        Box(
-            modifier = Modifier
-                .width(156.dp)
-                .height(250.dp)
-                .clickable {
-                    navController.navigate("annouceDetail")
-                },
+    Card(
+        modifier = Modifier
+            .width(156.dp)
+            .height(260.dp)
+            .clickable {
+                navController.navigate("annouceDetail")
+            }
+            .shadow(
+                elevation = 6.dp,
+                spotColor = Color(0xFF000000),
+                ambientColor = Color(0xFF000000)
+            ),
+        shape = RoundedCornerShape(4.dp)
+    ) {
+        Column(
+            modifier = Modifier.padding(12.dp),
+            verticalArrangement = Arrangement.SpaceBetween
         ) {
             Column(
-                modifier = Modifier
-                    .width(156.dp)
-                    .height(250.dp)
-                    .background(
-                        color =
-                        Color(0xFFFFFFFF)
-                    ),
-                verticalArrangement = Arrangement.SpaceBetween
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Column(
+                AsyncImage(
+                    model = "${foto}",
+                    contentDescription = "",
+                    contentScale = ContentScale.Crop,
                     modifier = Modifier
-                        .width(156.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    AsyncImage(
-                        model = "${foto}",
-                        contentDescription = "",
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier
-                            .width(96.dp)
-                            .height(147.dp)
-                            .padding(top = 12.dp)
+                        .width(96.dp)
+                        .height(148.dp)
+                )
+            }
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = "${nome_livro}",
+                fontSize = 12.sp,
+                fontFamily = FontFamily(Font(R.font.poppinsmedium)),
+                fontWeight = FontWeight(400),
+                color = Color(0xFF000000),
+            )
+            Text(
+                text = "${autor}",
+                fontSize = 10.sp,
+                fontFamily = FontFamily(Font(R.font.intermedium)),
+                fontWeight = FontWeight(600),
+                color = Color(0xFF9F9898),
+            )
+            Spacer(modifier = Modifier.height(12.dp))
+            Row(
+                modifier = Modifier
+                .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                if (tipo_anuncio == "Doação") {
+                    Text(
+                        text = "Doa-se",
+                        fontSize = 12.sp,
+                        fontFamily = FontFamily(
+                            Font(
+                                R.font.poppinsmedium
+                            )
+                        ),
+                        fontWeight = FontWeight(600),
+                        color = Color(0xFF000000),
                     )
-
+                } else if (tipo_anuncio == "Troca") {
+                    Text(
+                        text = "Troca-se",
+                        fontSize = 12.sp,
+                        fontFamily = FontFamily(
+                            Font(
+                                R.font.poppinsmedium
+                            )
+                        ),
+                        fontWeight = FontWeight(600),
+                        color = Color(0xFF000000),
+                    )
+                } else {
+                    Text(
+                        text = "R$" + preco,
+                        fontSize = 12.sp,
+                        fontFamily = FontFamily(
+                            Font(
+                                R.font.poppinsmedium
+                            )
+                        ),
+                        fontWeight = FontWeight(600),
+                        color = Color(0xFF000000),
+                    )
                 }
-                Text(
+                IconButton(
                     modifier = Modifier
-                        .padding(start = 12.dp),
-                    text = "${nome_livro}",
-                    fontSize = 12.sp,
-                    fontFamily = FontFamily(Font(R.font.poppinsmedium)),
-                    fontWeight = FontWeight(400),
-                    color = Color(0xFF000000),
-                )
-                Text(
-                    modifier = Modifier
-                        .padding(start = 12.dp),
-                    text = "${autor}",
-                    fontSize = 10.sp,
-                    fontFamily = FontFamily(Font(R.font.intermedium)),
-                    fontWeight = FontWeight(600),
-                    color = Color(0xFF9F9898),
-                )
-                Row(
-                    modifier = Modifier
-                        .padding(start = 12.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically,
-
-                    ) {
-                    if (tipo_anuncio == "Doação") {
-                        androidx.compose.material3.Text(
-                            text = "Doa-se",
-                            fontSize = 24.sp,
-                            fontFamily = FontFamily(
-                                Font(
-                                    R.font.poppinsmedium
-                                )
-                            ),
-                            fontWeight = FontWeight(600),
-                            color = Color(0xFF000000),
-                        )
-                    } else if (tipo_anuncio == "Troca") {
-                        androidx.compose.material3.Text(
-                            text = "Troca-se",
-                            fontSize = 20.sp,
-                            fontFamily = FontFamily(
-                                Font(
-                                    R.font.poppinsmedium
-                                )
-                            ),
-                            fontWeight = FontWeight(600),
-                            color = Color(0xFF000000),
-                        )
-                    } else {
-                        androidx.compose.material3.Text(
-                            text = "R$" + preco,
-                            fontSize = 20.sp,
-                            fontFamily = FontFamily(
-                                Font(
-                                    R.font.poppinsmedium
-                                )
-                            ),
-                            fontWeight = FontWeight(600),
-                            color = Color(0xFF000000),
-                        )
-                    }
-                    IconButton(
-                        modifier = Modifier
-                            .width(50.dp)
-                            .height(42.dp),
-                        onClick = {
-                            if (isChecked == false) {
-                                isChecked = true
-                                var cor = 0xFFFFFF
-                            } else {
-                                isChecked = false
-                                var cor = 0xF60E1C
-                            }
+                        .width(50.dp)
+                        .height(42.dp),
+                    onClick = {
+                        if (isChecked == false) {
+                            isChecked = true
+                            var cor = 0xFFFFFF
+                        } else {
+                            isChecked = false
+                            var cor = 0xF60E1C
                         }
-                    ) {
-                        androidx.compose.material3.Icon(
-                            imageVector = coracao,
-                            contentDescription = ""
-                        )
                     }
+                ) {
+                    androidx.compose.material3.Icon(
+                        imageVector = coracao,
+                        contentDescription = ""
+                    )
                 }
             }
         }
     }
+}
