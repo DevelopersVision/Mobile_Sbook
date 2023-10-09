@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
@@ -30,6 +31,7 @@ fun MainScreen(
     navRotasController: NavController,
     lifecycleScope: LifecycleCoroutineScope
 ) {
+    val context = LocalContext.current
     val navController = rememberNavController()
     Scaffold(
         bottomBar = { BottonBar(navController = navController)}
@@ -37,7 +39,8 @@ fun MainScreen(
         ButtonNavGraph(
             navController = navController,
             navRotasController = navRotasController,
-            lifecycleScope = lifecycleScope
+            lifecycleScope = lifecycleScope,
+            context
         )
     }
 }
