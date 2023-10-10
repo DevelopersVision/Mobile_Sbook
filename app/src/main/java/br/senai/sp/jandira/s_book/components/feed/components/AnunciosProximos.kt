@@ -58,7 +58,6 @@ fun AnunciosProximos(
 
     var isChecked by remember { mutableStateOf(false) }
 
-<<<<<<< HEAD
     Card(
         modifier = Modifier
             .width(156.dp)
@@ -73,21 +72,14 @@ fun AnunciosProximos(
             ),
         shape = RoundedCornerShape(4.dp)
     ) {
-        Column(
-            modifier = Modifier.padding(12.dp),
-            verticalArrangement = Arrangement.SpaceBetween
-=======
         Box(
             modifier = Modifier
                 .width(156.dp)
                 .height(250.dp)
                 .clickable {
-                    onClick(
-
-                    )
+                    onClick()
                     navController.navigate("annouceDetail")
                 },
->>>>>>> 2355e520934729fc4d4f716fa531529e37275e85
         ) {
             Column(
                 modifier = Modifier.fillMaxWidth(),

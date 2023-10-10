@@ -57,10 +57,10 @@ class MainActivity : ComponentActivity() {
                     val viewModelAnuncio = viewModel<AnuncioViewMODEL>()
 
                     NavHost(
-                        navController = navController, startDestination = "navigation_home_bar"
+                        navController = navController, startDestination = "profile"
                     ){
                         composable("navigation_home_bar") {
-                            MainScreen(navController, lifecycleScope)
+                            MainScreen(navController, lifecycleScope, anuncioViewMODEL = viewModelAnuncio)
                         }
                         composable("login") {
                             LoginScreen(navController = navController, lifecycleScope = lifecycleScope)
@@ -103,7 +103,7 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable("profile"){
-                            ProfileScreen()
+                            ProfileScreen(navController)
                         }
 
                         composable("annouceDetail"){

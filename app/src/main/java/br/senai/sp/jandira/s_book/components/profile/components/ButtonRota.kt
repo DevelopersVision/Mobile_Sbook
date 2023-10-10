@@ -22,13 +22,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.R
 
-@Preview
 @Composable
 fun ButtonRota(
     icon: Int,
-    text: String
+    text: String,
+    navController: NavController
 ) {
     Column (
         verticalArrangement = Arrangement.spacedBy(12.dp)

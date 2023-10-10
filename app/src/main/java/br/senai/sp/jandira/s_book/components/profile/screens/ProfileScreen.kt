@@ -10,14 +10,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.components.profile.components.CardProfile
+import br.senai.sp.jandira.s_book.components.profile.components.RotasProfile
 import br.senai.sp.jandira.s_book.components.universal.HeaderProfile
 
-@Preview
 @Composable
-fun ProfileScreen() {
+fun ProfileScreen(
+    navController: NavController
+) {
     Column (
         modifier = Modifier
             .fillMaxSize()
@@ -28,5 +30,6 @@ fun ProfileScreen() {
         HeaderProfile()
         Spacer(modifier = Modifier.height(32.dp))
         CardProfile()
+        RotasProfile(navController = navController)
     }
 }
