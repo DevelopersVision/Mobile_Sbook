@@ -43,7 +43,7 @@ import br.senai.sp.jandira.s_book.model.JsonAnuncios
 import br.senai.sp.jandira.s_book.model.ResponseUsuario
 import br.senai.sp.jandira.s_book.model.Usuario
 import br.senai.sp.jandira.s_book.service.RetrofitHelper
-import br.senai.sp.jandira.s_book.view_model.AnuncioViewMODEL
+import br.senai.sp.jandira.s_book.view_model.AnuncioViewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -53,7 +53,7 @@ fun FeedScreen(
     navController: NavController,
     navRotasController: NavController,
     lifecycleScope: LifecycleCoroutineScope?,
-    viewMODEL: AnuncioViewMODEL
+    viewModelQueVaiPassarOsDados: AnuncioViewModel
 ) {
 
     val context = LocalContext.current
@@ -121,7 +121,37 @@ fun FeedScreen(
                             preco = item.anuncio.preco,
                             id = item.anuncio.id,
                             navController = navRotasController,
-                            onClick = {},
+                            onClick = {
+
+
+                                val anunciante = getAnunciante(item.anuncio.anunciante) { usuario ->
+                                    Log.e("Log", "${usuario}")
+                                    if (usuario != null) {
+                                        viewModelQueVaiPassarOsDados.foto = item.foto
+                                        Log.e("Foto indo pra view model", "${viewModelQueVaiPassarOsDados.foto}")
+                                        viewModelQueVaiPassarOsDados.nome = item.anuncio.nome
+                                        Log.e("nome indo pra view model", "${viewModelQueVaiPassarOsDados.nome}")
+                                        viewModelQueVaiPassarOsDados.generos = item.generos
+                                        viewModelQueVaiPassarOsDados.tipo_anuncio = item.tipo_anuncio
+                                        Log.e("Anunciante indo pra view model", "${item.anuncio.anunciante}")
+                                        viewModelQueVaiPassarOsDados.anunciante_foto = usuario.foto
+                                        Log.e("foto do anunciante", "${viewModelQueVaiPassarOsDados.anunciante_foto}")
+                                        viewModelQueVaiPassarOsDados.anunciante_nome = usuario.nome
+                                        viewModelQueVaiPassarOsDados.cidade_anuncio = usuario.cidade
+                                        viewModelQueVaiPassarOsDados.estado_anuncio = usuario.estado
+                                        viewModelQueVaiPassarOsDados.descricao = item.anuncio.descricao
+
+                                        viewModelQueVaiPassarOsDados.ano_edicao = item.anuncio.ano_lancamento
+                                        viewModelQueVaiPassarOsDados.autor = item.autores
+                                        viewModelQueVaiPassarOsDados.editora = item.editora
+                                        viewModelQueVaiPassarOsDados.idioma = item.idioma
+                                    } else {
+                                        Log.e("Anunciante", "null")
+                                    }
+                                }
+
+
+                            },
                         )
                     }
                 }

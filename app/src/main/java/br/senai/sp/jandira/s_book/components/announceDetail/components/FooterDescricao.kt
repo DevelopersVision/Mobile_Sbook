@@ -21,11 +21,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.senai.sp.jandira.s_book.R
-import br.senai.sp.jandira.s_book.view_model.AnuncioViewMODEL
+import br.senai.sp.jandira.s_book.view_model.AnuncioViewModel
 
 
 @Composable
-fun FooterDescricao(viewMODEL: AnuncioViewMODEL) {
+fun FooterDescricao(viewMODEL: AnuncioViewModel) {
 
     Column(
         modifier = Modifier

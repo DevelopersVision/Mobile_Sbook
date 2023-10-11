@@ -8,7 +8,7 @@ import br.senai.sp.jandira.s_book.model.Genero
 import br.senai.sp.jandira.s_book.model.Idioma
 import br.senai.sp.jandira.s_book.model.TipoAnuncio
 
-class AnuncioViewMODEL: ViewModel() {
+class AnuncioViewModel: ViewModel() {
     var foto: List<Foto>? = null
     var nome: String? = ""
     var generos: List<Genero>? = null
@@ -23,4 +23,3 @@ class AnuncioViewMODEL: ViewModel() {
     var editora: Editora? = null
     var idioma: Idioma? = null
 }
-

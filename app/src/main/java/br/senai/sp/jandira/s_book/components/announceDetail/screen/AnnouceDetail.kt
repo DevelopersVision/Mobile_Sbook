@@ -13,15 +13,15 @@ import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.components.announceDetail.components.CardInformacao
 import br.senai.sp.jandira.s_book.components.announceDetail.components.FooterDescricao
 import br.senai.sp.jandira.s_book.components.announceDetail.components.Header
-import br.senai.sp.jandira.s_book.view_model.AnuncioViewMODEL
+import br.senai.sp.jandira.s_book.view_model.AnuncioViewModel
 
 
 @Composable
 fun AnnouceDetail(
     navController: NavController,
-    viewMODEL: AnuncioViewMODEL
+    viewMODEL: AnuncioViewModel
 ){
-    Log.e("viewZuada", "${viewMODEL}")
+    //Log.e("viewLuiz", "${viewMODEL.autor}")
     Surface(
         modifier = Modifier
             .fillMaxSize(),

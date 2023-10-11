@@ -37,7 +37,7 @@ import br.senai.sp.jandira.s_book.view_model.UserCategoryViewModel
 import br.senai.sp.jandira.s_book.navigation_home_bar.MainScreen
 
 import br.senai.sp.jandira.s_book.ui.theme.SBOOKTheme
-import br.senai.sp.jandira.s_book.view_model.AnuncioViewMODEL
+import br.senai.sp.jandira.s_book.view_model.AnuncioViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,10 +54,10 @@ class MainActivity : ComponentActivity() {
                     val viewModelCreateAccount = viewModel<CreateAccountView>()
                     val viewModelResetPassword = viewModel<ResetPasswordView>()
                     val viewModelUserCategory = viewModel<UserCategoryViewModel>()
-                    val viewModelAnuncio = viewModel<AnuncioViewMODEL>()
+                    val viewModelAnuncio = viewModel<AnuncioViewModel>()
 
                     NavHost(
-                        navController = navController, startDestination = "filters"
+                        navController = navController, startDestination = "navigation_home_bar"
                     ){
                         composable("navigation_home_bar") {
                             MainScreen(navController, lifecycleScope, anuncioViewMODEL = viewModelAnuncio)

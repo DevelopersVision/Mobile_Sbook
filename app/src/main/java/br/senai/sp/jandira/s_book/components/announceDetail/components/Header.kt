@@ -20,14 +20,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import br.senai.sp.jandira.s_book.R
-import br.senai.sp.jandira.s_book.view_model.AnuncioViewMODEL
+import br.senai.sp.jandira.s_book.view_model.AnuncioViewModel
 import coil.compose.AsyncImage
 
 
 @Composable
-fun Header(viewMODEL: AnuncioViewMODEL){
+fun Header(viewMODEL: AnuncioViewModel){
 
-    Log.e("Log de HJJJJJJJJJJJJJ", "${viewMODEL.foto}")
+    Log.e("Log de HJJJJJJJJJJJJJ", "${viewMODEL.foto[0].foto}")
 
     Column (
         modifier = Modifier

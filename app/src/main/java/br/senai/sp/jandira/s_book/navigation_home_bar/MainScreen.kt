@@ -23,7 +23,7 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import br.senai.sp.jandira.s_book.view_model.AnuncioViewMODEL
+import br.senai.sp.jandira.s_book.view_model.AnuncioViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -31,7 +31,7 @@ import br.senai.sp.jandira.s_book.view_model.AnuncioViewMODEL
 fun MainScreen(
     navRotasController: NavController,
     lifecycleScope: LifecycleCoroutineScope,
-    anuncioViewMODEL: AnuncioViewMODEL
+    anuncioViewMODEL: AnuncioViewModel
 ) {
     val context = LocalContext.current
     val navController = rememberNavController()

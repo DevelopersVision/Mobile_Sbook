@@ -34,16 +34,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import br.senai.sp.jandira.s_book.R
-import br.senai.sp.jandira.s_book.view_model.AnuncioViewMODEL
+import br.senai.sp.jandira.s_book.view_model.AnuncioViewModel
 import coil.compose.AsyncImage
 
 
 @Composable
 fun CardInformacao(
-    viewMODEL: AnuncioViewMODEL
+    viewModel: AnuncioViewModel
 ) {
 
-    Log.e("viewZuada", "${viewMODEL}")
+    Log.e("viewZuada", "${viewModel}")
 
     var favorito = Icons.Default.FavoriteBorder
 
@@ -70,9 +70,9 @@ fun CardInformacao(
                     .padding(top = 24.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Log.e("nome que a view model passou", "${viewMODEL.nome}")
+                Log.e("nome que a view model passou", "${viewModel.nome}")
                 Text(
-                    text = "${viewMODEL.nome}",
+                    text = "${viewModel.nome}",
                     fontSize = 24.sp,
                     fontFamily = FontFamily(Font(R.font.intermedium)),
                     fontWeight = FontWeight(600),
@@ -107,7 +107,7 @@ fun CardInformacao(
                        .height(35.dp)
                ) {
                    Text(
-                       text = "${viewMODEL.generos}",
+                       text = "${viewModel.generos}",
                        fontSize = 14.sp,
                        fontFamily = FontFamily(Font(R.font.intermedium)),
                        fontWeight = FontWeight(600),
@@ -119,7 +119,7 @@ fun CardInformacao(
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Text(
-                    text = "${viewMODEL.tipo_anuncio}",
+                    text = "${viewModel.tipo_anuncio}",
                     fontSize = 24.sp,
                     fontFamily = FontFamily(Font(R.font.intermedium)),
                     fontWeight = FontWeight(700),
@@ -142,7 +142,7 @@ fun CardInformacao(
                     ) {
 
                         AsyncImage(
-                            model = "${viewMODEL.anunciante_foto}",
+                            model = "${viewModel.anunciante_foto}",
                             contentDescription = "image description",
                             contentScale = ContentScale.Crop
                         )
@@ -153,14 +153,14 @@ fun CardInformacao(
                             .height(70.dp)
                     ) {
                         Text(
-                            text = "${viewMODEL.autor}",
+                            text = "${viewModel.autor}",
                             fontSize = 20.sp,
                             fontFamily = FontFamily(Font(R.font.intermedium)),
                             fontWeight = FontWeight(600),
                             color = Color(0xFF000000),
                         )
                         Text(
-                            text = "${viewMODEL.cidade_anuncio}, ${viewMODEL.estado_anuncio}",
+                            text = "${viewModel.cidade_anuncio}, ${viewModel.estado_anuncio}",
                             fontSize = 12.sp,
                             fontFamily = FontFamily(Font(R.font.intermedium)),
                             fontWeight = FontWeight(600),
