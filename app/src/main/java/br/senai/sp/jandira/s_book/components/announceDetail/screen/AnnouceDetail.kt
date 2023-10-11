@@ -30,7 +30,7 @@ fun AnnouceDetail(
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(
-                    ScrollState(115)
+                    ScrollState(155)
                 ),
             horizontalAlignment = Alignment.CenterHorizontally
         ){

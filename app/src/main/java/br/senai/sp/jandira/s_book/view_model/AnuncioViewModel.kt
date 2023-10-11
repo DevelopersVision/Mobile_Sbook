@@ -9,17 +9,17 @@ import br.senai.sp.jandira.s_book.model.Idioma
 import br.senai.sp.jandira.s_book.model.TipoAnuncio
 
 class AnuncioViewModel: ViewModel() {
-    var foto: List<Foto>? = null
+    var foto: List<Foto> = listOf()
     var nome: String? = ""
-    var generos: List<Genero>? = null
+    var generos: List<Genero> = listOf()
     var anunciante_foto: String? = ""
     var anunciante_nome: String? = ""
     var cidade_anuncio: String = ""
     var estado_anuncio: String = ""
     var descricao: String = ""
-    var tipo_anuncio: List<TipoAnuncio>? = null
+    var tipo_anuncio: List<TipoAnuncio> = listOf()
     var ano_edicao: Int = 0
-    var autor: List<Autores>? = null
+    var autor: List<Autores> = listOf()
     var editora: Editora? = null
     var idioma: Idioma? = null
 }

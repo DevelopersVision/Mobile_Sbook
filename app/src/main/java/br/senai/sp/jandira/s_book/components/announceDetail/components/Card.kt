@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
@@ -43,7 +45,7 @@ fun CardInformacao(
     viewModel: AnuncioViewModel
 ) {
 
-    Log.e("viewZuada", "${viewModel}")
+    Log.e("viewDoCardAgora", "${viewModel}")
 
     var favorito = Icons.Default.FavoriteBorder
 
@@ -70,7 +72,6 @@ fun CardInformacao(
                     .padding(top = 24.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Log.e("nome que a view model passou", "${viewModel.nome}")
                 Text(
                     text = "${viewModel.nome}",
                     fontSize = 24.sp,
@@ -106,26 +107,37 @@ fun CardInformacao(
                        .width(292.dp)
                        .height(35.dp)
                ) {
-                   Text(
-                       text = "${viewModel.generos}",
-                       fontSize = 14.sp,
-                       fontFamily = FontFamily(Font(R.font.intermedium)),
-                       fontWeight = FontWeight(600),
-                       color = Color(0xFF808080),
-                       modifier = Modifier
-                   )
+                   LazyColumn(){
+                       items(viewModel.generos){
+                           Text(
+                               text = "${it.nome}",
+                               fontSize = 14.sp,
+                               fontFamily = FontFamily(Font(R.font.intermedium)),
+                               fontWeight = FontWeight(600),
+                               color = Color(0xFF808080),
+                               modifier = Modifier
+                           )
+                       }
+
+                   }
+
                }
 
                 Spacer(modifier = Modifier.height(16.dp))
+                LazyColumn(){
+                    items(viewModel.tipo_anuncio){
+                        Text(
+                            text = "Disponivel para ${it.tipo}",
+                            fontSize = 24.sp,
+                            fontFamily = FontFamily(Font(R.font.intermedium)),
+                            fontWeight = FontWeight(700),
+                            color = Color(0xFF404040),
+                            modifier = Modifier
+                        )
+                    }
 
-                Text(
-                    text = "${viewModel.tipo_anuncio}",
-                    fontSize = 24.sp,
-                    fontFamily = FontFamily(Font(R.font.intermedium)),
-                    fontWeight = FontWeight(700),
-                    color = Color(0xFF404040),
-                    modifier = Modifier
-                )
+                }
+
 
                 Spacer(modifier = Modifier.height(24.dp))
 
@@ -140,7 +152,7 @@ fun CardInformacao(
                             .size(60.dp),
                         shape = CircleShape,
                     ) {
-
+                        Log.e("Foto do anunciante ########", "${viewModel.anunciante_foto}")
                         AsyncImage(
                             model = "${viewModel.anunciante_foto}",
                             contentDescription = "image description",
@@ -152,8 +164,9 @@ fun CardInformacao(
                             .width(292.dp)
                             .height(70.dp)
                     ) {
+
                         Text(
-                            text = "${viewModel.autor}",
+                            text = "${viewModel.anunciante_nome}",
                             fontSize = 20.sp,
                             fontFamily = FontFamily(Font(R.font.intermedium)),
                             fontWeight = FontWeight(600),

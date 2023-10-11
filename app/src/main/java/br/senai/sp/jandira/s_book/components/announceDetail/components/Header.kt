@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Card
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -27,7 +29,6 @@ import coil.compose.AsyncImage
 @Composable
 fun Header(viewMODEL: AnuncioViewModel){
 
-    Log.e("Log de HJJJJJJJJJJJJJ", "${viewMODEL.foto[0].foto}")
 
     Column (
         modifier = Modifier
@@ -36,15 +37,23 @@ fun Header(viewMODEL: AnuncioViewModel){
         verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.Top),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        AsyncImage(
-            model = "${viewMODEL.foto}",
-            contentDescription = "",
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .width(160.dp)
-                .height(245.dp)
-                .padding(top = 12.dp)
-        )
+
+        LazyRow {
+            items(viewMODEL.foto){
+
+                AsyncImage(
+                    model = it.foto,
+                    contentDescription = "",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .width(160.dp)
+                        .height(245.dp)
+                        .padding(top = 12.dp)
+                )
+                Spacer(modifier = Modifier.width(15.dp))
+            }
+        }
+
         Row(
             modifier = Modifier
                 .fillMaxWidth()
