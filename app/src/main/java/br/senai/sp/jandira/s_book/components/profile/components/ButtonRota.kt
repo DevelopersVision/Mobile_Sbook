@@ -44,7 +44,7 @@ fun ButtonRota(
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.books),
+                    painter = painterResource(id = icon),
                     contentDescription = "",
                     modifier = Modifier.size(25.dp)
                 )
@@ -56,13 +56,6 @@ fun ButtonRota(
                     color = Color(0xFF000000)
                 )
             }
-
-            Icon(
-                painter = painterResource(id = icon),
-                contentDescription = "",
-                modifier = Modifier.size(20.dp),
-                tint = Color(0xFF7E7D7A)
-            )
         }
 
         Box(

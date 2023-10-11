@@ -57,7 +57,7 @@ class MainActivity : ComponentActivity() {
                     val viewModelAnuncio = viewModel<AnuncioViewMODEL>()
 
                     NavHost(
-                        navController = navController, startDestination = "profile"
+                        navController = navController, startDestination = "filters"
                     ){
                         composable("navigation_home_bar") {
                             MainScreen(navController, lifecycleScope, anuncioViewMODEL = viewModelAnuncio)

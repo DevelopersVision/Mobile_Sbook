@@ -10,6 +10,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowBackIos
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -33,6 +36,9 @@ fun HeaderFilter(
             .fillMaxWidth()
             .height(64.dp),
     ) {
+
+        val flecha = Icons.Default.ArrowBackIos
+
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -46,7 +52,7 @@ fun HeaderFilter(
                 }
             ) {
                 Icon(
-                    painter = painterResource(id = R.drawable.voltar),
+                    imageVector = flecha,
                     contentDescription = "",
                     modifier = Modifier
                         .size(28.dp),
