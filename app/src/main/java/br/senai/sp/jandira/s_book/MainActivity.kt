@@ -91,7 +91,7 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable("favorite"){
-                            FavoritoScreen(navController = navController, lifecycleScope = lifecycleScope ,navRotasController = navController)
+                            FavoritoScreen(navController = navController, lifecycleScope = lifecycleScope ,navRotasController = navController, rota = "navigation_home_bar")
                         }
 
                         composable("cep"){
@@ -100,10 +100,6 @@ class MainActivity : ComponentActivity() {
 
                         composable("perfil"){
                             PerfilScreen(navController)
-                        }
-
-                        composable("profile"){
-                            ProfileScreen(navController)
                         }
 
                         composable("annouceDetail"){

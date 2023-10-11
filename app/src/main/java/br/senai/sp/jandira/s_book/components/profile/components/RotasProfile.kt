@@ -19,9 +19,9 @@ fun RotasProfile(
             .background(Color.White),
         verticalArrangement = Arrangement.spacedBy(22.dp)
     ) {
-        ButtonRota(icon = R.drawable.books, text = "Meus anúncios", navController)
-        ButtonRota(icon = R.drawable.heart, text = "Favoritos", navController)
-        ButtonRota(icon = R.drawable.user_profile, text = "Minhas informações", navController)
-        ButtonRota(icon = R.drawable.power, text = "Sair", navController)
+        ButtonRota(icon = R.drawable.books, text = "Meus anúncios"){}
+        ButtonRota(icon = R.drawable.heart, text = "Favoritos"){ navController.navigate("favorite")}
+        ButtonRota(icon = R.drawable.user_profile, text = "Minhas informações") {}
+        ButtonRota(icon = R.drawable.power, text = "Sair"){}
     }
 }

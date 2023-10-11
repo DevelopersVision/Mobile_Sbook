@@ -2,6 +2,7 @@ package br.senai.sp.jandira.s_book.components.profile.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -29,14 +30,17 @@ import br.senai.sp.jandira.s_book.R
 fun ButtonRota(
     icon: Int,
     text: String,
-    navController: NavController
+    onclick : ()->Unit
 ) {
     Column (
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ){
         Row(
             modifier = Modifier
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .clickable {
+                           onclick()
+                },
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -56,8 +60,13 @@ fun ButtonRota(
                     color = Color(0xFF000000)
                 )
             }
-        }
 
+            Image(
+                painter = painterResource(id = R.drawable.arrow_right),
+                contentDescription = "",
+                modifier = Modifier.size(16.dp)
+            )
+        }
         Box(
             modifier = Modifier
                 .fillMaxWidth()

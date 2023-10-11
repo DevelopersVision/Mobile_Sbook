@@ -1,6 +1,7 @@
 package br.senai.sp.jandira.s_book.components.profile.screens
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -25,10 +26,10 @@ fun ProfileScreen(
             .fillMaxSize()
             .background(Color.White)
             .padding(24.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(35.dp)
     ) {
         HeaderProfile()
-        Spacer(modifier = Modifier.height(32.dp))
         CardProfile()
         RotasProfile(navController = navController)
     }

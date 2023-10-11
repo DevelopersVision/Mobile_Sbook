@@ -2,6 +2,7 @@ package br.senai.sp.jandira.s_book.components.feed.components
 
 import android.content.Context
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -67,6 +68,9 @@ fun Header(
                     painter = painterResource(id = R.drawable.padrao),
                     contentDescription = "",
                     modifier = Modifier.size(32.dp)
+                        .clickable {
+                            navController.navigate("profile")
+                        }
                 )
             }
             Text(

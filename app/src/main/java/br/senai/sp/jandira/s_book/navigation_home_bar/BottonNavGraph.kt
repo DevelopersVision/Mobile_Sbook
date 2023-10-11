@@ -10,6 +10,7 @@ import androidx.navigation.compose.composable
 import br.senai.sp.jandira.s_book.components.favorite.screen.FavoritoScreen
 import br.senai.sp.jandira.s_book.components.feed.screen.FeedScreen
 import br.senai.sp.jandira.s_book.components.login.screen.LoginScreen
+import br.senai.sp.jandira.s_book.components.profile.screens.ProfileScreen
 import br.senai.sp.jandira.s_book.sqlite_repository.UserRepository
 import br.senai.sp.jandira.s_book.view_model.AnuncioViewModel
 
@@ -33,7 +34,9 @@ fun ButtonNavGraph(
 
             if(user.isNotEmpty()){
                 FavoritoScreen(
-                    navController = navController, lifecycleScope = lifecycleScope ,navRotasController = navRotasController
+                    navController = navController, lifecycleScope = lifecycleScope,
+                    navRotasController = navRotasController,
+                    rota = "navigation_home_bar"
                 )
             }else{
                 LoginScreen(
@@ -41,6 +44,9 @@ fun ButtonNavGraph(
                     lifecycleScope = lifecycleScope
                 )
             }
+        }
+        composable("profile"){
+            ProfileScreen(navRotasController)
         }
         composable(route = BottomBarScreen.Anuncio.route){
 
