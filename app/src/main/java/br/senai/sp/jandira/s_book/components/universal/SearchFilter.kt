@@ -1,8 +1,11 @@
 package br.senai.sp.jandira.s_book.components.universal
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -42,25 +45,25 @@ fun SearchFilter(
     valor: String,
     aoMudar: (String) -> Unit
 ){
-
-    OutlinedTextField(
-        value = valor,
-        onValueChange = { aoMudar(it) },
-        modifier = Modifier
-            .height(60.dp)
-            .width(320.dp)
-            .background(Color(235,235,235)),
-        shape = RoundedCornerShape(12.dp),
-        label = {
-            Text(
-                text = label,
-                fontSize = 16.sp,
-                fontFamily = FontFamily(Font(R.font.intermedium)),
-                fontWeight = FontWeight(600),
-                color = Color(0xFF808080),
-            )
-        },
-    )
+    Column(modifier = Modifier.padding(16.dp)) {
+        OutlinedTextField(
+            value = valor,
+            onValueChange = { aoMudar(it) },
+            modifier = Modifier
+                .height(60.dp)
+                .fillMaxWidth(),
+            shape = RoundedCornerShape(12.dp),
+            label = {
+                Text(
+                    text = label,
+                    fontSize = 16.sp,
+                    fontFamily = FontFamily(Font(R.font.intermedium)),
+                    fontWeight = FontWeight(600),
+                    color = Color(0xFF808080),
+                )
+            }
+        )
+    }
 }
 
 @Preview(showBackground = true)

@@ -23,7 +23,7 @@ fun FiltersScreen(
                 .fillMaxSize()
         ) {
             HeaderFilter(
-                text = "Filtros",
+                text = "Filtrar",
                 onclick = {navController.navigate("navigation_home_bar")}
             )
             Form(navController = navController)

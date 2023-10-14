@@ -40,7 +40,6 @@ fun Header(viewMODEL: AnuncioViewModel){
 
         LazyRow {
             items(viewMODEL.foto){
-
                 AsyncImage(
                     model = it.foto,
                     contentDescription = "",
