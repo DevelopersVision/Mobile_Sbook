@@ -32,15 +32,15 @@ fun ButtonNavGraph(
         composable(route = BottomBarScreen.Favorite.route){
             val user = UserRepository(context).findUsers()
 
-            if(user.isNotEmpty()){
-                FavoritoScreen(
-                    navController = navController, lifecycleScope = lifecycleScope,
-                    navRotasController = navRotasController,
-                    rota = "navigation_home_bar"
-                )
-            }else{
-                navRotasController.navigate("login")
-            }
+//            if(user.isNotEmpty()){
+//                FavoritoScreen(
+//                    navController = navController, lifecycleScope = lifecycleScope,
+//                    navRotasController = navRotasController,
+//                    rota = "navigation_home_bar"
+//                )
+//            }else{
+//                navRotasController.navigate("login")
+//            }
         }
         composable("profile"){
             ProfileScreen(navRotasController)

@@ -26,12 +26,12 @@ sealed class BottomBarScreen(
     )
     object  Anuncio : BottomBarScreen(
         route = "address",
-        title = "AddressScreen",
+        title = "Chats",
         icon = Icons.Default.DateRange
     )
     object  Profile : BottomBarScreen(
         route = "address",
-        title = "AddressScreen",
+        title = "Meus anúncios",
         icon = Icons.Default.AccountCircle
     )
 

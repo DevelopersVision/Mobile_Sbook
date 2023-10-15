@@ -40,10 +40,6 @@ fun CreateContScreen(
             ,
             verticalArrangement = Arrangement.SpaceEvenly,
             horizontalAlignment = Alignment.CenterHorizontally,
-
-
-
-
             ) {
 
             Header()

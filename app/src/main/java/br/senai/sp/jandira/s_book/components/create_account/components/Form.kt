@@ -57,7 +57,6 @@ fun Form(
 
     Column(
         modifier = Modifier
-            .padding(8.dp)
             .fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(12.dp, Alignment.Top),
         horizontalAlignment = Alignment.CenterHorizontally,

@@ -20,36 +20,30 @@ import androidx.compose.ui.unit.dp
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun  TextContinueScreen(){
-    Column (
+
+    Row(
+
         modifier = Modifier
-            .fillMaxWidth()
-            .height(100.dp),
+            . fillMaxWidth()
+            .height(50.dp),
+        horizontalArrangement = Arrangement.spacedBy(18.dp, Alignment.CenterHorizontally),
+        verticalAlignment = Alignment.CenterVertically
     ) {
-        Spacer(modifier = Modifier.height(12.dp))
-        Row(
-
+        Box (
             modifier = Modifier
-                . fillMaxWidth()
-                .height(50.dp),
-            horizontalArrangement = Arrangement.spacedBy(18.dp, Alignment.CenterHorizontally),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Box (
-                modifier = Modifier
-                    .height(2.dp)
-                    .width(100.dp)
-                    .background(Color(128, 128, 128)),
-                ){}
+                .height(2.dp)
+                .width(100.dp)
+                .background(Color(128, 128, 128)),
+        ){}
 
-            Text(text = "Ou continue com")
+        Text(text = "Ou continue com")
 
-            Box (
-                modifier = Modifier
-                    .height(2.dp)
-                    .width(100.dp)
-                    .background(Color(128, 128, 128)),
-            ){}
-        }
+        Box (
+            modifier = Modifier
+                .height(2.dp)
+                .width(100.dp)
+                .background(Color(128, 128, 128)),
+        ){}
     }
 
 }

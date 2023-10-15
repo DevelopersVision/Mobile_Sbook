@@ -69,7 +69,7 @@ fun Header(
                     contentDescription = "",
                     modifier = Modifier.size(32.dp)
                         .clickable {
-                            navController.navigate("profile")
+                            navRotasController.navigate("login")
                         }
                 )
             }

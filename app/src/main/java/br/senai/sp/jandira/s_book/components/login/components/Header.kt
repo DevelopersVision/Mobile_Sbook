@@ -24,49 +24,42 @@ import br.senai.sp.jandira.s_book.R
 @Preview(showSystemUi = true)
 @Composable
 fun Header(){
- 
-        Column (
+
+    Column(modifier = Modifier.padding(16.dp)){
+        Image(
+            painter = painterResource(id = R.drawable.logo),
+            contentDescription = "",
+            modifier = Modifier
+                .size(52.dp)
+        )
+        Spacer(modifier = Modifier.height(4.dp))
+
+        Column(
+            verticalArrangement = Arrangement.spacedBy(12.dp, Alignment.Top),
+            horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(150.dp)
-                .padding(5.dp)
+                .height(90.dp),
         ) {
-            Column(){
-                Image(
-                    painter = painterResource(id = R.drawable.logo),
-                    contentDescription = "",
-                    modifier = Modifier
-                        .size(52.dp)
-
+            Text(
+                text = "Olá",
+                style = TextStyle(
+                    fontSize = 32.sp,
+                    fontWeight = FontWeight(800),
+                    color = Color(0xFF000000),
                 )
-                Spacer(modifier = Modifier.height(13.dp))
+            )
 
-                Column(
-                    verticalArrangement = Arrangement.spacedBy(12.dp, Alignment.Top),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(90.dp),
-                ) {
-                    Text(
-                        text = "Olá",
-                        style = TextStyle(
-                            fontSize = 32.sp,
-                            fontWeight = FontWeight(800),
-                            color = Color(0xFF000000),
-                        )
-                    )
-
-                    Text(
-                        text = "Bem vindo de volta",
-                        style = TextStyle(
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight(500),
-                            color = Color(0xFF000000),
-                        )
-                    )
-                }
-            }
+            Text(
+                text = "Bem vindo de volta",
+                style = TextStyle(
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight(500),
+                    color = Color(0xFF000000),
+                )
+            )
         }
+    }
+
 }
 
