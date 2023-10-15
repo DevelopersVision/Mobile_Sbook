@@ -14,19 +14,14 @@ import br.senai.sp.jandira.s_book.components.universal.HeaderFilter
 fun FiltersScreen(
     navController: NavController
 ) {
-    Surface(
+    Column(
         modifier = Modifier
             .fillMaxSize()
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-        ) {
-            HeaderFilter(
-                text = "Filtrar",
-                onclick = {navController.navigate("navigation_home_bar")}
-            )
-            Form(navController = navController)
-        }
+        HeaderFilter(
+            text = "Filtrar",
+            onclick = {navController.navigate("navigation_home_bar")}
+        )
+        Form(navController = navController)
     }
 }

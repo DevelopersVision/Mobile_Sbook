@@ -64,8 +64,6 @@ fun FeedScreen(
 
     val call = RetrofitHelper.getAnunciosService().getAnuncios(1)
 
-    Log.e("API Call", "Antes da chamada da API: ${listAnuncios}")
-
     // Executar a chamada
     call.enqueue(object : Callback<AnunciosBaseResponse> {
         override fun onResponse(
@@ -78,7 +76,7 @@ fun FeedScreen(
 
 
         override fun onFailure(call: Call<AnunciosBaseResponse>, t: Throwable) {
-            Log.d("API Call", "Depois da chamada da API: ${listAnuncios}")
+           // Log.d("API Call", "Depois da chamada da API: ${listAnuncios}")
         }
     })
 
@@ -125,17 +123,16 @@ fun FeedScreen(
 
 
                                 val anunciante = getAnunciante(item.anuncio.anunciante) { usuario ->
-                                    Log.e("Log", "${usuario}")
                                     if (usuario != null) {
                                         viewModelQueVaiPassarOsDados.foto = item.foto
-                                        Log.e("Foto indo pra view model", "${viewModelQueVaiPassarOsDados.foto}")
+
                                         viewModelQueVaiPassarOsDados.nome = item.anuncio.nome
-                                        Log.e("nome indo pra view model", "${viewModelQueVaiPassarOsDados.nome}")
+
                                         viewModelQueVaiPassarOsDados.generos = item.generos
                                         viewModelQueVaiPassarOsDados.tipo_anuncio = item.tipo_anuncio
-                                        Log.e("Anunciante indo pra view model", "${item.anuncio.anunciante}")
+
                                         viewModelQueVaiPassarOsDados.anunciante_foto = usuario.foto
-                                        Log.e("foto do anunciante", "${viewModelQueVaiPassarOsDados.anunciante_foto}")
+
                                         viewModelQueVaiPassarOsDados.anunciante_nome = usuario.nome
                                         viewModelQueVaiPassarOsDados.cidade_anuncio = usuario.cidade
                                         viewModelQueVaiPassarOsDados.estado_anuncio = usuario.estado

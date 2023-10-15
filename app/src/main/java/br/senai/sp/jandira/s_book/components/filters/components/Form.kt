@@ -26,7 +26,7 @@ fun Form(
             icon = painterResource(
                 id = R.drawable.book
             ),
-            onclck = {
+            onclick = {
                 navController.navigate("filterGenero")
             }
         )
@@ -35,7 +35,7 @@ fun Form(
             icon = painterResource(
                 id = R.drawable.localizar
             ),
-            onclck = {
+            onclick = {
                 navController.navigate("filter_localizacao")
             }
         )
@@ -62,7 +62,7 @@ fun Form(
             icon = painterResource(
                 id = R.drawable.calendario
             ),
-            onclck = {
+            onclick = {
                 navController.navigate("filter_ano")
             }
         )
@@ -71,7 +71,7 @@ fun Form(
             icon = painterResource(
                 id = R.drawable.idioma
             ),
-            onclck = {
+            onclick = {
                 navController.navigate("filter_idioma")
             }
         )

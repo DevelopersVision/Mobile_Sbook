@@ -39,10 +39,7 @@ fun ButtonNavGraph(
                     rota = "navigation_home_bar"
                 )
             }else{
-                LoginScreen(
-                    navController = navRotasController,
-                    lifecycleScope = lifecycleScope
-                )
+                navRotasController.navigate("login")
             }
         }
         composable("profile"){

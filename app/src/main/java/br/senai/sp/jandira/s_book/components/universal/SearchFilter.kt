@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.Divider
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
@@ -45,7 +46,7 @@ fun SearchFilter(
     valor: String,
     aoMudar: (String) -> Unit
 ){
-    Column(modifier = Modifier.padding(16.dp)) {
+    Column(modifier = Modifier.padding(horizontal = 16.dp)) {
         OutlinedTextField(
             value = valor,
             onValueChange = { aoMudar(it) },
@@ -64,6 +65,12 @@ fun SearchFilter(
             }
         )
     }
+    Divider(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(0.8.dp),
+        color = Color(0xFFE0E0E0)
+    )
 }
 
 @Preview(showBackground = true)

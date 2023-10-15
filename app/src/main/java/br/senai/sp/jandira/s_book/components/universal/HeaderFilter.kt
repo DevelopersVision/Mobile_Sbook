@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
@@ -31,18 +32,14 @@ fun HeaderFilter(
     text : String,
     onclick : () -> Unit
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(64.dp),
-    ) {
+    Column() {
 
         val flecha = Icons.Default.ArrowBackIos
 
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(54.dp),
+                .height(64.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(123.dp)
         ) {
@@ -67,11 +64,11 @@ fun HeaderFilter(
                 color = Color(0xFF000000),
             )
         }
-        Column(
+        Divider(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(0.8.dp)
-                .background(color = Color(0xFFE0E0E0))
-        ){}
+                .height(0.8.dp),
+            color = Color(0xFFE0E0E0)
+        )
     }
 }
