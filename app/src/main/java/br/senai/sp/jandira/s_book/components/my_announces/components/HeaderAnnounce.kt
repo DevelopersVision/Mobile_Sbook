@@ -1,6 +1,7 @@
 package br.senai.sp.jandira.s_book.components.my_announces.components
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -24,9 +25,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.senai.sp.jandira.s_book.R
 
-@Preview
+
 @Composable
-fun HeaderAnnounce() {
+fun HeaderAnnounce(
+    onclick: ()-> Unit,
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -49,6 +52,9 @@ fun HeaderAnnounce() {
                     contentDescription = "",
                     modifier = Modifier
                         .size(24.dp)
+                        .clickable {
+                            onclick()
+                        }
                 )
                 Text(
                     text = "Meus anúncios",
@@ -70,7 +76,7 @@ fun HeaderAnnounce() {
                     color = Color(0xFFFFFFFF)
                 )
                 Text(
-                    text = "Você tem 4 anúncios",
+                    text = "Você tem 1 anúncio",
                     fontSize = 20.sp,
                     fontWeight = FontWeight(700),
                     color = Color(0xFFFFFFFF)

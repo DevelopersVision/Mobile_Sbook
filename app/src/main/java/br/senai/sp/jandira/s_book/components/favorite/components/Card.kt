@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonColors
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -66,6 +67,8 @@ fun Card(
     }
 
     val coracao = Icons.Default.Favorite
+
+    val cor = 0xFFFFFF
 
     var isChecked by remember { mutableStateOf(false) }
 
@@ -188,7 +191,7 @@ fun Card(
 
                                             Log.e("Ja ta favoritado bixo burro", "Plim")
                                             isChecked = false
-                                            var cor = 0xF60E1C
+
 
                                             removerDosFavoritos(id_anuncio = id, id_usuario = user.id)
                                         } else {
@@ -198,7 +201,7 @@ fun Card(
                                                 "burrei: ${response.errorBody()?.string()!!}",
                                             )
                                             isChecked = true
-                                            var cor = 0xFFFFFF
+
                                             Log.e("Log de Hoje felipe", "${id}")
                                             Log.e("Log de Hoje felipe", "${user.id}")
                                             favoritarAnuncio(id_anuncio = id, id_usuario = user.id, lifecycleScope = lifecycleScope)
@@ -213,12 +216,16 @@ fun Card(
                                         Log.d("mudou o nome", "Depois da chamada da API:")
                                     }
                                 })
-
+                            Log.i("testando123", "${call}")
                         }
                     ) {
+
+                        val iconTint = if (isChecked) Color.Black else Color.Red
+
                         androidx.compose.material3.Icon(
                             imageVector = coracao,
-                            contentDescription = ""
+                            contentDescription = "",
+                            tint = iconTint
                         )
                     }
                 }
@@ -242,7 +249,6 @@ fun favoritarAnuncio(id_usuario: Long, id_anuncio: Int, lifecycleScope: Lifecycl
             Log.e("registrar os erros", "bodyerrado: $erroBody")
         }
     }
-
 
 }
 

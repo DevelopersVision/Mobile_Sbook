@@ -37,13 +37,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import br.senai.sp.jandira.s_book.R
 import br.senai.sp.jandira.s_book.components.universal.ButtonProfile
 
 @Preview
 @Composable
-fun CardProfile() {
+fun CardProfile(
+    navController: NavController
+) {
 
     var userRating by remember { mutableStateOf(0) }
 
@@ -84,14 +87,14 @@ fun CardProfile() {
                 )
                 Column()  {
                     Text(
-                        text = "Maria Joaquina",
+                        text = "Thiago Freitas",
                         fontSize = 16.sp,
                         fontFamily = FontFamily(Font(R.font.intermedium)),
                         fontWeight = FontWeight(500),
                         color = Color(0xFFDDA35D)
                     )
                     Text(
-                        text = "mariajo@gmail.com",
+                        text = "tifreitas10@gmail.com",
                         fontSize = 12.sp,
                         fontFamily = FontFamily(Font(R.font.intermedium)),
                         fontWeight = FontWeight(500),
@@ -104,7 +107,10 @@ fun CardProfile() {
                     )
                 }
             }
-        ButtonProfile("Editar Conta")
+        ButtonProfile(
+            "Editar Conta",
+            onclick = {navController.navigate("editUser")}
+        )
         }
     }
 }

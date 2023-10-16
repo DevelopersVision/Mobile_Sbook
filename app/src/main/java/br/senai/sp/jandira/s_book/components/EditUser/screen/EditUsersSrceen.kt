@@ -39,10 +39,10 @@ fun EditUser(
             .verticalScroll(ScrollState(0)),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        HeaderProfile()
+        HeaderProfile( onclick = { navController.navigate("profile")})
         Form(context)
         Spacer(modifier = Modifier.height(32.dp))
-        ButtonProfile("Salvar")
+        ButtonProfile("Salvar", onclick = {})
         Spacer(modifier = Modifier.height(12.dp))
         Text(
             text = "Redefinir senha",

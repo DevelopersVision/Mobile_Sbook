@@ -167,7 +167,7 @@ fun FavoritoScreen(
                 verticalArrangement = Arrangement.spacedBy(24.dp, Alignment.Top),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                items(listAnuncios) { item ->
+                items(listAnuncios.filter { it.anuncio.nome.contains(filterState, ignoreCase = true) }) { item ->
                     Card(
                         nome_livro = item.anuncio.nome,
                         ano_lancamento = item.anuncio.ano_lancamento,

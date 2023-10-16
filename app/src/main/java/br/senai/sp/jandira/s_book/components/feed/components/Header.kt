@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.R
+import br.senai.sp.jandira.s_book.components.favorite.screen.FavoritoScreen
 import br.senai.sp.jandira.s_book.sqlite_repository.UserRepository
 
 @Composable
@@ -69,7 +70,13 @@ fun Header(
                     contentDescription = "",
                     modifier = Modifier.size(32.dp)
                         .clickable {
-                            navRotasController.navigate("login")
+                            val user = UserRepository(context).findUsers()
+
+                            if(user.isNotEmpty()){
+                                navRotasController.navigate("profile")
+                            }else{
+                                navRotasController.navigate("login")
+                            }
                         }
                 )
             }

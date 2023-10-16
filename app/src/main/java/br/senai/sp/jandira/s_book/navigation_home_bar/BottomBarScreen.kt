@@ -25,13 +25,13 @@ sealed class BottomBarScreen(
         icon = Icons.Default.FavoriteBorder
     )
     object  Anuncio : BottomBarScreen(
-        route = "address",
-        title = "Chats",
+        route = "my_announces",
+        title = "meus anúncios",
         icon = Icons.Default.DateRange
     )
     object  Profile : BottomBarScreen(
         route = "address",
-        title = "Meus anúncios",
+        title = "Chats",
         icon = Icons.Default.AccountCircle
     )
 

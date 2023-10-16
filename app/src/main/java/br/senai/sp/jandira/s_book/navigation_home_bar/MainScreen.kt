@@ -3,6 +3,10 @@ package br.senai.sp.jandira.s_book.navigation_home_bar
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.ContentAlpha
@@ -16,6 +20,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
@@ -23,6 +34,7 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import br.senai.sp.jandira.s_book.R
 import br.senai.sp.jandira.s_book.view_model.AnuncioViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -61,7 +73,10 @@ fun BottonBar(navController: NavHostController) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentdestination = navBackStackEntry?.destination
 
-    BottomNavigation{
+    BottomNavigation(
+        modifier = Modifier
+            .height(60.dp)
+    ){
         screen.forEach{screen ->
             AddItem(screen = screen, currentDestination = currentdestination, navController = navController)
 
@@ -80,7 +95,14 @@ fun RowScope.AddItem(
         modifier = Modifier
             .background(Color.White),
         label = {
-            Text(text = screen.title)
+            Text(
+                text = screen.title,
+                textAlign = TextAlign.Center,
+                fontSize = 12.sp,
+                fontFamily = FontFamily(Font(R.font.poppinsmedium)),
+                fontWeight = FontWeight(400),
+                color = Color(0xFF000000),
+            )
         },
         icon = {
             Icon(
@@ -96,5 +118,4 @@ fun RowScope.AddItem(
             navController.navigate(screen.route)
         }
     )
-
 }

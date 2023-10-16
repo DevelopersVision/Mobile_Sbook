@@ -2,6 +2,7 @@ package br.senai.sp.jandira.s_book.components.universal
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -22,9 +23,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.senai.sp.jandira.s_book.R
 
-@Preview
+
 @Composable
-fun HeaderProfile() {
+fun HeaderProfile(
+    onclick : () -> Unit
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth(),
@@ -36,6 +39,9 @@ fun HeaderProfile() {
             contentDescription = "",
             modifier = Modifier
                 .size(24.dp)
+                .clickable {
+                    onclick()
+                }
         )
         Text(
             text = "Perfil",

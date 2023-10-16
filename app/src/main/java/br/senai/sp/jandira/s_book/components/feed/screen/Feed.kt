@@ -119,6 +119,7 @@ fun FeedScreen(
                             preco = item.anuncio.preco,
                             id = item.anuncio.id,
                             navController = navRotasController,
+                            lifecycleScope = lifecycleScope,
                             onClick = {
                                 val anunciante = getAnunciante(item.anuncio.anunciante) { usuario ->
                                     if (usuario != null) {

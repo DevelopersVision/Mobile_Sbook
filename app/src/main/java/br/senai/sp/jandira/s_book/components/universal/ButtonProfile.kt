@@ -22,9 +22,14 @@ import androidx.compose.ui.unit.sp
 import br.senai.sp.jandira.s_book.R
 
 @Composable
-fun ButtonProfile(text: String) {
+fun ButtonProfile(
+    text: String,
+    onclick : () -> Unit
+) {
     TextButton(
-        onClick = {},
+        onClick = {
+            onclick()
+        },
         modifier = Modifier
             .fillMaxWidth()
             .height(40.dp)

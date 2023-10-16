@@ -6,22 +6,42 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.R
+import br.senai.sp.jandira.s_book.components.perfil.components.converterData
+import br.senai.sp.jandira.s_book.models_private.User
+import br.senai.sp.jandira.s_book.sqlite_repository.UserRepository
 
 @Composable
 fun RotasProfile(
     navController: NavController
 ) {
+    val context = LocalContext.current
+
+    val dadaUser = UserRepository(context).findUsers()
+
+    var array = User()
+
+    var data = ""
+
+    if(dadaUser.isNotEmpty()){
+        array = dadaUser[0]
+
+        data = converterData(array.dataNascimento)
+    }
     Column(
         modifier = Modifier
             .background(Color.White),
         verticalArrangement = Arrangement.spacedBy(22.dp)
     ) {
-        ButtonRota(icon = R.drawable.books, text = "Meus anúncios"){}
+        ButtonRota(icon = R.drawable.books, text = "Meus anúncios"){navController.navigate("my_announces")}
         ButtonRota(icon = R.drawable.heart, text = "Favoritos"){ navController.navigate("favorite")}
         ButtonRota(icon = R.drawable.user_profile, text = "Minhas informações") {}
-        ButtonRota(icon = R.drawable.power, text = "Sair"){}
+        ButtonRota(icon = R.drawable.power, text = "Sair"){
+            UserRepository(context).deleteUser(array.id.toInt())
+            navController.navigate("navigation_home_bar")
+        }
     }
 }

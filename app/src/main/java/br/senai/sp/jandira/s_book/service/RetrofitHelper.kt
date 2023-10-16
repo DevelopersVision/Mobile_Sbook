@@ -8,11 +8,11 @@ object RetrofitHelper {
 
 //   private const val baseurl = "http://192.168.15.35:8080"
 
-//    private const val baseurl =  "http://10.107.144.19:8080"
+    private const val baseurl =  "http://10.107.144.27:8080"
 
 //    private const val baseurl = "http://192.168.0.108:8080"
 
-    private const val baseurl = "http://10.0.0.216:8080"
+//    private const val baseurl = "http://10.0.0.216:8080"
 
 
     //private const val baseurl = "https://app-nodejs.cyclic.cloud"
@@ -58,6 +58,8 @@ object RetrofitHelper {
     fun getAnunciosService(): AnuncisosFeedService{
         return  retrofitFactory.create(AnuncisosFeedService::class.java)
     }
-
+    fun getAnunciosByIdUserService(): AnuncioUserService{
+        return  retrofitFactory.create(AnuncioUserService::class.java)
+    }
 
 }
