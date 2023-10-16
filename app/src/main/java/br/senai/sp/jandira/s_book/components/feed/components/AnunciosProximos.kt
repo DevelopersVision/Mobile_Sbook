@@ -60,6 +60,7 @@ fun AnunciosProximos(
             .width(156.dp)
             .height(260.dp)
             .clickable {
+                onClick()
                 navController.navigate("annouceDetail")
             }
             .shadow(

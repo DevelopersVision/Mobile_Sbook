@@ -120,10 +120,9 @@ fun FeedScreen(
                             id = item.anuncio.id,
                             navController = navRotasController,
                             onClick = {
-
-
                                 val anunciante = getAnunciante(item.anuncio.anunciante) { usuario ->
                                     if (usuario != null) {
+                                        Log.e("usuario-luiz", "FeedScreen: $usuario", )
                                         viewModelQueVaiPassarOsDados.foto = item.foto
 
                                         viewModelQueVaiPassarOsDados.nome = item.anuncio.nome
