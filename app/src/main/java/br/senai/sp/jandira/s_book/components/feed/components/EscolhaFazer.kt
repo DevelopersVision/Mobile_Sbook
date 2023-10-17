@@ -138,6 +138,7 @@ fun EscolhaFazer(
             Card(
                 modifier = Modifier
                     .size(96.dp)
+                    .clickable { anuncio() }
                     .shadow(
                         elevation = 6.dp,
                         spotColor = Color(0xFF000000),
