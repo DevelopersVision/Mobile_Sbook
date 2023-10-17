@@ -92,7 +92,8 @@ fun FeedScreen(
                 .padding(16.dp)
         ) {
             EscolhaFazer(
-                filter = { navRotasController.navigate("Filters") }
+                filter = { navRotasController.navigate("Filters") },
+                anuncio = { navRotasController.navigate("primeiro_anunciar") }
             )
             Spacer(modifier = Modifier.height(18.dp))
             Text(
