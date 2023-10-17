@@ -222,8 +222,9 @@ fun AnunciosProximos(
                         Log.i("testando123", "${call}")
                     }
                 ) {
-
                     val iconTint = if (isChecked) Color.Red else Color.Black
+
+
 
                     androidx.compose.material3.Icon(
                         imageVector = coracao,

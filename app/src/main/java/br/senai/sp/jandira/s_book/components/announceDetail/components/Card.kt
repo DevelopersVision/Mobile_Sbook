@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.Surface
@@ -36,6 +37,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import br.senai.sp.jandira.s_book.R
+import br.senai.sp.jandira.s_book.components.universal.DefaultButtonScreen
 import br.senai.sp.jandira.s_book.view_model.AnuncioViewModel
 import coil.compose.AsyncImage
 
@@ -51,137 +53,205 @@ fun CardInformacao(
 
     Surface(
         modifier = Modifier
-            .fillMaxWidth()
+            .width(370.dp)
             .height(330.dp)
+            .background(
+                color = Color(0xFFFFFFFF),
+                shape = RoundedCornerShape(size = 10.dp)
+            ),
+        shape = RoundedCornerShape(size = 10.dp),
+        elevation = 2.dp
     ) {
         Column(
             modifier = Modifier
-                .width(330.dp)
+                .width(300.dp)
                 .height(350.dp)
-                .shadow(
-                    elevation = 4.dp,
-                    spotColor = Color(0x40000000),
-                    ambientColor = Color(0x40000000)
+                .background(
+                    color = Color(0xFFFFFFFF),
+                    shape = RoundedCornerShape(size = 10.dp)
                 ),
             horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Row(
-                modifier = Modifier
-                    .width(292.dp)
-                    .height(90.dp)
-                    .padding(top = 24.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text(
-                    text = "${viewModel.nome}",
-                    fontSize = 24.sp,
-                    fontFamily = FontFamily(Font(R.font.intermedium)),
-                    fontWeight = FontWeight(600),
-                    color = Color(0xFF404040),
-                )
-                Icon(
-                    imageVector = favorito,
-                    contentDescription = "",
-                    modifier = Modifier
-                        .size(32.dp)
-                )
-            }
-            Spacer(modifier = Modifier.height(22.dp))
+        ){
+
             Column(
                 modifier = Modifier
-                    .padding(0.dp)
                     .width(300.dp)
-                    .height(2.dp)
-                    .background(color = Color(0xFFCECECE))
-            ) {}
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Column(
-                modifier = Modifier
-                    .width(292.dp)
-                    .height(200.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
+                    .height(350.dp)
+                    .background(
+                        color = Color(0xFFFFFFFF),
+                        shape = RoundedCornerShape(size = 10.dp)
+                    ),
             ) {
-               Column(
-                   modifier = Modifier
-                       .width(292.dp)
-                       .height(35.dp)
-               ) {
-                   LazyColumn(){
-                       items(viewModel.generos){
-                           Text(
-                               text = "${it.nome}",
-                               fontSize = 14.sp,
-                               fontFamily = FontFamily(Font(R.font.intermedium)),
-                               fontWeight = FontWeight(600),
-                               color = Color(0xFF808080),
-                               modifier = Modifier
-                           )
-                       }
-
-                   }
-
-               }
-
+                Row(
+                    modifier = Modifier
+                        .width(292.dp)
+                        .height(90.dp)
+                        .padding(top = 24.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        text = "${viewModel.nome}",
+                        fontSize = 24.sp,
+                        fontFamily = FontFamily(Font(R.font.intermedium)),
+                        fontWeight = FontWeight(600),
+                        color = Color(0xFF404040),
+                    )
+                    Icon(
+                        imageVector = favorito,
+                        contentDescription = "",
+                        modifier = Modifier
+                            .size(32.dp)
+                    )
+                }
+                Spacer(modifier = Modifier.height(20.dp))
+                Column(
+                    modifier = Modifier
+                        .padding(0.dp)
+                        .width(300.dp)
+                        .height(2.dp)
+                        .background(color = Color(0xFFCECECE))
+                ) {}
                 Spacer(modifier = Modifier.height(16.dp))
-                LazyColumn(){
-                    items(viewModel.tipo_anuncio){
+
+                Column(
+                    modifier = Modifier
+                        .width(292.dp)
+                        .height(200.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .width(292.dp)
+                            .height(45.dp)
+                    ) {
+                        LazyColumn(){
+                            items(viewModel.generos){
+                                Text(
+                                    text = "${it.nome}",
+                                    fontSize = 14.sp,
+                                    fontFamily = FontFamily(Font(R.font.intermedium)),
+                                    fontWeight = FontWeight(600),
+                                    color = Color(0xFF808080),
+                                    modifier = Modifier
+                                )
+                            }
+
+                        }
+
+                    }
+
+                    if(viewModel.preco != null) {
                         Text(
-                            text = "Disponivel para ${it.tipo}",
+                            text = "R$ ${viewModel.preco}",
                             fontSize = 24.sp,
                             fontFamily = FontFamily(Font(R.font.intermedium)),
                             fontWeight = FontWeight(700),
                             color = Color(0xFF404040),
                             modifier = Modifier
                         )
+                        Spacer(modifier = Modifier.height(16.dp))
+                        LazyColumn() {
+                            items(viewModel.tipo_anuncio) {
+                                Log.e("AAA123452342342342323233", "${it.tipo}")
+                                if(it.tipo == "Venda"){
+
+                                } else{
+                                    DefaultButtonScreen(
+                                        text = "${it.tipo}",
+                                    ) {}
+                                }
+
+                            }
+
+                        }
+                    } else{
+                        Spacer(modifier = Modifier.height(16.dp))
+                        LazyColumn() {
+                            items(viewModel.tipo_anuncio) {
+                                Log.e("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "${it.tipo}")
+                                Text(
+                                    text = "Disponivel para ${it.tipo}",
+                                    fontSize = 24.sp,
+                                    fontFamily = FontFamily(Font(R.font.intermedium)),
+                                    fontWeight = FontWeight(700),
+                                    color = Color(0xFF404040),
+                                    modifier = Modifier
+                                )
+
+                            }
+
+                        }
                     }
 
-                }
 
+                    Spacer(modifier = Modifier.height(24.dp))
 
-                Spacer(modifier = Modifier.height(24.dp))
-
-                Row(
-                    modifier = Modifier
-                        .width(292.dp)
-                        .height(64.dp),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.Start),
-                ) {
-                    Card(
-                        modifier = Modifier
-                            .size(60.dp),
-                        shape = CircleShape,
-                    ) {
-                        Log.e("Foto do anunciante ########", "${viewModel.anunciante_foto}")
-                        AsyncImage(
-                            model = "${viewModel.anunciante_foto}",
-                            contentDescription = "image description",
-                            contentScale = ContentScale.Crop
-                        )
-                    }
-                    Column(
+                    Row(
                         modifier = Modifier
                             .width(292.dp)
-                            .height(70.dp)
+                            .height(64.dp),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.Start),
                     ) {
+                        Card(
+                            modifier = Modifier
+                                .size(60.dp),
+                            shape = CircleShape,
+                        ) {
+                            Log.e("Foto do anunciante ########", "${viewModel.anunciante_foto}")
+                            AsyncImage(
+                                model = "${viewModel.anunciante_foto}",
+                                contentDescription = "image description",
+                                contentScale = ContentScale.Crop
+                            )
+                        }
+                        Column(
+                            modifier = Modifier
+                                .width(292.dp)
+                                .height(70.dp)
+                        ) {
 
-                        Text(
-                            text = "${viewModel.anunciante_nome}",
-                            fontSize = 20.sp,
-                            fontFamily = FontFamily(Font(R.font.intermedium)),
-                            fontWeight = FontWeight(600),
-                            color = Color(0xFF000000),
-                        )
-                        Text(
-                            text = "${viewModel.cidade_anuncio}, ${viewModel.estado_anuncio}",
-                            fontSize = 12.sp,
-                            fontFamily = FontFamily(Font(R.font.intermedium)),
-                            fontWeight = FontWeight(600),
-                            color = Color(0xFF9F9898),
-                        )
+                            Text(
+                                text = "${viewModel.anunciante_nome}",
+                                fontSize = 20.sp,
+                                fontFamily = FontFamily(Font(R.font.intermedium)),
+                                fontWeight = FontWeight(600),
+                                color = Color(0xFF000000),
+                            )
+                            Text(
+                                text = "${viewModel.cidade_anuncio}, ${viewModel.estado_anuncio}",
+                                fontSize = 12.sp,
+                                fontFamily = FontFamily(Font(R.font.intermedium)),
+                                fontWeight = FontWeight(600),
+                                color = Color(0xFF9F9898),
+                            )
+                        }
                     }
                 }
             }
         }
     }
 }
+
+
+//else{
+//                    Log.e("testando", "${viewModel.tipo_anuncio}")
+//                    LazyColumn() {
+//                        items(viewModel.tipo_anuncio) {
+//                            Log.e("testando depois do items", "${viewModel.tipo_anuncio}")
+//                            Text(
+//                                text = "Disponivel para ${it.tipo}",
+//                                fontSize = 24.sp,
+//                                fontFamily = FontFamily(Font(R.font.intermedium)),
+//                                fontWeight = FontWeight(700),
+//                                color = Color(0xFF404040),
+//                                modifier = Modifier
+//                            )
+//                        }
+//
+//                    }
+//                }
+
+//if(viewModel.tipo_anuncio[0].tipo == "Venda" && viewModel.tipo_anuncio[1].tipo == "Venda"  ){
+//                                Log.e("testando depois do items1", "${viewModel.tipo_anuncio}")
+//                            }else{
+

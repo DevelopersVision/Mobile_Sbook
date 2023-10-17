@@ -53,7 +53,8 @@ import br.senai.sp.jandira.s_book.navigation_home_bar.BottomBarScreen
 
 @Composable
 fun EscolhaFazer(
-    filter: () -> Unit
+    filter: () -> Unit,
+    anuncio: () -> Unit
 ) {
     Column() {
         Text(
@@ -142,7 +143,10 @@ fun EscolhaFazer(
                         spotColor = Color(0xFF000000),
                         ambientColor = Color(0xFF000000),
                         shape = RoundedCornerShape(8.dp)
-                    ),
+                    )
+                    .clickable {
+                               anuncio()
+                    },
                 shape = RoundedCornerShape(8.dp)
             ) {
                 Column(

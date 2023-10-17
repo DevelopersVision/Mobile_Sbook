@@ -22,4 +22,5 @@ class AnuncioViewModel: ViewModel() {
     var autor: List<Autores> = listOf()
     var editora: Editora? = null
     var idioma: Idioma? = null
+    var preco: Double? = null
 }

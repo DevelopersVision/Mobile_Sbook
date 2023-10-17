@@ -34,13 +34,8 @@ fun FooterDescricao(viewMODEL: AnuncioViewModel) {
     Column(
         modifier = Modifier
             .width(313.dp)
-            .height(404.dp)
-            .padding(start = 18.dp)
-            .verticalScroll(
-                ScrollState(155)
-            ),
+            .padding(start = 18.dp),
         verticalArrangement = Arrangement.spacedBy(24.dp, Alignment.Top),
-        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
             text = "Descrição",
@@ -107,7 +102,6 @@ fun FooterDescricao(viewMODEL: AnuncioViewModel) {
                     .fillMaxWidth()
                     .height(20.dp),
                 horizontalArrangement = Arrangement.spacedBy(137.dp),
-                verticalAlignment = Alignment.Top,
             ) {
                 Text(
                     text = "Autor",
@@ -203,5 +197,4 @@ fun FooterDescricao(viewMODEL: AnuncioViewModel) {
             ) {}
         }
     }
-
 }

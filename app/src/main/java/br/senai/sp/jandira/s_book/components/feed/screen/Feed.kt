@@ -42,7 +42,9 @@ import br.senai.sp.jandira.s_book.model.AnunciosBaseResponse
 import br.senai.sp.jandira.s_book.model.JsonAnuncios
 import br.senai.sp.jandira.s_book.model.ResponseUsuario
 import br.senai.sp.jandira.s_book.model.Usuario
+import br.senai.sp.jandira.s_book.models_private.User
 import br.senai.sp.jandira.s_book.service.RetrofitHelper
+import br.senai.sp.jandira.s_book.sqlite_repository.UserRepository
 import br.senai.sp.jandira.s_book.view_model.AnuncioViewModel
 import retrofit2.Call
 import retrofit2.Callback
@@ -56,6 +58,7 @@ fun FeedScreen(
     viewModelQueVaiPassarOsDados: AnuncioViewModel
 ) {
 
+
     val context = LocalContext.current
 
     var listAnuncios by remember {
@@ -67,16 +70,14 @@ fun FeedScreen(
     // Executar a chamada
     call.enqueue(object : Callback<AnunciosBaseResponse> {
         override fun onResponse(
-            call: Call<AnunciosBaseResponse>,
-            response: Response<AnunciosBaseResponse>
+            call: Call<AnunciosBaseResponse>, response: Response<AnunciosBaseResponse>
         ) {
             listAnuncios = response.body()!!.anuncios
-
         }
 
 
         override fun onFailure(call: Call<AnunciosBaseResponse>, t: Throwable) {
-           // Log.d("API Call", "Depois da chamada da API: ${listAnuncios}")
+            // Log.d("API Call", "Depois da chamada da API: ${listAnuncios}")
         }
     })
 
@@ -92,7 +93,8 @@ fun FeedScreen(
                 .padding(16.dp)
         ) {
             EscolhaFazer(
-                filter = { navRotasController.navigate("Filters") }
+                filter = { navRotasController.navigate("Filters") },
+                anuncio = { navRotasController.navigate("primeiro_anunciar") }
             )
             Spacer(modifier = Modifier.height(18.dp))
             Text(
@@ -111,6 +113,7 @@ fun FeedScreen(
                     horizontalArrangement = Arrangement.spacedBy(48.dp)
                 ) {
                     for (item in pair) {
+                        Log.e("Item-foto", "FeedScreen: ${item.foto}")
                         AnunciosProximos(
                             nome_livro = item.anuncio.nome,
                             foto = item.foto[0].foto,
@@ -123,31 +126,34 @@ fun FeedScreen(
                             onClick = {
                                 val anunciante = getAnunciante(item.anuncio.anunciante) { usuario ->
                                     if (usuario != null) {
-                                        Log.e("usuario-luiz", "FeedScreen: $usuario", )
+                                        Log.e("usuario-luiz", "FeedScreen: $usuario")
                                         viewModelQueVaiPassarOsDados.foto = item.foto
 
                                         viewModelQueVaiPassarOsDados.nome = item.anuncio.nome
 
                                         viewModelQueVaiPassarOsDados.generos = item.generos
-                                        viewModelQueVaiPassarOsDados.tipo_anuncio = item.tipo_anuncio
+                                        viewModelQueVaiPassarOsDados.tipo_anuncio =
+                                            item.tipo_anuncio
 
                                         viewModelQueVaiPassarOsDados.anunciante_foto = usuario.foto
 
                                         viewModelQueVaiPassarOsDados.anunciante_nome = usuario.nome
                                         viewModelQueVaiPassarOsDados.cidade_anuncio = usuario.cidade
                                         viewModelQueVaiPassarOsDados.estado_anuncio = usuario.estado
-                                        viewModelQueVaiPassarOsDados.descricao = item.anuncio.descricao
+                                        viewModelQueVaiPassarOsDados.descricao =
+                                            item.anuncio.descricao
 
-                                        viewModelQueVaiPassarOsDados.ano_edicao = item.anuncio.ano_lancamento
+                                        viewModelQueVaiPassarOsDados.ano_edicao =
+                                            item.anuncio.ano_lancamento
                                         viewModelQueVaiPassarOsDados.autor = item.autores
                                         viewModelQueVaiPassarOsDados.editora = item.editora
                                         viewModelQueVaiPassarOsDados.idioma = item.idioma
+                                        viewModelQueVaiPassarOsDados.preco = item.anuncio.preco
+//                                        Log.e("Valor Preco", "${viewModelQueVaiPassarOsDados.preco}")
                                     } else {
                                         Log.e("Anunciante", "null")
                                     }
                                 }
-
-
                             },
                         )
                     }
@@ -164,8 +170,7 @@ fun getAnunciante(id: Long, callback: (Usuario?) -> Unit) {
 
     call.enqueue(object : Callback<ResponseUsuario> {
         override fun onResponse(
-            call: Call<ResponseUsuario>,
-            response: Response<ResponseUsuario>
+            call: Call<ResponseUsuario>, response: Response<ResponseUsuario>
         ) {
             val usuario = response.body()?.dados
             callback(usuario)
