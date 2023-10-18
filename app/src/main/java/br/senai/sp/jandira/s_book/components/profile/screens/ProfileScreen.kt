@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.components.profile.components.CardProfile
@@ -21,6 +22,8 @@ import br.senai.sp.jandira.s_book.components.universal.HeaderProfile
 fun ProfileScreen(
     navController: NavController
 ) {
+    val context = LocalContext.current
+
     Column (
         modifier = Modifier
             .fillMaxSize()
@@ -30,7 +33,7 @@ fun ProfileScreen(
         verticalArrangement = Arrangement.spacedBy(35.dp)
     ) {
         HeaderProfile(onclick = { navController.navigate("feed")})
-        CardProfile( navController = navController)
+        CardProfile( navController = navController, context)
         RotasProfile(navController = navController)
     }
 }

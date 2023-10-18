@@ -113,7 +113,6 @@ fun FeedScreen(
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     for (item in pair) {
-                        Log.e("Item-foto", "FeedScreen: ${item.foto}")
                         AnunciosProximos(
                             nome_livro = item.anuncio.nome,
                             foto = item.foto[0].foto,

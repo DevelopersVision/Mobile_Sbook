@@ -13,5 +13,6 @@ data class Usuario(
     val bairro: String,
     val cidade: String,
     val estado: String,
-    val cep: String
+    val cep: String,
+    val id_endereco: Int
 )

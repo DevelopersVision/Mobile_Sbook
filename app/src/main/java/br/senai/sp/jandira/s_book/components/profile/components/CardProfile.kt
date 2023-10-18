@@ -1,7 +1,8 @@
 package br.senai.sp.jandira.s_book.components.profile.components
 
+import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -24,7 +25,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
@@ -34,21 +34,91 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import coil.compose.AsyncImage
 import br.senai.sp.jandira.s_book.R
+import br.senai.sp.jandira.s_book.components.perfil.components.converterData
 import br.senai.sp.jandira.s_book.components.universal.ButtonProfile
+import br.senai.sp.jandira.s_book.functions.deleteUserSQLite
+import br.senai.sp.jandira.s_book.functions.saveLogin
+import br.senai.sp.jandira.s_book.model.ResponseUsuario
+import br.senai.sp.jandira.s_book.model.Usuario
+import br.senai.sp.jandira.s_book.models_private.User
+import br.senai.sp.jandira.s_book.service.RetrofitHelper
+import br.senai.sp.jandira.s_book.sqlite_repository.UserRepository
+import coil.compose.AsyncImage
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
-@Preview
 @Composable
 fun CardProfile(
-    navController: NavController
+    navController: NavController,
+    context: Context
 ) {
 
-    var userRating by remember { mutableStateOf(0) }
+    val userRating by remember { mutableStateOf(0) }
+
+    val dadaUser = UserRepository(context).findUsers()
+
+    var array = User()
+
+    var data = ""
+
+    var user by remember {
+        mutableStateOf(Usuario(0, "", "", "", "", "", false, "", "", "", "", "", "", id_endereco = 0))
+    }
+
+    if (dadaUser.isNotEmpty()) {
+        array = dadaUser[0]
+
+        // Cria uma chamada para o EndPoint
+        val call = RetrofitHelper.getUserByIdService().getUsuarioById(array.id)
+
+        // Executar a chamada
+        call.enqueue(object : Callback<ResponseUsuario> {
+            override fun onResponse(
+                call: Call<ResponseUsuario>,
+                response: Response<ResponseUsuario>
+            ) {
+                Log.e("TAG", "onResponse: ${response.body()}")
+                user = response.body()?.dados!!
+
+                deleteUserSQLite(context = context, array.id.toInt())
+
+                saveLogin(
+                    context = context,
+                    id = user.id_usuario,
+                    nome = user.nome,
+                    token = array.token,
+                    email = user.email,
+                    cep = user.cep,
+                    idEndereco = user.id_endereco,
+                    foto = user.foto,
+                    dataNascimento = user.data_nascimento,
+                    logradouro = user.logradouro,
+                    bairro = user.bairro,
+                    cidade = user.cidade,
+                    ufEstado = user.estado,
+                    senha = array.senha,
+                    cpf = user.cpf
+                )
+            }
+
+            override fun onFailure(call: Call<ResponseUsuario>, t: Throwable) {
+
+            }
+        })
+
+        data = converterData(array.dataNascimento)
+    }else{
+        navController.navigate("navigation_home_bar")
+    }
+
+
+
+
 
     Card(
         modifier = Modifier
@@ -72,29 +142,32 @@ fun CardProfile(
                     .fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-//            AsyncImage(
-//                model = "https://photografos.com.br/wp-content/uploads/2020/09/fotografia-para-perfil.jpg",
-//                contentDescription = "Foto de perfil",
-//                modifier = Modifier.size(90.dp)
-//            )
-                Image(
-                    painter = painterResource(id = R.drawable.susanna_profile),
+                AsyncImage(
+                    model = user.foto,
                     contentDescription = "Foto de perfil",
                     modifier = Modifier
                         .size(100.dp)
                         .clip(RoundedCornerShape(8.dp)),
                     contentScale = ContentScale.FillBounds
                 )
-                Column()  {
+//                Image(
+//                    painter = painterResource(id = R.drawable.susanna_profile),
+//                    contentDescription = "Foto de perfil",
+//                    modifier = Modifier
+//                        .size(100.dp)
+//                        .clip(RoundedCornerShape(8.dp)),
+//                    contentScale = ContentScale.FillBounds
+//                )
+                Column() {
                     Text(
-                        text = "Thiago Freitas",
+                        text = user.nome,
                         fontSize = 16.sp,
                         fontFamily = FontFamily(Font(R.font.intermedium)),
                         fontWeight = FontWeight(500),
                         color = Color(0xFFDDA35D)
                     )
                     Text(
-                        text = "tifreitas10@gmail.com",
+                        text = user.email,
                         fontSize = 12.sp,
                         fontFamily = FontFamily(Font(R.font.intermedium)),
                         fontWeight = FontWeight(500),
@@ -107,10 +180,10 @@ fun CardProfile(
                     )
                 }
             }
-        ButtonProfile(
-            "Editar Conta",
-            onclick = {navController.navigate("editUser")}
-        )
+            ButtonProfile(
+                "Editar Conta",
+                onclick = { navController.navigate("editUser") }
+            )
         }
     }
 }

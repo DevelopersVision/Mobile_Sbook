@@ -3,6 +3,7 @@ package br.senai.sp.jandira.s_book.components.profile.components
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -33,15 +34,16 @@ fun RotasProfile(
     }
     Column(
         modifier = Modifier
-            .background(Color.White),
+            .background(Color.White)
+            .padding(2.dp, 0.dp),
         verticalArrangement = Arrangement.spacedBy(22.dp)
     ) {
         ButtonRota(icon = R.drawable.books, text = "Meus anúncios"){navController.navigate("my_announces")}
         ButtonRota(icon = R.drawable.heart, text = "Favoritos"){ navController.navigate("favorite")}
         ButtonRota(icon = R.drawable.user_profile, text = "Minhas informações") {}
         ButtonRota(icon = R.drawable.power, text = "Sair"){
-            UserRepository(context).deleteUser(array.id.toInt())
             navController.navigate("navigation_home_bar")
+            UserRepository(context).deleteUser(array.id.toInt())
         }
     }
 }

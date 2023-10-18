@@ -63,7 +63,7 @@ fun Header(
     var userRating by remember { mutableStateOf(0) }
 
     var user by remember {
-        mutableStateOf(Usuario(0, "", "", "", "", "", false, "", "", "", "", "", ""))
+        mutableStateOf(Usuario(0, "", "", "", "", "", false, "", "", "", "", "", "", id_endereco = 0))
     }
 
     // Cria uma chamada para o EndPoint
