@@ -109,8 +109,8 @@ fun FeedScreen(
 
             for (pair in pairs) {
                 Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(48.dp)
+                    modifier = Modifier.fillMaxWidth().padding(3.dp, 0.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     for (item in pair) {
                         Log.e("Item-foto", "FeedScreen: ${item.foto}")

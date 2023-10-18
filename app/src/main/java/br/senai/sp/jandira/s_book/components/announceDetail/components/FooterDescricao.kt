@@ -33,8 +33,8 @@ fun FooterDescricao(viewMODEL: AnuncioViewModel) {
 
     Column(
         modifier = Modifier
-            .width(313.dp)
-            .padding(start = 18.dp),
+            .fillMaxWidth()
+            .padding(24.dp, 0.dp),
         verticalArrangement = Arrangement.spacedBy(24.dp, Alignment.Top),
     ) {
         Text(
