@@ -139,11 +139,11 @@ fun CardInformacao(
 
                         }
                     }
-                    Column (
+                    Column(
                         modifier = Modifier
                             .width(292.dp)
                             .height(120.dp),
-                    ){
+                    ) {
                         if (viewModel.preco != null) {
                             Text(
                                 text = "R$ ${viewModel.preco}",
@@ -154,11 +154,12 @@ fun CardInformacao(
                                 modifier = Modifier
                             )
                             Spacer(modifier = Modifier.height(4.dp))
+
                             Column(
                                 modifier = Modifier
                                     .fillMaxWidth(),
                                 horizontalAlignment = Alignment.CenterHorizontally
-                            ){
+                            ) {
                                 Text(
                                     text = "Ou",
                                     fontSize = 20.sp,
@@ -168,7 +169,7 @@ fun CardInformacao(
                                     modifier = Modifier
                                 )
                             }
-//                            Spacer(modifier = Modifier.height(16.dp))
+//                          Spacer(modifier = Modifier.height(16.dp))
                             LazyColumn() {
                                 items(viewModel.tipo_anuncio) {
                                     Log.e("AAA123452342342342323233", "${it.tipo}")
