@@ -1,0 +1,133 @@
+package br.senai.sp.jandira.s_book.components.fourth_create_announce.screen
+
+import android.util.Log
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.Card
+import androidx.compose.material.Divider
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import br.senai.sp.jandira.s_book.R
+import br.senai.sp.jandira.s_book.components.universal.HeaderCreateAnnounce
+
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+fun FourthCreateAnnounceScreen(){
+
+    Column() {
+        HeaderCreateAnnounce()
+        Column(
+            modifier = Modifier
+                .fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.SpaceBetween
+        ) {
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(
+                text = "Estamos quase lá... Selecione os gêneros que seu livro mais de encaixa.",
+                fontSize = 16.sp,
+                fontWeight = FontWeight(700),
+                color = Color(0xFF2A2929),
+                modifier = Modifier.padding(horizontal = 24.dp)
+            )
+//            Column {
+//                Divider(
+//                    modifier = Modifier
+//                        .fillMaxWidth()
+//                        .height(0.8.dp),
+//                    color = Color(0xFFE0E0E0)
+//                )
+//                Row(
+//                    modifier = Modifier
+//                        .fillMaxWidth()
+//                        .height(52.dp)
+//                        .padding(horizontal = 16.dp),
+//                    verticalAlignment = Alignment.CenterVertically,
+//                    horizontalArrangement = Arrangement.SpaceBetween
+//                ) {
+//                    Text(
+//                        text = "Terror",
+//                        fontSize = 14.sp,
+//                        fontFamily = FontFamily(Font(R.font.intermedium)),
+//                        fontWeight = FontWeight(500),
+//                        color = Color(0xFF808080),
+//                    )
+//                }
+//                Divider(
+//                    modifier = Modifier
+//                        .fillMaxWidth()
+//                        .height(0.8.dp),
+//                    color = Color(0xFFE0E0E0)
+//                )
+//            }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 24.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                    Card(
+                        modifier = Modifier
+                            .size(8.dp),
+                        shape = CircleShape,
+                        backgroundColor = Color(193, 188, 204, 255)
+                    ) {}
+                    Card(
+                        modifier = Modifier
+                            .size(8.dp),
+                        shape = CircleShape,
+                        backgroundColor = Color(193, 188, 204, 255)
+                    ) {}
+                    Card(
+                        modifier = Modifier
+                            .size(8.dp),
+                        shape = CircleShape,
+                        backgroundColor = Color(193, 188, 204, 255)
+                    ) {}
+                    Card(
+                        modifier = Modifier
+                            .size(8.dp),
+                        shape = CircleShape,
+                        backgroundColor = Color(170, 98, 49, 255)
+                    ) {}
+                    Card(
+                        modifier = Modifier
+                            .size(8.dp),
+                        shape = CircleShape,
+                        backgroundColor = Color(193, 188, 204, 255)
+                    ) {}
+                }
+                Image(
+                    painter = painterResource(id = R.drawable.seta_prosseguir),
+                    contentDescription = "",
+                    modifier = Modifier
+                        .size(72.dp)
+//                        .clickable { navController.navigate("quarto_anunciar") }
+                )
+            }
+        }
+    }
+}

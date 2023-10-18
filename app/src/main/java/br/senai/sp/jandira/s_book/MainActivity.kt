@@ -27,6 +27,7 @@ import br.senai.sp.jandira.s_book.components.filter_localizacao_cidades.screen.F
 import br.senai.sp.jandira.s_book.components.first_create_announce.screen.FirstCreateAnnounceScreen
 //import br.senai.sp.jandira.s_book.components.first_create_announce.screen.FirstCreateAnnounceScreen
 import br.senai.sp.jandira.s_book.components.forgot_password.screen.ForgotPasswordScreen
+import br.senai.sp.jandira.s_book.components.fourth_create_announce.screen.FourthCreateAnnounceScreen
 import br.senai.sp.jandira.s_book.components.insert_code.screen.InsertCode
 import br.senai.sp.jandira.s_book.components.login.screen.LoginScreen
 import br.senai.sp.jandira.s_book.components.my_announces.screen.MyAnnounceScreen
@@ -34,6 +35,7 @@ import br.senai.sp.jandira.s_book.components.perfil.screen.PerfilScreen
 import br.senai.sp.jandira.s_book.components.profile.screens.ProfileScreen
 import br.senai.sp.jandira.s_book.components.rediscover_password.screen.RediscoverPasswordScreen
 import br.senai.sp.jandira.s_book.components.second_create_announce.screen.SecondCreateAnnounceScreen
+import br.senai.sp.jandira.s_book.components.third_create_announce.screen.ThirdCreateAnnounceScreen
 //import br.senai.sp.jandira.s_book.components.second_create_announce.screen.SecondCreateAnnounceScreen
 import br.senai.sp.jandira.s_book.view_model.CreateAccountView
 import br.senai.sp.jandira.s_book.view_model.ResetPasswordView
@@ -147,7 +149,15 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable("segundo_anunciar"){
-                            SecondCreateAnnounceScreen()
+                            SecondCreateAnnounceScreen(navController)
+                        }
+
+                        composable("terceiro_anunciar"){
+                            ThirdCreateAnnounceScreen(navController)
+                        }
+
+                        composable("quarto_anunciar"){
+                            FourthCreateAnnounceScreen()
                         }
                     }
                 }

@@ -1,6 +1,7 @@
 package br.senai.sp.jandira.s_book.components.second_create_announce.screen
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -33,15 +34,17 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.R
 import br.senai.sp.jandira.s_book.components.second_create_announce.components.DropDownIdioma
 import br.senai.sp.jandira.s_book.components.second_create_announce.components.caixa
 import br.senai.sp.jandira.s_book.components.universal.HeaderCreateAnnounce
 
-@Preview(showBackground = true, showSystemUi = true)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SecondCreateAnnounceScreen(){
+fun SecondCreateAnnounceScreen(
+    navController: NavController
+){
 
     var nomeState by remember {
         mutableStateOf(value = "")
@@ -194,7 +197,9 @@ fun SecondCreateAnnounceScreen(){
                 Image(
                     painter = painterResource(id = R.drawable.seta_prosseguir),
                     contentDescription = "",
-                    modifier = Modifier.size(72.dp)
+                    modifier = Modifier
+                        .size(72.dp)
+                        .clickable { navController.navigate("terceiro_anunciar") }
                 )
             }
         }
