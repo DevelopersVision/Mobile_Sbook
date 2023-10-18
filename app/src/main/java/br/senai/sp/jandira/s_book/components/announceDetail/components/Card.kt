@@ -55,7 +55,7 @@ fun CardInformacao(
     Surface(
         modifier = Modifier
             .width(370.dp)
-            .height(400.dp)
+            .height(390.dp)
             .background(
                 color = Color(0xFFFFFFFF),
                 shape = RoundedCornerShape(size = 10.dp)
@@ -66,27 +66,28 @@ fun CardInformacao(
         Column(
             modifier = Modifier
                 .width(300.dp)
-                .height(400.dp)
-                .padding(start = 24.dp )
+                .height(390.dp)
+                .padding(start = 24.dp)
                 .background(
                     color = Color(0xFFFFFFFF),
                     shape = RoundedCornerShape(size = 10.dp)
                 ),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
             Column(
                 modifier = Modifier
                     .width(300.dp)
-                    .height(400.dp)
+                    .height(390.dp)
                     .background(
                         color = Color(0xFFFFFFFF),
                         shape = RoundedCornerShape(size = 10.dp)
                     ),
+                verticalArrangement = Arrangement.SpaceBetween,
             ) {
                 Row(
                     modifier = Modifier
                         .width(292.dp)
-                        .height(90.dp)
                         .padding(top = 24.dp),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
@@ -104,7 +105,7 @@ fun CardInformacao(
                             .size(32.dp)
                     )
                 }
-                Spacer(modifier = Modifier.height(20.dp))
+//                Spacer(modifier = Modifier.height(20.dp))
                 Column(
                     modifier = Modifier
                         .padding(0.dp)
@@ -112,7 +113,7 @@ fun CardInformacao(
                         .height(2.dp)
                         .background(color = Color(0xFFCECECE))
                 ) {}
-                Spacer(modifier = Modifier.height(16.dp))
+//                Spacer(modifier = Modifier.height(16.dp))
 
                 Column(
                     modifier = Modifier
@@ -153,15 +154,21 @@ fun CardInformacao(
                                 modifier = Modifier
                             )
                             Spacer(modifier = Modifier.height(4.dp))
-                            Text(
-                                text = "Ou",
-                                fontSize = 20.sp,
-                                fontFamily = FontFamily(Font(R.font.intermedium)),
-                                fontWeight = FontWeight(700),
-                                color = Color(0xFF404040),
+                            Column(
                                 modifier = Modifier
-                            )
-                            Spacer(modifier = Modifier.height(16.dp))
+                                    .fillMaxWidth(),
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ){
+                                Text(
+                                    text = "Ou",
+                                    fontSize = 20.sp,
+                                    fontFamily = FontFamily(Font(R.font.intermedium)),
+                                    fontWeight = FontWeight(700),
+                                    color = Color(0xFF404040),
+                                    modifier = Modifier
+                                )
+                            }
+//                            Spacer(modifier = Modifier.height(16.dp))
                             LazyColumn() {
                                 items(viewModel.tipo_anuncio) {
                                     Log.e("AAA123452342342342323233", "${it.tipo}")
@@ -172,30 +179,21 @@ fun CardInformacao(
                                             text = "${it.tipo}",
                                         ) {}
                                     }
-
                                 }
-
                             }
                         } else {
-                            Spacer(modifier = Modifier.height(16.dp))
+//                            Spacer(modifier = Modifier.height(16.dp))
                             LazyColumn() {
                                 items(viewModel.tipo_anuncio) {
                                     Log.e("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "${it.tipo}")
-                                    Text(
-                                        text = "Disponivel para ${it.tipo}",
-                                        fontSize = 24.sp,
-                                        fontFamily = FontFamily(Font(R.font.intermedium)),
-                                        fontWeight = FontWeight(700),
-                                        color = Color(0xFF404040),
-                                        modifier = Modifier
-                                    )
-
+                                    DefaultButtonScreen(
+                                        text = "${it.tipo}",
+                                    ) {}
                                 }
-
                             }
                         }
                     }
-                    Spacer(modifier = Modifier.height(24.dp))
+                    Spacer(modifier = Modifier.height(27.dp))
                     Row(
                         modifier = Modifier
                             .width(292.dp)
@@ -217,7 +215,7 @@ fun CardInformacao(
                         Column(
                             modifier = Modifier
                                 .width(292.dp)
-                                .height(70.dp)
+                                .height(64.dp)
                         ) {
 
                             Text(
