@@ -54,7 +54,7 @@ import br.senai.sp.jandira.s_book.navigation_home_bar.BottomBarScreen
 @Composable
 fun EscolhaFazer(
     filter: () -> Unit,
-//        anuncio: () -> Unit
+        anuncio: () -> Unit
 ) {
     Column() {
         Text(
@@ -138,7 +138,7 @@ fun EscolhaFazer(
             Card(
                 modifier = Modifier
                     .size(96.dp)
-                    .clickable { }
+                    .clickable { anuncio() }
                     .shadow(
                         elevation = 6.dp,
                         spotColor = Color(0xFF000000),
