@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -54,7 +55,7 @@ fun CardInformacao(
     Surface(
         modifier = Modifier
             .width(370.dp)
-            .height(330.dp)
+            .height(400.dp)
             .background(
                 color = Color(0xFFFFFFFF),
                 shape = RoundedCornerShape(size = 10.dp)
@@ -65,18 +66,18 @@ fun CardInformacao(
         Column(
             modifier = Modifier
                 .width(300.dp)
-                .height(350.dp)
+                .height(400.dp)
+                .padding(start = 24.dp )
                 .background(
                     color = Color(0xFFFFFFFF),
                     shape = RoundedCornerShape(size = 10.dp)
                 ),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ){
+        ) {
 
             Column(
                 modifier = Modifier
                     .width(300.dp)
-                    .height(350.dp)
+                    .height(400.dp)
                     .background(
                         color = Color(0xFFFFFFFF),
                         shape = RoundedCornerShape(size = 10.dp)
@@ -116,18 +117,17 @@ fun CardInformacao(
                 Column(
                     modifier = Modifier
                         .width(292.dp)
-                        .height(200.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
+                        .height(270.dp)
                 ) {
                     Column(
                         modifier = Modifier
                             .width(292.dp)
                             .height(45.dp)
                     ) {
-                        LazyColumn(){
-                            items(viewModel.generos){
+                        LazyRow() {
+                            items(viewModel.generos) {
                                 Text(
-                                    text = "${it.nome}",
+                                    text = "${it.nome}, ",
                                     fontSize = 14.sp,
                                     fontFamily = FontFamily(Font(R.font.intermedium)),
                                     fontWeight = FontWeight(600),
@@ -137,55 +137,65 @@ fun CardInformacao(
                             }
 
                         }
-
                     }
+                    Column (
+                        modifier = Modifier
+                            .width(292.dp)
+                            .height(120.dp),
+                    ){
+                        if (viewModel.preco != null) {
+                            Text(
+                                text = "R$ ${viewModel.preco}",
+                                fontSize = 20.sp,
+                                fontFamily = FontFamily(Font(R.font.intermedium)),
+                                fontWeight = FontWeight(700),
+                                color = Color(0xFF404040),
+                                modifier = Modifier
+                            )
+                            Spacer(modifier = Modifier.height(4.dp))
+                            Text(
+                                text = "Ou",
+                                fontSize = 20.sp,
+                                fontFamily = FontFamily(Font(R.font.intermedium)),
+                                fontWeight = FontWeight(700),
+                                color = Color(0xFF404040),
+                                modifier = Modifier
+                            )
+                            Spacer(modifier = Modifier.height(16.dp))
+                            LazyColumn() {
+                                items(viewModel.tipo_anuncio) {
+                                    Log.e("AAA123452342342342323233", "${it.tipo}")
+                                    if (it.tipo == "Venda") {
 
-                    if(viewModel.preco != null) {
-                        Text(
-                            text = "R$ ${viewModel.preco}",
-                            fontSize = 24.sp,
-                            fontFamily = FontFamily(Font(R.font.intermedium)),
-                            fontWeight = FontWeight(700),
-                            color = Color(0xFF404040),
-                            modifier = Modifier
-                        )
-                        Spacer(modifier = Modifier.height(16.dp))
-                        LazyColumn() {
-                            items(viewModel.tipo_anuncio) {
-                                Log.e("AAA123452342342342323233", "${it.tipo}")
-                                if(it.tipo == "Venda"){
+                                    } else {
+                                        DefaultButtonScreen(
+                                            text = "${it.tipo}",
+                                        ) {}
+                                    }
 
-                                } else{
-                                    DefaultButtonScreen(
-                                        text = "${it.tipo}",
-                                    ) {}
                                 }
 
                             }
+                        } else {
+                            Spacer(modifier = Modifier.height(16.dp))
+                            LazyColumn() {
+                                items(viewModel.tipo_anuncio) {
+                                    Log.e("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "${it.tipo}")
+                                    Text(
+                                        text = "Disponivel para ${it.tipo}",
+                                        fontSize = 24.sp,
+                                        fontFamily = FontFamily(Font(R.font.intermedium)),
+                                        fontWeight = FontWeight(700),
+                                        color = Color(0xFF404040),
+                                        modifier = Modifier
+                                    )
 
-                        }
-                    } else{
-                        Spacer(modifier = Modifier.height(16.dp))
-                        LazyColumn() {
-                            items(viewModel.tipo_anuncio) {
-                                Log.e("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "${it.tipo}")
-                                Text(
-                                    text = "Disponivel para ${it.tipo}",
-                                    fontSize = 24.sp,
-                                    fontFamily = FontFamily(Font(R.font.intermedium)),
-                                    fontWeight = FontWeight(700),
-                                    color = Color(0xFF404040),
-                                    modifier = Modifier
-                                )
+                                }
 
                             }
-
                         }
                     }
-
-
                     Spacer(modifier = Modifier.height(24.dp))
-
                     Row(
                         modifier = Modifier
                             .width(292.dp)

@@ -1,5 +1,6 @@
 package br.senai.sp.jandira.s_book.service
 
+
 import br.senai.sp.jandira.s_book.model.AnunciosUserBaseResponse
 import retrofit2.Call
 import retrofit2.http.GET

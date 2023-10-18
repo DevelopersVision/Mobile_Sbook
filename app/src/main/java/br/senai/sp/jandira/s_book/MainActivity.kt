@@ -24,7 +24,7 @@ import br.senai.sp.jandira.s_book.components.filter_ano.screen.FilterAnoScreen
 import br.senai.sp.jandira.s_book.components.filter_idioma.screen.FilterIdiomaScreen
 import br.senai.sp.jandira.s_book.components.filter_localizacao.screen.FilterLocalizacaoScreen
 import br.senai.sp.jandira.s_book.components.filter_localizacao_cidades.screen.FilterLocalizacaoCidadeScreen
-import br.senai.sp.jandira.s_book.components.first_create_announce.screen.FirstCreateAnnounceScreen
+//import br.senai.sp.jandira.s_book.components.first_create_announce.screen.FirstCreateAnnounceScreen
 import br.senai.sp.jandira.s_book.components.forgot_password.screen.ForgotPasswordScreen
 import br.senai.sp.jandira.s_book.components.insert_code.screen.InsertCode
 import br.senai.sp.jandira.s_book.components.login.screen.LoginScreen
@@ -32,7 +32,7 @@ import br.senai.sp.jandira.s_book.components.my_announces.screen.MyAnnounceScree
 import br.senai.sp.jandira.s_book.components.perfil.screen.PerfilScreen
 import br.senai.sp.jandira.s_book.components.profile.screens.ProfileScreen
 import br.senai.sp.jandira.s_book.components.rediscover_password.screen.RediscoverPasswordScreen
-import br.senai.sp.jandira.s_book.components.second_create_announce.screen.SecondCreateAnnounceScreen
+//import br.senai.sp.jandira.s_book.components.second_create_announce.screen.SecondCreateAnnounceScreen
 import br.senai.sp.jandira.s_book.view_model.CreateAccountView
 import br.senai.sp.jandira.s_book.view_model.ResetPasswordView
 import br.senai.sp.jandira.s_book.view_model.UserCategoryViewModel
@@ -140,13 +140,13 @@ class MainActivity : ComponentActivity() {
                             FilterAnoScreen(navController)
                         }
 
-                        composable("primeiro_anunciar"){
-                            FirstCreateAnnounceScreen(navController)
-                        }
-
-                        composable("segundo_anunciar"){
-                            SecondCreateAnnounceScreen()
-                        }
+//                        composable("primeiro_anunciar"){
+//                            FirstCreateAnnounceScreen(navController)
+//                        }
+//
+//                        composable("segundo_anunciar"){
+//                            SecondCreateAnnounceScreen()
+//                        }
                     }
                 }
             }

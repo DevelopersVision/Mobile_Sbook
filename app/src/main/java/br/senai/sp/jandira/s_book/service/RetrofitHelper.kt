@@ -11,9 +11,9 @@ object RetrofitHelper {
 
 //    private const val baseurl =  "http://10.107.144.27:8080"
 
-    private const val baseurl =  "http://10.107.144.7:8080"
+//    private const val baseurl =  "http://10.107.144.7:8080"
 
-//    private const val baseurl = "http://192.168.0.108:8080"
+    private const val baseurl = "http://192.168.0.108:8080"
 
 //    private const val baseurl = "http://10.0.0.216:8080"
 
@@ -61,6 +61,7 @@ object RetrofitHelper {
     fun getAnunciosService(): AnuncisosFeedService{
         return  retrofitFactory.create(AnuncisosFeedService::class.java)
     }
+
     fun getAnunciosByIdUserService(): AnuncioUserService{
         return  retrofitFactory.create(AnuncioUserService::class.java)
     }
