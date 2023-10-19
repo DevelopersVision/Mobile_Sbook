@@ -1,8 +1,7 @@
-package br.senai.sp.jandira.s_book.components.EditUser.components
+package br.senai.sp.jandira.s_book.components.edit_user.components
 
 import android.content.Context
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -40,15 +39,34 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.senai.sp.jandira.s_book.R
+import br.senai.sp.jandira.s_book.components.my_informations.components.BoxCEP
+import br.senai.sp.jandira.s_book.components.my_informations.components.BoxDataNasicmento
+import br.senai.sp.jandira.s_book.components.my_informations.components.BoxMyInformations
+import br.senai.sp.jandira.s_book.components.perfil.components.converterData
+import br.senai.sp.jandira.s_book.models_private.User
+import br.senai.sp.jandira.s_book.sqlite_repository.UserRepository
 
 @Composable
 fun Form(
     context: Context
 ){
 
+    var userRating by remember { mutableStateOf(0) }
+
+    val dadaUser = UserRepository(context).findUsers()
+
+    var array = User()
+
+    var data = ""
+
+    if (dadaUser.isNotEmpty()) {
+        array = dadaUser[0]
+
+        data = converterData(array.dataNascimento)
+    }
 
     var nomeState by remember {
-        mutableStateOf("")
+        mutableStateOf(array.nome)
     }
 
     var emailState by remember {
@@ -68,49 +86,10 @@ fun Form(
         mutableStateOf("")
     }
 
-    var userRating by remember { mutableStateOf(0) }
 
-
-    Column() {
-        Column(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Box(
-                modifier = Modifier
-                    .size(100.dp)
-            ) {
-                Card(
-                    modifier = Modifier
-                        .size(100.dp)
-                        .align(alignment = Alignment.TopEnd),
-                    shape = CircleShape
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.susanna_profile),
-                        contentDescription = null,
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier.shadow(
-                            elevation = 4.dp,
-                            spotColor = Color(0x40000000),
-                            ambientColor = Color(0x40000000)
-                        )
-                    )
-                }
-                Image(
-                    painter = painterResource(id = R.drawable.camera),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .align(alignment = Alignment.BottomEnd)
-                        .size(32.dp)
-                )
-            }
-            br.senai.sp.jandira.s_book.components.perfil.components.RatingBar(
-                maxRating = 5,
-                initialRating = userRating
-            )
-        }
-        Spacer(modifier = Modifier.height(20.dp))
+    Column(
+        modifier = Modifier.fillMaxWidth()
+    ) {
         Text(
             text = "Informações do Usuário",
                 fontSize = 20.sp,
@@ -119,95 +98,42 @@ fun Form(
         )
         Spacer(modifier = Modifier.height(24.dp))
         Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
-            TextField(
+            BoxMyInformations(
+                label = "Nome",
                 value = nomeState,
                 onValueChange = {
                     nomeState = it
                 },
-                modifier = Modifier.fillMaxWidth(),
-                colors = TextFieldDefaults.textFieldColors(
-                    backgroundColor = Color.Transparent,
-                    focusedIndicatorColor = Color(206, 206, 206, 255),
-                    unfocusedIndicatorColor = Color(206, 206, 206, 255),
-                    disabledIndicatorColor = Color(206, 206, 206, 255),
-                    errorIndicatorColor = Color(206, 206, 206, 255)
-                ),
-                textStyle = TextStyle(
-                    color = Color(69, 90, 100, 255),
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight(500)
-                ),
-                label = {
-                    Text(
-                        text = "Nome",
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight(500),
-                        color = Color(0xFF808080)
-                    )
-                }
+                readOnly = false
             )
-            TextField(
+            BoxMyInformations(
+                label = "Email",
                 value = emailState,
                 onValueChange = {
                     emailState = it
                 },
-                modifier = Modifier.fillMaxWidth(),
-                colors = TextFieldDefaults.textFieldColors(
-                    backgroundColor = Color.Transparent,
-                    focusedIndicatorColor = Color(206, 206, 206, 255),
-                    unfocusedIndicatorColor = Color(206, 206, 206, 255),
-                    disabledIndicatorColor = Color(206, 206, 206, 255),
-                    errorIndicatorColor = Color(206, 206, 206, 255)
-                ),
-                textStyle = TextStyle(
-                    color = Color(69, 90, 100, 255),
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight(500)
-                ),
-                label = {
-                    Text(
-                        text = "Email",
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight(500),
-                        color = Color(0xFF808080)
-                    )
-                }
+                readOnly = false
             )
             Row(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                TextField(
+                BoxCEP(
+                    label = "CEP",
                     value = cepState,
                     onValueChange = {
                         cepState = it
                     },
-                    modifier = Modifier.width(140.dp),
-                    colors = TextFieldDefaults.textFieldColors(
-                        backgroundColor = Color.Transparent,
-                        focusedIndicatorColor = Color(206, 206, 206, 255),
-                        unfocusedIndicatorColor = Color(206, 206, 206, 255),
-                        disabledIndicatorColor = Color(206, 206, 206, 255),
-                        errorIndicatorColor = Color(206, 206, 206, 255)
-                    ),
-                    textStyle = TextStyle(
-                        color = Color(69, 90, 100, 255),
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight(500)
-                    ),
-                    label = {
-                        Text(
-                            text = "CEP",
-                            fontSize = 14.sp,
-                            fontWeight = FontWeight(500),
-                            color = Color(0xFF808080)
-                        )
-                    }
+                    readOnly = false
                 )
-                caixa(
-                    context,
-                    selectedDate,
-                    onDateChange = {selectedDate = it}
+                BoxDataNasicmento(
+                    context = context,
+                    selectedDate = data,
+                    onDateChange = {
+                                   data = it
+                    },
+                    readOnly = true
                 )
             }
         }

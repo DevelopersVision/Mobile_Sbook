@@ -47,7 +47,7 @@ fun BoxMyInformations(
         BasicTextField(
             value = value ,
             onValueChange = {
-                onValueChange(value)
+                onValueChange(it)
             },
             modifier = Modifier
                 .fillMaxWidth()

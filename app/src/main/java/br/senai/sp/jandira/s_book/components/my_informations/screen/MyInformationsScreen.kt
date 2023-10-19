@@ -35,7 +35,6 @@ fun MyInformationsScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.White)
             .padding(20.dp, 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(24.dp)

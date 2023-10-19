@@ -1,26 +1,31 @@
-package br.senai.sp.jandira.s_book.components.EditUser.screen
+package br.senai.sp.jandira.s_book.components.edit_user.screen
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.ScrollState
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import br.senai.sp.jandira.s_book.components.EditUser.components.Form
+import br.senai.sp.jandira.s_book.R
+import br.senai.sp.jandira.s_book.components.edit_user.components.Form
 import br.senai.sp.jandira.s_book.components.universal.ButtonProfile
 import br.senai.sp.jandira.s_book.components.universal.DefaultButtonScreen
 import br.senai.sp.jandira.s_book.components.universal.HeaderProfile
@@ -35,12 +40,27 @@ fun EditUser(
 
     Column(
         modifier = Modifier
-            .padding(24.dp)
+            .fillMaxSize()
+            .padding(20.dp, 16.dp)
             .verticalScroll(ScrollState(0)),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        HeaderProfile( onclick = { navController.navigate("profile")})
-        Form(context)
+        HeaderProfile {
+            navController.popBackStack()
+        }
+        Image(
+            painter = painterResource(id = R.drawable.logo),
+            contentDescription = "",
+            modifier = Modifier
+                .size(100.dp)
+                .clip(CircleShape)
+                .shadow(
+                    elevation = 4.dp,
+                    spotColor = Color(0x40000000),
+                    ambientColor = Color(0x40000000)
+                )
+        )
+        Form(context = context)
         Spacer(modifier = Modifier.height(32.dp))
         ButtonProfile("Salvar", onclick = {})
         Spacer(modifier = Modifier.height(12.dp))
