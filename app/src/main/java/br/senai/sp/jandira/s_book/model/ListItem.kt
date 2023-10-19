@@ -1,4 +1,4 @@
-package br.senai.sp.jandira.s_book.functions
+package br.senai.sp.jandira.s_book.model
 
 data class ListItem(
     val title : String,

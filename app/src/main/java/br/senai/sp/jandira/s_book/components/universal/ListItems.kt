@@ -29,7 +29,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.senai.sp.jandira.s_book.R
-import br.senai.sp.jandira.s_book.functions.ListItem
+import br.senai.sp.jandira.s_book.model.ListItem
 
 @Composable
 fun ListItems(

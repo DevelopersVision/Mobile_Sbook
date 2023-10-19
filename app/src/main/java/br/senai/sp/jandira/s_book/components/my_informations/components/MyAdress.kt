@@ -1,5 +1,6 @@
 package br.senai.sp.jandira.s_book.components.my_informations.components
 
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -24,14 +25,31 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.senai.sp.jandira.s_book.R
+import br.senai.sp.jandira.s_book.components.perfil.components.converterData
+import br.senai.sp.jandira.s_book.models_private.User
+import br.senai.sp.jandira.s_book.sqlite_repository.UserRepository
 
-@Preview
 @Composable
-fun MyAdress() {
+fun MyAdress(
+    context: Context
+) {
+
+    val dadaUser = UserRepository(context).findUsers()
+
+    var array = User()
+
+    var data = ""
+
+    if (dadaUser.isNotEmpty()) {
+        array = dadaUser[0]
+
+        data = converterData(array.dataNascimento)
+    }
+
     Column(
         modifier = Modifier
             .fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(24.dp)
+        verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
         Text(
             text = "Endereço",
@@ -66,7 +84,7 @@ fun MyAdress() {
                     verticalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
                     Text(
-                        text = "Rua Odilon Henrique de Macedo",
+                        text = array.logradouro,
                         style = TextStyle(
                             fontSize = 16.sp,
                             fontFamily = FontFamily(Font(R.font.poppinsmedium)),
@@ -75,7 +93,7 @@ fun MyAdress() {
                         )
                     )
                     Text(
-                        text = "Carapicuíba, SP",
+                        text = "${array.cidade}, ${array.ufEstado}",
                         style = TextStyle(
                             fontSize = 14.sp,
                             fontFamily = FontFamily(Font(R.font.poppinsmedium)),

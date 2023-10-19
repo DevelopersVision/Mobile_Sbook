@@ -22,6 +22,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import br.senai.sp.jandira.s_book.R
 import br.senai.sp.jandira.s_book.components.my_informations.components.MyAdress
+import br.senai.sp.jandira.s_book.components.my_informations.components.MyCategories
 import br.senai.sp.jandira.s_book.components.my_informations.components.UserInformations
 import br.senai.sp.jandira.s_book.components.universal.HeaderProfile
 
@@ -39,7 +40,9 @@ fun MyInformationsScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(24.dp)
     ) {
-        HeaderProfile {}
+        HeaderProfile {
+            navController.popBackStack()
+        }
         Image(
             painter = painterResource(id = R.drawable.logo),
             contentDescription = "",
@@ -53,8 +56,8 @@ fun MyInformationsScreen(
                 )
         )
         UserInformations(context)
-        MyAdress()
-
+        MyAdress(context)
+        MyCategories()
     }
 }
 
