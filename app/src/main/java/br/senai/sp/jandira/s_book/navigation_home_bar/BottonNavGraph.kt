@@ -11,6 +11,7 @@ import br.senai.sp.jandira.s_book.components.favorite.screen.FavoritoScreen
 import br.senai.sp.jandira.s_book.components.feed.screen.FeedScreen
 import br.senai.sp.jandira.s_book.components.login.screen.LoginScreen
 import br.senai.sp.jandira.s_book.components.my_announces.screen.MyAnnounceScreen
+import br.senai.sp.jandira.s_book.components.pesquisar.screen.SearchScreen
 import br.senai.sp.jandira.s_book.components.profile.screens.ProfileScreen
 import br.senai.sp.jandira.s_book.sqlite_repository.UserRepository
 import br.senai.sp.jandira.s_book.view_model.AnuncioViewModel
@@ -43,8 +44,8 @@ fun ButtonNavGraph(
             }
         }
         composable(route = BottomBarScreen.Pesquisar.route){
+            SearchScreen(navController = navController)
         }
-
         composable(route = BottomBarScreen.Profile.route){
 
         }
