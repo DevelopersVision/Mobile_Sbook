@@ -58,8 +58,7 @@ import retrofit2.Response
 fun FavoritoScreen(
     navController: NavController,
     navRotasController: NavController,
-    lifecycleScope: LifecycleCoroutineScope?,
-    rota: String
+    lifecycleScope: LifecycleCoroutineScope?
 ) {
 
     val context = LocalContext.current
@@ -123,8 +122,7 @@ fun FavoritoScreen(
         ) {
             Header(
                 navController = navController,
-                navRotasController = navRotasController,
-                rota = rota
+                navRotasController = navRotasController
             )
             Spacer(modifier = Modifier.height(46.dp))
             Text(

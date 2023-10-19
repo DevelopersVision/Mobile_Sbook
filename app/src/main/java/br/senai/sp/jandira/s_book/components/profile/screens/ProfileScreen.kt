@@ -32,7 +32,9 @@ fun ProfileScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(35.dp)
     ) {
-        HeaderProfile(onclick = { navController.navigate("feed")})
+        HeaderProfile(
+            onclick = { navController.popBackStack()}
+        )
         CardProfile( navController = navController, context)
         RotasProfile(navController = navController)
     }

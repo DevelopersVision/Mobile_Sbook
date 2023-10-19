@@ -36,8 +36,7 @@ fun ButtonNavGraph(
             if(user.isNotEmpty()){
                 FavoritoScreen(
                     navController = navController, lifecycleScope = lifecycleScope,
-                    navRotasController = navRotasController,
-                    rota = "navigation_home_bar"
+                    navRotasController = navRotasController
                 )
             }else{
                 navRotasController.navigate("login")

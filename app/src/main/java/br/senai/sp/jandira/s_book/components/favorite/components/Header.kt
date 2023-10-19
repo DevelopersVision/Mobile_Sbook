@@ -33,8 +33,7 @@ import br.senai.sp.jandira.s_book.R
 @Composable
 fun Header(
     navController: NavController,
-    navRotasController: NavController,
-    rota: String
+    navRotasController: NavController
 ){
     Row(
         modifier = Modifier
@@ -48,7 +47,7 @@ fun Header(
             modifier = Modifier
                 .size(24.dp)
                 .clickable {
-                    navRotasController.navigate(rota)
+                    navController.popBackStack()
                 }
         )
         Text(
