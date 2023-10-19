@@ -40,7 +40,7 @@ fun RotasProfile(
     ) {
         ButtonRota(icon = R.drawable.books, text = "Meus anúncios"){navController.navigate("my_announces")}
         ButtonRota(icon = R.drawable.heart, text = "Favoritos"){ navController.navigate("favorite")}
-        ButtonRota(icon = R.drawable.user_profile, text = "Minhas informações") {}
+        ButtonRota(icon = R.drawable.user_profile, text = "Minhas informações") {navController.navigate("my_informations")}
         ButtonRota(icon = R.drawable.power, text = "Sair"){
             navController.navigate("navigation_home_bar")
             UserRepository(context).deleteUser(array.id.toInt())

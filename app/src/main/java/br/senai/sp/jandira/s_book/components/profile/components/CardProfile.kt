@@ -174,10 +174,10 @@ fun CardProfile(
                         color = Color(0xFF808080)
                     )
                     Spacer(modifier = Modifier.height(24.dp))
-                    br.senai.sp.jandira.s_book.components.perfil.components.RatingBar(
-                        maxRating = 5,
-                        initialRating = userRating
-                    )
+//                    br.senai.sp.jandira.s_book.components.perfil.components.RatingBar(
+//                        maxRating = 5,
+//                        initialRating = userRating
+//                    )
                 }
             }
             ButtonProfile(

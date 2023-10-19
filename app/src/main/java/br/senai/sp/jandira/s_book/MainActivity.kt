@@ -31,6 +31,7 @@ import br.senai.sp.jandira.s_book.components.fourth_create_announce.screen.Fourt
 import br.senai.sp.jandira.s_book.components.insert_code.screen.InsertCode
 import br.senai.sp.jandira.s_book.components.login.screen.LoginScreen
 import br.senai.sp.jandira.s_book.components.my_announces.screen.MyAnnounceScreen
+import br.senai.sp.jandira.s_book.components.my_informations.screen.MyInformationsScreen
 import br.senai.sp.jandira.s_book.components.perfil.screen.PerfilScreen
 import br.senai.sp.jandira.s_book.components.profile.screens.ProfileScreen
 import br.senai.sp.jandira.s_book.components.rediscover_password.screen.RediscoverPasswordScreen
@@ -106,6 +107,10 @@ class MainActivity : ComponentActivity() {
 
                         composable("profile"){
                             ProfileScreen(navController = navController)
+                        }
+
+                        composable("my_informations"){
+                            MyInformationsScreen(navController = navController)
                         }
 
                         composable("annouceDetail"){
