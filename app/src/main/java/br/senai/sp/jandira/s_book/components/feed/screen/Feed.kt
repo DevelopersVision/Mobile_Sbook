@@ -65,19 +65,26 @@ fun FeedScreen(
         mutableStateOf(listOf<JsonAnuncios>())
     }
 
-    val call = RetrofitHelper.getAnunciosService().getAnuncios(1)
+    val call = RetrofitHelper.getAnunciosService().getAnuncios(2)
+
+    Log.e("TAG-Teste1", "onResponse: teste", )
 
     // Executar a chamada
     call.enqueue(object : Callback<AnunciosBaseResponse> {
         override fun onResponse(
             call: Call<AnunciosBaseResponse>, response: Response<AnunciosBaseResponse>
         ) {
+            Log.e("TAG-Teste2", "onResponse: teste", )
             listAnuncios = response.body()!!.anuncios
+            Log.e("lista", "onResponse: $listAnuncios", )
         }
 
 
         override fun onFailure(call: Call<AnunciosBaseResponse>, t: Throwable) {
-            // Log.d("API Call", "Depois da chamada da API: ${listAnuncios}")
+             Log.d("ERROR_FEED", "ERROR NA CHAMADA DE FEED")
+             Log.d("ERROR_FEED-t", "$t")
+             Log.d("ERROR_FEED-tmessage", "${t.message}")
+             Log.d("ERROR_FEED-tstacktrace", "${t.stackTrace}")
         }
     })
 
@@ -109,7 +116,9 @@ fun FeedScreen(
 
             for (pair in pairs) {
                 Row(
-                    modifier = Modifier.fillMaxWidth().padding(3.dp, 0.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(3.dp, 0.dp),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     for (item in pair) {
