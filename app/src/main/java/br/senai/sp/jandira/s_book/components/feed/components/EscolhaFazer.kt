@@ -46,7 +46,10 @@ import androidx.compose.ui.unit.sp
 import br.senai.sp.jandira.s_book.R
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.TextField
+import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.filled.LocalOffer
+import androidx.compose.ui.text.TextStyle
 import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.navigation_home_bar.BottomBarScreen
 
@@ -54,8 +57,9 @@ import br.senai.sp.jandira.s_book.navigation_home_bar.BottomBarScreen
 @Composable
 fun EscolhaFazer(
     filter: () -> Unit,
-        anuncio: () -> Unit
+    anuncio: () -> Unit
 ) {
+
     Column() {
         Text(
             text = "O que você quer fazer?",
@@ -121,13 +125,13 @@ fun EscolhaFazer(
                     horizontalAlignment = Alignment.Start,
                     verticalArrangement = Arrangement.Center
                 ) {
-                    Icon(painter = painterResource(id = R.drawable.pesquisa),
+                    Icon(painter = painterResource(id = R.drawable.filtro),
                         contentDescription = "",
                         modifier = Modifier.size(30.dp)
                     )
                     Spacer(modifier = Modifier.height(12.dp))
                     Text(
-                        text = "Procurar",
+                        text = "Filtrar",
                         fontSize = 16.sp,
                         fontWeight = FontWeight(400),
                         color = Color(92, 44, 12, 255)

@@ -7,6 +7,7 @@ import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.ui.graphics.vector.ImageVector
 
 sealed class BottomBarScreen(
@@ -24,10 +25,10 @@ sealed class BottomBarScreen(
         title = "Favoritos",
         icon = Icons.Default.FavoriteBorder
     )
-    object  Anuncio : BottomBarScreen(
-        route = "my_announces",
-        title = "meus anúncios",
-        icon = Icons.Default.DateRange
+    object  Pesquisar : BottomBarScreen(
+        route = "pesquisar",
+        title = "Pesquisar",
+        icon = Icons.Default.Search
     )
     object  Profile : BottomBarScreen(
         route = "address",

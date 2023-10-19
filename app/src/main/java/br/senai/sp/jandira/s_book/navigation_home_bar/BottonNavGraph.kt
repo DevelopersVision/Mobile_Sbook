@@ -42,9 +42,9 @@ fun ButtonNavGraph(
                 navRotasController.navigate("login")
             }
         }
-        composable(route = BottomBarScreen.Anuncio.route){
-            MyAnnounceScreen(navRotasController = navController, lifecycleScope = lifecycleScope)
+        composable(route = BottomBarScreen.Pesquisar.route){
         }
+
         composable(route = BottomBarScreen.Profile.route){
 
         }
