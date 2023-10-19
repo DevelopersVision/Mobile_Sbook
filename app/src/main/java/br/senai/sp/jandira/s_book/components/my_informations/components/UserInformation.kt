@@ -1,9 +1,12 @@
 package br.senai.sp.jandira.s_book.components.my_informations.components
 
+import android.content.Context
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -17,9 +20,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.senai.sp.jandira.s_book.R
 
-@Preview
 @Composable
-fun UserInformations() {
+fun UserInformations(
+    context: Context
+) {
     Column(
         modifier = Modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(24.dp)
@@ -40,24 +44,34 @@ fun UserInformations() {
         ) {
             BoxMyInformations(
                 label = "Nome",
-                valor = "Luiz Gustavo"
+                value = "Luiz Gustavo",
+                onValueChange = {},
+                readOnly = true
             )
             BoxMyInformations(
                 label = "Email",
-                valor = "luizgustavo.sp2020@gmail.com"
+                value = "luizgustavo.sp2020@gmail.com",
+                onValueChange = {},
+                readOnly = true
             )
-            BoxCEP(
-                label = "CEP",
-                value = "06420-230",
-                onValueChange = {}
-            )
-//            Row(
-//                modifier = Modifier
-//                    .fillMaxWidth(),
-//                horizontalArrangement = Arrangement.SpaceBetween
-//            ) {
-//
-//            }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                BoxCEP(
+                    label = "CEP",
+                    value = "06420-230",
+                    onValueChange = {},
+                    readOnly = true
+                )
+                BoxDataNasicmento(
+                    context = context,
+                    selectedDate = "15/02/2006",
+                    onDateChange = {},
+                    readOnly = false
+                )
+            }
         }
     }
 }

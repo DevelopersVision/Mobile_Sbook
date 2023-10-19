@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Text
@@ -30,11 +31,12 @@ import br.senai.sp.jandira.s_book.R
 fun BoxCEP(
     label : String,
     value: String,
-    onValueChange: (String) -> Unit
+    onValueChange: (String) -> Unit,
+    readOnly: Boolean
 ) {
     Column(
         modifier = Modifier
-            .fillMaxWidth(),
+            .width(160.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Text(
@@ -46,7 +48,6 @@ fun BoxCEP(
                 color = Color(0xFF808080)
             )
         )
-        Spacer(modifier = Modifier.height(2.dp))
 
         BasicTextField(
             value = value ,
@@ -62,9 +63,7 @@ fun BoxCEP(
                 fontWeight = FontWeight(500),
                 color = Color(0xFF455A64)
             ),
-            keyboardOptions = KeyboardOptions(
-                imeAction = ImeAction.Done
-            ),
+            readOnly = readOnly
         )
         Box(
             modifier = Modifier
