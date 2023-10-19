@@ -1,6 +1,5 @@
-package br.senai.sp.jandira.s_book.components.fourth_create_announce.screen
+package br.senai.sp.jandira.s_book.components.fifth_create_announce.screen
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -37,7 +36,7 @@ import br.senai.sp.jandira.s_book.R
 import br.senai.sp.jandira.s_book.components.universal.HeaderCreateAnnounce
 
 @Composable
-fun FourthCreateAnnounceScreen(
+fun FifthCreateAnnounceScreen(
     navController: NavController
 ){
 
@@ -56,7 +55,7 @@ fun FourthCreateAnnounceScreen(
             Column {
                 Spacer(modifier = Modifier.height(32.dp))
                 Text(
-                    text = "Estamos quase lá... Selecione os gêneros que seu livro mais de encaixa.",
+                    text = "Só mais um pouquinho... Informe as condições do livro.",
                     fontSize = 16.sp,
                     fontWeight = FontWeight(700),
                     color = Color(0xFF2A2929),
@@ -79,7 +78,7 @@ fun FourthCreateAnnounceScreen(
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Text(
-                            text = "Terror",
+                            text = "Usado",
                             fontSize = 14.sp,
                             fontFamily = FontFamily(Font(R.font.intermedium)),
                             fontWeight = FontWeight(500),
@@ -128,13 +127,13 @@ fun FourthCreateAnnounceScreen(
                         modifier = Modifier
                             .size(8.dp),
                         shape = CircleShape,
-                        backgroundColor = Color(170, 98, 49, 255)
+                        backgroundColor = Color(193, 188, 204, 255)
                     ) {}
                     Card(
                         modifier = Modifier
                             .size(8.dp),
                         shape = CircleShape,
-                        backgroundColor = Color(193, 188, 204, 255)
+                        backgroundColor = Color(170, 98, 49, 255)
                     ) {}
                     Card(
                         modifier = Modifier
@@ -148,7 +147,7 @@ fun FourthCreateAnnounceScreen(
                     contentDescription = "",
                     modifier = Modifier
                         .size(72.dp)
-                        .clickable { navController.navigate("quinto_anunciar") }
+                        .clickable { navController.navigate("sexto_anunciar") }
                 )
             }
         }

@@ -147,6 +147,12 @@ fun ThirdCreateAnnounceScreen(
                         shape = CircleShape,
                         backgroundColor = Color(193, 188, 204, 255)
                     ) {}
+                    Card(
+                        modifier = Modifier
+                            .size(8.dp),
+                        shape = CircleShape,
+                        backgroundColor = Color(193, 188, 204, 255)
+                    ) {}
                 }
                 Image(
                     painter = painterResource(id = R.drawable.seta_prosseguir),

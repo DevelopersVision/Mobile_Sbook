@@ -19,6 +19,7 @@ import br.senai.sp.jandira.s_book.components.cep.screen.CepScreen
 import br.senai.sp.jandira.s_book.components.create_account.screen.CreateContScreen
 import br.senai.sp.jandira.s_book.components.create_account_endereco.screen.CreateAccountEndereco
 import br.senai.sp.jandira.s_book.components.favorite.screen.FavoritoScreen
+import br.senai.sp.jandira.s_book.components.fifth_create_announce.screen.FifthCreateAnnounceScreen
 import br.senai.sp.jandira.s_book.components.filterGenero.screen.FilterGeneroScreen
 import br.senai.sp.jandira.s_book.components.filter_ano.screen.FilterAnoScreen
 import br.senai.sp.jandira.s_book.components.filter_idioma.screen.FilterIdiomaScreen
@@ -36,6 +37,8 @@ import br.senai.sp.jandira.s_book.components.perfil.screen.PerfilScreen
 import br.senai.sp.jandira.s_book.components.profile.screens.ProfileScreen
 import br.senai.sp.jandira.s_book.components.rediscover_password.screen.RediscoverPasswordScreen
 import br.senai.sp.jandira.s_book.components.second_create_announce.screen.SecondCreateAnnounceScreen
+import br.senai.sp.jandira.s_book.components.seventh_create_announce.screen.SeventhCreateAnnounceScreen
+import br.senai.sp.jandira.s_book.components.sixth_create_announce.screen.SixthCreateAnnounceScreen
 import br.senai.sp.jandira.s_book.components.third_create_announce.screen.ThirdCreateAnnounceScreen
 //import br.senai.sp.jandira.s_book.components.second_create_announce.screen.SecondCreateAnnounceScreen
 import br.senai.sp.jandira.s_book.view_model.CreateAccountView
@@ -162,7 +165,19 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable("quarto_anunciar"){
-                            FourthCreateAnnounceScreen()
+                            FourthCreateAnnounceScreen(navController)
+                        }
+
+                        composable("quinto_anunciar"){
+                            FifthCreateAnnounceScreen(navController)
+                        }
+
+                        composable("sexto_anunciar"){
+                            SixthCreateAnnounceScreen(navController)
+                        }
+
+                        composable("setimo_anunciar"){
+                            SeventhCreateAnnounceScreen()
                         }
                     }
                 }
