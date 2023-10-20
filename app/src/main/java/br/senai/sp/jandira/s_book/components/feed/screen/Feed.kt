@@ -1,6 +1,7 @@
 package br.senai.sp.jandira.s_book.components.feed.screen
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -21,6 +22,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -36,6 +38,7 @@ import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.R
 import br.senai.sp.jandira.s_book.components.feed.components.AnunciosProximos
+import br.senai.sp.jandira.s_book.components.feed.components.ButtonCarregar
 import br.senai.sp.jandira.s_book.components.feed.components.EscolhaFazer
 import br.senai.sp.jandira.s_book.components.feed.components.Header
 import br.senai.sp.jandira.s_book.model.AnunciosBaseResponse
@@ -57,36 +60,66 @@ fun FeedScreen(
     lifecycleScope: LifecycleCoroutineScope?,
     viewModelQueVaiPassarOsDados: AnuncioViewModel
 ) {
-
+    val TAG = "Teste FEED"
 
     val context = LocalContext.current
+
+    var page by remember {
+        mutableIntStateOf(1)
+    }
+
+    var cont by remember {
+        mutableStateOf(true)
+    }
 
     var listAnuncios by remember {
         mutableStateOf(listOf<JsonAnuncios>())
     }
 
-    val call = RetrofitHelper.getAnunciosService().getAnuncios(1)
+    var listAnunciosFeed by remember {
+        mutableStateOf(listOf<JsonAnuncios>())
+    }
 
-    Log.e("TAG-Teste1", "onResponse: teste", )
+    val call = RetrofitHelper.getAnunciosService().getAnuncios(page)
 
     // Executar a chamada
     call.enqueue(object : Callback<AnunciosBaseResponse> {
         override fun onResponse(
             call: Call<AnunciosBaseResponse>, response: Response<AnunciosBaseResponse>
         ) {
-            Log.e("TAG-Teste2", "onResponse: teste", )
-            listAnuncios = response.body()!!.anuncios
-            Log.e("lista", "onResponse: $listAnuncios", )
-        }
+            Log.e(TAG, "resposta: $response", )
 
+            if(response.code() == 200){
+                listAnuncios = response.body()!!.anuncios
+                Log.e("Cont", "Contador: $cont ")
+                Log.e("Lista", "Lista: $listAnuncios")
+                Log.e("ListaEmpty", "Lista: ${listAnuncios.isNotEmpty()}")
+                if(cont && listAnuncios.isNotEmpty()){
+                    listAnunciosFeed += listAnuncios
+
+                    cont = false
+                }else{
+                    Log.e(TAG, "Contador morreu", )
+                }
+                Log.e("lista", "onResponse: $listAnuncios")
+            }else{
+                Toast.makeText(context, "erro da api", Toast.LENGTH_SHORT).show()
+            }
+
+        }
 
         override fun onFailure(call: Call<AnunciosBaseResponse>, t: Throwable) {
-             Log.d("ERROR_FEED", "ERROR NA CHAMADA DE FEED")
-             Log.d("ERROR_FEED-t", "$t")
-             Log.d("ERROR_FEED-tmessage", "${t.message}")
-             Log.d("ERROR_FEED-tstacktrace", "${t.stackTrace}")
+            Log.d("ERROR_FEED", "ERROR NA CHAMADA DE FEED")
+            Log.d("ERROR_FEED-t", "$t")
+            Log.d("ERROR_FEED-tmessage", "${t.message}")
+            Log.d("ERROR_FEED-tstacktrace", "${t.stackTrace}")
+            Log.d("ERROR_FEED-tlocalized", "${t.localizedMessage}")
+            Log.d("ERROR_FEED-tcause", "${t.cause}")
         }
     })
+
+
+
 
     Column(
         modifier = Modifier
@@ -113,7 +146,7 @@ fun FeedScreen(
             )
             Spacer(modifier = Modifier.height(18.dp))
 
-            val pairs = listAnuncios.chunked(2)
+            val pairs = listAnunciosFeed.chunked(2)
 
             for (pair in pairs) {
                 Row(
@@ -169,6 +202,17 @@ fun FeedScreen(
                 }
                 Spacer(modifier = Modifier.height(20.dp))
             }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(0.dp, 5.dp),
+                horizontalArrangement = Arrangement.Center
+            ) {
+                ButtonCarregar {
+                    page++
+                    cont = true
+                }
+            }
             Spacer(modifier = Modifier.height(48.dp))
         }
     }
@@ -189,4 +233,33 @@ fun getAnunciante(id: Long, callback: (Usuario?) -> Unit) {
             callback(null) // Em caso de falha, passa null para o callback
         }
     })
+}
+
+fun getAnuncios(page: Int): List<JsonAnuncios> {
+    val call = RetrofitHelper.getAnunciosService().getAnuncios(page)
+
+    var listAnuncios = listOf<JsonAnuncios>()
+
+    // Executar a chamada
+    call.enqueue(object : Callback<AnunciosBaseResponse> {
+        override fun onResponse(
+            call: Call<AnunciosBaseResponse>, response: Response<AnunciosBaseResponse>
+        ) {
+
+            listAnuncios = response.body()!!.anuncios
+            Log.e("lista", "onResponse: $listAnuncios")
+        }
+
+
+        override fun onFailure(call: Call<AnunciosBaseResponse>, t: Throwable) {
+            Log.d("ERROR_FEED", "ERROR NA CHAMADA DE FEED")
+            Log.d("ERROR_FEED-t", "$t")
+            Log.d("ERROR_FEED-tmessage", "${t.message}")
+            Log.d("ERROR_FEED-tstacktrace", "${t.stackTrace}")
+            Log.d("ERROR_FEED-tlocalized", "${t.localizedMessage}")
+            Log.d("ERROR_FEED-tcause", "${t.cause}")
+        }
+    })
+
+    return listAnuncios
 }
