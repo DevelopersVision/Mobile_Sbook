@@ -94,7 +94,7 @@ fun FeedScreen(
                 Log.e("Cont", "Contador: $cont ")
                 Log.e("Lista", "Lista: $listAnuncios")
                 Log.e("ListaEmpty", "Lista: ${listAnuncios.isNotEmpty()}")
-                if(cont && listAnuncios.isNotEmpty()){
+                if(cont && listAnuncios.isNotEmpty() && response.body()!!.page == page){
                     listAnunciosFeed += listAnuncios
 
                     cont = false
@@ -113,7 +113,7 @@ fun FeedScreen(
             Log.d("ERROR_FEED-t", "$t")
             Log.d("ERROR_FEED-tmessage", "${t.message}")
             Log.d("ERROR_FEED-tstacktrace", "${t.stackTrace}")
-            Log.d("ERROR_FEED-tlocalized", "${t.localizedMessage}")
+            Log.d("ERROR_FEED-tlocalized", t.localizedMessage!!)
             Log.d("ERROR_FEED-tcause", "${t.cause}")
         }
     })

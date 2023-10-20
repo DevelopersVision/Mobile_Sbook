@@ -4,5 +4,6 @@ data class AnunciosBaseResponse(
     val status: Int,
     val message: String,
     val quantidade: Int,
+    val page: Int,
     val anuncios: List<JsonAnuncios>
 )
