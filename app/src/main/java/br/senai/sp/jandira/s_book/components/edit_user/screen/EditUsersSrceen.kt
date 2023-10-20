@@ -2,6 +2,7 @@ package br.senai.sp.jandira.s_book.components.edit_user.screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.ScrollState
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -43,11 +44,13 @@ fun EditUser(
             .fillMaxSize()
             .padding(20.dp, 16.dp)
             .verticalScroll(ScrollState(0)),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(24.dp)
     ) {
         HeaderProfile {
             navController.popBackStack()
         }
+        Spacer(modifier = Modifier.height(20.dp))
         Image(
             painter = painterResource(id = R.drawable.logo),
             contentDescription = "",
@@ -60,6 +63,7 @@ fun EditUser(
                     ambientColor = Color(0x40000000)
                 )
         )
+        Spacer(modifier = Modifier.height(10.dp))
         Form(context = context)
         Spacer(modifier = Modifier.height(32.dp))
         ButtonProfile("Salvar", onclick = {})
