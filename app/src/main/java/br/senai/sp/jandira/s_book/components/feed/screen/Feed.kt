@@ -65,7 +65,7 @@ fun FeedScreen(
         mutableStateOf(listOf<JsonAnuncios>())
     }
 
-    val call = RetrofitHelper.getAnunciosService().getAnuncios(2)
+    val call = RetrofitHelper.getAnunciosService().getAnuncios(1)
 
     Log.e("TAG-Teste1", "onResponse: teste", )
 
@@ -92,6 +92,7 @@ fun FeedScreen(
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
+            .background(Color.White)
     ) {
         Header(navController, navRotasController, context)
         Column(

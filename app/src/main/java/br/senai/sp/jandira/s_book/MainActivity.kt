@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
@@ -16,6 +17,8 @@ import br.senai.sp.jandira.s_book.components.filters.screen.FiltersScreen
 import br.senai.sp.jandira.s_book.components.announceDetail.screen.AnnouceDetail
 import br.senai.sp.jandira.s_book.components.category.screen.CategoryScreen
 import br.senai.sp.jandira.s_book.components.cep.screen.CepScreen
+import br.senai.sp.jandira.s_book.components.chats.screen.ChatScreen
+import br.senai.sp.jandira.s_book.components.conversation_chat.screen.ConversationChatScreen
 import br.senai.sp.jandira.s_book.components.create_account.screen.CreateContScreen
 import br.senai.sp.jandira.s_book.components.create_account_endereco.screen.CreateAccountEndereco
 import br.senai.sp.jandira.s_book.components.favorite.screen.FavoritoScreen
@@ -55,7 +58,7 @@ class MainActivity : ComponentActivity() {
             SBOOKTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier.fillMaxSize(), color = Color.White
                 ) {
 
                     val navController = rememberNavController()
@@ -177,6 +180,10 @@ class MainActivity : ComponentActivity() {
 
                         composable("setimo_anunciar"){
                             SeventhCreateAnnounceScreen()
+                        }
+
+                        composable("conversa_chat"){
+                            ConversationChatScreen()
                         }
                     }
                 }
