@@ -51,7 +51,7 @@ fun Form(
     context: Context
 ){
 
-    var userRating by remember { mutableStateOf(0) }
+    //var userRating by remember { mutableStateOf(0) }
 
     val dadaUser = UserRepository(context).findUsers()
 
@@ -70,14 +70,14 @@ fun Form(
     }
 
     var emailState by remember {
-        mutableStateOf("")
+        mutableStateOf(array.email)
     }
 
     var cepState by remember {
-        mutableStateOf("")
+        mutableStateOf(array.cep)
     }
 
-    var selectedDate by remember { mutableStateOf("") }
+    var selectedDate by remember { mutableStateOf(data) }
 
     var senhaState by remember {
         mutableStateOf("")
@@ -129,9 +129,9 @@ fun Form(
                 )
                 BoxDataNasicmento(
                     context = context,
-                    selectedDate = data,
+                    selectedDate = selectedDate,
                     onDateChange = {
-                                   data = it
+                                   selectedDate = it
                     },
                     readOnly = true
                 )
@@ -179,76 +179,5 @@ fun Form(
             color = Color(206, 206, 206, 255)
         )
         Spacer(modifier = Modifier.height(24.dp))
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-            ) {
-            Text(
-                text = "Categorias",
-                fontSize = 20.sp,
-                fontWeight = FontWeight(600),
-                color = Color(170, 98, 49, 255),
-            )
-            Text(
-                text = "adicionar mais",
-                fontSize = 12.sp,
-                fontWeight = FontWeight(400),
-                color = Color(0xFF9F9898),
-            )
-        }
-        Spacer(modifier = Modifier.height(12.dp))
-        Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-            Card(
-                modifier = Modifier
-                    .height(30.dp)
-                    .border(
-                        width = 1.dp,
-                        color = Color(0xFFAA6231),
-                        shape = RoundedCornerShape(8.dp)
-                    )
-                    .padding(12.dp, 0.dp),
-                shape = RoundedCornerShape(8.dp)
-            ) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text(
-                        text = "Tecnologia e Ciência",
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight(600)
-                    )
-                    Icon(
-                        imageVector = Icons.Default.Close,
-                        contentDescription = null,
-                        tint = Color.Black
-                    )
-                }
-            }
-            Card(
-                modifier = Modifier
-                    .height(30.dp)
-                    .border(
-                        width = 1.dp,
-                        color = Color(0xFFAA6231),
-                        shape = RoundedCornerShape(8.dp)
-                    )
-                    .padding(12.dp, 0.dp),
-                shape = RoundedCornerShape(8.dp)
-            ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = "Tecnologia e Ciência",
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight(600)
-                    )
-                    Icon(
-                        imageVector = Icons.Default.Close,
-                        contentDescription = null,
-                        tint = Color.Black
-                    )
-                }
-            }
-        }
     }
 }

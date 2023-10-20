@@ -26,7 +26,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.R
+import br.senai.sp.jandira.s_book.components.edit_user.components.ButtonsEditUser
 import br.senai.sp.jandira.s_book.components.edit_user.components.Form
+import br.senai.sp.jandira.s_book.components.edit_user.components.MyCategoriesEditUser
 import br.senai.sp.jandira.s_book.components.universal.ButtonProfile
 import br.senai.sp.jandira.s_book.components.universal.DefaultButtonScreen
 import br.senai.sp.jandira.s_book.components.universal.HeaderProfile
@@ -65,16 +67,8 @@ fun EditUser(
         )
         Spacer(modifier = Modifier.height(10.dp))
         Form(context = context)
-        Spacer(modifier = Modifier.height(32.dp))
-        ButtonProfile("Salvar", onclick = {})
-        Spacer(modifier = Modifier.height(12.dp))
-        Text(
-            text = "Redefinir senha",
-            fontSize = 12.sp,
-            fontWeight = FontWeight(600),
-            color = Color(0xFF9F9898),
-            textDecoration = TextDecoration.Underline,
-        )
+        MyCategoriesEditUser()
+        ButtonsEditUser {}
     }
 }
 
