@@ -137,7 +137,7 @@ fun AnunciosProximos(
                 if (tipo_anuncio == "Doação") {
                     Text(
                         text = "Doa-se",
-                        fontSize = 12.sp,
+                        fontSize = 16.sp,
                         fontFamily = FontFamily(
                             Font(
                                 R.font.poppinsmedium
@@ -149,7 +149,7 @@ fun AnunciosProximos(
                 } else if (tipo_anuncio == "Troca") {
                     Text(
                         text = "Troca-se",
-                        fontSize = 12.sp,
+                        fontSize = 16.sp,
                         fontFamily = FontFamily(
                             Font(
                                 R.font.poppinsmedium
@@ -161,7 +161,7 @@ fun AnunciosProximos(
                 } else {
                     Text(
                         text = "R$" + preco,
-                        fontSize = 12.sp,
+                        fontSize = 16.sp,
                         fontFamily = FontFamily(
                             Font(
                                 R.font.poppinsmedium

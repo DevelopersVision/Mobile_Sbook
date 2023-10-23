@@ -159,10 +159,7 @@ fun FavoritoScreen(
                 }
             )
             Spacer(modifier = Modifier.height(24.dp))
-            if(listAnuncios == null){
-                Spacer(modifier = Modifier.height(100.dp))
-                AddFavorite()
-            }else{
+            if(listAnuncios.isNotEmpty()){
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -186,6 +183,13 @@ fun FavoritoScreen(
                         )
                     }
                 }
+            }else{
+                Spacer(modifier = Modifier.height(100.dp))
+                AddFavorite(
+                    onclick = {
+                        navController.navigate("feed")
+                    }
+                )
             }
             Spacer(modifier = Modifier.height(135.dp))
         }

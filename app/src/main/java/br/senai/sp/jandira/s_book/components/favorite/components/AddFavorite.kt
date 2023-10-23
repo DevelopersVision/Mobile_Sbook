@@ -24,7 +24,9 @@ import androidx.compose.ui.unit.sp
 import br.senai.sp.jandira.s_book.R
 
 @Composable
-fun AddFavorite() {
+fun AddFavorite(
+    onclick: ()-> Unit
+) {
 
     Column(
         modifier = Modifier
@@ -60,7 +62,7 @@ fun AddFavorite() {
         }
         TextButton(
             onClick = {
-
+                onclick()
             }
         ) {
             Text(
@@ -76,8 +78,8 @@ fun AddFavorite() {
     }
 }
 
-@Preview(showSystemUi = true)
-@Composable
-fun AddFavoritePreview() {
-    AddFavorite()
-}
+//@Preview(showSystemUi = true)
+//@Composable
+//fun AddFavoritePreview() {
+//    AddFavorite()
+//}
