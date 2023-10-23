@@ -1,8 +1,10 @@
 package br.senai.sp.jandira.s_book.components.edit_user.components
 
 import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -147,7 +149,10 @@ fun Form(
         Spacer(modifier = Modifier.height(24.dp))
         Row(
             modifier = Modifier
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .clickable {
+                           Toast.makeText(context, "Não é necessário mudar o endereço manualmente, mude o CEP que será atualizado", Toast.LENGTH_SHORT).show()
+                },
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
