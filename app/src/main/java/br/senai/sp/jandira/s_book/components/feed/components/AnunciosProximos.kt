@@ -1,5 +1,6 @@
 package br.senai.sp.jandira.s_book.components.feed.components
 import android.util.Log
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -10,6 +11,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -30,6 +32,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -90,7 +93,9 @@ fun AnunciosProximos(
         shape = RoundedCornerShape(4.dp)
     ) {
         Column(
-            modifier = Modifier.padding(12.dp),
+            modifier = Modifier
+                .height(260.dp)
+                .padding(start = 8.dp),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             Column(
@@ -124,7 +129,8 @@ fun AnunciosProximos(
             Spacer(modifier = Modifier.height(12.dp))
             Row(
                 modifier = Modifier
-                    .fillMaxWidth(),
+                    .fillMaxWidth()
+                    .height(30.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
@@ -167,8 +173,7 @@ fun AnunciosProximos(
                 }
                 IconButton(
                     modifier = Modifier
-                        .width(50.dp)
-                        .height(42.dp),
+                        .size(40.dp),
                     onClick = {
                         // Cria uma chamada para o EndPoint
                         val call = RetrofitHelper.getAnunciosFavoritadosService()
@@ -222,17 +227,28 @@ fun AnunciosProximos(
                         Log.i("testando123", "${call}")
                     }
                 ) {
-                    val iconTint = if (isChecked) Color.Red else Color.Black
+                    if (isChecked !== false){
+                        Image(
+                            painter = painterResource(
+                                id = R.drawable.coracao_certo
+                            ),
+                            contentDescription = ""
+                        )
 
-
-
-                    androidx.compose.material3.Icon(
-                        imageVector = coracao,
-                        contentDescription = "",
-                        tint = iconTint
-                    )
+                    }else{
+                        Image(
+                            painter = painterResource(
+                                id = R.drawable.desfavoritar
+                            ),
+                            contentDescription = ""
+                        )
+                    }
                 }
             }
+            Row (
+                modifier = Modifier
+                    .height(10.dp)
+            ){}
         }
     }
 }
