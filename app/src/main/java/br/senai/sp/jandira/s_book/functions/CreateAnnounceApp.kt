@@ -5,34 +5,45 @@ import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.navigation.NavController
+import br.senai.sp.jandira.s_book.model.Autores
+import br.senai.sp.jandira.s_book.model.Editora
+import br.senai.sp.jandira.s_book.model.Foto
+import br.senai.sp.jandira.s_book.model.Genero
+import br.senai.sp.jandira.s_book.model.TipoAnuncio
+import br.senai.sp.jandira.s_book.repository.CadastroAnuncioRepository
 import br.senai.sp.jandira.s_book.repository.CadastroRepository
 import br.senai.sp.jandira.s_book.view_model.UserCategoryViewModel
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 
-fun createAccountApp (
+fun createAnnounceApp (
     nome: String,
-    cpf: String,
-    dataNascimento: String,
-    email: String,
-    senha: String,
-    cep: String,
-    ufEstado: String,
-    cidade: String,
-    bairro: String,
-    logradouro: String,
+    numeroPaginas: Int,
+    anoLancamento: String,
+    descricao: String,
+    edicao: String,
+    isbn: String,
+    preco: Double,
+    idUsuario: Int,
+    idEstadoLivro: Int,
+    idIdioma: Int,
+    idEditora: Editora,
+    fotos: List<Foto>,
+    tiposAnuncio: List<TipoAnuncio>,
+    generos: List<Genero>,
+    autores: List<Autores>,
     navController: NavController,
     lifecycleScope: LifecycleCoroutineScope,
     rota: String,
     context: Context,
     viewModelUserCategory: UserCategoryViewModel
 ){
-    val createAccountRepository = CadastroRepository()
+    val createAnnounceRepository = CadastroAnuncioRepository()
 
     lifecycleScope.launch {
 
-        val response = createAccountRepository.cadastroUsuario(
-            nome, cpf, dataNascimento, email, senha, cep, ufEstado, cidade, bairro, logradouro
+        val response = createAnnounceRepository.cadastroAnuncio(
+            nome, numeroPaginas, anoLancamento, descricao, edicao, isbn, preco, idUsuario, idEstadoLivro, idIdioma
         )
         val code = response.code()
 
