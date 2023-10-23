@@ -44,6 +44,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.R
+import br.senai.sp.jandira.s_book.components.favorite.components.AddFavorite
 import br.senai.sp.jandira.s_book.components.favorite.components.Card
 import br.senai.sp.jandira.s_book.components.favorite.components.Header
 import br.senai.sp.jandira.s_book.model.AnunciosFavoritosBaseResponse
@@ -158,33 +159,39 @@ fun FavoritoScreen(
                 }
             )
             Spacer(modifier = Modifier.height(24.dp))
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight(),
-                verticalArrangement = Arrangement.spacedBy(24.dp, Alignment.Top),
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                items(listAnuncios.filter { it.anuncio.nome.contains(filterState, ignoreCase = true) }) { item ->
-                    Card(
-                        nome_livro = item.anuncio.nome,
-                        ano_lancamento = item.anuncio.ano_lancamento,
-                        foto = item.foto[0].foto,
-                        tipo_anuncio = item.tipo_anuncio[0].tipo,
-                        autor = item.autores[0].nome,
-                        preco = item.anuncio.preco,
-                        lifecycleScope = lifecycleScope!!,
-                        id = item.anuncio.id,
-                        onClick = {
-                            navRotasController.navigate("annouceDetail")
-                        }
-                    )
+            if(listAnuncios == null){
+                Spacer(modifier = Modifier.height(100.dp))
+                AddFavorite()
+            }else{
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight(),
+                    verticalArrangement = Arrangement.spacedBy(24.dp, Alignment.Top),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ) {
+                    items(listAnuncios.filter { it.anuncio.nome.contains(filterState, ignoreCase = true) }) { item ->
+                        Card(
+                            nome_livro = item.anuncio.nome,
+                            ano_lancamento = item.anuncio.ano_lancamento,
+                            foto = item.foto[0].foto,
+                            tipo_anuncio = item.tipo_anuncio[0].tipo,
+                            autor = item.autores[0].nome,
+                            preco = item.anuncio.preco,
+                            lifecycleScope = lifecycleScope!!,
+                            id = item.anuncio.id,
+                            onClick = {
+                                navRotasController.navigate("annouceDetail")
+                            }
+                        )
+                    }
                 }
             }
             Spacer(modifier = Modifier.height(135.dp))
         }
     }
 }
+
 
 //@Composable
 //@Preview

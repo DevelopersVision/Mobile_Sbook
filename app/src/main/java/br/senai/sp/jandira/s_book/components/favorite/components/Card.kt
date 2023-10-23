@@ -2,6 +2,7 @@ package br.senai.sp.jandira.s_book.components.favorite.components
 
 
 import android.util.Log
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -10,9 +11,11 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonColors
 import androidx.compose.material3.Text
@@ -27,6 +30,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -66,7 +70,7 @@ fun Card(
         user = array[0]
     }
 
-    val coracao = Icons.Default.Favorite
+//    val coracao = Icons.Default.Favo
 
     val cor = 0xFFFFFF
 
@@ -170,8 +174,8 @@ fun Card(
 
                     IconButton(
                         modifier = Modifier
-                            .width(50.dp)
-                            .height(42.dp),
+                            .size(50.dp)
+                            .padding( end = 8.dp,),
                         onClick = {
                                 // Cria uma chamada para o EndPoint
                                 val call = RetrofitHelper.getAnunciosFavoritadosService()
@@ -219,21 +223,29 @@ fun Card(
                             Log.i("testando123", "${call}")
                         }
                     ) {
+                        if (isChecked !== true){
+                            Image(
+                                painter = painterResource(
+                                    id = R.drawable.coracao_certo
+                                ),
+                                contentDescription = ""
+                            )
 
-                        val iconTint = if (isChecked) Color.Black else Color.Red
-
-                        androidx.compose.material3.Icon(
-                            imageVector = coracao,
-                            contentDescription = "",
-                            tint = iconTint
-                        )
+                        }else{
+                            Image(
+                                painter = painterResource(
+                                    id = R.drawable.desfavoritar
+                                ),
+                                contentDescription = ""
+                            )
+                        }
                     }
                 }
             }
         }
     }
-
 }
+
 
 fun favoritarAnuncio(id_usuario: Long, id_anuncio: Int, lifecycleScope: LifecycleCoroutineScope) {
     val favoriteRepositoy = AnunciosFavoritadosRepository()
