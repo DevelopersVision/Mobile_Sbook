@@ -29,6 +29,7 @@ import br.senai.sp.jandira.s_book.R
 import br.senai.sp.jandira.s_book.components.edit_user.components.ButtonsEditUser
 import br.senai.sp.jandira.s_book.components.edit_user.components.Form
 import br.senai.sp.jandira.s_book.components.edit_user.components.MyCategoriesEditUser
+import br.senai.sp.jandira.s_book.components.edit_user.components.PhotoEdit
 import br.senai.sp.jandira.s_book.components.universal.ButtonProfile
 import br.senai.sp.jandira.s_book.components.universal.DefaultButtonScreen
 import br.senai.sp.jandira.s_book.components.universal.HeaderProfile
@@ -41,33 +42,23 @@ fun EditUser(
 
     val context = LocalContext.current
 
+
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(20.dp, 16.dp)
             .verticalScroll(ScrollState(0)),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(24.dp)
+        verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
         HeaderProfile {
-            navController.popBackStack()
+            navController.navigate("feed")
         }
-        Spacer(modifier = Modifier.height(20.dp))
-        Image(
-            painter = painterResource(id = R.drawable.logo),
-            contentDescription = "",
-            modifier = Modifier
-                .size(100.dp)
-                .clip(CircleShape)
-                .shadow(
-                    elevation = 4.dp,
-                    spotColor = Color(0x40000000),
-                    ambientColor = Color(0x40000000)
-                )
-        )
-        Spacer(modifier = Modifier.height(10.dp))
+        PhotoEdit()
         Form(context = context)
         MyCategoriesEditUser()
+        Spacer(modifier = Modifier.height(5.dp))
         ButtonsEditUser {}
     }
 }
