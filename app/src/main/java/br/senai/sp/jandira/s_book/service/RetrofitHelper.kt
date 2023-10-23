@@ -54,4 +54,8 @@ object RetrofitHelper {
         return  retrofitFactory.create(AnuncioUserService::class.java)
     }
 
+    fun postCadastroAnuncioService(): CadastroAnuncioService {
+        return retrofitFactory.create(CadastroAnuncioService::class.java)
+    }
+
 }
