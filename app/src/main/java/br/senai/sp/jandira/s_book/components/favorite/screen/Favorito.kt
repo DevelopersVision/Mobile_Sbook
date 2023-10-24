@@ -1,6 +1,12 @@
 package br.senai.sp.jandira.s_book.components.favorite.screen
 
 import android.util.Log
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -99,26 +105,9 @@ fun FavoritoScreen(
         }
     })
 
-    Scaffold(
-        modifier = Modifier.padding(bottom = 52.dp),
-        floatingActionButton = {
-            FloatingActionButton(
-                onClick = { /*TODO*/ },
-                backgroundColor = Color(221, 163, 93, 255),
-                modifier = Modifier.size(64.dp)
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.user),
-                    contentDescription = "",
-                    modifier = Modifier.size(24.dp)
-                )
-            }
-        }
-    ) { contentPadding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(contentPadding)
                 .padding(24.dp)
         ) {
             Header(
@@ -168,19 +157,30 @@ fun FavoritoScreen(
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     items(listAnuncios.filter { it.anuncio.nome.contains(filterState, ignoreCase = true) }) { item ->
-                        Card(
-                            nome_livro = item.anuncio.nome,
-                            ano_lancamento = item.anuncio.ano_lancamento,
-                            foto = item.foto[0].foto,
-                            tipo_anuncio = item.tipo_anuncio[0].tipo,
-                            autor = item.autores[0].nome,
-                            preco = item.anuncio.preco,
-                            lifecycleScope = lifecycleScope!!,
-                            id = item.anuncio.id,
-                            onClick = {
-                                navRotasController.navigate("annouceDetail")
-                            }
-                        )
+                        AnimatedVisibility(
+                            visible = !listAnuncios.contains(item),
+                            enter = expandVertically(),
+                            exit = slideOutHorizontally()
+                        ) {
+                        }
+                            Card(
+                                nome_livro = item.anuncio.nome,
+                                ano_lancamento = item.anuncio.ano_lancamento,
+                                foto = item.foto[0].foto,
+                                tipo_anuncio = item.tipo_anuncio[0].tipo,
+                                autor = item.autores[0].nome,
+                                preco = item.anuncio.preco,
+                                lifecycleScope = lifecycleScope!!,
+                                id = item.anuncio.id,
+                                onClick = {
+                                    navRotasController.navigate("annouceDetail")
+                                },
+                                coracaoClik = {
+
+                                }
+                            )
+
+
                     }
                 }
             }else{
@@ -194,7 +194,7 @@ fun FavoritoScreen(
             Spacer(modifier = Modifier.height(135.dp))
         }
     }
-}
+
 
 
 //@Composable

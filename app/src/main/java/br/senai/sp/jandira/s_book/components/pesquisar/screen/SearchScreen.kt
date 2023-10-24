@@ -117,7 +117,8 @@ fun SearchScreen(
                             preco = item.anuncio.preco,
                             lifecycleScope = lifecycleScope!!,
                             id = item.anuncio.id,
-                            onClick = {}
+                            onClick = {},
+                            coracaoClik = {}
                         )
 
                     }else{

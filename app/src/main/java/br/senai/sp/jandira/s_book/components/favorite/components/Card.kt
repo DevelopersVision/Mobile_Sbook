@@ -2,6 +2,7 @@ package br.senai.sp.jandira.s_book.components.favorite.components
 
 
 import android.util.Log
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -38,6 +39,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.LifecycleCoroutineScope
 import br.senai.sp.jandira.s_book.R
+import br.senai.sp.jandira.s_book.model.Anuncio
 import br.senai.sp.jandira.s_book.model.DesfavoritarBaseResponse
 import br.senai.sp.jandira.s_book.model.VerificarFavoritoBaseResponse
 import br.senai.sp.jandira.s_book.models_private.User
@@ -60,7 +62,8 @@ fun Card(
     preco: Double?,
     foto: String,
     lifecycleScope: LifecycleCoroutineScope,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    coracaoClik: ()-> Unit
 ) {
     val context = LocalContext.current
     val array = UserRepository(context).findUsers()
@@ -75,6 +78,8 @@ fun Card(
     val cor = 0xFFFFFF
 
     var isChecked by remember { mutableStateOf(false) }
+
+    var visible by remember { mutableStateOf(true) }
 
 
     androidx.compose.material.Card(
@@ -172,10 +177,12 @@ fun Card(
                         )
                     }
 
+
+
                     IconButton(
                         modifier = Modifier
                             .size(50.dp)
-                            .padding( end = 8.dp,),
+                            .padding(end = 8.dp,),
                         onClick = {
                                 // Cria uma chamada para o EndPoint
                                 val call = RetrofitHelper.getAnunciosFavoritadosService()
@@ -191,6 +198,7 @@ fun Card(
 
                                         Log.e("BODY", "onResponse: ${response.body()}")
 
+
                                         if (response.isSuccessful) {
 
                                             Log.e("Ja ta favoritado bixo burro", "Plim")
@@ -198,6 +206,7 @@ fun Card(
 
 
                                             removerDosFavoritos(id_anuncio = id, id_usuario = user.id)
+                                            coracaoClik()
                                         } else {
                                             Log.e("MORREU", "morreu")
                                             Log.e(

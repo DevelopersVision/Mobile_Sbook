@@ -93,7 +93,8 @@ fun MyAnnounceScreen(
                         id = item.anuncio.id,
                         onClick = {
                             navRotasController.navigate("annouceDetail")
-                        }
+                        },
+                        coracaoClik = {}
                     )
                 }
             }
