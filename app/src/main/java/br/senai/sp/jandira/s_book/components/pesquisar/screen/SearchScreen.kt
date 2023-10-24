@@ -41,6 +41,7 @@ import br.senai.sp.jandira.s_book.model.AnunciosBaseResponse
 import br.senai.sp.jandira.s_book.model.JsonAnuncios
 import br.senai.sp.jandira.s_book.service.RetrofitHelper
 import br.senai.sp.jandira.s_book.view_model.AnuncioViewModel
+import br.senai.sp.jandira.s_book.view_model.CoracaoViewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -118,7 +119,8 @@ fun SearchScreen(
                             lifecycleScope = lifecycleScope!!,
                             id = item.anuncio.id,
                             onClick = {},
-                            coracaoClik = {}
+                            coracaoClik = {},
+                            viewModelDoCoracaoQueVaiPassarOsDadosHoje = CoracaoViewModel()
                         )
 
                     }else{

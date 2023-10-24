@@ -50,6 +50,7 @@ import br.senai.sp.jandira.s_book.navigation_home_bar.MainScreen
 
 import br.senai.sp.jandira.s_book.ui.theme.SBOOKTheme
 import br.senai.sp.jandira.s_book.view_model.AnuncioViewModel
+import br.senai.sp.jandira.s_book.view_model.CoracaoViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -103,7 +104,7 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable("favorite"){
-                            FavoritoScreen(navController = navController, lifecycleScope = lifecycleScope ,navRotasController = navController)
+                            FavoritoScreen(navController = navController, lifecycleScope = lifecycleScope ,navRotasController = navController, viewModelEssaTemQueSerAMesmaDoCard = CoracaoViewModel())
                         }
 
                         composable("cep"){

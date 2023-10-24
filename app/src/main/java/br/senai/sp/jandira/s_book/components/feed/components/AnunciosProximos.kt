@@ -47,6 +47,7 @@ import br.senai.sp.jandira.s_book.model.VerificarFavoritoBaseResponse
 import br.senai.sp.jandira.s_book.models_private.User
 import br.senai.sp.jandira.s_book.service.RetrofitHelper
 import br.senai.sp.jandira.s_book.sqlite_repository.UserRepository
+import br.senai.sp.jandira.s_book.view_model.CoracaoViewModel
 import coil.compose.AsyncImage
 import retrofit2.Call
 import retrofit2.Callback
@@ -63,7 +64,8 @@ fun AnunciosProximos(
     foto: String,
     lifecycleScope: LifecycleCoroutineScope?,
     navController: NavController,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    coracaoViewModel: CoracaoViewModel
 ) {
 
     val context = LocalContext.current
@@ -175,6 +177,8 @@ fun AnunciosProximos(
                     modifier = Modifier
                         .size(40.dp),
                     onClick = {
+
+
                         // Cria uma chamada para o EndPoint
                         val call = RetrofitHelper.getAnunciosFavoritadosService()
                             .verificarFavorito(user.id, id)
@@ -227,7 +231,7 @@ fun AnunciosProximos(
                         Log.i("testando123", "${call}")
                     }
                 ) {
-                    if (isChecked !== false){
+                    if (coracaoViewModel.checkado == true){
                         Image(
                             painter = painterResource(
                                 id = R.drawable.coracao_certo

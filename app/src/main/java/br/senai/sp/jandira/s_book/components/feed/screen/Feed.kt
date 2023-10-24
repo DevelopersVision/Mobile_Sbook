@@ -49,6 +49,7 @@ import br.senai.sp.jandira.s_book.models_private.User
 import br.senai.sp.jandira.s_book.service.RetrofitHelper
 import br.senai.sp.jandira.s_book.sqlite_repository.UserRepository
 import br.senai.sp.jandira.s_book.view_model.AnuncioViewModel
+import br.senai.sp.jandira.s_book.view_model.CoracaoViewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -58,7 +59,8 @@ fun FeedScreen(
     navController: NavController,
     navRotasController: NavController,
     lifecycleScope: LifecycleCoroutineScope?,
-    viewModelQueVaiPassarOsDados: AnuncioViewModel
+    viewModelQueVaiPassarOsDados: AnuncioViewModel,
+    viewModel: CoracaoViewModel
 ) {
     val TAG = "Teste FEED"
 
@@ -117,6 +119,13 @@ fun FeedScreen(
             Log.d("ERROR_FEED-tcause", "${t.cause}")
         }
     })
+
+    val array = UserRepository(context).findUsers()
+    var user = User()
+
+    if (array.isNotEmpty()) {
+        user = array[0]
+    }
 
 
 
@@ -197,6 +206,9 @@ fun FeedScreen(
                                     }
                                 }
                             },
+                           coracaoViewModel = viewModel
+
+
                         )
                     }
                 }
@@ -263,3 +275,49 @@ fun getAnuncios(page: Int): List<JsonAnuncios> {
 
     return listAnuncios
 }
+
+//val call = RetrofitHelper.getAnunciosFavoritadosService()
+//                                    .verificarFavorito(user.id, id)
+//
+//
+//                                // Executar a chamada
+//                                call.enqueue(object : Callback<VerificarFavoritoBaseResponse> {
+//                                    override fun onResponse(
+//                                        call: Call<VerificarFavoritoBaseResponse>,
+//                                        response: Response<VerificarFavoritoBaseResponse>
+//                                    ) {
+//
+//                                        Log.e("BODY", "onResponse: ${response.body()}")
+//
+//
+//                                        if (response.isSuccessful) {
+//
+//                                            Log.e("Ja ta favoritado bixo burro", "Plim")
+//                                            isChecked = false
+//
+//
+//                                            removerDosFavoritos(id_anuncio = id, id_usuario = user.id)
+//                                            coracaoClik()
+//                                        } else {
+//                                            Log.e("MORREU", "morreu")
+//                                            Log.e(
+//                                                "ErrorBody",
+//                                                "burrei: ${response.errorBody()?.string()!!}",
+//                                            )
+//                                            isChecked = true
+//
+//                                            Log.e("Log de Hoje felipe", "${id}")
+//                                            Log.e("Log de Hoje felipe", "${user.id}")
+//                                            favoritarAnuncio(id_anuncio = id, id_usuario = user.id, lifecycleScope = lifecycleScope)
+//                                        }
+//                                    }
+//
+//
+//                                    override fun onFailure(
+//                                        call: Call<VerificarFavoritoBaseResponse>,
+//                                        t: Throwable
+//                                    ) {
+//                                        Log.d("mudou o nome", "Depois da chamada da API:")
+//                                    }
+//                                })
+//                            Log.i("testando123", "${call}")

@@ -57,6 +57,7 @@ import br.senai.sp.jandira.s_book.model.AnunciosFavoritosBaseResponse
 import br.senai.sp.jandira.s_book.model.JsonFavoritados
 import br.senai.sp.jandira.s_book.service.RetrofitHelper
 import br.senai.sp.jandira.s_book.sqlite_repository.UserRepository
+import br.senai.sp.jandira.s_book.view_model.CoracaoViewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -65,7 +66,8 @@ import retrofit2.Response
 fun FavoritoScreen(
     navController: NavController,
     navRotasController: NavController,
-    lifecycleScope: LifecycleCoroutineScope?
+    lifecycleScope: LifecycleCoroutineScope?,
+    viewModelEssaTemQueSerAMesmaDoCard: CoracaoViewModel
 ) {
 
     val context = LocalContext.current
@@ -177,7 +179,8 @@ fun FavoritoScreen(
                                 },
                                 coracaoClik = {
 
-                                }
+                                },
+                                viewModelDoCoracaoQueVaiPassarOsDadosHoje = viewModelEssaTemQueSerAMesmaDoCard
                             )
 
 

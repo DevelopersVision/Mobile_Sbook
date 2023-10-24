@@ -46,6 +46,7 @@ import br.senai.sp.jandira.s_book.models_private.User
 import br.senai.sp.jandira.s_book.repository.AnunciosFavoritadosRepository
 import br.senai.sp.jandira.s_book.service.RetrofitHelper
 import br.senai.sp.jandira.s_book.sqlite_repository.UserRepository
+import br.senai.sp.jandira.s_book.view_model.CoracaoViewModel
 import coil.compose.AsyncImage
 import kotlinx.coroutines.launch
 import retrofit2.Call
@@ -63,7 +64,8 @@ fun Card(
     foto: String,
     lifecycleScope: LifecycleCoroutineScope,
     onClick: () -> Unit,
-    coracaoClik: ()-> Unit
+    coracaoClik: ()-> Unit,
+    viewModelDoCoracaoQueVaiPassarOsDadosHoje: CoracaoViewModel
 ) {
     val context = LocalContext.current
     val array = UserRepository(context).findUsers()
@@ -239,6 +241,8 @@ fun Card(
                                 ),
                                 contentDescription = ""
                             )
+                            viewModelDoCoracaoQueVaiPassarOsDadosHoje.checkado == isChecked
+                            Log.e("AAAAAAAAAAAAAAA", "${viewModelDoCoracaoQueVaiPassarOsDadosHoje.checkado}")
 
                         }else{
                             Image(
@@ -247,6 +251,9 @@ fun Card(
                                 ),
                                 contentDescription = ""
                             )
+
+                            viewModelDoCoracaoQueVaiPassarOsDadosHoje.checkado == isChecked
+                            Log.e("AAAAAAAAAAAAAAA TESTE", "${viewModelDoCoracaoQueVaiPassarOsDadosHoje.checkado}")
                         }
                     }
                 }

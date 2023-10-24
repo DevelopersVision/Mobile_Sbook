@@ -29,6 +29,7 @@ import br.senai.sp.jandira.s_book.model.AnunciosUserBaseResponse
 import br.senai.sp.jandira.s_book.model.JsonAnuncios
 import br.senai.sp.jandira.s_book.service.RetrofitHelper
 import br.senai.sp.jandira.s_book.sqlite_repository.UserRepository
+import br.senai.sp.jandira.s_book.view_model.CoracaoViewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -94,7 +95,8 @@ fun MyAnnounceScreen(
                         onClick = {
                             navRotasController.navigate("annouceDetail")
                         },
-                        coracaoClik = {}
+                        coracaoClik = {},
+                        viewModelDoCoracaoQueVaiPassarOsDadosHoje = CoracaoViewModel()
                     )
                 }
             }

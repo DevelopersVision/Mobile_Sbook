@@ -13,6 +13,7 @@ import br.senai.sp.jandira.s_book.components.feed.screen.FeedScreen
 import br.senai.sp.jandira.s_book.components.pesquisar.screen.SearchScreen
 import br.senai.sp.jandira.s_book.sqlite_repository.UserRepository
 import br.senai.sp.jandira.s_book.view_model.AnuncioViewModel
+import br.senai.sp.jandira.s_book.view_model.CoracaoViewModel
 
 @Composable
 fun ButtonNavGraph(
@@ -27,7 +28,7 @@ fun ButtonNavGraph(
         startDestination = BottomBarScreen.Feed.route,
     ){
         composable(route = BottomBarScreen.Feed.route){
-            FeedScreen(navController = navController, lifecycleScope = lifecycleScope ,navRotasController = navRotasController, viewModelQueVaiPassarOsDados = anuncioViewMODEL)
+            FeedScreen(navController = navController, lifecycleScope = lifecycleScope ,navRotasController = navRotasController, viewModelQueVaiPassarOsDados = anuncioViewMODEL, viewModel = CoracaoViewModel())
         }
         composable(route = BottomBarScreen.Favorite.route){
             val user = UserRepository(context).findUsers()
@@ -35,7 +36,8 @@ fun ButtonNavGraph(
             if(user.isNotEmpty()){
                 FavoritoScreen(
                     navController = navController, lifecycleScope = lifecycleScope,
-                    navRotasController = navRotasController
+                    navRotasController = navRotasController,
+                    viewModelEssaTemQueSerAMesmaDoCard = CoracaoViewModel()
                 )
             }else{
                 navRotasController.navigate("login")
