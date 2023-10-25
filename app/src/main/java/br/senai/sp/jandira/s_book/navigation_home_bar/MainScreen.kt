@@ -65,7 +65,7 @@ fun BottonBar(navController: NavHostController) {
 
     val screen = listOf(
         BottomBarScreen.Feed,
-        BottomBarScreen.Favorite,
+        BottomBarScreen.Chat,
         BottomBarScreen.Pesquisar,
         BottomBarScreen.Profile,
     )
@@ -90,6 +90,9 @@ fun RowScope.AddItem(
     currentDestination: NavDestination?,
     navController: NavHostController
 ) {
+    val currentRoute = currentDestination?.route
+    val selected = currentRoute == screen.route
+
     BottomNavigationItem(
         modifier = Modifier
             .background(Color.White),
@@ -106,7 +109,13 @@ fun RowScope.AddItem(
         icon = {
             Icon(
                 imageVector = screen.icon,
-                contentDescription = "Navigation Icon"
+                contentDescription = "Navigation Icon",
+                tint =
+                if(selected){
+                    Color(170, 98, 49)
+                }else {
+                    Color(0, 0, 0)
+                }
             )
         },
         selected = currentDestination?.hierarchy?.any {
