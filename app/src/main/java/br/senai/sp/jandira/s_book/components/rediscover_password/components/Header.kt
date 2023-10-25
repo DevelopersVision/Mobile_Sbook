@@ -23,7 +23,9 @@ import br.senai.sp.jandira.s_book.R
 
 @Preview(showSystemUi = true)
 @Composable
-fun Header(){
+fun Header(
+    text : String
+){
     Column (
         modifier = Modifier
             .fillMaxWidth()
@@ -48,14 +50,13 @@ fun Header(){
                     .padding(start = 12.dp),
             ) {
                 Text(
-                    text = "Recuperação de senha",
+                    text = text,
                     style = TextStyle(
                         fontSize = 16.sp,
                         fontWeight = FontWeight(800),
                         color = Color(0xFF000000),
                     )
                 )
-
                 Text(
                     text = "Crie sua nova senha abaixo",
                     style = TextStyle(

@@ -197,9 +197,9 @@ fun FeedScreen(
                                     }
                                 }
                             },
-                           coracaoViewModel = viewModel.checkado
+                           coracaoCertoViewModel = viewModel
                         )
-                        Log.e("aaaaaa", "${ viewModel}")
+                        Log.e("aaaaaa", "${viewModel.checkado}")
                     }
                 }
                 Spacer(modifier = Modifier.height(20.dp))

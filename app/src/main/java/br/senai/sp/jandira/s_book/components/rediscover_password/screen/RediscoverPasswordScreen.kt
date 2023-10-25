@@ -54,7 +54,8 @@ fun RediscoverPasswordScreen(
                 .fillMaxHeight(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Header()
+
+            Header(text = "Recuperação de senha")
             Form(
                 passwordState = passwordState,
                 confirmPasswordState = confirmPasswordState,

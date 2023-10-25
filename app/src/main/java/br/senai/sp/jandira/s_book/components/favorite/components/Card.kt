@@ -205,10 +205,10 @@ fun Card(
 
                                             Log.e("Ja ta favoritado bixo burro", "Plim")
                                             isChecked = false
-                                            viewModelDoCoracaoQueVaiPassarOsDadosHoje.checkado == isChecked
-
 
                                             removerDosFavoritos(id_anuncio = id, id_usuario = user.id)
+                                            viewModelDoCoracaoQueVaiPassarOsDadosHoje.checkado == isChecked
+                                            Log.e("Log deu errado hj joão", "${viewModelDoCoracaoQueVaiPassarOsDadosHoje.checkado}")
                                             coracaoClik()
                                         } else {
                                             Log.e("MORREU", "morreu")
@@ -217,11 +217,11 @@ fun Card(
                                                 "burrei: ${response.errorBody()?.string()!!}",
                                             )
                                             isChecked = true
-                                            viewModelDoCoracaoQueVaiPassarOsDadosHoje.checkado == isChecked
-
                                             Log.e("Log de Hoje felipe", "${id}")
                                             Log.e("Log de Hoje felipe", "${user.id}")
                                             favoritarAnuncio(id_anuncio = id, id_usuario = user.id, lifecycleScope = lifecycleScope)
+                                            viewModelDoCoracaoQueVaiPassarOsDadosHoje.checkado == isChecked
+                                            Log.e("Log de Hoje joão", "${viewModelDoCoracaoQueVaiPassarOsDadosHoje.checkado}")
                                         }
                                     }
 

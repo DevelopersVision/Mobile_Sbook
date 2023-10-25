@@ -44,6 +44,7 @@ import br.senai.sp.jandira.s_book.model.VerificarFavoritoBaseResponse
 import br.senai.sp.jandira.s_book.models_private.User
 import br.senai.sp.jandira.s_book.service.RetrofitHelper
 import br.senai.sp.jandira.s_book.sqlite_repository.UserRepository
+import br.senai.sp.jandira.s_book.view_model.CoracaoViewModel
 import coil.compose.AsyncImage
 import retrofit2.Call
 import retrofit2.Callback
@@ -61,7 +62,7 @@ fun AnunciosProximos(
     lifecycleScope: LifecycleCoroutineScope?,
     navController: NavController,
     onClick: () -> Unit,
-    coracaoViewModel: Boolean?
+    coracaoCertoViewModel: CoracaoViewModel
 ) {
 
     val context = LocalContext.current
@@ -72,7 +73,6 @@ fun AnunciosProximos(
         user = array[0]
     }
 
-    val coracao = Icons.Default.Favorite
     var isChecked by remember { mutableStateOf(false) }
 
     Card(
@@ -196,6 +196,7 @@ fun AnunciosProximos(
 
 
                                     removerDosFavoritos(id_anuncio = id, id_usuario = user.id)
+                                    coracaoCertoViewModel.checkado == true
                                 } else {
                                     Log.e("MORREU", "morreu")
                                     Log.e(
@@ -234,8 +235,8 @@ fun AnunciosProximos(
                             ),
                             contentDescription = ""
                         )
-                        coracaoViewModel == true
-                        Log.e("foi","${coracaoViewModel}")
+                        coracaoCertoViewModel.checkado == true
+                        Log.e("foi","${coracaoCertoViewModel.checkado}")
                     }else{
                         Image(
                             painter = painterResource(
@@ -243,8 +244,8 @@ fun AnunciosProximos(
                             ),
                             contentDescription = ""
                         )
-                        coracaoViewModel == false
-                        Log.e("foi não","${coracaoViewModel}")
+                        coracaoCertoViewModel.checkado == false
+                        Log.e("foi não","${coracaoCertoViewModel.checkado}")
                     }
                 }
             }
