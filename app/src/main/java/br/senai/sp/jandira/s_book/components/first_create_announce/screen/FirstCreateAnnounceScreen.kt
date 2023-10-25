@@ -1,5 +1,6 @@
 package br.senai.sp.jandira.s_book.components.first_create_announce.screen
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -28,6 +29,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -36,13 +38,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.R
+import br.senai.sp.jandira.s_book.Storage
 import br.senai.sp.jandira.s_book.components.first_create_announce.components.DropDownAutor
 import br.senai.sp.jandira.s_book.components.universal.HeaderCreateAnnounce
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FirstCreateAnnounceScreen(
-    navController: NavController
+    navController: NavController,
+    localStorage: Storage
 ){
 
     var nomeState by remember {
@@ -52,6 +56,8 @@ fun FirstCreateAnnounceScreen(
     var sinopseState by remember {
         mutableStateOf(value = "")
     }
+
+    val context = LocalContext.current
 
     Column() {
         HeaderCreateAnnounce()
@@ -73,7 +79,9 @@ fun FirstCreateAnnounceScreen(
                 Spacer(modifier = Modifier.height(32.dp))
                 OutlinedTextField(
                     value = nomeState,
-                    onValueChange = {nomeState = it},
+                    onValueChange = {
+                        nomeState = it
+                    },
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(60.dp),
@@ -91,11 +99,12 @@ fun FirstCreateAnnounceScreen(
                     )
                 )
                 Spacer(modifier = Modifier.height(32.dp))
-                DropDownAutor()
+                DropDownAutor(localStorage)
                 Spacer(modifier = Modifier.height(32.dp))
                 OutlinedTextField(
                     value = sinopseState,
-                    onValueChange = {sinopseState = it},
+                    onValueChange = {
+                        sinopseState = it},
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(200.dp),
@@ -161,7 +170,11 @@ fun FirstCreateAnnounceScreen(
                     contentDescription = "",
                     modifier = Modifier
                         .size(72.dp)
-                        .clickable { navController.navigate("segundo_anunciar") }
+                        .clickable {
+                            navController.navigate("segundo_anunciar")
+                            localStorage.salvarValorString(context = context, nomeState, "nome_livro")
+                            localStorage.salvarValorString(context = context, sinopseState, "sinopse_livro")
+                        }
                 )
             }
         }

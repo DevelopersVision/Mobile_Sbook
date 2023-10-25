@@ -1,4 +1,4 @@
-package br.senai.sp.jandira.s_book.components.first_create_announce.components
+package br.senai.sp.jandira.s_book.components.second_create_announce.components
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,32 +18,26 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.senai.sp.jandira.s_book.R
-import br.senai.sp.jandira.s_book.Storage
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DropDownAutor(
-    localStorage: Storage
-) {
+fun DropDownEditora() {
 
     var isExpanded by remember {
         mutableStateOf(false)
     }
 
-    var autorState by remember {
+    var editoraState by remember {
         mutableStateOf(value = "")
     }
 
     var listAutor = listOf("thiago", "luis", "felipe")
-
-    val context = LocalContext.current
 
     Box(
         modifier = Modifier.fillMaxWidth(),
@@ -54,10 +48,10 @@ fun DropDownAutor(
             onExpandedChange = { isExpanded = it }
         ) {
             OutlinedTextField(
-                value = autorState,
+                value = editoraState,
                 onValueChange = {
-                    autorState = it
-                    isExpanded = true },
+                    editoraState = it
+                    isExpanded = true},
                 readOnly = true,
                 trailingIcon = {
                     ExposedDropdownMenuDefaults.TrailingIcon(expanded = isExpanded)
@@ -68,7 +62,7 @@ fun DropDownAutor(
                     .height(60.dp),
                 label = {
                     Text(
-                        text = "Digite o autor:",
+                        text = "Qual a editora do livro?",
                         fontSize = 16.sp,
                         fontWeight = FontWeight(500),
                         color = Color(0xFF2A2929)
@@ -105,7 +99,6 @@ fun DropDownAutor(
                     }
                 }
             }
-            localStorage.salvarValorString(context = context, autorState, "autor_livro")
         }
     }
 }

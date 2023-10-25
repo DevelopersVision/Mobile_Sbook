@@ -68,6 +68,7 @@ class MainActivity : ComponentActivity() {
                     val viewModelResetPassword = viewModel<ResetPasswordView>()
                     val viewModelUserCategory = viewModel<UserCategoryViewModel>()
                     val viewModelAnuncio = viewModel<AnuncioViewModel>()
+                    val localStorage: Storage = Storage()
 
                     NavHost(
                         navController = navController, startDestination = "navigation_home_bar"
@@ -156,11 +157,11 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable("primeiro_anunciar"){
-                            FirstCreateAnnounceScreen(navController)
+                            FirstCreateAnnounceScreen(navController, localStorage = localStorage)
                         }
 
                         composable("segundo_anunciar"){
-                            SecondCreateAnnounceScreen(navController)
+                            SecondCreateAnnounceScreen(navController, localStorage)
                         }
 
                         composable("terceiro_anunciar"){
@@ -180,7 +181,7 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable("setimo_anunciar"){
-                            SeventhCreateAnnounceScreen()
+                            SeventhCreateAnnounceScreen(localStorage)
                         }
 
                         composable("conversa_chat"){

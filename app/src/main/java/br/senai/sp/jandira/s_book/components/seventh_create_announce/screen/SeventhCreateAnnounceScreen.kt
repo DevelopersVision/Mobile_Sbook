@@ -27,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -34,11 +35,22 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.senai.sp.jandira.s_book.R
+import br.senai.sp.jandira.s_book.Storage
 import br.senai.sp.jandira.s_book.components.universal.HeaderCreateAnnounce
 
-@Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun SeventhCreateAnnounceScreen(){
+fun SeventhCreateAnnounceScreen(
+    localStorage: Storage
+){
+
+    val context = LocalContext.current
+
+    val nomeLivro = localStorage.lerValorString(context = context, "nome_livro")
+    val sinopseLivro = localStorage.lerValorString(context = context, "sinopse_livro")
+    val numeroLivro = localStorage.lerValorString(context = context, "numero_livro")
+    val anoLivro = localStorage.lerValorString(context = context, "ano_livro")
+    val edicaoLivro = localStorage.lerValorString(context = context, "edicao_livro")
+    val isbnLivro = localStorage.lerValorString(context = context, "isbn_livro")
 
     Column(modifier = Modifier.verticalScroll(ScrollState(0))) {
         HeaderCreateAnnounce()
@@ -106,7 +118,7 @@ fun SeventhCreateAnnounceScreen(){
                     .fillMaxSize()
                     .padding(24.dp)) {
                     Text(
-                        text = "Diário de um Banana",
+                        text = "$nomeLivro",
                         fontSize = 24.sp,
                         fontWeight = FontWeight(600),
                         color = Color(0xFF404040)
@@ -172,10 +184,12 @@ fun SeventhCreateAnnounceScreen(){
             )
             Spacer(modifier = Modifier.height(24.dp))
             Text(
-                text = "A escola não é uma experiência agradável para o quase adolescente Greg Heffley, mas sim um campo minado que ele precisa enfrentar.",
+                text = "$sinopseLivro",
                 fontSize = 16.sp,
                 fontWeight = FontWeight(400),
-                color = Color(0xFF9F9898)
+                color = Color(0xFF9F9898),
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Start
             )
             Spacer(modifier = Modifier.height(48.dp))
             Text(

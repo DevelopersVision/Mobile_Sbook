@@ -1,5 +1,6 @@
 package br.senai.sp.jandira.s_book.components.second_create_announce.screen
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -36,6 +37,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.R
+import br.senai.sp.jandira.s_book.Storage
+import br.senai.sp.jandira.s_book.components.second_create_announce.components.DropDownEditora
 import br.senai.sp.jandira.s_book.components.second_create_announce.components.DropDownIdioma
 import br.senai.sp.jandira.s_book.components.second_create_announce.components.caixa
 import br.senai.sp.jandira.s_book.components.universal.HeaderCreateAnnounce
@@ -43,10 +46,11 @@ import br.senai.sp.jandira.s_book.components.universal.HeaderCreateAnnounce
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SecondCreateAnnounceScreen(
-    navController: NavController
+    navController: NavController,
+    localStorage: Storage
 ){
 
-    var nomeState by remember {
+    var numeroState by remember {
         mutableStateOf(value = "")
     }
 
@@ -72,17 +76,17 @@ fun SecondCreateAnnounceScreen(
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             Column {
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     text = "Excelente! Agora vamos adicionar mais detalhes ao anúncio do livro.",
                     fontSize = 16.sp,
                     fontWeight = FontWeight(700),
                     color = Color(0xFF2A2929)
                 )
-                Spacer(modifier = Modifier.height(32.dp))
+                Spacer(modifier = Modifier.height(24.dp))
                 OutlinedTextField(
-                    value = nomeState,
-                    onValueChange = {nomeState = it},
+                    value = numeroState,
+                    onValueChange = {numeroState = it},
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(60.dp),
@@ -102,13 +106,13 @@ fun SecondCreateAnnounceScreen(
                         keyboardType = KeyboardType.Number
                     )
                 )
-                Spacer(modifier = Modifier.height(32.dp))
+                Spacer(modifier = Modifier.height(24.dp))
                 caixa(
                     context,
                     selectedDate,
                     onDateChange = {selectedDate = it}
                 )
-                Spacer(modifier = Modifier.height(32.dp))
+                Spacer(modifier = Modifier.height(24.dp))
                 OutlinedTextField(
                     value = edicaoState,
                     onValueChange = {edicaoState = it},
@@ -131,7 +135,7 @@ fun SecondCreateAnnounceScreen(
                         keyboardType = KeyboardType.Number
                     )
                 )
-                Spacer(modifier = Modifier.height(32.dp))
+                Spacer(modifier = Modifier.height(24.dp))
                 OutlinedTextField(
                     value = isbnState,
                     onValueChange = {isbnState = it},
@@ -154,8 +158,10 @@ fun SecondCreateAnnounceScreen(
                         keyboardType = KeyboardType.Number
                     )
                 )
-                Spacer(modifier = Modifier.height(32.dp))
+                Spacer(modifier = Modifier.height(24.dp))
                 DropDownIdioma()
+                Spacer(modifier = Modifier.height(24.dp))
+                DropDownEditora()
             }
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -205,7 +211,13 @@ fun SecondCreateAnnounceScreen(
                     contentDescription = "",
                     modifier = Modifier
                         .size(72.dp)
-                        .clickable { navController.navigate("terceiro_anunciar") }
+                        .clickable {
+                            navController.navigate("terceiro_anunciar")
+                            localStorage.salvarValorString(context = context, numeroState, "numero_livro")
+                            localStorage.salvarValorString(context = context, selectedDate, "ano_livro")
+                            localStorage.salvarValorString(context = context, edicaoState, "edicao_livro")
+                            localStorage.salvarValorString(context = context, isbnState, "isbn_livro")
+                        }
                 )
             }
         }
