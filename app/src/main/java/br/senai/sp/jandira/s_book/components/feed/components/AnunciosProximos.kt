@@ -1,10 +1,8 @@
 package br.senai.sp.jandira.s_book.components.feed.components
 import android.util.Log
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -18,7 +16,6 @@ import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
@@ -47,7 +44,6 @@ import br.senai.sp.jandira.s_book.model.VerificarFavoritoBaseResponse
 import br.senai.sp.jandira.s_book.models_private.User
 import br.senai.sp.jandira.s_book.service.RetrofitHelper
 import br.senai.sp.jandira.s_book.sqlite_repository.UserRepository
-import br.senai.sp.jandira.s_book.view_model.CoracaoViewModel
 import coil.compose.AsyncImage
 import retrofit2.Call
 import retrofit2.Callback
@@ -65,7 +61,7 @@ fun AnunciosProximos(
     lifecycleScope: LifecycleCoroutineScope?,
     navController: NavController,
     onClick: () -> Unit,
-    coracaoViewModel: CoracaoViewModel
+    coracaoViewModel: Boolean?
 ) {
 
     val context = LocalContext.current
@@ -214,7 +210,7 @@ fun AnunciosProximos(
                                         favoritarAnuncio(
                                             id_anuncio = id,
                                             id_usuario = user.id,
-                                            lifecycleScope = lifecycleScope
+                                            lifecycleScope = lifecycleScope,
                                         )
                                     }
                                 }
@@ -231,14 +227,15 @@ fun AnunciosProximos(
                         Log.i("testando123", "${call}")
                     }
                 ) {
-                    if (coracaoViewModel.checkado == true){
+                    if (isChecked == true){
                         Image(
                             painter = painterResource(
                                 id = R.drawable.coracao_certo
                             ),
                             contentDescription = ""
                         )
-
+                        coracaoViewModel == true
+                        Log.e("foi","${coracaoViewModel}")
                     }else{
                         Image(
                             painter = painterResource(
@@ -246,6 +243,8 @@ fun AnunciosProximos(
                             ),
                             contentDescription = ""
                         )
+                        coracaoViewModel == false
+                        Log.e("foi não","${coracaoViewModel}")
                     }
                 }
             }

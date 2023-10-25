@@ -103,7 +103,11 @@ fun RowScope.AddItem(
                 fontSize = 12.sp,
                 fontFamily = FontFamily(Font(R.font.poppinsmedium)),
                 fontWeight = FontWeight(400),
-                color = Color(0xFF000000),
+                color = if(selected){
+                    Color(170, 98, 49)
+                }else {
+                    Color(0, 0, 0)
+                }
             )
         },
         icon = {

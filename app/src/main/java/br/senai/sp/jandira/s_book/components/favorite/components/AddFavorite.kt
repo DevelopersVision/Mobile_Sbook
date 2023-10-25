@@ -39,7 +39,7 @@ fun AddFavorite(
             modifier = Modifier
                 .width(120.dp)
                 .height(102.dp),
-            painter = painterResource(id = R.drawable.ilustration),
+            painter = painterResource(id = R.drawable.carinho),
             contentDescription = "image description",
             contentScale = ContentScale.Crop
         )

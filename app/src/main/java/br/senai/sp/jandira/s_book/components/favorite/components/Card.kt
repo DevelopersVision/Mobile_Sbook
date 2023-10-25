@@ -243,8 +243,10 @@ fun Card(
                                 ),
                                 contentDescription = ""
                             )
-                            Log.e("AAAAAAAAAAAAAAA", "${viewModelDoCoracaoQueVaiPassarOsDadosHoje.checkado}")
 
+                            viewModelDoCoracaoQueVaiPassarOsDadosHoje.checkado == isChecked
+
+                            Log.e("teste joão", "${viewModelDoCoracaoQueVaiPassarOsDadosHoje.checkado}")
                         }else{
                             Image(
                                 painter = painterResource(
@@ -253,6 +255,7 @@ fun Card(
                                 contentDescription = ""
                             )
 
+                            viewModelDoCoracaoQueVaiPassarOsDadosHoje.checkado == isChecked
                             Log.e("AAAAAAAAAAAAAAA TESTE", "${viewModelDoCoracaoQueVaiPassarOsDadosHoje.checkado}")
                         }
                     }
