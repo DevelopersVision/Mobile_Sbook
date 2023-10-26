@@ -96,7 +96,7 @@ fun DropDownAutor(
                     .height(60.dp),
                 label = {
                     Text(
-                        text = "Qual o idioma do livro?",
+                        text = "Qual o autor do livro?",
                         fontSize = 16.sp,
                         fontWeight = FontWeight(500),
                         color = Color(0xFF2A2929)

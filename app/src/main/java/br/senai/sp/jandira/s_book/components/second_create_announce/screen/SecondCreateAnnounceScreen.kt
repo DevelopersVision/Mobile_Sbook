@@ -87,9 +87,9 @@ fun SecondCreateAnnounceScreen(
                     color = Color(0xFF2A2929)
                 )
                 Spacer(modifier = Modifier.height(24.dp))
-                DropDownIdioma()
+                DropDownIdioma(localStorage)
                 Spacer(modifier = Modifier.height(24.dp))
-                DropDownEditora()
+                DropDownEditora(localStorage)
                 Spacer(modifier = Modifier.height(24.dp))
                 OutlinedTextField(
                     value = numeroState,

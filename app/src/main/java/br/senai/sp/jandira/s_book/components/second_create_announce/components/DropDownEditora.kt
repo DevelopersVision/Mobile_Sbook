@@ -20,11 +20,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.senai.sp.jandira.s_book.R
+import br.senai.sp.jandira.s_book.Storage
 import br.senai.sp.jandira.s_book.model.Editora
 import br.senai.sp.jandira.s_book.model.EditoraBaseResponse
 import br.senai.sp.jandira.s_book.model.Idioma
@@ -37,7 +39,9 @@ import retrofit2.Response
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DropDownEditora() {
+fun DropDownEditora(
+    localStorage: Storage
+) {
 
     var isExpanded by remember {
         mutableStateOf(false)
@@ -50,6 +54,8 @@ fun DropDownEditora() {
     var listEditora by remember {
         mutableStateOf(listOf<Editora>())
     }
+
+    val context = LocalContext.current
 
     val call = RetrofitHelper.getEditorasService().getEditoras()
 
@@ -119,5 +125,6 @@ fun DropDownEditora() {
                 }
             }
         }
+        localStorage.salvarValorString(context = context, editoraState, "editora_livro")
     }
 }

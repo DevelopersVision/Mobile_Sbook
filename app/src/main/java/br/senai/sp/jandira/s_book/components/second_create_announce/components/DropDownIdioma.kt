@@ -20,11 +20,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.senai.sp.jandira.s_book.R
+import br.senai.sp.jandira.s_book.Storage
 import br.senai.sp.jandira.s_book.model.AnunciosBaseResponse
 import br.senai.sp.jandira.s_book.model.Idioma
 import br.senai.sp.jandira.s_book.model.IdiomaBaseResponse
@@ -37,7 +39,9 @@ import retrofit2.Response
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DropDownIdioma() {
+fun DropDownIdioma(
+    localStorage: Storage
+) {
 
     var isExpanded by remember {
         mutableStateOf(false)
@@ -50,6 +54,8 @@ fun DropDownIdioma() {
     var listIdioma by remember {
         mutableStateOf(listOf<Idioma>())
     }
+
+    val context = LocalContext.current
 
     val call = RetrofitHelper.getIdiomasService().getIdiomas()
 
@@ -119,5 +125,6 @@ fun DropDownIdioma() {
                 }
             }
         }
+        localStorage.salvarValorString(context = context, idiomaState, "idioma_livro")
     }
 }

@@ -51,6 +51,8 @@ fun SeventhCreateAnnounceScreen(
     val anoLivro = localStorage.lerValorString(context = context, "ano_livro")
     val edicaoLivro = localStorage.lerValorString(context = context, "edicao_livro")
     val isbnLivro = localStorage.lerValorString(context = context, "isbn_livro")
+    val editoraLivro = localStorage.lerValorString(context = context, "editora_livro")
+    val idiomaLivro = localStorage.lerValorString(context = context, "idioma_livro")
 
     Column(modifier = Modifier.verticalScroll(ScrollState(0))) {
         HeaderCreateAnnounce()
@@ -118,7 +120,7 @@ fun SeventhCreateAnnounceScreen(
                     .fillMaxSize()
                     .padding(24.dp)) {
                     Text(
-                        text = "$nomeLivro",
+                        text = "$idiomaLivro",
                         fontSize = 24.sp,
                         fontWeight = FontWeight(600),
                         color = Color(0xFF404040)
