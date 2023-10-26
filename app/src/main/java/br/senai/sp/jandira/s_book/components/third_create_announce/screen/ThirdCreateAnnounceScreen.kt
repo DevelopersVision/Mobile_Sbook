@@ -82,7 +82,10 @@ fun ThirdCreateAnnounceScreen(
                             .height(260.dp)
                             .width(160.dp)
                             .background(Color.Transparent)
-                            .border(width = 1.dp, color = Color(0xFFEBEBEB)),
+                            .border(width = 1.dp, color = Color(0xFFEBEBEB))
+                            .clickable {
+
+                            },
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
