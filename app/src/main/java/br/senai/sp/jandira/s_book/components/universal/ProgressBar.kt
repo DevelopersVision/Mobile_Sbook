@@ -23,7 +23,7 @@ fun ProgressBar(
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            CircularProgressIndicator(color = Color(201, 143, 236))
+            CircularProgressIndicator(color = Color(221, 163, 93))
         }
     }
 }

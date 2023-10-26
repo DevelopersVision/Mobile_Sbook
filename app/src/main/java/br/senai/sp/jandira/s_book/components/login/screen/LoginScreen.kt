@@ -26,26 +26,25 @@ import br.senai.sp.jandira.s_book.components.universal.TextNotContScreen
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import br.senai.sp.jandira.s_book.components.universal.ProgressBar
 import br.senai.sp.jandira.s_book.functions.dataValidation
 import br.senai.sp.jandira.s_book.functions.deleteUserSQLite
 import br.senai.sp.jandira.s_book.functions.saveLogin
 import br.senai.sp.jandira.s_book.repository.LoginRepository
 import br.senai.sp.jandira.s_book.sqlite_repository.UserRepository
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 
 @Composable
 fun LoginScreen(
-    navController: NavController, lifecycleScope: LifecycleCoroutineScope?
+    navController: NavController,
+    lifecycleScope: LifecycleCoroutineScope?
 ) {
-
-    var emailState by remember {
-        mutableStateOf("")
-    }
-    var senhaState by remember {
-        mutableStateOf("")
-    }
-
+    var emailState by remember { mutableStateOf("") }
+    var senhaState by remember { mutableStateOf("") }
+    var isLoading by remember { mutableStateOf(false) } // Variável para controlar a visibilidade da ProgressBar
+    var pesquisaState by remember { mutableStateOf("") }
     val context = LocalContext.current
 
     Surface(
@@ -59,22 +58,27 @@ fun LoginScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Header()
-            Form(
-                emailState,
-                senhaState,
-                onEmailChange = { emailState = it },
-                onSenhaChange = { senhaState = it },
-                navController
-            )
+            if (isLoading == false) {
+                Form(
+                    emailState,
+                    senhaState,
+                    onEmailChange = { emailState = it },
+                    onSenhaChange = { senhaState = it },
+                    navController
+                )
 
-            DefaultButtonScreen(text = "Entrar", onClick = {
-                Log.e("Teste", "LoginScreen: Click")
-                login(emailState, senhaState, lifecycleScope!!, context, navController)
-            })
+                DefaultButtonScreen(text = "Entrar", onClick = {
+                    isLoading = true // Mostra a ProgressBar antes de chamar a função de login
+                    login(emailState, senhaState, lifecycleScope!!, context, navController)
+                    isLoading =  true
+                })
 
-            TextContinueScreen()
-            GoogleScreen()
-            TextNotContScreen(navController)
+                TextContinueScreen()
+                GoogleScreen()
+                TextNotContScreen(navController)
+            } else {
+                ProgressBar(isDisplayed = isLoading)
+            }
         }
     }
 }
