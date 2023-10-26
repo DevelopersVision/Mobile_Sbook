@@ -1,5 +1,6 @@
 package br.senai.sp.jandira.s_book.components.first_create_announce.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -25,6 +26,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.senai.sp.jandira.s_book.R
 import br.senai.sp.jandira.s_book.Storage
+import br.senai.sp.jandira.s_book.model.AutorBaseResponse
+import br.senai.sp.jandira.s_book.model.Autores
+import br.senai.sp.jandira.s_book.model.Idioma
+import br.senai.sp.jandira.s_book.model.IdiomaBaseResponse
+import br.senai.sp.jandira.s_book.service.RetrofitHelper
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -41,7 +50,26 @@ fun DropDownAutor(
         mutableStateOf(value = "")
     }
 
-    var listAutor = listOf("thiago", "luis", "felipe")
+    var listAutor by remember {
+        mutableStateOf(listOf<Autores>())
+    }
+
+    val call = RetrofitHelper.getAutoresService().getAutores()
+
+    // Executar a chamada
+    call.enqueue(object : Callback<AutorBaseResponse> {
+        override fun onResponse(
+            call: Call<AutorBaseResponse>,
+            response: Response<AutorBaseResponse>
+        ) {
+            listAutor = response.body()!!.autores
+        }
+
+
+        override fun onFailure(call: Call<AutorBaseResponse>, t: Throwable) {
+            // Log.d("API Call", "Depois da chamada da API: ${listAnuncios}")
+        }
+    })
 
     val context = LocalContext.current
 
@@ -57,7 +85,7 @@ fun DropDownAutor(
                 value = autorState,
                 onValueChange = {
                     autorState = it
-                    isExpanded = true },
+                    isExpanded = true},
                 readOnly = true,
                 trailingIcon = {
                     ExposedDropdownMenuDefaults.TrailingIcon(expanded = isExpanded)
@@ -68,7 +96,7 @@ fun DropDownAutor(
                     .height(60.dp),
                 label = {
                     Text(
-                        text = "Digite o autor:",
+                        text = "Qual o idioma do livro?",
                         fontSize = 16.sp,
                         fontWeight = FontWeight(500),
                         color = Color(0xFF2A2929)
@@ -83,29 +111,18 @@ fun DropDownAutor(
             ExposedDropdownMenu(
                 expanded = isExpanded,
                 onDismissRequest = { isExpanded = false },
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.background(Color.White),
             ) {
-                if (listAutor.isNotEmpty()) {
-                    listAutor.forEach {
-                        DropdownMenuItem(
-                            text = { Text(text = "Thiago Freitas", color = Color.Black) },
-                            onClick = {
-                                isExpanded = false
-                            }
-                        )
-                    }
-                } else {
-                    listAutor.forEach {
-                        DropdownMenuItem(
-                            text = { Text(text = "Thiago Freitas", color = Color.Black) },
-                            onClick = {
-                                isExpanded = false
-                            }
-                        )
-                    }
+                listAutor.forEach {
+                    DropdownMenuItem(
+                        text = { Text(text = it.nome, color = Color.Black) },
+                        onClick = {
+                            autorState = it.nome
+                            isExpanded = false
+                        }
+                    )
                 }
             }
-            localStorage.salvarValorString(context = context, autorState, "autor_livro")
         }
     }
 }

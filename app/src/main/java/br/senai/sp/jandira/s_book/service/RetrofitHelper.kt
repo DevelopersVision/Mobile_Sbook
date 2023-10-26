@@ -60,4 +60,16 @@ object RetrofitHelper {
         return retrofitFactory.create(CadastroAnuncioService::class.java)
     }
 
+    fun getIdiomasService(): IdiomaService{
+        return retrofitFactory.create(IdiomaService::class.java)
+    }
+
+    fun getEditorasService(): EditoraService{
+        return retrofitFactory.create(EditoraService::class.java)
+    }
+
+    fun getAutoresService(): AutorService{
+        return retrofitFactory.create(AutorService::class.java)
+    }
+
 }

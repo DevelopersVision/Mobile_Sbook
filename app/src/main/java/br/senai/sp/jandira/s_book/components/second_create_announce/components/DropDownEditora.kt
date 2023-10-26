@@ -1,8 +1,10 @@
 package br.senai.sp.jandira.s_book.components.second_create_announce.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
@@ -23,6 +25,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.senai.sp.jandira.s_book.R
+import br.senai.sp.jandira.s_book.model.Editora
+import br.senai.sp.jandira.s_book.model.EditoraBaseResponse
+import br.senai.sp.jandira.s_book.model.Idioma
+import br.senai.sp.jandira.s_book.model.IdiomaBaseResponse
+import br.senai.sp.jandira.s_book.service.RetrofitHelper
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -37,7 +47,26 @@ fun DropDownEditora() {
         mutableStateOf(value = "")
     }
 
-    var listAutor = listOf("thiago", "luis", "felipe")
+    var listEditora by remember {
+        mutableStateOf(listOf<Editora>())
+    }
+
+    val call = RetrofitHelper.getEditorasService().getEditoras()
+
+    // Executar a chamada
+    call.enqueue(object : Callback<EditoraBaseResponse> {
+        override fun onResponse(
+            call: Call<EditoraBaseResponse>,
+            response: Response<EditoraBaseResponse>
+        ) {
+            listEditora = response.body()!!.editoras
+        }
+
+
+        override fun onFailure(call: Call<EditoraBaseResponse>, t: Throwable) {
+            // Log.d("API Call", "Depois da chamada da API: ${listAnuncios}")
+        }
+    })
 
     Box(
         modifier = Modifier.fillMaxWidth(),
@@ -77,26 +106,16 @@ fun DropDownEditora() {
             ExposedDropdownMenu(
                 expanded = isExpanded,
                 onDismissRequest = { isExpanded = false },
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.background(Color.White),
             ) {
-                if (listAutor.isNotEmpty()) {
-                    listAutor.forEach {
-                        DropdownMenuItem(
-                            text = { Text(text = "Thiago Freitas", color = Color.Black) },
-                            onClick = {
-                                isExpanded = false
-                            }
-                        )
-                    }
-                } else {
-                    listAutor.forEach {
-                        DropdownMenuItem(
-                            text = { Text(text = "Thiago Freitas", color = Color.Black) },
-                            onClick = {
-                                isExpanded = false
-                            }
-                        )
-                    }
+                listEditora.forEach {
+                    DropdownMenuItem(
+                        text = { Text(text = it.nome, color = Color.Black) },
+                        onClick = {
+                            editoraState = it.nome
+                            isExpanded = false
+                        }
+                    )
                 }
             }
         }

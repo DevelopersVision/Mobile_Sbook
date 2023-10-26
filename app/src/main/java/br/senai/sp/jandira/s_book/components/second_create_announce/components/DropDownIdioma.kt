@@ -1,8 +1,10 @@
 package br.senai.sp.jandira.s_book.components.second_create_announce.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
@@ -23,6 +25,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.senai.sp.jandira.s_book.R
+import br.senai.sp.jandira.s_book.model.AnunciosBaseResponse
+import br.senai.sp.jandira.s_book.model.Idioma
+import br.senai.sp.jandira.s_book.model.IdiomaBaseResponse
+import br.senai.sp.jandira.s_book.model.JsonAnuncios
+import br.senai.sp.jandira.s_book.service.RetrofitHelper
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -33,11 +43,30 @@ fun DropDownIdioma() {
         mutableStateOf(false)
     }
 
-    var autorState by remember {
+    var idiomaState by remember {
         mutableStateOf(value = "")
     }
 
-    var listAutor = listOf("thiago", "luis", "felipe")
+    var listIdioma by remember {
+        mutableStateOf(listOf<Idioma>())
+    }
+
+    val call = RetrofitHelper.getIdiomasService().getIdiomas()
+
+    // Executar a chamada
+    call.enqueue(object : Callback<IdiomaBaseResponse> {
+        override fun onResponse(
+            call: Call<IdiomaBaseResponse>,
+            response: Response<IdiomaBaseResponse>
+        ) {
+            listIdioma = response.body()!!.idiomas
+        }
+
+
+        override fun onFailure(call: Call<IdiomaBaseResponse>, t: Throwable) {
+            // Log.d("API Call", "Depois da chamada da API: ${listAnuncios}")
+        }
+    })
 
     Box(
         modifier = Modifier.fillMaxWidth(),
@@ -48,9 +77,9 @@ fun DropDownIdioma() {
             onExpandedChange = { isExpanded = it }
         ) {
             OutlinedTextField(
-                value = autorState,
+                value = idiomaState,
                 onValueChange = {
-                    autorState = it
+                    idiomaState = it
                     isExpanded = true},
                 readOnly = true,
                 trailingIcon = {
@@ -77,26 +106,16 @@ fun DropDownIdioma() {
             ExposedDropdownMenu(
                 expanded = isExpanded,
                 onDismissRequest = { isExpanded = false },
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.background(Color.White),
             ) {
-                if (listAutor.isNotEmpty()) {
-                    listAutor.forEach {
-                        DropdownMenuItem(
-                            text = { Text(text = "Thiago Freitas", color = Color.Black) },
-                            onClick = {
-                                isExpanded = false
-                            }
-                        )
-                    }
-                } else {
-                    listAutor.forEach {
-                        DropdownMenuItem(
-                            text = { Text(text = "Thiago Freitas", color = Color.Black) },
-                            onClick = {
-                                isExpanded = false
-                            }
-                        )
-                    }
+                listIdioma.forEach {
+                    DropdownMenuItem(
+                        text = { Text(text = it.nome, color = Color.Black) },
+                        onClick = {
+                            idiomaState = it.nome
+                            isExpanded = false
+                        }
+                    )
                 }
             }
         }
