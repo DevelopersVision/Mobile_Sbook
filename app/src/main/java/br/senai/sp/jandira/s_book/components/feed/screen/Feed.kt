@@ -1,6 +1,7 @@
 package br.senai.sp.jandira.s_book.components.feed.screen
 
 import android.util.Log
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -32,6 +33,7 @@ import br.senai.sp.jandira.s_book.components.feed.components.AnunciosProximos
 import br.senai.sp.jandira.s_book.components.feed.components.ButtonCarregar
 import br.senai.sp.jandira.s_book.components.feed.components.EscolhaFazer
 import br.senai.sp.jandira.s_book.components.feed.components.Header
+import br.senai.sp.jandira.s_book.components.universal.ProgressBar
 import br.senai.sp.jandira.s_book.model.AnunciosBaseResponse
 import br.senai.sp.jandira.s_book.model.JsonAnuncios
 import br.senai.sp.jandira.s_book.model.ResponseUsuario
@@ -118,7 +120,7 @@ fun FeedScreen(
         user = array[0]
     }
 
-
+    var isLoading by remember { mutableStateOf(false) } // Variável para controlar a visibilidade da ProgressBar
 
 
     Column(
@@ -146,80 +148,83 @@ fun FeedScreen(
             )
             Spacer(modifier = Modifier.height(18.dp))
 
-            val pairs = listAnunciosFeed.chunked(2)
+            if (listAnuncios.isEmpty() ) {
+                isLoading == true
+                ProgressBar(isDisplayed = !isLoading)
+            }else{
+                val pairs = listAnunciosFeed.chunked(2)
 
 
-// if (listTags.isEmpty()) {
-//                    isLoading = true
-//                    ProgressBar(isDisplayed = isLoading)
-            for (pair in pairs) {
+
+                for (pair in pairs) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(3.dp, 0.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        for (item in pair) {
+                            AnunciosProximos(
+                                nome_livro = item.anuncio.nome,
+                                foto = item.foto[0].foto,
+                                tipo_anuncio = item.tipo_anuncio[0].tipo,
+                                autor = item.autores[0].nome,
+                                preco = item.anuncio.preco,
+                                id = item.anuncio.id,
+                                navController = navRotasController,
+                                lifecycleScope = lifecycleScope,
+                                onClick = {
+                                    val anunciante = getAnunciante(item.anuncio.anunciante) { usuario ->
+                                        if (usuario != null) {
+                                            Log.e("usuario-luiz", "FeedScreen: $usuario")
+                                            viewModelQueVaiPassarOsDados.foto = item.foto
+
+                                            viewModelQueVaiPassarOsDados.nome = item.anuncio.nome
+
+                                            viewModelQueVaiPassarOsDados.generos = item.generos
+                                            viewModelQueVaiPassarOsDados.tipo_anuncio =
+                                                item.tipo_anuncio
+
+                                            viewModelQueVaiPassarOsDados.anunciante_foto = usuario.foto
+
+                                            viewModelQueVaiPassarOsDados.anunciante_nome = usuario.nome
+                                            viewModelQueVaiPassarOsDados.cidade_anuncio = usuario.cidade
+                                            viewModelQueVaiPassarOsDados.estado_anuncio = usuario.estado
+                                            viewModelQueVaiPassarOsDados.descricao =
+                                                item.anuncio.descricao
+
+                                            viewModelQueVaiPassarOsDados.ano_edicao =
+                                                item.anuncio.ano_lancamento
+                                            viewModelQueVaiPassarOsDados.autor = item.autores
+                                            viewModelQueVaiPassarOsDados.editora = item.editora
+                                            viewModelQueVaiPassarOsDados.idioma = item.idioma
+                                            viewModelQueVaiPassarOsDados.preco = item.anuncio.preco
+//                                        Log.e("Valor Preco", "${viewModelQueVaiPassarOsDados.preco}")
+                                        } else {
+                                            Log.e("Anunciante", "null")
+                                        }
+                                    }
+                                },
+                                coracaoCertoViewModel = viewModel
+                            )
+                            Log.e("aaaaaa", "${viewModel.checkado}")
+                        }
+                    }
+                    Spacer(modifier = Modifier.height(20.dp))
+                }
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(3.dp, 0.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween
+                        .padding(0.dp, 5.dp),
+                    horizontalArrangement = Arrangement.Center
                 ) {
-                    for (item in pair) {
-                        AnunciosProximos(
-                            nome_livro = item.anuncio.nome,
-                            foto = item.foto[0].foto,
-                            tipo_anuncio = item.tipo_anuncio[0].tipo,
-                            autor = item.autores[0].nome,
-                            preco = item.anuncio.preco,
-                            id = item.anuncio.id,
-                            navController = navRotasController,
-                            lifecycleScope = lifecycleScope,
-                            onClick = {
-                                val anunciante = getAnunciante(item.anuncio.anunciante) { usuario ->
-                                    if (usuario != null) {
-                                        Log.e("usuario-luiz", "FeedScreen: $usuario")
-                                        viewModelQueVaiPassarOsDados.foto = item.foto
-
-                                        viewModelQueVaiPassarOsDados.nome = item.anuncio.nome
-
-                                        viewModelQueVaiPassarOsDados.generos = item.generos
-                                        viewModelQueVaiPassarOsDados.tipo_anuncio =
-                                            item.tipo_anuncio
-
-                                        viewModelQueVaiPassarOsDados.anunciante_foto = usuario.foto
-
-                                        viewModelQueVaiPassarOsDados.anunciante_nome = usuario.nome
-                                        viewModelQueVaiPassarOsDados.cidade_anuncio = usuario.cidade
-                                        viewModelQueVaiPassarOsDados.estado_anuncio = usuario.estado
-                                        viewModelQueVaiPassarOsDados.descricao =
-                                            item.anuncio.descricao
-
-                                        viewModelQueVaiPassarOsDados.ano_edicao =
-                                            item.anuncio.ano_lancamento
-                                        viewModelQueVaiPassarOsDados.autor = item.autores
-                                        viewModelQueVaiPassarOsDados.editora = item.editora
-                                        viewModelQueVaiPassarOsDados.idioma = item.idioma
-                                        viewModelQueVaiPassarOsDados.preco = item.anuncio.preco
-//                                        Log.e("Valor Preco", "${viewModelQueVaiPassarOsDados.preco}")
-                                    } else {
-                                        Log.e("Anunciante", "null")
-                                    }
-                                }
-                            },
-                           coracaoCertoViewModel = viewModel
-                        )
-                        Log.e("aaaaaa", "${viewModel.checkado}")
+                    ButtonCarregar {
+                        page++
+                        cont = true
                     }
                 }
-                Spacer(modifier = Modifier.height(20.dp))
+                Spacer(modifier = Modifier.height(48.dp))
             }
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(0.dp, 5.dp),
-                horizontalArrangement = Arrangement.Center
-            ) {
-                ButtonCarregar {
-                    page++
-                    cont = true
-                }
-            }
-            Spacer(modifier = Modifier.height(48.dp))
         }
     }
 }
