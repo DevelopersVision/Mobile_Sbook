@@ -148,6 +148,10 @@ fun FeedScreen(
 
             val pairs = listAnunciosFeed.chunked(2)
 
+
+// if (listTags.isEmpty()) {
+//                    isLoading = true
+//                    ProgressBar(isDisplayed = isLoading)
             for (pair in pairs) {
                 Row(
                     modifier = Modifier
