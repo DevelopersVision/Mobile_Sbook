@@ -40,7 +40,6 @@ import br.senai.sp.jandira.s_book.R
 import br.senai.sp.jandira.s_book.Storage
 import br.senai.sp.jandira.s_book.components.second_create_announce.components.DropDownEditora
 import br.senai.sp.jandira.s_book.components.second_create_announce.components.DropDownIdioma
-import br.senai.sp.jandira.s_book.components.second_create_announce.components.caixa
 import br.senai.sp.jandira.s_book.components.universal.HeaderCreateAnnounce
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -51,6 +50,10 @@ fun SecondCreateAnnounceScreen(
 ){
 
     var numeroState by remember {
+        mutableStateOf(value = "")
+    }
+
+    var anoState by remember {
         mutableStateOf(value = "")
     }
 
@@ -84,6 +87,10 @@ fun SecondCreateAnnounceScreen(
                     color = Color(0xFF2A2929)
                 )
                 Spacer(modifier = Modifier.height(24.dp))
+                DropDownIdioma()
+                Spacer(modifier = Modifier.height(24.dp))
+                DropDownEditora()
+                Spacer(modifier = Modifier.height(24.dp))
                 OutlinedTextField(
                     value = numeroState,
                     onValueChange = {numeroState = it},
@@ -107,10 +114,27 @@ fun SecondCreateAnnounceScreen(
                     )
                 )
                 Spacer(modifier = Modifier.height(24.dp))
-                caixa(
-                    context,
-                    selectedDate,
-                    onDateChange = {selectedDate = it}
+                OutlinedTextField(
+                    value = anoState,
+                    onValueChange = {anoState = it},
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(60.dp),
+                    label = {
+                        Text(
+                            text = "Qual o ano de lançamento?",
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight(500),
+                            color = Color(0xFF2A2929)
+                        )
+                    },
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        focusedBorderColor = colorResource(id = R.color.cinza ),
+                        unfocusedBorderColor = colorResource(id = R.color.cinza )
+                    ),
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Number
+                    )
                 )
                 Spacer(modifier = Modifier.height(24.dp))
                 OutlinedTextField(
@@ -130,9 +154,6 @@ fun SecondCreateAnnounceScreen(
                     colors = TextFieldDefaults.outlinedTextFieldColors(
                         focusedBorderColor = colorResource(id = R.color.cinza ),
                         unfocusedBorderColor = colorResource(id = R.color.cinza )
-                    ),
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Number
                     )
                 )
                 Spacer(modifier = Modifier.height(24.dp))
@@ -158,10 +179,6 @@ fun SecondCreateAnnounceScreen(
                         keyboardType = KeyboardType.Number
                     )
                 )
-                Spacer(modifier = Modifier.height(24.dp))
-                DropDownIdioma()
-                Spacer(modifier = Modifier.height(24.dp))
-                DropDownEditora()
             }
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -214,7 +231,7 @@ fun SecondCreateAnnounceScreen(
                         .clickable {
                             navController.navigate("terceiro_anunciar")
                             localStorage.salvarValorString(context = context, numeroState, "numero_livro")
-                            localStorage.salvarValorString(context = context, selectedDate, "ano_livro")
+                            localStorage.salvarValorString(context = context, anoState, "ano_livro")
                             localStorage.salvarValorString(context = context, edicaoState, "edicao_livro")
                             localStorage.salvarValorString(context = context, isbnState, "isbn_livro")
                         }
