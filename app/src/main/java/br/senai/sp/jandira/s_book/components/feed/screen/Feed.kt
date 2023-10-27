@@ -207,23 +207,27 @@ fun FeedScreen(
                                 },
                                 coracaoCertoViewModel = viewModel
                             )
-                            Log.e("aaaaaa", "${viewModel.checkado}")
                         }
                     }
                     Spacer(modifier = Modifier.height(20.dp))
                 }
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(0.dp, 5.dp),
-                    horizontalArrangement = Arrangement.Center
-                ) {
-                    ButtonCarregar {
-                        page++
-                        cont = true
+                if (cont == true) {
+                    isLoading == true
+                    ProgressBar(isDisplayed = !isLoading)
+                }else{
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(0.dp, 5.dp),
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        ButtonCarregar {
+                            page++
+                            cont = true
+                        }
                     }
+                    Spacer(modifier = Modifier.height(48.dp))
                 }
-                Spacer(modifier = Modifier.height(48.dp))
             }
         }
     }

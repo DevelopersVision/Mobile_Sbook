@@ -53,7 +53,7 @@ fun EditUser(
         verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
         HeaderProfile {
-            navController.navigate("feed")
+            navController.navigate("profile")
         }
         PhotoEdit()
         Form(context = context)
