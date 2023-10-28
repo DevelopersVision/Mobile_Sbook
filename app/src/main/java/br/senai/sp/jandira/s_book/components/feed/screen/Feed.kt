@@ -214,6 +214,7 @@ fun FeedScreen(
                 if (cont == true) {
                     isLoading == true
                     ProgressBar(isDisplayed = !isLoading)
+                    Spacer(modifier = Modifier.height(48.dp))
                 }else{
                     Row(
                         modifier = Modifier

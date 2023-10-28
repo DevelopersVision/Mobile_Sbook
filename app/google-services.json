@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "753587106542",
+    "project_id": "fir-book-2c7e5",
+    "storage_bucket": "fir-book-2c7e5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:753587106542:android:67d8489555c99dd9c579ff",
+        "android_client_info": {
+          "package_name": "br.senai.sp.jandira.s_book"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBsocFRFd5D4zEM1asCbYN147FNb0MDnN4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

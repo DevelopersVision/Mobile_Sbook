@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Card
 import androidx.compose.material.icons.Icons
@@ -38,7 +39,7 @@ import br.senai.sp.jandira.s_book.components.universal.HeaderCreateAnnounce
 @Composable
 fun ThirdCreateAnnounceScreen(
     navController: NavController
-){
+) {
 
     Column() {
         HeaderCreateAnnounce()
@@ -66,7 +67,10 @@ fun ThirdCreateAnnounceScreen(
                 )
             }
             Spacer(modifier = Modifier.height(32.dp))
-            Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
                 Image(
                     painter = painterResource(id = R.drawable.photo),
                     contentDescription = "",
@@ -96,21 +100,25 @@ fun ThirdCreateAnnounceScreen(
                             modifier = Modifier.size(32.dp)
                         )
                     }
-                    Column(
-                        modifier = Modifier
-                            .height(260.dp)
-                            .width(160.dp)
-                            .background(Color.Transparent)
-                            .border(width = 1.dp, color = Color(0xFFEBEBEB)),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.diario),
-                            contentDescription = "",
-                            contentScale = ContentScale.Crop,
-                            modifier = Modifier.fillMaxSize()
-                        )
+                    LazyRow(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                        items(2) {
+                            Column(
+                                modifier = Modifier
+                                    .height(260.dp)
+                                    .width(160.dp)
+                                    .background(Color.Transparent)
+                                    .border(width = 1.dp, color = Color(0xFFEBEBEB)),
+                                verticalArrangement = Arrangement.Center,
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                Image(
+                                    painter = painterResource(id = R.drawable.diario),
+                                    contentDescription = "",
+                                    contentScale = ContentScale.Crop,
+                                    modifier = Modifier.fillMaxSize()
+                                )
+                            }
+                        }
                     }
                 }
             }
