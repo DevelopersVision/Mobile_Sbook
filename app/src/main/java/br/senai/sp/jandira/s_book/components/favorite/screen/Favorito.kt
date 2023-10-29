@@ -3,14 +3,8 @@ package br.senai.sp.jandira.s_book.components.favorite.screen
 import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.shrinkVertically
 import androidx.compose.animation.slideOutHorizontally
-import androidx.compose.animation.slideOutVertically
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -23,16 +17,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.FloatingActionButton
-import androidx.compose.material.Icon
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -50,9 +37,9 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.R
-import br.senai.sp.jandira.s_book.components.favorite.components.AddFavorite
 import br.senai.sp.jandira.s_book.components.favorite.components.Card
 import br.senai.sp.jandira.s_book.components.favorite.components.Header
+import br.senai.sp.jandira.s_book.components.universal.NoExist
 import br.senai.sp.jandira.s_book.model.AnunciosFavoritosBaseResponse
 import br.senai.sp.jandira.s_book.model.JsonFavoritados
 import br.senai.sp.jandira.s_book.service.RetrofitHelper
@@ -188,20 +175,15 @@ fun FavoritoScreen(
                 }
             }else{
                 Spacer(modifier = Modifier.height(100.dp))
-                AddFavorite(
+                NoExist(
                     onclick = {
                         navController.navigate("feed")
-                    }
+                    },
+                    textTitulo = "Nenhum favorito ainda :(",
+                    textSubTitulo = "Escolha o que você mais gostou",
+                    textDecisão = "Ir para o início"
                 )
             }
             Spacer(modifier = Modifier.height(135.dp))
         }
     }
-
-
-
-//@Composable
-//@Preview
-//fun FavoritoScreenPreview() {
-//    FavoritoScreen()
-//}

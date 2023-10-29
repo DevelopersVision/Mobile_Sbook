@@ -1,4 +1,4 @@
-package br.senai.sp.jandira.s_book.components.favorite.components
+package br.senai.sp.jandira.s_book.components.universal
 
 
 import androidx.compose.foundation.Image
@@ -18,14 +18,16 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.senai.sp.jandira.s_book.R
 
 @Composable
-fun AddFavorite(
-    onclick: ()-> Unit
+fun NoExist(
+    onclick: ()-> Unit,
+    textTitulo: String,
+    textSubTitulo: String,
+    textDecisão:String
 ) {
 
     Column(
@@ -45,7 +47,7 @@ fun AddFavorite(
         )
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Text(
-                text = "Nenhum favorito ainda :(",
+                text = textTitulo,
                 fontSize = 16.sp,
                 fontFamily = FontFamily(Font(R.font.poppinsmedium)),
                 fontWeight = FontWeight(500),
@@ -53,7 +55,7 @@ fun AddFavorite(
                 textAlign = TextAlign.Center
             )
             Text(
-                text = "Escolha o que você mais gostou",
+                text = textSubTitulo,
                 fontSize = 16.sp,
                 fontFamily = FontFamily(Font(R.font.poppinsmedium)),
                 fontWeight = FontWeight(500),
@@ -66,7 +68,7 @@ fun AddFavorite(
             }
         ) {
             Text(
-                text = "Ir para o início",
+                text = textDecisão,
                 fontSize = 12.sp,
                 lineHeight = 16.sp,
                 fontFamily = FontFamily(Font(R.font.intermedium)),
@@ -78,8 +80,5 @@ fun AddFavorite(
     }
 }
 
-//@Preview(showSystemUi = true)
-//@Composable
-//fun AddFavoritePreview() {
-//    AddFavorite()
-//}
+//Nenhum favorito ainda :(
+//Escolha o que você mais gostou
