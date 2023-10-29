@@ -1,6 +1,7 @@
 package br.senai.sp.jandira.s_book.components.second_create_announce.screen
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -229,11 +230,15 @@ fun SecondCreateAnnounceScreen(
                     modifier = Modifier
                         .size(72.dp)
                         .clickable {
-                            navController.navigate("terceiro_anunciar")
-                            localStorage.salvarValorString(context = context, numeroState, "numero_livro")
-                            localStorage.salvarValorString(context = context, anoState, "ano_livro")
-                            localStorage.salvarValorString(context = context, edicaoState, "edicao_livro")
-                            localStorage.salvarValorString(context = context, isbnState, "isbn_livro")
+                            if (numeroState.isNotEmpty() && anoState.isNotEmpty() && edicaoState.isNotEmpty() && isbnState.isNotEmpty()) {
+                                navController.navigate("terceiro_anunciar")
+                                localStorage.salvarValorString(context = context, numeroState, "numero_livro")
+                                localStorage.salvarValorString(context = context, anoState, "ano_livro")
+                                localStorage.salvarValorString(context = context, edicaoState, "edicao_livro")
+                                localStorage.salvarValorString(context = context, isbnState, "isbn_livro")
+                            } else {
+                                Toast.makeText(context, "Preencha todos os campos antes de prosseguir", Toast.LENGTH_SHORT).show()
+                            }
                         }
                 )
             }

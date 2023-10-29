@@ -124,5 +124,6 @@ fun DropDownAutor(
                 }
             }
         }
+        localStorage.salvarValorString(context = context, autorState, "autor_livro")
     }
 }

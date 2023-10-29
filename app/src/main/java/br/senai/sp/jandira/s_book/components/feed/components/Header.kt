@@ -170,7 +170,7 @@ fun Header(
                 }
             }
             Text(
-                text = "Bem-Vindo, Usúario(a)!",
+                text = "Bem-Vindo, Usuário(a)!",
                 color = Color.White,
                 fontSize = 20.sp,
                 fontWeight = FontWeight(700)

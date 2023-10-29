@@ -47,12 +47,28 @@ fun SeventhCreateAnnounceScreen(
 
     val nomeLivro = localStorage.lerValorString(context = context, "nome_livro")
     val sinopseLivro = localStorage.lerValorString(context = context, "sinopse_livro")
-    val numeroLivro = localStorage.lerValorString(context = context, "numero_livro")
+    val generoLivro = localStorage.lerValorString(context = context, "genero_livro")
     val anoLivro = localStorage.lerValorString(context = context, "ano_livro")
-    val edicaoLivro = localStorage.lerValorString(context = context, "edicao_livro")
-    val isbnLivro = localStorage.lerValorString(context = context, "isbn_livro")
+    val autorLivro = localStorage.lerValorString(context = context, "autor_livro")
     val editoraLivro = localStorage.lerValorString(context = context, "editora_livro")
     val idiomaLivro = localStorage.lerValorString(context = context, "idioma_livro")
+    val numeroLivro = localStorage.lerValorString(context = context, "numero_livro")
+    val edicaoLivro = localStorage.lerValorString(context = context, "edicao_livro")
+    val isbnLivro = localStorage.lerValorString(context = context, "isbn_livro")
+    val estadoLivro = localStorage.lerValorString(context = context, "estado_livro")
+    val tipoLivro = localStorage.lerValorString(context = context, "tipo_livro")
+    val precoLivro = localStorage.lerValorString(context = context, "venda_price")
+
+    val tiposSelecionados = tipoLivro?.split(",")
+
+    val mensagem = tiposSelecionados?.joinToString(" e ") { tipo ->
+        when (tipo.trim()) {
+            "Troca" -> "Troca"
+            "Doação" -> "Doação"
+            "Venda" -> if (tiposSelecionados.size == 1) "R$ $precoLivro" else "venda por R$ $precoLivro"
+            else -> ""
+        }
+    }
 
     Column(modifier = Modifier.verticalScroll(ScrollState(0))) {
         HeaderCreateAnnounce()
@@ -120,7 +136,7 @@ fun SeventhCreateAnnounceScreen(
                     .fillMaxSize()
                     .padding(24.dp)) {
                     Text(
-                        text = "$idiomaLivro",
+                        text = "$nomeLivro",
                         fontSize = 24.sp,
                         fontWeight = FontWeight(600),
                         color = Color(0xFF404040)
@@ -134,14 +150,14 @@ fun SeventhCreateAnnounceScreen(
                     )
                     Spacer(modifier = Modifier.height(16.dp))
                     Text(
-                        text = "Ficção Científica, Romance, Comédia, Suspense",
+                        text = "$generoLivro",
                         fontSize = 14.sp,
                         fontWeight = FontWeight(600),
                         color = Color(0xFF808080)
                     )
                     Spacer(modifier = Modifier.height(24.dp))
                     Text(
-                        text = "R$35,00",
+                        text = "$mensagem",
                         fontSize = 24.sp,
                         fontWeight = FontWeight(700),
                         color = Color(0xFF404040),
@@ -203,31 +219,224 @@ fun SeventhCreateAnnounceScreen(
                 textAlign = TextAlign.Start
             )
             Spacer(modifier = Modifier.height(24.dp))
-            Row(
-                modifier = Modifier.fillMaxWidth() ,
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text(
-                    text = "Ano da edição",
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight(600),
-                    color = Color(0xFF000000)
-                )
-                Text(
-                    text = "2022",
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight(400),
-                    color = Color(126, 125, 122, 255)
-                )
+            Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                Column {
+                    Row(
+                        modifier = Modifier.fillMaxWidth() ,
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text(
+                            text = "Ano da edição",
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight(600),
+                            color = Color(0xFF000000)
+                        )
+                        Text(
+                            text = "$anoLivro",
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight(400),
+                            color = Color(126, 125, 122, 255)
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Divider(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(0.8.dp),
+                        color = Color(0xFFE0E0E0)
+                    )
+                }
+                Column {
+                    Row(
+                        modifier = Modifier.fillMaxWidth() ,
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text(
+                            text = "Autor",
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight(600),
+                            color = Color(0xFF000000)
+                        )
+                        Text(
+                            text = "$autorLivro",
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight(400),
+                            color = Color(126, 125, 122, 255)
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Divider(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(0.8.dp),
+                        color = Color(0xFFE0E0E0)
+                    )
+                }
+                Column {
+                    Row(
+                        modifier = Modifier.fillMaxWidth() ,
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text(
+                            text = "Editora",
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight(600),
+                            color = Color(0xFF000000)
+                        )
+                        Text(
+                            text = "$editoraLivro",
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight(400),
+                            color = Color(126, 125, 122, 255)
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Divider(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(0.8.dp),
+                        color = Color(0xFFE0E0E0)
+                    )
+                }
+                Column {
+                    Row(
+                        modifier = Modifier.fillMaxWidth() ,
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text(
+                            text = "Idioma",
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight(600),
+                            color = Color(0xFF000000)
+                        )
+                        Text(
+                            text = "$idiomaLivro",
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight(400),
+                            color = Color(126, 125, 122, 255)
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Divider(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(0.8.dp),
+                        color = Color(0xFFE0E0E0)
+                    )
+                }
+                Column {
+                    Row(
+                        modifier = Modifier.fillMaxWidth() ,
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text(
+                            text = "Edição",
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight(600),
+                            color = Color(0xFF000000)
+                        )
+                        Text(
+                            text = "$edicaoLivro",
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight(400),
+                            color = Color(126, 125, 122, 255)
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Divider(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(0.8.dp),
+                        color = Color(0xFFE0E0E0)
+                    )
+                }
+                Column {
+                    Row(
+                        modifier = Modifier.fillMaxWidth() ,
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text(
+                            text = "Número de páginas",
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight(600),
+                            color = Color(0xFF000000)
+                        )
+                        Text(
+                            text = "$numeroLivro",
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight(400),
+                            color = Color(126, 125, 122, 255)
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Divider(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(0.8.dp),
+                        color = Color(0xFFE0E0E0)
+                    )
+                }
+                Column {
+                    Row(
+                        modifier = Modifier.fillMaxWidth() ,
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text(
+                            text = "ISBN",
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight(600),
+                            color = Color(0xFF000000)
+                        )
+                        Text(
+                            text = "$isbnLivro",
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight(400),
+                            color = Color(126, 125, 122, 255)
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Divider(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(0.8.dp),
+                        color = Color(0xFFE0E0E0)
+                    )
+                }
+                Column {
+                    Row(
+                        modifier = Modifier.fillMaxWidth() ,
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text(
+                            text = "Estado do livro",
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight(600),
+                            color = Color(0xFF000000)
+                        )
+                        Text(
+                            text = "$estadoLivro",
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight(400),
+                            color = Color(126, 125, 122, 255)
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Divider(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(0.8.dp),
+                        color = Color(0xFFE0E0E0)
+                    )
+                }
             }
-            Spacer(modifier = Modifier.height(8.dp))
-            Divider(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(0.8.dp),
-                color = Color(0xFFE0E0E0)
-            )
             Spacer(modifier = Modifier.height(48.dp))
             Button(
                 onClick = { /*TODO*/ },

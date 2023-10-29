@@ -1,6 +1,7 @@
 package br.senai.sp.jandira.s_book.components.first_create_announce.screen
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -171,9 +172,13 @@ fun FirstCreateAnnounceScreen(
                     modifier = Modifier
                         .size(72.dp)
                         .clickable {
-                            navController.navigate("segundo_anunciar")
-                            localStorage.salvarValorString(context = context, nomeState, "nome_livro")
-                            localStorage.salvarValorString(context = context, sinopseState, "sinopse_livro")
+                            if (nomeState.isNotEmpty() && sinopseState.isNotEmpty()) {
+                                navController.navigate("segundo_anunciar")
+                                localStorage.salvarValorString(context = context, nomeState, "nome_livro")
+                                localStorage.salvarValorString(context = context, sinopseState, "sinopse_livro")
+                            } else {
+                                Toast.makeText(context, "Preencha todos os campos antes de prosseguir", Toast.LENGTH_SHORT).show()
+                            }
                         }
                 )
             }

@@ -1,5 +1,7 @@
 package br.senai.sp.jandira.s_book.components.fifth_create_announce.screen
 
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -11,6 +13,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Card
 import androidx.compose.material.Divider
@@ -24,6 +28,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -33,16 +38,54 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.R
+import br.senai.sp.jandira.s_book.Storage
 import br.senai.sp.jandira.s_book.components.universal.HeaderCreateAnnounce
+import br.senai.sp.jandira.s_book.model.EstadoLivro
+import br.senai.sp.jandira.s_book.model.EstadoLivroBaseResponse
+import br.senai.sp.jandira.s_book.model.Genero
+import br.senai.sp.jandira.s_book.repository.CategoryList
+import br.senai.sp.jandira.s_book.service.RetrofitHelper
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 @Composable
 fun FifthCreateAnnounceScreen(
-    navController: NavController
+    navController: NavController,
+    localStorage: Storage
 ){
+
+    var listEstadosLivro by remember{
+        mutableStateOf(listOf<EstadoLivro>())
+    }
 
     var isChecked by remember {
         mutableStateOf(value = false)
     }
+
+    var estadosSelecionados by remember {
+        mutableStateOf<Set<String>>(emptySet())
+    }
+
+    val context = LocalContext.current
+
+    val call = RetrofitHelper.getEstadoLivroService().getEstadoLivro()
+
+
+    // Executar a chamada
+    call.enqueue(object : Callback<EstadoLivroBaseResponse> {
+        override fun onResponse(
+            call: Call<EstadoLivroBaseResponse>,
+            response: Response<EstadoLivroBaseResponse>
+        ) {
+            listEstadosLivro = response.body()!!.estados
+        }
+
+
+        override fun onFailure(call: Call<EstadoLivroBaseResponse>, t: Throwable) {
+
+        }
+    })
 
     Column() {
         HeaderCreateAnnounce()
@@ -68,33 +111,41 @@ fun FifthCreateAnnounceScreen(
                         .height(0.8.dp),
                     color = Color(0xFFE0E0E0)
                 )
-                Column {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(52.dp)
-                            .padding(horizontal = 16.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        Text(
-                            text = "Usado",
-                            fontSize = 14.sp,
-                            fontFamily = FontFamily(Font(R.font.intermedium)),
-                            fontWeight = FontWeight(500),
-                            color = Color(0xFF808080),
-                        )
-                        Checkbox(
-                            checked = isChecked,
-                            onCheckedChange = { isChecked = it}
+                LazyColumn {
+                    items(listEstadosLivro){
+                        val isChecked = estadosSelecionados.contains(it.estado)
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(52.dp)
+                                .padding(horizontal = 16.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Text(
+                                text = it.estado,
+                                fontSize = 14.sp,
+                                fontFamily = FontFamily(Font(R.font.intermedium)),
+                                fontWeight = FontWeight(500),
+                                color = Color(0xFF808080),
+                            )
+                            Checkbox(
+                                checked = isChecked,
+                                onCheckedChange = {isChecked ->
+                                    estadosSelecionados = setOf(it.estado).takeIf { isChecked } ?: emptySet()
+                                    Log.e("thiago", "${estadosSelecionados}")
+                                    val estadosSelecionadosString = estadosSelecionados.joinToString(", ")
+                                    localStorage.salvarValorString(context = context, estadosSelecionadosString, "estado_livro")
+                                }
+                            )
+                        }
+                        Divider(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(0.8.dp),
+                            color = Color(0xFFE0E0E0)
                         )
                     }
-                    Divider(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(0.8.dp),
-                        color = Color(0xFFE0E0E0)
-                    )
                 }
             }
             Row(
@@ -147,7 +198,13 @@ fun FifthCreateAnnounceScreen(
                     contentDescription = "",
                     modifier = Modifier
                         .size(72.dp)
-                        .clickable { navController.navigate("sexto_anunciar") }
+                        .clickable {
+                            if (estadosSelecionados.isNotEmpty()) {
+                                navController.navigate("sexto_anunciar")
+                            } else {
+                                Toast.makeText(context, "Selecione pelo menos um estado.", Toast.LENGTH_SHORT).show()
+                            }
+                        }
                 )
             }
         }

@@ -169,15 +169,15 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable("quarto_anunciar"){
-                            FourthCreateAnnounceScreen(navController)
+                            FourthCreateAnnounceScreen(navController, localStorage)
                         }
 
                         composable("quinto_anunciar"){
-                            FifthCreateAnnounceScreen(navController)
+                            FifthCreateAnnounceScreen(navController, localStorage)
                         }
 
                         composable("sexto_anunciar"){
-                            SixthCreateAnnounceScreen(navController)
+                            SixthCreateAnnounceScreen(navController, localStorage)
                         }
 
                         composable("setimo_anunciar"){
