@@ -1,5 +1,10 @@
 package br.senai.sp.jandira.s_book.components.third_create_announce.screen
 
+import android.net.Uri
+import android.util.Log
+import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -16,6 +21,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Card
 import androidx.compose.material.icons.Icons
@@ -23,10 +29,16 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -35,11 +47,48 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.R
 import br.senai.sp.jandira.s_book.components.universal.HeaderCreateAnnounce
+import coil.compose.AsyncImage
+import coil.compose.rememberAsyncImagePainter
+import coil.request.ImageRequest
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 
 @Composable
 fun ThirdCreateAnnounceScreen(
     navController: NavController
 ) {
+
+    val context = LocalContext.current
+
+    val storageRef: StorageReference = FirebaseStorage.getInstance().reference.child("images")
+
+    val firebaseFirestore: FirebaseFirestore = FirebaseFirestore.getInstance()
+
+    var fotoUri by remember {
+        mutableStateOf<Uri?>(null)
+    }
+
+    val painter = rememberAsyncImagePainter(
+        ImageRequest.Builder(context).data(fotoUri).build()
+    )
+
+    var isImageSelected by remember { mutableStateOf(false) }
+
+    var selectedMedia by remember {
+        mutableStateOf<List<Uri>>(emptyList())
+    }
+
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
+    ) { uri ->
+        uri?.let {
+            fotoUri = it
+            selectedMedia = selectedMedia + listOf(it)
+        }
+    }
+
+    val maxImageCount = 5
 
     Column() {
         HeaderCreateAnnounce()
@@ -74,45 +123,31 @@ fun ThirdCreateAnnounceScreen(
                 Image(
                     painter = painterResource(id = R.drawable.photo),
                     contentDescription = "",
-                    modifier = Modifier.size(128.dp)
+                    modifier = Modifier
+                        .size(128.dp)
+                        .clickable {
+                            if (selectedMedia.size < maxImageCount) {
+                                launcher.launch("image/*")
+                            }
+                        }
                 )
                 Spacer(modifier = Modifier.height(48.dp))
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(24.dp)
                 ) {
-                    Column(
-                        modifier = Modifier
-                            .height(260.dp)
-                            .width(160.dp)
-                            .background(Color.Transparent)
-                            .border(width = 1.dp, color = Color(0xFFEBEBEB))
-                            .clickable {
-
-                            },
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Add,
-                            contentDescription = "",
-                            tint = Color(206, 206, 206, 255),
-                            modifier = Modifier.size(32.dp)
-                        )
-                    }
                     LazyRow(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                        items(2) {
+                        items(selectedMedia) {
                             Column(
                                 modifier = Modifier
                                     .height(260.dp)
                                     .width(160.dp)
-                                    .background(Color.Transparent)
-                                    .border(width = 1.dp, color = Color(0xFFEBEBEB)),
+                                    .background(Color.Transparent),
                                 verticalArrangement = Arrangement.Center,
                                 horizontalAlignment = Alignment.CenterHorizontally
                             ) {
-                                Image(
-                                    painter = painterResource(id = R.drawable.diario),
+                                AsyncImage(
+                                    model = it,
                                     contentDescription = "",
                                     contentScale = ContentScale.Crop,
                                     modifier = Modifier.fillMaxSize()
@@ -121,7 +156,13 @@ fun ThirdCreateAnnounceScreen(
                         }
                     }
                 }
+                if (selectedMedia.size >= maxImageCount) {
+                    Toast.makeText(context, "Limite de $maxImageCount imagens atingido", Toast.LENGTH_SHORT).show()
+                }
             }
+
+            val canProceed = selectedMedia.isNotEmpty()
+
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -170,7 +211,13 @@ fun ThirdCreateAnnounceScreen(
                     contentDescription = "",
                     modifier = Modifier
                         .size(72.dp)
-                        .clickable { navController.navigate("quarto_anunciar") }
+                        .clickable {
+                            if (canProceed) {
+                                navController.navigate("quarto_anunciar")
+                            } else {
+                                Toast.makeText(context, "Selecione ao menos 1 imagem para prosseguir", Toast.LENGTH_SHORT).show()
+                            }
+                        }
                 )
             }
         }

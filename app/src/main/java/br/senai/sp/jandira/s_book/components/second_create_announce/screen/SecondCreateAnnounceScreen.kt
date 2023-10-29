@@ -66,8 +66,6 @@ fun SecondCreateAnnounceScreen(
         mutableStateOf(value = "")
     }
 
-    var selectedDate by remember { mutableStateOf("") }
-
     val context = LocalContext.current
 
     Column() {
