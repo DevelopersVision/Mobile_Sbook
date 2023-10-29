@@ -46,6 +46,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.R
+import br.senai.sp.jandira.s_book.Storage
 import br.senai.sp.jandira.s_book.components.universal.HeaderCreateAnnounce
 import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
@@ -56,7 +57,8 @@ import com.google.firebase.storage.StorageReference
 
 @Composable
 fun ThirdCreateAnnounceScreen(
-    navController: NavController
+    navController: NavController,
+    localStorage: Storage
 ) {
 
     val context = LocalContext.current
@@ -152,6 +154,7 @@ fun ThirdCreateAnnounceScreen(
                                     contentScale = ContentScale.Crop,
                                     modifier = Modifier.fillMaxSize()
                                 )
+                                localStorage.salvarValorString(context, it.toString(), "foto_livro")
                             }
                         }
                     }
@@ -214,6 +217,24 @@ fun ThirdCreateAnnounceScreen(
                         .clickable {
                             if (canProceed) {
                                 navController.navigate("quarto_anunciar")
+                                fotoUri?.let { storageRef.putFile(it).addOnCompleteListener { task ->
+                                            if (task.isSuccessful) {
+                                                storageRef.downloadUrl.addOnSuccessListener { uri ->
+                                                    val map = HashMap<String, Any>()
+                                                    map["pic"] = uri.toString()
+                                                    firebaseFirestore.collection("images").add(map).addOnCompleteListener { firestoreTask ->
+                                                            if (firestoreTask.isSuccessful) {
+                                                                Toast.makeText(context, "UPLOAD REALIZADO COM SUCESSO", Toast.LENGTH_SHORT).show()
+                                                            } else {
+                                                                Toast.makeText(context, "ERRO AO TENTAR REALIZAR O UPLOAD", Toast.LENGTH_SHORT).show()
+                                                            }
+                                                        }
+                                                }
+                                            } else {
+                                                Toast.makeText(context, "ERRO AO TENTAR REALIZAR O UPLOAD", Toast.LENGTH_SHORT).show()
+                                            }
+                                    }
+                                }
                             } else {
                                 Toast.makeText(context, "Selecione ao menos 1 imagem para prosseguir", Toast.LENGTH_SHORT).show()
                             }

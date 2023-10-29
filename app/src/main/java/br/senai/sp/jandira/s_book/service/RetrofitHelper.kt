@@ -80,4 +80,8 @@ object RetrofitHelper {
         return retrofitFactory.create(TipoAnuncioService::class.java)
     }
 
+    fun postCadastroLivroService(): CadastroLivroService {
+        return retrofitFactory.create(CadastroLivroService::class.java)
+    }
+
 }

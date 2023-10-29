@@ -31,7 +31,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.senai.sp.jandira.s_book.R
@@ -58,6 +57,7 @@ fun SeventhCreateAnnounceScreen(
     val estadoLivro = localStorage.lerValorString(context = context, "estado_livro")
     val tipoLivro = localStorage.lerValorString(context = context, "tipo_livro")
     val precoLivro = localStorage.lerValorString(context = context, "venda_price")
+    val imagemLivro = localStorage.lerValorString(context = context, "foto_livro")
 
     val tiposSelecionados = tipoLivro?.split(",")
 

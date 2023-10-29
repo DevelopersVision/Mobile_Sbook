@@ -165,7 +165,7 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable("terceiro_anunciar"){
-                            ThirdCreateAnnounceScreen(navController)
+                            ThirdCreateAnnounceScreen(navController, localStorage)
                         }
 
                         composable("quarto_anunciar"){
