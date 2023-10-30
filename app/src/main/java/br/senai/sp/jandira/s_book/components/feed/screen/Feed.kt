@@ -174,10 +174,9 @@ fun FeedScreen(
                                 navController = navRotasController,
                                 lifecycleScope = lifecycleScope,
                                 onClick = {
+                                    viewModelQueVaiPassarOsDados.foto = item.foto
                                     val anunciante = getAnunciante(item.anuncio.anunciante) { usuario ->
                                         if (usuario != null) {
-                                            Log.e("usuario-luiz", "FeedScreen: $usuario")
-                                            viewModelQueVaiPassarOsDados.foto = item.foto
 
                                             viewModelQueVaiPassarOsDados.nome = item.anuncio.nome
 

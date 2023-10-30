@@ -9,7 +9,7 @@ import br.senai.sp.jandira.s_book.model.Idioma
 import br.senai.sp.jandira.s_book.model.TipoAnuncio
 
 class AnuncioViewModel: ViewModel() {
-    var foto: List<Foto> = listOf()
+    var foto: List<Foto> = listOf<Foto>()
     var nome: String? = ""
     var generos: List<Genero> = listOf()
     var anunciante_foto: String? = ""
