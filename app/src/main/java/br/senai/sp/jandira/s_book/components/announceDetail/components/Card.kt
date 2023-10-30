@@ -5,8 +5,10 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -14,6 +16,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -74,7 +79,6 @@ fun CardInformacao(
                 ),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-
             Column(
                 modifier = Modifier
                     .width(300.dp)
@@ -91,13 +95,18 @@ fun CardInformacao(
                         .padding(top = 24.dp),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Text(
-                        text = "${viewModel.nome}",
-                        fontSize = 24.sp,
-                        fontFamily = FontFamily(Font(R.font.intermedium)),
-                        fontWeight = FontWeight(600),
-                        color = Color(0xFF404040),
-                    )
+                    Column(
+                        modifier = Modifier
+                            .width(250.dp)
+                    ) {
+                        Text(
+                            text = "${viewModel.nome}",
+                            fontSize = 24.sp,
+                            fontFamily = FontFamily(Font(R.font.intermedium)),
+                            fontWeight = FontWeight(600),
+                            color = Color(0xFF404040),
+                        )
+                    }
                     Icon(
                         imageVector = favorito,
                         contentDescription = "",
@@ -105,7 +114,6 @@ fun CardInformacao(
                             .size(32.dp)
                     )
                 }
-//                Spacer(modifier = Modifier.height(20.dp))
                 Column(
                     modifier = Modifier
                         .padding(0.dp)
@@ -113,31 +121,27 @@ fun CardInformacao(
                         .height(2.dp)
                         .background(color = Color(0xFFCECECE))
                 ) {}
-//                Spacer(modifier = Modifier.height(16.dp))
-
                 Column(
                     modifier = Modifier
                         .width(292.dp)
                         .height(270.dp)
                 ) {
-                    Column(
+                    LazyRow(
                         modifier = Modifier
                             .width(292.dp)
                             .height(45.dp)
                     ) {
-                        LazyRow() {
-                            items(viewModel.generos) {
-                                Text(
-                                    text = "${it.nome}, ",
-                                    fontSize = 14.sp,
-                                    fontFamily = FontFamily(Font(R.font.intermedium)),
-                                    fontWeight = FontWeight(600),
-                                    color = Color(0xFF808080),
-                                    modifier = Modifier
-                                )
-                            }
-
+                        items(viewModel.generos) {
+                            Text(
+                                text = "${it.nome}, ",
+                                fontSize = 14.sp,
+                                fontFamily = FontFamily(Font(R.font.intermedium)),
+                                fontWeight = FontWeight(600),
+                                color = Color(0xFF808080),
+                                modifier = Modifier
+                            )
                         }
+
                     }
                     Column(
                         modifier = Modifier
@@ -169,7 +173,6 @@ fun CardInformacao(
                                     modifier = Modifier
                                 )
                             }
-//                          Spacer(modifier = Modifier.height(16.dp))
                             LazyColumn() {
                                 items(viewModel.tipo_anuncio) {
                                     Log.e("AAA123452342342342323233", "${it.tipo}")
@@ -183,7 +186,6 @@ fun CardInformacao(
                                 }
                             }
                         } else {
-//                            Spacer(modifier = Modifier.height(16.dp))
                             LazyColumn() {
                                 items(viewModel.tipo_anuncio) {
                                     Log.e("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "${it.tipo}")
@@ -218,7 +220,6 @@ fun CardInformacao(
                                 .width(292.dp)
                                 .height(64.dp)
                         ) {
-
                             Text(
                                 text = "${viewModel.anunciante_nome}",
                                 fontSize = 20.sp,
@@ -242,25 +243,73 @@ fun CardInformacao(
 }
 
 
-//else{
-//                    Log.e("testando", "${viewModel.tipo_anuncio}")
-//                    LazyColumn() {
-//                        items(viewModel.tipo_anuncio) {
-//                            Log.e("testando depois do items", "${viewModel.tipo_anuncio}")
+//Card(
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .shadow(
+//                        elevation = 6.dp,
+//                        spotColor = Color(0xFF000000),
+//                        ambientColor = Color(0xFF000000),
+//                        shape = RoundedCornerShape(8.dp)
+//                    ),
+//                shape = RoundedCornerShape(8.dp)
+//            ) {
+//                Column(modifier = Modifier
+//                    .fillMaxSize()
+//                    .padding(24.dp)) {
+//                    Text(
+//                        text = "$nomeLivro",
+//                        fontSize = 24.sp,
+//                        fontWeight = FontWeight(600),
+//                        color = Color(0xFF404040)
+//                    )
+//                    Spacer(modifier = Modifier.height(20.dp))
+//                    Divider(
+//                        modifier = Modifier
+//                            .fillMaxWidth()
+//                            .height(0.8.dp),
+//                        color = Color(0xFF808080)
+//                    )
+//                    Spacer(modifier = Modifier.height(16.dp))
+//                    Text(
+//                        text = "$generoLivro",
+//                        fontSize = 14.sp,
+//                        fontWeight = FontWeight(600),
+//                        color = Color(0xFF808080)
+//                    )
+//                    Spacer(modifier = Modifier.height(24.dp))
+//                    Text(
+//                        text = "$mensagem",
+//                        fontSize = 24.sp,
+//                        fontWeight = FontWeight(700),
+//                        color = Color(0xFF404040),
+//                        modifier = Modifier.fillMaxWidth(),
+//                        textAlign = TextAlign.Center
+//                    )
+//                    Spacer(modifier = Modifier.height(24.dp))
+//                    Row(verticalAlignment = Alignment.CenterVertically) {
+//                        Image(
+//                            painter = painterResource(id = R.drawable.susanna_profile),
+//                            contentDescription = "",
+//                            modifier = Modifier
+//                                .size(64.dp)
+//                                .clip(CircleShape)
+//                        )
+//                        Spacer(modifier = Modifier.width(8.dp))
+//                        Column {
 //                            Text(
-//                                text = "Disponivel para ${it.tipo}",
-//                                fontSize = 24.sp,
-//                                fontFamily = FontFamily(Font(R.font.intermedium)),
-//                                fontWeight = FontWeight(700),
-//                                color = Color(0xFF404040),
-//                                modifier = Modifier
+//                                text = "Max Kellerman",
+//                                fontSize = 20.sp,
+//                                fontWeight = FontWeight(600),
+//                                color = Color(0xFF000000)
+//                            )
+//                            Text(
+//                                text = "Carapícuiba, São Paulo",
+//                                fontSize = 12.sp,
+//                                fontWeight = FontWeight(600),
+//                                color = Color(0xFF9F9898)
 //                            )
 //                        }
-//
 //                    }
 //                }
-
-//if(viewModel.tipo_anuncio[0].tipo == "Venda" && viewModel.tipo_anuncio[1].tipo == "Venda"  ){
-//                                Log.e("testando depois do items1", "${viewModel.tipo_anuncio}")
-//                            }else{
-
+//            }
