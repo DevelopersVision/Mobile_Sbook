@@ -154,7 +154,6 @@ fun ThirdCreateAnnounceScreen(
                                     contentScale = ContentScale.Crop,
                                     modifier = Modifier.fillMaxSize()
                                 )
-                                localStorage.salvarValorString(context, it.toString(), "foto_livro")
                             }
                         }
                     }
@@ -163,8 +162,6 @@ fun ThirdCreateAnnounceScreen(
                     Toast.makeText(context, "Limite de $maxImageCount imagens atingido", Toast.LENGTH_SHORT).show()
                 }
             }
-
-            val canProceed = selectedMedia.isNotEmpty()
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -215,24 +212,26 @@ fun ThirdCreateAnnounceScreen(
                     modifier = Modifier
                         .size(72.dp)
                         .clickable {
-                            if (canProceed) {
-                                navController.navigate("quarto_anunciar")
-                                fotoUri?.let { storageRef.putFile(it).addOnCompleteListener { task ->
-                                            if (task.isSuccessful) {
-                                                storageRef.downloadUrl.addOnSuccessListener { uri ->
-                                                    val map = HashMap<String, Any>()
-                                                    map["pic"] = uri.toString()
-                                                    firebaseFirestore.collection("images").add(map).addOnCompleteListener { firestoreTask ->
-                                                            if (firestoreTask.isSuccessful) {
-                                                                Toast.makeText(context, "UPLOAD REALIZADO COM SUCESSO", Toast.LENGTH_SHORT).show()
-                                                            } else {
-                                                                Toast.makeText(context, "ERRO AO TENTAR REALIZAR O UPLOAD", Toast.LENGTH_SHORT).show()
-                                                            }
+                            if (selectedMedia.isNotEmpty()) {
+                                for (uri in selectedMedia) {
+                                    val storageRef = storageRef.child("${uri.lastPathSegment}-${System.currentTimeMillis()}.jpg")
+                                    storageRef.putFile(uri).addOnCompleteListener { task ->
+                                        if (task.isSuccessful) {
+                                            storageRef.downloadUrl.addOnSuccessListener { downloadUri ->
+                                                val map = hashMapOf("pic" to downloadUri.toString())
+                                                firebaseFirestore.collection("images").add(map).addOnCompleteListener { firestoreTask ->
+                                                    if (firestoreTask.isSuccessful) {
+                                                        if (selectedMedia.last() == uri) {
+                                                            navController.navigate("quarto_anunciar")
                                                         }
+                                                    } else {
+                                                        Toast.makeText(context, "ERRO AO TENTAR REALIZAR O UPLOAD", Toast.LENGTH_SHORT).show()
+                                                    }
                                                 }
-                                            } else {
-                                                Toast.makeText(context, "ERRO AO TENTAR REALIZAR O UPLOAD", Toast.LENGTH_SHORT).show()
                                             }
+                                        } else {
+                                            Toast.makeText(context, "ERRO AO TENTAR REALIZAR O UPLOAD", Toast.LENGTH_SHORT).show()
+                                        }
                                     }
                                 }
                             } else {

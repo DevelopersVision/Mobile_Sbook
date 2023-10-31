@@ -109,7 +109,7 @@ fun FourthCreateAnnounceScreen(
                         .height(0.8.dp),
                     color = Color(0xFFE0E0E0)
                 )
-                LazyColumn(modifier = Modifier.height(460.dp)) {
+                LazyColumn(modifier = Modifier.height(480.dp)) {
                     items(listGeneros){
                         val isChecked = generosSelecionados.contains(it.nome)
                         Row(
