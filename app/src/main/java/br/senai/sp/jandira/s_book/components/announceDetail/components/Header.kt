@@ -19,7 +19,10 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.Card
+import androidx.compose.material.Icon
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Circle
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
@@ -44,20 +47,21 @@ fun Header(viewMODEL: AnuncioViewModel) {
     val TAG = "Teste"
 
     Column (
-        modifier = Modifier.fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally
+        modifier = Modifier
+            .height(288.dp)
+            .width(160.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.Top),
+        horizontalAlignment = Alignment.CenterHorizontally,
     ){
-
         val pagerState = rememberPagerState(
             pageCount = {
                 4
             }
         )
-
         Card(
             modifier = Modifier
-                .height(200.dp)
-                .width(350.dp)
+                .height(268.dp)
+                .width(160.dp)
         ) {
             Log.e(TAG, "Header: ${viewMODEL.foto}", )
             val imagens = remember{
@@ -74,52 +78,25 @@ fun Header(viewMODEL: AnuncioViewModel) {
                 state = pagerState,
                 pageSpacing = 0.dp,
                 pageContent = {
-
                     Row (
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier
                             .fillMaxSize()
 
                     ){
-
                         AsyncImage(
                             model = imagens[it],
                             contentDescription = "",
+                            contentScale = ContentScale.Crop,
                             modifier = Modifier
-                                .size(120.dp)
+                                .width(168.dp)
+                                .height(245.dp)
+                                .padding(top = 12.dp)
                         )
                     }
                 }
             )
         }
-
-        Spacer(
-            modifier = Modifier
-                .height(15.dp)
-        )
-
-        Row (
-            modifier = Modifier
-                .width(40.dp),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ){
-            Card(
-                modifier = Modifier
-                    .width(7.dp)
-                    .height(7.dp),
-            ) {}
-            Card (
-                modifier = Modifier
-                    .width(7.dp)
-                    .height(7.dp),
-            ){}
-            Card (
-                modifier = Modifier
-                    .width(7.dp)
-                    .height(7.dp),
-            ){}
-        }
-
     }
 }
 
