@@ -8,13 +8,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import br.senai.sp.jandira.s_book.components.chats.screen.ChatScreen
-import br.senai.sp.jandira.s_book.components.favorite.screen.FavoritoScreen
 import br.senai.sp.jandira.s_book.components.feed.screen.FeedScreen
 import br.senai.sp.jandira.s_book.components.pesquisar.screen.SearchScreen
 import br.senai.sp.jandira.s_book.components.profile.screens.ProfileScreen
-import br.senai.sp.jandira.s_book.sqlite_repository.UserRepository
 import br.senai.sp.jandira.s_book.view_model.AnuncioViewModel
-import br.senai.sp.jandira.s_book.view_model.CoracaoViewModel
 
 @Composable
 fun ButtonNavGraph(
@@ -29,7 +26,7 @@ fun ButtonNavGraph(
         startDestination = BottomBarScreen.Feed.route,
     ){
         composable(route = BottomBarScreen.Feed.route){
-            FeedScreen(navController = navController, lifecycleScope = lifecycleScope ,navRotasController = navRotasController, viewModelQueVaiPassarOsDados = anuncioViewMODEL, viewModel = CoracaoViewModel())
+            FeedScreen(navController = navController, lifecycleScope = lifecycleScope ,navRotasController = navRotasController, viewModelQueVaiPassarOsDados = anuncioViewMODEL)
         }
 
         composable(route = BottomBarScreen.Pesquisar.route){

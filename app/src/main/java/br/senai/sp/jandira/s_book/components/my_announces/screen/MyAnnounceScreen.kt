@@ -4,14 +4,11 @@ import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Card
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -24,15 +21,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.navigation.NavController
-import br.senai.sp.jandira.s_book.components.insert_code.components.Form
-import br.senai.sp.jandira.s_book.components.insert_code.components.Header
 import br.senai.sp.jandira.s_book.components.my_announces.components.HeaderAnnounce
 import br.senai.sp.jandira.s_book.components.universal.NoExist
 import br.senai.sp.jandira.s_book.model.AnunciosUserBaseResponse
 import br.senai.sp.jandira.s_book.model.JsonAnuncios
 import br.senai.sp.jandira.s_book.service.RetrofitHelper
 import br.senai.sp.jandira.s_book.sqlite_repository.UserRepository
-import br.senai.sp.jandira.s_book.view_model.CoracaoViewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -106,7 +100,7 @@ fun MyAnnounceScreen(
                                 navRotasController.navigate("annouceDetail")
                             },
                             coracaoClik = {},
-                            viewModelDoCoracaoQueVaiPassarOsDadosHoje = CoracaoViewModel()
+
                         )
                     }
                 }

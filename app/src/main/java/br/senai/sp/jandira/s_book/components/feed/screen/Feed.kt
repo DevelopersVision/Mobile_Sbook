@@ -1,7 +1,6 @@
 package br.senai.sp.jandira.s_book.components.feed.screen
 
 import android.util.Log
-import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -42,7 +41,6 @@ import br.senai.sp.jandira.s_book.models_private.User
 import br.senai.sp.jandira.s_book.service.RetrofitHelper
 import br.senai.sp.jandira.s_book.sqlite_repository.UserRepository
 import br.senai.sp.jandira.s_book.view_model.AnuncioViewModel
-import br.senai.sp.jandira.s_book.view_model.CoracaoViewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -53,7 +51,7 @@ fun FeedScreen(
     navRotasController: NavController,
     lifecycleScope: LifecycleCoroutineScope?,
     viewModelQueVaiPassarOsDados: AnuncioViewModel,
-    viewModel: CoracaoViewModel
+
 ) {
     val TAG = "Teste FEED"
 
@@ -204,7 +202,7 @@ fun FeedScreen(
                                         }
                                     }
                                 },
-                                coracaoCertoViewModel = viewModel
+
                             )
                         }
                     }

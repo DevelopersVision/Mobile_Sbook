@@ -15,8 +15,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -44,7 +44,6 @@ import br.senai.sp.jandira.s_book.model.VerificarFavoritoBaseResponse
 import br.senai.sp.jandira.s_book.models_private.User
 import br.senai.sp.jandira.s_book.service.RetrofitHelper
 import br.senai.sp.jandira.s_book.sqlite_repository.UserRepository
-import br.senai.sp.jandira.s_book.view_model.CoracaoViewModel
 import coil.compose.AsyncImage
 import retrofit2.Call
 import retrofit2.Callback
@@ -61,8 +60,7 @@ fun AnunciosProximos(
     foto: String,
     lifecycleScope: LifecycleCoroutineScope?,
     navController: NavController,
-    onClick: () -> Unit,
-    coracaoCertoViewModel: CoracaoViewModel
+    onClick: () -> Unit
 ) {
 
     val context = LocalContext.current
@@ -72,6 +70,9 @@ fun AnunciosProximos(
     if (array.isNotEmpty()) {
         user = array[0]
     }
+
+
+
 
     var isChecked by remember { mutableStateOf(false) }
 
@@ -189,24 +190,24 @@ fun AnunciosProximos(
 
                                 Log.e("BODY", "onResponse: ${response.body()}")
 
-                                if (response.isSuccessful) {
+                                if (response.code() == 200) {
 
                                     Log.e("Ja ta favoritado bixo burro", "Plim")
+
                                     isChecked = false
 
-
+                                    Log.e("girlllllllllllllllllllllllllllllllllllllllllll", "${isChecked}")
                                     removerDosFavoritos(id_anuncio = id, id_usuario = user.id)
-                                    coracaoCertoViewModel.checkado == true
+
                                 } else {
-                                    Log.e("MORREU", "morreu")
-                                    Log.e(
-                                        "ErrorBody",
-                                        "burrei: ${response.errorBody()?.string()!!}",
-                                    )
+
                                     isChecked = true
 
-                                    Log.e("Log de Hoje felipe", "${id}")
-                                    Log.e("Log de Hoje felipe", "${user.id}")
+                                    Log.e("Não ta favoritado", "Plum")
+
+                                    Log.e("girlllllllllllllllllllllllllllllllllllllllllll", "${isChecked}")
+
+
                                     if (lifecycleScope != null) {
                                         favoritarAnuncio(
                                             id_anuncio = id,
@@ -228,15 +229,14 @@ fun AnunciosProximos(
                         Log.i("testando123", "${call}")
                     }
                 ) {
-                    if (isChecked == true){
+                    Log.e("VSFDCRISTIANOARAUJO", "${isChecked}")
+                    if (isChecked){
                         Image(
                             painter = painterResource(
                                 id = R.drawable.coracao_certo
                             ),
                             contentDescription = ""
                         )
-                        coracaoCertoViewModel.checkado == true
-                        Log.e("foi","${coracaoCertoViewModel.checkado}")
                     }else{
                         Image(
                             painter = painterResource(
@@ -244,8 +244,6 @@ fun AnunciosProximos(
                             ),
                             contentDescription = ""
                         )
-                        coracaoCertoViewModel.checkado == false
-                        Log.e("foi não","${coracaoCertoViewModel.checkado}")
                     }
                 }
             }

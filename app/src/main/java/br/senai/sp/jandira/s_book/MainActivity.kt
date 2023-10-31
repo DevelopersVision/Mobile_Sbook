@@ -17,7 +17,6 @@ import br.senai.sp.jandira.s_book.components.filters.screen.FiltersScreen
 import br.senai.sp.jandira.s_book.components.announceDetail.screen.AnnouceDetail
 import br.senai.sp.jandira.s_book.components.category.screen.CategoryScreen
 import br.senai.sp.jandira.s_book.components.cep.screen.CepScreen
-import br.senai.sp.jandira.s_book.components.chats.screen.ChatScreen
 import br.senai.sp.jandira.s_book.components.conversation_chat.screen.ConversationChatScreen
 import br.senai.sp.jandira.s_book.components.create_account.screen.CreateContScreen
 import br.senai.sp.jandira.s_book.components.create_account_endereco.screen.CreateAccountEndereco
@@ -50,7 +49,6 @@ import br.senai.sp.jandira.s_book.navigation_home_bar.MainScreen
 
 import br.senai.sp.jandira.s_book.ui.theme.SBOOKTheme
 import br.senai.sp.jandira.s_book.view_model.AnuncioViewModel
-import br.senai.sp.jandira.s_book.view_model.CoracaoViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -105,7 +103,7 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable("favorite"){
-                            FavoritoScreen(navController = navController, lifecycleScope = lifecycleScope ,navRotasController = navController, viewModelEssaTemQueSerAMesmaDoCard = CoracaoViewModel())
+                            FavoritoScreen(navController = navController, lifecycleScope = lifecycleScope ,navRotasController = navController)
                         }
 
                         composable("cep"){

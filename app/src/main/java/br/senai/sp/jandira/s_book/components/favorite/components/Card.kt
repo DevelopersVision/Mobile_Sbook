@@ -2,7 +2,6 @@ package br.senai.sp.jandira.s_book.components.favorite.components
 
 
 import android.util.Log
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -14,11 +13,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.IconButtonColors
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -39,14 +34,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.LifecycleCoroutineScope
 import br.senai.sp.jandira.s_book.R
-import br.senai.sp.jandira.s_book.model.Anuncio
 import br.senai.sp.jandira.s_book.model.DesfavoritarBaseResponse
 import br.senai.sp.jandira.s_book.model.VerificarFavoritoBaseResponse
 import br.senai.sp.jandira.s_book.models_private.User
 import br.senai.sp.jandira.s_book.repository.AnunciosFavoritadosRepository
 import br.senai.sp.jandira.s_book.service.RetrofitHelper
 import br.senai.sp.jandira.s_book.sqlite_repository.UserRepository
-import br.senai.sp.jandira.s_book.view_model.CoracaoViewModel
 import coil.compose.AsyncImage
 import kotlinx.coroutines.launch
 import retrofit2.Call
@@ -65,7 +58,7 @@ fun Card(
     lifecycleScope: LifecycleCoroutineScope,
     onClick: () -> Unit,
     coracaoClik: ()-> Unit,
-    viewModelDoCoracaoQueVaiPassarOsDadosHoje: CoracaoViewModel
+
 ) {
     val context = LocalContext.current
     val array = UserRepository(context).findUsers()
@@ -207,8 +200,8 @@ fun Card(
                                             isChecked = false
 
                                             removerDosFavoritos(id_anuncio = id, id_usuario = user.id)
-                                            viewModelDoCoracaoQueVaiPassarOsDadosHoje.checkado == isChecked
-                                            Log.e("Log deu errado hj joão", "${viewModelDoCoracaoQueVaiPassarOsDadosHoje.checkado}")
+
+
                                             coracaoClik()
                                         } else {
                                             Log.e("MORREU", "morreu")
@@ -220,8 +213,6 @@ fun Card(
                                             Log.e("Log de Hoje felipe", "${id}")
                                             Log.e("Log de Hoje felipe", "${user.id}")
                                             favoritarAnuncio(id_anuncio = id, id_usuario = user.id, lifecycleScope = lifecycleScope)
-                                            viewModelDoCoracaoQueVaiPassarOsDadosHoje.checkado == isChecked
-                                            Log.e("Log de Hoje joão", "${viewModelDoCoracaoQueVaiPassarOsDadosHoje.checkado}")
                                         }
                                     }
 
@@ -244,9 +235,7 @@ fun Card(
                                 contentDescription = ""
                             )
 
-                            viewModelDoCoracaoQueVaiPassarOsDadosHoje.checkado == isChecked
 
-                            Log.e("teste joão", "${viewModelDoCoracaoQueVaiPassarOsDadosHoje.checkado}")
                         }else{
                             Image(
                                 painter = painterResource(
@@ -255,8 +244,7 @@ fun Card(
                                 contentDescription = ""
                             )
 
-                            viewModelDoCoracaoQueVaiPassarOsDadosHoje.checkado == isChecked
-                            Log.e("AAAAAAAAAAAAAAA TESTE", "${viewModelDoCoracaoQueVaiPassarOsDadosHoje.checkado}")
+
                         }
                     }
                 }
