@@ -103,7 +103,7 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable("favorite"){
-                            FavoritoScreen(navController = navController, lifecycleScope = lifecycleScope ,navRotasController = navController)
+                            FavoritoScreen(navController = navController, lifecycleScope = lifecycleScope ,navRotasController = navController, viewModelQueVaiPassarOsDados = viewModelAnuncio)
                         }
 
                         composable("cep"){

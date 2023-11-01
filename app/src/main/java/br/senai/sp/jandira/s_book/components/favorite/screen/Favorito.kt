@@ -39,11 +39,13 @@ import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.R
 import br.senai.sp.jandira.s_book.components.favorite.components.Card
 import br.senai.sp.jandira.s_book.components.favorite.components.Header
+import br.senai.sp.jandira.s_book.components.feed.screen.getAnunciante
 import br.senai.sp.jandira.s_book.components.universal.NoExist
 import br.senai.sp.jandira.s_book.model.AnunciosFavoritosBaseResponse
 import br.senai.sp.jandira.s_book.model.JsonFavoritados
 import br.senai.sp.jandira.s_book.service.RetrofitHelper
 import br.senai.sp.jandira.s_book.sqlite_repository.UserRepository
+import br.senai.sp.jandira.s_book.view_model.AnuncioViewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -53,6 +55,7 @@ fun FavoritoScreen(
     navController: NavController,
     navRotasController: NavController,
     lifecycleScope: LifecycleCoroutineScope?,
+    viewModelQueVaiPassarOsDados: AnuncioViewModel
 
 ) {
 
@@ -161,6 +164,35 @@ fun FavoritoScreen(
                                 lifecycleScope = lifecycleScope!!,
                                 id = item.anuncio.id,
                                 onClick = {
+                                    viewModelQueVaiPassarOsDados.foto = item.foto
+                                    val anunciante = getAnunciante(item.anuncio.anunciante) { usuario ->
+                                        if (usuario != null) {
+
+                                            viewModelQueVaiPassarOsDados.nome = item.anuncio.nome
+
+                                            viewModelQueVaiPassarOsDados.generos = item.generos
+                                            viewModelQueVaiPassarOsDados.tipo_anuncio =
+                                                item.tipo_anuncio
+
+                                            viewModelQueVaiPassarOsDados.anunciante_foto = usuario.foto
+
+                                            viewModelQueVaiPassarOsDados.anunciante_nome = usuario.nome
+                                            viewModelQueVaiPassarOsDados.cidade_anuncio = usuario.cidade
+                                            viewModelQueVaiPassarOsDados.estado_anuncio = usuario.estado
+                                            viewModelQueVaiPassarOsDados.descricao =
+                                                item.anuncio.descricao
+
+                                            viewModelQueVaiPassarOsDados.ano_edicao =
+                                                item.anuncio.ano_lancamento
+                                            viewModelQueVaiPassarOsDados.autor = item.autores
+                                            viewModelQueVaiPassarOsDados.editora = item.editora
+                                            viewModelQueVaiPassarOsDados.idioma = item.idioma
+                                            viewModelQueVaiPassarOsDados.preco = item.anuncio.preco
+//                                        Log.e("Valor Preco", "${viewModelQueVaiPassarOsDados.preco}")
+                                        } else {
+                                            Log.e("Anunciante", "null")
+                                        }
+                                    }
                                     navRotasController.navigate("annouceDetail")
                                 },
                                 coracaoClik = {

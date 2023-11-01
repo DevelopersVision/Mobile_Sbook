@@ -63,7 +63,6 @@ fun Card(
     lifecycleScope: LifecycleCoroutineScope,
     onClick: () -> Unit,
     coracaoClik: ()-> Unit,
-
 ) {
     val context = LocalContext.current
     val array = UserRepository(context).findUsers()
