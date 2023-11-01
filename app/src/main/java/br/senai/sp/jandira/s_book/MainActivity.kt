@@ -119,7 +119,7 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable("annouceDetail"){
-                            AnnouceDetail(navController, viewModelAnuncio)
+                            AnnouceDetail(navController, viewModelAnuncio, lifecycleScope = lifecycleScope)
                         }
 
                         composable("editUser"){

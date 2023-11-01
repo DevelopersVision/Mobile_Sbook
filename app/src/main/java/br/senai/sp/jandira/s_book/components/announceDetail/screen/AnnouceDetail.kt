@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.components.announceDetail.components.CardInformacao
 import br.senai.sp.jandira.s_book.components.announceDetail.components.FooterDescricao
@@ -24,7 +25,8 @@ import br.senai.sp.jandira.s_book.view_model.AnuncioViewModel
 @Composable
 fun AnnouceDetail(
     navController: NavController,
-    viewMODEL: AnuncioViewModel
+    viewMODEL: AnuncioViewModel,
+    lifecycleScope: LifecycleCoroutineScope
 ){
     //Log.e("viewLuiz", "${viewMODEL.autor}")
     Surface(
@@ -38,7 +40,7 @@ fun AnnouceDetail(
         ){
             items(1){
                 Header(viewMODEL)
-                CardInformacao(viewMODEL)
+                CardInformacao(viewMODEL, lifecycleScope, onClick = {})
                 Spacer(modifier = Modifier.height(12.dp))
                 FooterDescricao(viewMODEL)
             }
