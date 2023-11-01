@@ -1,19 +1,29 @@
 package br.senai.sp.jandira.s_book.service
 
 
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 
 object RetrofitHelper {
 
-    private const val baseurl = "http://10.107.144.14:8080"
+    private const val baseurl = "http://10.107.144.20:8080"
 
 //    private const val baseurl = "http://192.168.0.108:8080"
+
+    object HttpClientProvider {
+        val client: OkHttpClient = OkHttpClient.Builder()
+            .connectTimeout(60, TimeUnit.SECONDS) // Tempo limite de conexão
+            .readTimeout(60, TimeUnit.SECONDS)    // Tempo limite de leitura
+            .build()
+    }
 
     private val retrofitFactory =
         Retrofit.Builder().
         baseUrl(baseurl)
             .addConverterFactory(GsonConverterFactory.create())
+            .client(HttpClientProvider.client)
             .build()
 
     fun getLoginService(): LoginService {
@@ -50,6 +60,10 @@ object RetrofitHelper {
 
     fun getAnunciosService(): AnuncisosFeedService{
         return  retrofitFactory.create(AnuncisosFeedService::class.java)
+    }
+
+    fun getPesquisar(): AnunciosSearch{
+        return  retrofitFactory.create(AnunciosSearch::class.java)
     }
 
     fun getAnunciosByIdUserService(): AnuncioUserService{

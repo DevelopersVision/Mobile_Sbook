@@ -1,5 +1,6 @@
 package br.senai.sp.jandira.s_book.components.pesquisar.screen
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,6 +20,7 @@ import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.components.favorite.components.Card
 import br.senai.sp.jandira.s_book.components.universal.HeaderFilter
 import br.senai.sp.jandira.s_book.components.universal.SearchFilter
+import br.senai.sp.jandira.s_book.model.AnuncioNoPageBaseResponse
 import br.senai.sp.jandira.s_book.model.AnunciosBaseResponse
 import br.senai.sp.jandira.s_book.model.JsonAnuncios
 import br.senai.sp.jandira.s_book.service.RetrofitHelper
@@ -46,19 +48,22 @@ fun SearchScreen(
 
 
 
-    val call = RetrofitHelper.getAnunciosService().getAnuncios(1)
+    val call = RetrofitHelper.getPesquisar().getAnunciosNoPage()
+
+
 
     // Executar a chamada
-    call.enqueue(object : Callback<AnunciosBaseResponse> {
+    call.enqueue(object : Callback<AnuncioNoPageBaseResponse> {
         override fun onResponse(
-            call: Call<AnunciosBaseResponse>, response: Response<AnunciosBaseResponse>
+            call: Call<AnuncioNoPageBaseResponse>, response: Response<AnuncioNoPageBaseResponse>
         ) {
+            var body = response.errorBody()
             listAnuncios = response.body()!!.anuncios
+            Log.e("eu thiago felipe", "${listAnuncios}")
         }
 
-
-        override fun onFailure(call: Call<AnunciosBaseResponse>, t: Throwable) {
-            // Log.d("API Call", "Depois da chamada da API: ${listAnuncios}")
+        override fun onFailure(call: Call<AnuncioNoPageBaseResponse>, t: Throwable) {
+             Log.d("API joao", "Depois da chamada da API: ${t.message}")
         }
     })
 
@@ -88,8 +93,10 @@ fun SearchScreen(
                 modifier = Modifier
                     .fillMaxSize()
             ) {
+//                Log.e("eu joão", "$listAnuncios")
                 items(listAnuncios.filter  { anuncio -> anuncio.anuncio.nome.contains(pesquisar, ignoreCase = true) }) { item ->
-                    if ( listAnuncios !== pesquisar.toList()){
+                    if (listAnuncios != pesquisar.toList() && pesquisar == true.toString()) {
+                        Log.e("naaaaaaaa", "$listAnuncios")
                         Card(
                             nome_livro = item.anuncio.nome,
                             ano_lancamento = item.anuncio.ano_lancamento,
@@ -101,15 +108,10 @@ fun SearchScreen(
                             id = item.anuncio.id,
                             onClick = {},
                             coracaoClik = {},
-
                         )
-
-                    }else{
-
                     }
                 }
             }
-
         }
     }
 }
