@@ -1,5 +1,7 @@
 package br.senai.sp.jandira.s_book.components.seventh_create_announce.screen
 
+import android.net.Uri
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.border
@@ -27,6 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -36,6 +39,8 @@ import androidx.compose.ui.unit.sp
 import br.senai.sp.jandira.s_book.R
 import br.senai.sp.jandira.s_book.Storage
 import br.senai.sp.jandira.s_book.components.universal.HeaderCreateAnnounce
+import coil.compose.AsyncImage
+import coil.compose.rememberImagePainter
 
 @Composable
 fun SeventhCreateAnnounceScreen(
@@ -58,6 +63,15 @@ fun SeventhCreateAnnounceScreen(
     val tipoLivro = localStorage.lerValorString(context = context, "tipo_livro")
     val precoLivro = localStorage.lerValorString(context = context, "venda_price")
     val imagemLivro = localStorage.lerValorString(context = context, "foto_livro")
+
+    val uriString = imagemLivro?.removePrefix("[")?.removeSuffix("]")
+
+    val uriImagem = Uri.parse(uriString)
+
+    Log.i("ds2t", "SeventhCreateAnnounceScreen: ${uriImagem}")
+    if (imagemLivro != null) {
+        Log.i("ds2t", "SeventhCreateAnnounceScreen: ${uriImagem.javaClass.name}")
+    }
 
     val tiposSelecionados = tipoLivro?.split(",")
 
@@ -84,12 +98,18 @@ fun SeventhCreateAnnounceScreen(
                 fontWeight = FontWeight(400),
                 color = Color(0xFF2A2929)
             )
-            Spacer(modifier = Modifier.height(64.dp))
-            Image(
-                painter = painterResource(id = R.drawable.diario),
-                contentDescription = "",
-                modifier = Modifier.size(245.dp)
-            )
+            Spacer(modifier = Modifier.height(32.dp))
+            Card(
+                modifier = Modifier
+                    .height(245.dp)
+                    .width(160.dp)
+            ) {
+                AsyncImage(
+                    model = uriImagem,
+                    contentDescription = "",
+                    contentScale = ContentScale.Crop
+                )
+            }
             Spacer(modifier = Modifier.height(12.dp))
             Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                 Card(

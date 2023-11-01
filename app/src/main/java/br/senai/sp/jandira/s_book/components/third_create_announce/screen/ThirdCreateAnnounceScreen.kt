@@ -223,6 +223,7 @@ fun ThirdCreateAnnounceScreen(
                                                     if (firestoreTask.isSuccessful) {
                                                         if (selectedMedia.last() == uri) {
                                                             navController.navigate("quarto_anunciar")
+                                                            localStorage.salvarValorString(context = context, selectedMedia.toString(), "foto_livro")
                                                         }
                                                     } else {
                                                         Toast.makeText(context, "ERRO AO TENTAR REALIZAR O UPLOAD", Toast.LENGTH_SHORT).show()
