@@ -98,8 +98,8 @@ fun Header(viewMODEL: AnuncioViewModel) {
 
                     val offsetX = when (pageIndex) {
                         currentPage -> 0.dp
-                        nextPage -> offset * 168.dp
-                        prevPage -> -offset * 168.dp
+//                        nextPage -> offset * 168.dp
+//                        prevPage -> -offset * 168.dp
                         else -> 0.dp
                     }
 

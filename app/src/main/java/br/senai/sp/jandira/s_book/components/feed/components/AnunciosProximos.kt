@@ -40,6 +40,7 @@ import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.R
 import br.senai.sp.jandira.s_book.components.favorite.components.favoritarAnuncio
 import br.senai.sp.jandira.s_book.components.favorite.components.removerDosFavoritos
+import br.senai.sp.jandira.s_book.model.AnunciosFavoritosBaseResponse
 import br.senai.sp.jandira.s_book.model.VerificarFavoritoBaseResponse
 import br.senai.sp.jandira.s_book.models_private.User
 import br.senai.sp.jandira.s_book.service.RetrofitHelper
@@ -62,6 +63,7 @@ fun AnunciosProximos(
     navController: NavController,
     onClick: () -> Unit
 ) {
+    var isChecked by remember { mutableStateOf(false) }
 
     val context = LocalContext.current
     val array = UserRepository(context).findUsers()
@@ -71,10 +73,43 @@ fun AnunciosProximos(
         user = array[0]
     }
 
+    // Cria uma chamada para o EndPoint
+    val callPraCorDosCard = RetrofitHelper.getAnunciosFavoritadosService().verificarFavorito(user.id, id)
 
 
 
-    var isChecked by remember { mutableStateOf(false) }
+    // Executar a chamada
+    callPraCorDosCard.enqueue(object : Callback<VerificarFavoritoBaseResponse> {
+        override fun onResponse(
+            call: Call<VerificarFavoritoBaseResponse>,
+            response: Response<VerificarFavoritoBaseResponse>
+        ) {
+            if (response.code() == 200) {
+
+
+
+                isChecked = true
+
+
+
+            } else {
+
+                isChecked = false
+
+
+            }
+        }
+
+
+        override fun onFailure(call: Call<VerificarFavoritoBaseResponse>, t: Throwable) {
+
+        }
+    })
+
+
+
+
+
 
     Card(
         modifier = Modifier
@@ -201,12 +236,12 @@ fun AnunciosProximos(
 
                                 } else {
 
-                                    isChecked = true
+
 
                                     Log.e("Não ta favoritado", "Plum")
 
                                     Log.e("girlllllllllllllllllllllllllllllllllllllllllll", "${isChecked}")
-
+                                    isChecked = true
 
                                     if (lifecycleScope != null) {
                                         favoritarAnuncio(
