@@ -38,8 +38,9 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.R
-import br.senai.sp.jandira.s_book.components.favorite.components.favoritarAnuncio
-import br.senai.sp.jandira.s_book.components.favorite.components.removerDosFavoritos
+
+import br.senai.sp.jandira.s_book.components.my_announces.components.favoritarAnuncio
+import br.senai.sp.jandira.s_book.components.my_announces.components.removerDosFavoritos
 import br.senai.sp.jandira.s_book.model.AnunciosFavoritosBaseResponse
 import br.senai.sp.jandira.s_book.model.VerificarFavoritoBaseResponse
 import br.senai.sp.jandira.s_book.models_private.User
