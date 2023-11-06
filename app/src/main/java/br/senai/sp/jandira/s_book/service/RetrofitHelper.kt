@@ -4,11 +4,12 @@ package br.senai.sp.jandira.s_book.service
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.create
 import java.util.concurrent.TimeUnit
 
 object RetrofitHelper {
 
-    private const val baseurl = "http://10.107.144.20:8080"
+    private const val baseurl = "http://10.107.144.5:8080"
 
 //    private const val baseurl = "http://192.168.0.108:8080"
 
@@ -96,6 +97,10 @@ object RetrofitHelper {
 
     fun postCadastroLivroService(): CadastroLivroService {
         return retrofitFactory.create(CadastroLivroService::class.java)
+    }
+
+    fun getAnunciosFiltradosService(): AnunciosFiltradosService{
+        return retrofitFactory.create(AnunciosFiltradosService::class.java)
     }
 
 }

@@ -31,7 +31,8 @@ import br.senai.sp.jandira.s_book.R
 @Composable
 fun CheckFilter(
     text : String,
-    icon : Painter
+    icon : Painter,
+
 ) {
 
     var isChecked by remember { mutableStateOf(false) }

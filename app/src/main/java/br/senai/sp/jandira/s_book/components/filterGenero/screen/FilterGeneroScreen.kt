@@ -43,13 +43,15 @@ import br.senai.sp.jandira.s_book.model.Genero
 import br.senai.sp.jandira.s_book.model.JsonFavoritados
 import br.senai.sp.jandira.s_book.repository.CategoryList
 import br.senai.sp.jandira.s_book.service.RetrofitHelper
+import br.senai.sp.jandira.s_book.view_model.ViweModelDosFiltros
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 @Composable
 fun FilterGeneroScreen(
-    navController: NavController
+    navController: NavController,
+    viewModel: ViweModelDosFiltros
 ){
     var listGeneros by remember{
         mutableStateOf(listOf<Genero>())
@@ -134,10 +136,24 @@ fun FilterGeneroScreen(
                             onCheckedChange = { isChecked ->
                                 if (isChecked) {
                                     generosSelecionados = generosSelecionados + it.nome
+
+
+
+                                    viewModel.generos = generosSelecionados.toTypedArray()
+
+                                    Log.e("Valores do array", generosSelecionados.toTypedArray().contentToString())
+
                                 } else {
                                     generosSelecionados = generosSelecionados - it.nome
+
+
+                                    viewModel.generos = generosSelecionados.toTypedArray()
+
+                                    Log.e("Valores do array", generosSelecionados.toTypedArray().contentToString())
+
                                 }
-                                Log.e("thiago", "${generosSelecionados}")
+                                Log.e("Valores do array", generosSelecionados.toTypedArray().contentToString())
+
                             }
                         )
                     }

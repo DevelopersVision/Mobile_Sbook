@@ -40,6 +40,7 @@ import br.senai.sp.jandira.s_book.components.rediscover_password.screen.Rediscov
 import br.senai.sp.jandira.s_book.components.second_create_announce.screen.SecondCreateAnnounceScreen
 import br.senai.sp.jandira.s_book.components.seventh_create_announce.screen.SeventhCreateAnnounceScreen
 import br.senai.sp.jandira.s_book.components.sixth_create_announce.screen.SixthCreateAnnounceScreen
+import br.senai.sp.jandira.s_book.components.tela_generica.screen.GenericScreen
 import br.senai.sp.jandira.s_book.components.third_create_announce.screen.ThirdCreateAnnounceScreen
 //import br.senai.sp.jandira.s_book.components.second_create_announce.screen.SecondCreateAnnounceScreen
 import br.senai.sp.jandira.s_book.view_model.CreateAccountView
@@ -49,6 +50,7 @@ import br.senai.sp.jandira.s_book.navigation_home_bar.MainScreen
 
 import br.senai.sp.jandira.s_book.ui.theme.SBOOKTheme
 import br.senai.sp.jandira.s_book.view_model.AnuncioViewModel
+import br.senai.sp.jandira.s_book.view_model.ViweModelDosFiltros
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,6 +69,7 @@ class MainActivity : ComponentActivity() {
                     val viewModelUserCategory = viewModel<UserCategoryViewModel>()
                     val viewModelAnuncio = viewModel<AnuncioViewModel>()
                     val localStorage: Storage = Storage()
+                    val viewModelFilters = viewModel<ViweModelDosFiltros>()
 
                     NavHost(
                         navController = navController, startDestination = "navigation_home_bar"
@@ -135,7 +138,7 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable("filterGenero"){
-                            FilterGeneroScreen(navController)
+                            FilterGeneroScreen(navController, viewModel = viewModelFilters)
                         }
 
                         composable("filter_localizacao"){
@@ -184,6 +187,9 @@ class MainActivity : ComponentActivity() {
 
                         composable("conversa_chat"){
                             ConversationChatScreen()
+                        }
+                        composable("tela_generica"){
+                            GenericScreen(navController = navController, lifecycleScope = lifecycleScope ,navRotasController = navController, viewModelQueVaiPassarOsDados = viewModelAnuncio, viewModelQueVaiReceberOsgeneros = viewModelFilters)
                         }
                     }
                 }

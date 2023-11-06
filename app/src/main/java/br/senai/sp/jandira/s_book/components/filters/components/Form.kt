@@ -46,7 +46,7 @@ fun Form(
             )
         )
         CheckFilter(
-            text = "Semi novo",
+            text = "Seminovo",
             icon = painterResource(
                 id = R.drawable.seminovo
             )
