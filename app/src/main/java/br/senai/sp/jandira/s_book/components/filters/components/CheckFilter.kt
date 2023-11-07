@@ -1,5 +1,6 @@
 package br.senai.sp.jandira.s_book.components.filters.components
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -42,44 +43,7 @@ fun CheckFilter(
             .fillMaxWidth()
             .height(64.dp),
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(54.dp)
-                .padding(start = 12.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            Icon(
-                painter = icon,
-                contentDescription = "",
-                modifier = Modifier
-                    .width(24.dp)
-                    .height(19.dp),
-                tint = Color(0xFF000000)
-            )
-            Text(
-                text = text,
-                fontSize = 16.sp,
-                fontFamily = FontFamily(Font(R.font.poppinsmedium)),
-                fontWeight = FontWeight(500),
-                color = Color(0xFF000000),
-            )
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 12.dp),
-                horizontalArrangement = Arrangement.End
-            ){
-                Checkbox(
-                    checked = isChecked,
-                    onCheckedChange = {
-                        isChecked = it
-                    }
-                )
-            }
 
-        }
         Column(
             modifier = Modifier
                 .fillMaxWidth()
