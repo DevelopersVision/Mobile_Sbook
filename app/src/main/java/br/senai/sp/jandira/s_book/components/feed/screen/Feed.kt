@@ -20,10 +20,12 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.LifecycleCoroutineScope
@@ -84,17 +86,17 @@ fun FeedScreen(
 
             if(response.code() == 200){
                 listAnuncios = response.body()!!.anuncios
-                Log.e("Cont", "Contador: $cont ")
-                Log.e("Lista", "Lista: $listAnuncios")
-                Log.e("ListaEmpty", "Lista: ${listAnuncios.isNotEmpty()}")
+//                Log.e("Cont", "Contador: $cont ")
+//                Log.e("Lista", "Lista: $listAnuncios")
+//                Log.e("ListaEmpty", "Lista: ${listAnuncios.isNotEmpty()}")
                 if(cont && listAnuncios.isNotEmpty() && response.body()!!.page == page){
                     listAnunciosFeed += listAnuncios
 
                     cont = false
                 }else{
-                    Log.e(TAG, "Contador morreu", )
+//                    Log.e(TAG, "Contador morreu", )
                 }
-                Log.e("lista", "onResponse: $listAnuncios")
+//                Log.e("lista", "onResponse: $listAnuncios")
             }else{
                 Toast.makeText(context, "erro da api", Toast.LENGTH_SHORT).show()
             }
@@ -102,12 +104,12 @@ fun FeedScreen(
         }
 
         override fun onFailure(call: Call<AnunciosBaseResponse>, t: Throwable) {
-            Log.d("ERROR_FEED", "ERROR NA CHAMADA DE FEED")
-            Log.d("ERROR_FEED-t", "$t")
-            Log.d("ERROR_FEED-tmessage", "${t.message}")
-            Log.d("ERROR_FEED-tstacktrace", "${t.stackTrace}")
-            Log.d("ERROR_FEED-tlocalized", t.localizedMessage!!)
-            Log.d("ERROR_FEED-tcause", "${t.cause}")
+//            Log.d("ERROR_FEED", "ERROR NA CHAMADA DE FEED")
+//            Log.d("ERROR_FEED-t", "$t")
+//            Log.d("ERROR_FEED-tmessage", "${t.message}")
+//            Log.d("ERROR_FEED-tstacktrace", "${t.stackTrace}")
+//            Log.d("ERROR_FEED-tlocalized", t.localizedMessage!!)
+//            Log.d("ERROR_FEED-tcause", "${t.cause}")
         }
     })
 
@@ -198,7 +200,7 @@ fun FeedScreen(
                                             viewModelQueVaiPassarOsDados.preco = item.anuncio.preco
 //                                        Log.e("Valor Preco", "${viewModelQueVaiPassarOsDados.preco}")
                                         } else {
-                                            Log.e("Anunciante", "null")
+//                                            Log.e("Anunciante", "null")
                                         }
                                     }
                                 },
@@ -260,17 +262,17 @@ fun getAnuncios(page: Int): List<JsonAnuncios> {
         ) {
 
             listAnuncios = response.body()!!.anuncios
-            Log.e("lista", "onResponse: $listAnuncios")
+//            Log.e("lista", "onResponse: $listAnuncios")
         }
 
 
         override fun onFailure(call: Call<AnunciosBaseResponse>, t: Throwable) {
-            Log.d("ERROR_FEED", "ERROR NA CHAMADA DE FEED")
-            Log.d("ERROR_FEED-t", "$t")
-            Log.d("ERROR_FEED-tmessage", "${t.message}")
-            Log.d("ERROR_FEED-tstacktrace", "${t.stackTrace}")
-            Log.d("ERROR_FEED-tlocalized", "${t.localizedMessage}")
-            Log.d("ERROR_FEED-tcause", "${t.cause}")
+//            Log.d("ERROR_FEED", "ERROR NA CHAMADA DE FEED")
+//            Log.d("ERROR_FEED-t", "$t")
+//            Log.d("ERROR_FEED-tmessage", "${t.message}")
+//            Log.d("ERROR_FEED-tstacktrace", "${t.stackTrace}")
+//            Log.d("ERROR_FEED-tlocalized", "${t.localizedMessage}")
+//            Log.d("ERROR_FEED-tcause", "${t.cause}")
         }
     })
 

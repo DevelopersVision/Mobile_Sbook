@@ -1,8 +1,7 @@
 package br.senai.sp.jandira.s_book.components.chats.screen
 
-import androidx.compose.foundation.Image
+import android.util.Log
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,17 +13,24 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -32,11 +38,43 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.R
+import br.senai.sp.jandira.s_book.model.chat.SocketResponse
+import coil.compose.AsyncImage
+import com.google.gson.Gson
+import io.socket.client.Socket
 
+//@Preview()
 @Composable
 fun ChatScreen(
-    navController: NavController
+    navController: NavController,
+    socket: Socket,
+    idUsuario: Int,
 ){
+    val TAG = "Teste tela chat"
+
+    Log.e(TAG, "ChatScreen: auiiiiiiiiiiii", )
+
+    var listaContatos by remember {
+        mutableStateOf(
+            SocketResponse(
+                users = listOf()
+            )
+        )
+    }
+
+    // Ouça o evento do socket
+    socket.on("receive_contacts") { args ->
+        args.let { d ->
+            if (d.isNotEmpty()) {
+                val data = d[0]
+                if (data.toString().isNotEmpty()) {
+                    val chat = Gson().fromJson(data.toString(), SocketResponse::class.java)
+
+                    listaContatos = chat
+                }
+            }
+        }
+    }
 
     Column(modifier = Modifier
         .fillMaxSize()
@@ -103,89 +141,65 @@ fun ChatScreen(
                 )
             }
         }
-        Column(
+
+
+        LazyColumn(
             modifier = Modifier.padding(24.dp),
             verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable { navController.navigate("conversa_chat") }
-            ) {
+
+            items(listaContatos.users){
+
+                var contato = it.users.filter { user -> user.id != idUsuario }
+
+                Log.e("oii", "aquiiii: ${contato[0].nome}")
+
                 Row(
-                    verticalAlignment = Alignment.CenterVertically
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    modifier = Modifier
+                        .fillMaxWidth()
+//                    .clickable { navController.navigate("conversa_chat") }
                 ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.susanna_profile),
-                        contentDescription = "",
-                        modifier = Modifier
-                            .clip(CircleShape)
-                            .size(56.dp)
-                    )
-                    Spacer(modifier = Modifier.width(16.dp))
-                    Column {
-                        Text(
-                            text = "Max Kellerman",
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight(600),
-                            color = Color(0xFF000000)
-                        )
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Text(
-                            text = "Bom trabalho, fico feliz em v...",
-                            fontSize = 14.sp,
-                            fontWeight = FontWeight(400),
-                            color = Color(0xFF3B4A54)
-                        )
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Card (
+                            modifier = Modifier
+                                .size(56.dp),
+                            shape = CircleShape
+                        ){
+                            AsyncImage(
+                                model = contato[0].foto ,
+                                contentDescription = "",
+                                modifier = Modifier
+                                    .clip(CircleShape),
+                                contentScale = ContentScale.Crop
+                            )
+                        }
+                        Spacer(modifier = Modifier.width(16.dp))
+                        Column {
+                            Text(
+                                text = contato[0].nome,
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight(600),
+                                color = Color(0xFF000000)
+                            )
+                            Spacer(modifier = Modifier.height(8.dp))
+                            Text(
+                                text = "Bom trabalho, fico feliz em v...",
+                                fontSize = 14.sp,
+                                fontWeight = FontWeight(400),
+                                color = Color(0xFF3B4A54)
+                            )
+                        }
                     }
-                }
-                Text(
-                    text = "13:10",
-                    fontSize = 12.sp,
-                    fontWeight = FontWeight(400),
-                    color = Color(0xFF3B4A54)
-                )
-            }
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable {  }
-            ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.susanna_profile),
-                        contentDescription = "",
-                        modifier = Modifier
-                            .clip(CircleShape)
-                            .size(56.dp)
+                    Text(
+                        text = it.data_criacao,
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight(400),
+                        color = Color(0xFF3B4A54)
                     )
-                    Spacer(modifier = Modifier.width(16.dp))
-                    Column {
-                        Text(
-                            text = "Max Kellerman",
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight(600),
-                            color = Color(0xFF000000)
-                        )
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Text(
-                            text = "Bom trabalho, fico feliz em v...",
-                            fontSize = 14.sp,
-                            fontWeight = FontWeight(400),
-                            color = Color(0xFF3B4A54)
-                        )
-                    }
                 }
-                Text(
-                    text = "13:10",
-                    fontSize = 12.sp,
-                    fontWeight = FontWeight(400),
-                    color = Color(0xFF3B4A54)
-                )
             }
         }
         Divider(

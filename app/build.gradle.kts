@@ -156,6 +156,12 @@ dependencies {
 //    implementation("io.ktor:ktor-client-android:1.7.4")
 //    implementation("io.ktor:ktor-client-websockets:1.7.4")
 
+    implementation ("io.socket:socket.io-client:2.1.0") {
+        // excluding org.json which is provided by Android
+        exclude("org.json", "json")
+    }
+    implementation("io.socket:engine.io-client:2.1.0")
+
 
 
 }
