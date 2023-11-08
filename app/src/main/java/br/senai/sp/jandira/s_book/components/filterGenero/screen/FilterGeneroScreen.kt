@@ -48,11 +48,15 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+
+
 @Composable
 fun FilterGeneroScreen(
     navController: NavController,
     viewModel: ViweModelDosFiltros
 ){
+
+
     var listGeneros by remember{
         mutableStateOf(listOf<Genero>())
     }
@@ -66,7 +70,7 @@ fun FilterGeneroScreen(
     }
 
     var generosSelecionados by remember {
-        mutableStateOf<Set<String>>(emptySet())
+        mutableStateOf<Set<String>>(viewModel.generos?.toSet() ?: emptySet())
     }
 
     val call = RetrofitHelper.getCategoryService().getGeneros()
@@ -136,8 +140,6 @@ fun FilterGeneroScreen(
                             onCheckedChange = { isChecked ->
                                 if (isChecked) {
                                     generosSelecionados = generosSelecionados + it.nome
-
-
 
                                     viewModel.generos = generosSelecionados.toMutableList()
 
