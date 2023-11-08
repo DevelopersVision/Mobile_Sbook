@@ -139,7 +139,7 @@ fun FilterGeneroScreen(
 
 
 
-                                    viewModel.generos = generosSelecionados.toTypedArray()
+                                    viewModel.generos = generosSelecionados.toMutableList()
 
                                     Log.e("Valores do array", generosSelecionados.toTypedArray().contentToString())
 
@@ -147,7 +147,7 @@ fun FilterGeneroScreen(
                                     generosSelecionados = generosSelecionados - it.nome
 
 
-                                    viewModel.generos = generosSelecionados.toTypedArray()
+                                    viewModel.generos = generosSelecionados.toMutableList()
 
                                     Log.e("Valores do array", generosSelecionados.toTypedArray().contentToString())
 

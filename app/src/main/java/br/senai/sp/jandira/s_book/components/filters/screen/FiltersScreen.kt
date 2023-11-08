@@ -12,11 +12,13 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.components.filters.components.Form
 import br.senai.sp.jandira.s_book.components.universal.HeaderFilter
+import br.senai.sp.jandira.s_book.view_model.ViweModelDosFiltros
 
 
 @Composable
 fun FiltersScreen(
-    navController: NavController
+    navController: NavController,
+    viewModelParaFiltragem: ViweModelDosFiltros
 ) {
     Column(
         modifier = Modifier
@@ -26,7 +28,7 @@ fun FiltersScreen(
             text = "Filtrar",
             onclick = {navController.navigate("navigation_home_bar")}
         )
-        Form(navController = navController)
+        Form(navController = navController, viewModelParaFiltragem)
         
         
         Button(

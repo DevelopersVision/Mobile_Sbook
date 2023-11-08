@@ -2,7 +2,6 @@ package br.senai.sp.jandira.s_book.components.tela_generica.screen
 
 import android.util.Log
 import androidx.compose.foundation.ScrollState
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -45,13 +44,18 @@ fun GenericScreen(
         mutableStateOf(listOf<JsonAnuncios>())
     }
 
-    val call = RetrofitHelper.getAnunciosFiltradosService().getAnunciosFiltrados(arrayGeneros = viewModelQueVaiReceberOsgeneros.generos, arrayEstadoLivro = arrayOf("Usado", "Novo"))
+
+    Log.e("Qu que ta vindo na viewmodel?", "${viewModelQueVaiReceberOsgeneros.estadoLivro}")
+    Log.e("genero na viewmodel?", "${viewModelQueVaiReceberOsgeneros.generos}")
+
+    val call = RetrofitHelper.getAnunciosFiltradosService().getAnunciosFiltrados(arrayGeneros = viewModelQueVaiReceberOsgeneros.generos, arrayEstadoLivro = viewModelQueVaiReceberOsgeneros.estadoLivro)
 
 
     call.enqueue(object : Callback<AnunciosBaseResponse> {
         override fun onResponse(
             call: Call<AnunciosBaseResponse>, response: Response<AnunciosBaseResponse>
         ) {
+            Log.e("Responde . BODY: ", "${response.body()}")
             listAnunciosFiltrados = response.body()!!.anuncios
 
         }

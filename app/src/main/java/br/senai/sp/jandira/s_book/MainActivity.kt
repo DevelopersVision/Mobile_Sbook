@@ -130,7 +130,7 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable("filters"){
-                            FiltersScreen(navController = navController)
+                            FiltersScreen(navController = navController, viewModelFilters)
                         }
 
                         composable("my_announces"){

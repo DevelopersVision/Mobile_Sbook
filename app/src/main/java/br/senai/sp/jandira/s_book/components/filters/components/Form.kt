@@ -29,13 +29,21 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.R
+import br.senai.sp.jandira.s_book.view_model.ViweModelDosFiltros
 
 
 @Composable
 fun Form(
-    navController: NavController
+    navController: NavController,
+    viewModelParaFiltragem: ViweModelDosFiltros
 ){
-    var isChecked by remember { mutableStateOf(false) }
+    var isCheckedNovo by remember { mutableStateOf(false) }
+
+    var isCheckedSeminovo by remember { mutableStateOf(false) }
+
+    var isCheckedUsado by remember { mutableStateOf(false) }
+
+    val selectedOptions = mutableListOf<String>()
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -89,14 +97,14 @@ fun Form(
                 horizontalArrangement = Arrangement.End
             ){
                 Checkbox(
-                    checked = isChecked,
+                    checked = isCheckedNovo,
                     onCheckedChange = {
-                        isChecked = it
+                        isCheckedNovo = it
                     }
                 )
-                val selectedOptions = mutableListOf<String>()
 
-                if(isChecked == true){
+
+                if(isCheckedNovo == true){
 
 
                     if (selectedOptions.contains("Novo")) {
@@ -105,7 +113,9 @@ fun Form(
                         selectedOptions.add("Novo")
                     }
 
-                    Log.e("AaBatatatatatatatatatatatatatata", "Array: ${selectedOptions}")
+                    viewModelParaFiltragem.estadoLivro = selectedOptions
+
+                    Log.e("AaBatatatatatatatatatatatatatata", "Array: ${viewModelParaFiltragem.estadoLivro}")
 
                 }
             }
@@ -147,14 +157,14 @@ fun Form(
                 horizontalArrangement = Arrangement.End
             ){
                 Checkbox(
-                    checked = isChecked,
+                    checked = isCheckedSeminovo,
                     onCheckedChange = {
-                        isChecked = it
+                        isCheckedSeminovo = it
                     }
                 )
-                val selectedOptions = mutableListOf<String>()
 
-                if(isChecked == true){
+
+                if(isCheckedSeminovo == true){
 
 
                     if (selectedOptions.contains("Seminovo")) {
@@ -163,7 +173,9 @@ fun Form(
                         selectedOptions.add("Seminovo")
                     }
 
-                    Log.e("AaBatatatatatatatatatatatatatata", "Array: ${selectedOptions}")
+                    viewModelParaFiltragem.estadoLivro = selectedOptions
+
+                    Log.e("AaBatatatatatatatatatatatatatata", "Array: ${viewModelParaFiltragem.generos}")
 
                 }
             }
@@ -205,14 +217,14 @@ fun Form(
                 horizontalArrangement = Arrangement.End
             ){
                 Checkbox(
-                    checked = isChecked,
+                    checked = isCheckedUsado,
                     onCheckedChange = {
-                        isChecked = it
+                        isCheckedUsado = it
                     }
                 )
-                val selectedOptions = mutableListOf<String>()
 
-                if(isChecked == true){
+
+                if(isCheckedUsado == true){
 
 
                     if (selectedOptions.contains("Usado")) {
@@ -221,7 +233,9 @@ fun Form(
                         selectedOptions.add("Usado")
                     }
 
-                    Log.e("AaBatatatatatatatatatatatatatata", "Array: ${selectedOptions}")
+                    viewModelParaFiltragem.estadoLivro = selectedOptions
+
+                    Log.e("AaBatatatatatatatatatatatatatata", "Array: ${viewModelParaFiltragem.estadoLivro}")
 
                 }
             }
