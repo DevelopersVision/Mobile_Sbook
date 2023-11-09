@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -19,6 +20,7 @@ import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.components.favorite.components.Card
 import br.senai.sp.jandira.s_book.components.universal.HeaderFilter
+import br.senai.sp.jandira.s_book.components.universal.ProgressBar
 import br.senai.sp.jandira.s_book.components.universal.SearchFilter
 import br.senai.sp.jandira.s_book.model.AnuncioNoPageBaseResponse
 import br.senai.sp.jandira.s_book.model.AnunciosBaseResponse
@@ -34,47 +36,43 @@ fun SearchScreen(
     navController: NavController,
     lifecycleScope: LifecycleCoroutineScope?,
     viewModelQueVaiPassarOsDados: AnuncioViewModel
-){
-
+) {
     var pesquisar by remember {
         mutableStateOf(value = "")
     }
-
-    val context = LocalContext.current
 
     var listAnuncios by remember {
         mutableStateOf(listOf<JsonAnuncios>())
     }
 
+    var isLoading by remember { mutableStateOf(false) }
 
+    LaunchedEffect(Unit) {
+        // Executar a chamada da API dentro do LaunchedEffect para garantir que seja chamada apenas uma vez
+        val call = RetrofitHelper.getPesquisar().getAnunciosNoPage()
+        call.enqueue(object : Callback<AnuncioNoPageBaseResponse> {
+            override fun onResponse(
+                call: Call<AnuncioNoPageBaseResponse>,
+                response: Response<AnuncioNoPageBaseResponse>
+            ) {
+                var body = response.errorBody()
+                listAnuncios = response.body()?.anuncios.orEmpty()
+                isLoading = false
+                Log.e("eu thiago felipe", "${listAnuncios}")
+            }
 
-    val call = RetrofitHelper.getPesquisar().getAnunciosNoPage()
-
-
-
-    // Executar a chamada
-    call.enqueue(object : Callback<AnuncioNoPageBaseResponse> {
-        override fun onResponse(
-            call: Call<AnuncioNoPageBaseResponse>, response: Response<AnuncioNoPageBaseResponse>
-        ) {
-            var body = response.errorBody()
-            listAnuncios = response.body()!!.anuncios
-            Log.e("eu thiago felipe", "${listAnuncios}")
-        }
-
-        override fun onFailure(call: Call<AnuncioNoPageBaseResponse>, t: Throwable) {
-             Log.d("API joao", "Depois da chamada da API: ${t.message}")
-        }
-    })
-
+            override fun onFailure(call: Call<AnuncioNoPageBaseResponse>, t: Throwable) {
+                isLoading = false
+                Log.d("API joao", "Depois da chamada da API: ${t.message}")
+            }
+        })
+    }
 
     Surface(
-        modifier = Modifier
-            .fillMaxSize()
-    ){
+        modifier = Modifier.fillMaxSize()
+    ) {
         Column(
-            modifier = Modifier
-                .fillMaxSize(),
+            modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             HeaderFilter(
@@ -83,20 +81,36 @@ fun SearchScreen(
                 navController.navigate("feed")
             }
             SearchFilter(
-                label = "Digite nome, gênero ou ..." ,
-                valor =  pesquisar ,
+                label = "Digite nome, gênero ou ...",
+                valor = pesquisar,
                 aoMudar = {
                     pesquisar = it
+
+                    if (it.isEmpty()) {
+                        // Lógica para iniciar a carga (por exemplo, isLoading = true)
+                        isLoading = true
+                        // Isso pode ser feito no ViewModel ou onde você está controlando a lógica da pesquisa
+                        viewModelQueVaiPassarOsDados.recarregarDadosEspecificos()
+                        Log.e("oiii joao", "Texto do campo de pesquisa está vazio, iniciando isReload")
+                    }else if (it.isNotEmpty()){
+                        isLoading = false
+                    }
                 }
             )
             LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
+                modifier = Modifier.fillMaxSize()
             ) {
-//                Log.e("eu joão", "$listAnuncios")
-                items(listAnuncios.filter  { anuncio -> anuncio.anuncio.nome.contains(pesquisar, ignoreCase = true) }) { item ->
-                    if (listAnuncios != pesquisar.toList() && pesquisar == true.toString()) {
-                        Log.e("naaaaaaaa", "$listAnuncios")
+
+                items(listAnuncios.filter { anuncio ->
+                    anuncio.anuncio.nome.contains(pesquisar, ignoreCase = true)
+                }) { item ->
+                    if (pesquisar.isEmpty()) {
+                        // Lógica para iniciar a carga (por exemplo, isLoading = true)
+                        isLoading = true
+                        // Isso pode ser feito no ViewModel ou onde você está controlando a lógica da pesquisa
+                        Log.e("oiii joao", "aqui nem passou")
+
+                    } else {
                         Card(
                             nome_livro = item.anuncio.nome,
                             ano_lancamento = item.anuncio.ano_lancamento,
@@ -109,9 +123,13 @@ fun SearchScreen(
                             onClick = {},
                             coracaoClik = {},
                         )
+                        Log.e("oiii joao", "aqui chegou:${pesquisar}")
+
                     }
                 }
             }
         }
     }
 }
+
+

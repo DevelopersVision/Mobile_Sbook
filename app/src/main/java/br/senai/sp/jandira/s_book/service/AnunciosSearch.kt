@@ -6,6 +6,6 @@ import retrofit2.http.GET
 
 interface AnunciosSearch {
 
-    @GET("v1/sbook/mumu")
+    @GET("v1/sbook/anuncio")
     fun getAnunciosNoPage(): Call<AnuncioNoPageBaseResponse>
 }
