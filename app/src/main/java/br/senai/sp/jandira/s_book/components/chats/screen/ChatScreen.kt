@@ -2,6 +2,7 @@ package br.senai.sp.jandira.s_book.components.chats.screen
 
 import android.util.Log
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -39,6 +40,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.R
 import br.senai.sp.jandira.s_book.model.chat.SocketResponse
+import br.senai.sp.jandira.s_book.model.chat.view_model.ChatViewModel
 import coil.compose.AsyncImage
 import com.google.gson.Gson
 import io.socket.client.Socket
@@ -49,6 +51,7 @@ fun ChatScreen(
     navController: NavController,
     socket: Socket,
     idUsuario: Int,
+    chatViewModel: ChatViewModel
 ){
     val TAG = "Teste tela chat"
 
@@ -158,7 +161,12 @@ fun ChatScreen(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     modifier = Modifier
                         .fillMaxWidth()
-//                    .clickable { navController.navigate("conversa_chat") }
+                    .clickable {
+                        navController.navigate("conversa_chat")
+                        chatViewModel.idChat = it.id_chat
+                        chatViewModel.idUser2 = contato[0].id
+                        socket.emit("listMessages", it.id_chat)
+                    }
                 ) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically

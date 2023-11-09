@@ -15,6 +15,7 @@ import br.senai.sp.jandira.s_book.components.perfil.components.converterData
 import br.senai.sp.jandira.s_book.components.pesquisar.screen.SearchScreen
 import br.senai.sp.jandira.s_book.components.profile.screens.ProfileScreen
 import br.senai.sp.jandira.s_book.model.chat.ChatClient
+import br.senai.sp.jandira.s_book.model.chat.view_model.ChatViewModel
 import br.senai.sp.jandira.s_book.models_private.User
 import br.senai.sp.jandira.s_book.service.RetrofitHelper.HttpClientProvider.client
 import br.senai.sp.jandira.s_book.sqlite_repository.UserRepository
@@ -69,7 +70,8 @@ fun ButtonNavGraph(
             val client = ChatClient()
             client.connect(data.toInt())
             val socket = client.getSocket()
-            ChatScreen(navController = navController, socket = socket, idUsuario = data.toInt() )
+
+            ChatScreen(navController = navController, socket = socket, idUsuario = data.toInt(), chatViewModel = ChatViewModel() )
         }
         composable(route = BottomBarScreen.Profile.route){
             ProfileScreen(navRotasController)

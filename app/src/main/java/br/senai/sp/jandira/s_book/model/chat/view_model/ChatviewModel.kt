@@ -4,4 +4,5 @@ import androidx.lifecycle.ViewModel
 
 class ChatViewModel: ViewModel() {
     var idChat: String = ""
+    var idUser2: Int = 0
 }
