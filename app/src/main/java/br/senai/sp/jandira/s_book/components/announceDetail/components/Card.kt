@@ -88,10 +88,15 @@ fun CardInformacao(
         user = array[0]
     }
 
+    Log.e("Log de Hoje felipe", "${viewModel.id}")
+
+
+    Log.e("Log de Hoje felipe", "${user.id}")
+
     // Cria uma chamada para o EndPoint
     val callPraCorDosCard = viewModel.id?.let {
         RetrofitHelper.getAnunciosFavoritadosService().verificarFavorito(user.id,
-            it
+            anuncio = viewModel.id!!
         )
     }
 
@@ -104,6 +109,9 @@ fun CardInformacao(
                 call: Call<VerificarFavoritoBaseResponse>,
                 response: Response<VerificarFavoritoBaseResponse>
             ) {
+
+                Log.e("Codigo da response", "${response.code()}")
+
                 if (response.code() == 200) {
 
 
@@ -209,9 +217,11 @@ fun CardInformacao(
                                             Log.e("Ja ta favoritado bixo burro", "Plim")
                                             isChecked = false
 
+                                            Log.e("Log de Hoje felipe", "${viewModel.id}")
+
                                             viewModel.id?.let {
                                                 removerDosFavoritos(
-                                                    id_anuncio = it,
+                                                    id_anuncio = viewModel.id!!,
                                                     id_usuario = user.id
                                                 )
                                             }
@@ -230,7 +240,7 @@ fun CardInformacao(
                                             Log.e("Log de Hoje felipe", "${user.id}")
                                             viewModel.id?.let {
                                                 favoritarAnuncio(
-                                                    id_anuncio = it,
+                                                    id_anuncio = viewModel.id!!,
                                                     id_usuario = user.id,
                                                     lifecycleScope = lifecycleScope
                                                 )
@@ -250,7 +260,7 @@ fun CardInformacao(
                             Log.i("testando123", "${call}")
                         }
                     ) {
-                        if (isChecked !== true) {
+                        if (isChecked) {
                             Image(
                                 painter = painterResource(
                                     id = R.drawable.coracao_certo

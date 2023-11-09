@@ -178,6 +178,8 @@ fun FeedScreen(
                                     val anunciante = getAnunciante(item.anuncio.anunciante) { usuario ->
                                         if (usuario != null) {
 
+                                            viewModelQueVaiPassarOsDados.id = item.anuncio.id
+
                                             viewModelQueVaiPassarOsDados.nome = item.anuncio.nome
 
                                             viewModelQueVaiPassarOsDados.generos = item.generos

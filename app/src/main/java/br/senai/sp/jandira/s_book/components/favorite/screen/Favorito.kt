@@ -167,6 +167,7 @@ fun FavoritoScreen(
                                     viewModelQueVaiPassarOsDados.foto = item.foto
                                     val anunciante = getAnunciante(item.anuncio.anunciante) { usuario ->
                                         if (usuario != null) {
+                                            viewModelQueVaiPassarOsDados.id = item.anuncio.id
 
                                             viewModelQueVaiPassarOsDados.nome = item.anuncio.nome
 
