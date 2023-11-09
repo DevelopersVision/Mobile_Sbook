@@ -183,15 +183,10 @@ fun Card(
                         }
 
 
-                        androidx.compose.material.Card(
+                        Row(
                             modifier = Modifier
-                                .shadow(
-                                    elevation = 6.dp,
-                                    spotColor = Color(0xFF000000),
-                                    ambientColor = Color(0xFF000000)
-                                )
-                                .fillMaxWidth()
-                                .height(200.dp)
+                                .width(50.dp)
+                                .height(50.dp)
                                 .clickable {
                                     onClick()
                                 },
@@ -262,7 +257,7 @@ fun Card(
                                         painter = painterResource(
                                             id = R.drawable.coracao_certo
                                         ),
-                                        contentDescription = ""
+                                        contentDescription = "",
                                     )
 
 
