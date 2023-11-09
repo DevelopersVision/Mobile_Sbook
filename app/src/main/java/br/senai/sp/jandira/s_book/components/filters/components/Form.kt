@@ -37,11 +37,10 @@ fun Form(
     navController: NavController,
     viewModelParaFiltragem: ViweModelDosFiltros
 ){
-    var isCheckedNovo by remember { mutableStateOf(false) }
+    var isCheckedNovo by remember { mutableStateOf(viewModelParaFiltragem.estadoLivro?.contains("Novo") == true) }
+    var isCheckedSeminovo by remember { mutableStateOf(viewModelParaFiltragem.estadoLivro?.contains("Seminovo") == true) }
+    var isCheckedUsado by remember { mutableStateOf(viewModelParaFiltragem.estadoLivro?.contains("Usado") == true) }
 
-    var isCheckedSeminovo by remember { mutableStateOf(false) }
-
-    var isCheckedUsado by remember { mutableStateOf(false) }
 
 
 
