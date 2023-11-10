@@ -48,7 +48,7 @@ import io.socket.client.Socket
 //@Preview()
 @Composable
 fun ChatScreen(
-    navController: NavController,
+    navRotasController: NavController,
     socket: Socket,
     idUsuario: Int,
     chatViewModel: ChatViewModel
@@ -162,7 +162,7 @@ fun ChatScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                     .clickable {
-                        navController.navigate("conversa_chat")
+                        navRotasController.navigate("conversa_chat")
                         chatViewModel.idChat = it.id_chat
                         chatViewModel.idUser2 = contato[0].id
                         socket.emit("listMessages", it.id_chat)

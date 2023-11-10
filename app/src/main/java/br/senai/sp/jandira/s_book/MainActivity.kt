@@ -1,12 +1,14 @@
 package br.senai.sp.jandira.s_book
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
@@ -42,11 +44,15 @@ import br.senai.sp.jandira.s_book.components.seventh_create_announce.screen.Seve
 import br.senai.sp.jandira.s_book.components.sixth_create_announce.screen.SixthCreateAnnounceScreen
 import br.senai.sp.jandira.s_book.components.tela_generica.screen.GenericScreen
 import br.senai.sp.jandira.s_book.components.third_create_announce.screen.ThirdCreateAnnounceScreen
+import br.senai.sp.jandira.s_book.model.chat.ChatClient
+import br.senai.sp.jandira.s_book.model.chat.view_model.ChatViewModel
+import br.senai.sp.jandira.s_book.models_private.User
 //import br.senai.sp.jandira.s_book.components.second_create_announce.screen.SecondCreateAnnounceScreen
 import br.senai.sp.jandira.s_book.view_model.CreateAccountView
 import br.senai.sp.jandira.s_book.view_model.ResetPasswordView
 import br.senai.sp.jandira.s_book.view_model.UserCategoryViewModel
 import br.senai.sp.jandira.s_book.navigation_home_bar.MainScreen
+import br.senai.sp.jandira.s_book.sqlite_repository.UserRepository
 
 import br.senai.sp.jandira.s_book.ui.theme.SBOOKTheme
 import br.senai.sp.jandira.s_book.view_model.AnuncioViewModel
@@ -186,7 +192,28 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable("conversa_chat"){
-                            ConversationChatScreen()
+
+                            val context = LocalContext.current
+
+                            val dadaUser = UserRepository(context).findUsers()
+
+                            var array = User()
+
+                            var data = ""
+
+                            if(dadaUser.isNotEmpty()){
+                                array = dadaUser[0]
+
+
+                                data = array.id.toString()
+                            }
+
+                            Log.e("eu mandei", "id: ${data}", )
+
+                            val client = ChatClient()
+                            client.connect(data.toInt())
+                            val socket = client.getSocket()
+                            ConversationChatScreen( navController,socket = socket, idUsuario = data.toInt(), chatViewModel = ChatViewModel(), client = ChatClient())
                         }
                         composable("tela_generica"){
                             GenericScreen(navController = navController, lifecycleScope = lifecycleScope ,navRotasController = navController, viewModelQueVaiPassarOsDados = viewModelAnuncio, viewModelQueVaiReceberOsgeneros = viewModelFilters)

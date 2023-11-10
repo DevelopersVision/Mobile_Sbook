@@ -3,11 +3,12 @@ package br.senai.sp.jandira.s_book.model.chat
 
 import io.socket.client.IO
 import io.socket.client.Socket
-
+import org.json.JSONObject
 
 
 class ChatClient() {
-    private val socket: Socket = IO.socket("http://10.107.144.28:3001")
+
+    private val socket: Socket = IO.socket("http://192.168.0.108:3001")
 
     fun connect(idUsuario: Int) {
         socket.connect()
@@ -27,7 +28,7 @@ class ChatClient() {
         }
     }
 
-    fun sendMessage(message: String) {
+    fun sendMessage(message: JSONObject) {
         socket.emit("message", message)
     }
 

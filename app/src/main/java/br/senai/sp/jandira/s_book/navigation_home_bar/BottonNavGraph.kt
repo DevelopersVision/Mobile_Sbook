@@ -71,7 +71,7 @@ fun ButtonNavGraph(
             client.connect(data.toInt())
             val socket = client.getSocket()
 
-            ChatScreen(navController = navController, socket = socket, idUsuario = data.toInt(), chatViewModel = ChatViewModel() )
+            ChatScreen( navRotasController , socket = socket, idUsuario = data.toInt(), chatViewModel = ChatViewModel() )
         }
         composable(route = BottomBarScreen.Profile.route){
             ProfileScreen(navRotasController)
