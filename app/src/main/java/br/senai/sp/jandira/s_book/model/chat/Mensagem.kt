@@ -1,4 +1,5 @@
 package br.senai.sp.jandira.s_book.model.chat
+
 data class Mensagem(
     var _id: String?,
     var messageBy: Int,

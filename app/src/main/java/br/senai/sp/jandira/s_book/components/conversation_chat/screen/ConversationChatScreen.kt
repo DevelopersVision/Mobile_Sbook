@@ -61,7 +61,8 @@ fun ConversationChatScreen(
     navController: NavController,
     client: ChatClient,
     socket: Socket,
-    chatViewModel: ChatViewModel, idUsuario: Int
+    chatViewModel: ChatViewModel,
+    idUsuario: Int
 ) {
 
     val idChat = chatViewModel.idChat
@@ -113,6 +114,7 @@ fun ConversationChatScreen(
         }
 
 
+        Log.e("jojo", "Lista de Mensagens: ${listaMensagens.mensagens}")
 
 
 
@@ -189,12 +191,14 @@ fun ConversationChatScreen(
                             CardMensagemUser(
                                 menssagem = it.message ,
                                 hora = it.hora_criacao!!,
+                                envio = it.messageBy,
                                 cor = Color(221, 163, 93, 255)
                             )
                         } else {
                             CardMensagemCliente(
                                 menssagem = it.message,
                                 hora = it.hora_criacao!!,
+                                envio = it.messageBy,
                                 cor = Color(0xFF000000)
                             )
                         }
@@ -225,6 +229,9 @@ fun ConversationChatScreen(
                     unfocusedBorderColor = colorResource(id = R.color.cinza)
                 )
             )
+
+            Log.e("felipe", "ConversationChatScreen: ${idUsuario}", )
+            Log.e("felipe", "ConversationChatScreen: ${idUser2}", )
             Button(
                 onClick = {
 

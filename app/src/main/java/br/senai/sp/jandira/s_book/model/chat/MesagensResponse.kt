@@ -1,6 +1,6 @@
 package br.senai.sp.jandira.s_book.model.chat
 
-class MesagensResponse (
+data class MesagensResponse (
     var status: Int,
     var message: String,
     var id_chat: String,

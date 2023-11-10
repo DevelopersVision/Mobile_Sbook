@@ -29,7 +29,8 @@ fun ButtonNavGraph(
     navRotasController: NavController,
     lifecycleScope: LifecycleCoroutineScope,
     context: Context,
-    anuncioViewMODEL: AnuncioViewModel
+    anuncioViewMODEL: AnuncioViewModel,
+    chatViewModel: ChatViewModel
 ) {
 
     NavHost(
@@ -48,6 +49,7 @@ fun ButtonNavGraph(
             )
         }
         composable(route = BottomBarScreen.Chat.route){
+
 
             val context = LocalContext.current
 
@@ -71,7 +73,7 @@ fun ButtonNavGraph(
             client.connect(data.toInt())
             val socket = client.getSocket()
 
-            ChatScreen( navRotasController , socket = socket, idUsuario = data.toInt(), chatViewModel = ChatViewModel() )
+            ChatScreen( navRotasController , socket = socket, idUsuario = data.toInt(), chatViewModel = chatViewModel )
         }
         composable(route = BottomBarScreen.Profile.route){
             ProfileScreen(navRotasController)

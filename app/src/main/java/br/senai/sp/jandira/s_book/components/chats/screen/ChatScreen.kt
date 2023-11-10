@@ -155,18 +155,19 @@ fun ChatScreen(
 
                 var contato = it.users.filter { user -> user.id != idUsuario }
 
-                Log.e("oii", "aquiiii: ${contato[0].nome}")
+                Log.e("oii", "aquiiii: ${contato[0].id}")
 
                 Row(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     modifier = Modifier
                         .fillMaxWidth()
-                    .clickable {
-                        navRotasController.navigate("conversa_chat")
-                        chatViewModel.idChat = it.id_chat
-                        chatViewModel.idUser2 = contato[0].id
-                        socket.emit("listMessages", it.id_chat)
-                    }
+                        .clickable {
+                            navRotasController.navigate("conversa_chat")
+                            chatViewModel.idChat = it.id_chat
+                            chatViewModel.idUser2 = contato[0].id
+                            socket.emit("listMessages", it.id_chat)
+                            Log.e("luiz", "ChatScreen: ${contato[0].id}", )
+                        }
                 ) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically

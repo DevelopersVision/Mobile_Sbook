@@ -75,13 +75,14 @@ class MainActivity : ComponentActivity() {
                     val viewModelUserCategory = viewModel<UserCategoryViewModel>()
                     val viewModelAnuncio = viewModel<AnuncioViewModel>()
                     val localStorage: Storage = Storage()
+                    val chatViewModel = viewModel<ChatViewModel>()
                     val viewModelFilters = viewModel<ViweModelDosFiltros>()
 
                     NavHost(
                         navController = navController, startDestination = "navigation_home_bar"
                     ){
                         composable("navigation_home_bar") {
-                            MainScreen(navController, lifecycleScope, anuncioViewMODEL = viewModelAnuncio)
+                            MainScreen(navController, lifecycleScope, anuncioViewMODEL = viewModelAnuncio, chatViewModel)
                         }
                         composable("login") {
                             LoginScreen(navController = navController, lifecycleScope = lifecycleScope)
@@ -199,6 +200,9 @@ class MainActivity : ComponentActivity() {
 
                             var array = User()
 
+
+
+
                             var data = ""
 
                             if(dadaUser.isNotEmpty()){
@@ -213,7 +217,7 @@ class MainActivity : ComponentActivity() {
                             val client = ChatClient()
                             client.connect(data.toInt())
                             val socket = client.getSocket()
-                            ConversationChatScreen( navController,socket = socket, idUsuario = data.toInt(), chatViewModel = ChatViewModel(), client = ChatClient())
+                            ConversationChatScreen( navController,socket = socket, idUsuario = data.toInt(), chatViewModel = chatViewModel, client = ChatClient())
                         }
                         composable("tela_generica"){
                             GenericScreen(navController = navController, lifecycleScope = lifecycleScope ,navRotasController = navController, viewModelQueVaiPassarOsDados = viewModelAnuncio, viewModelQueVaiReceberOsgeneros = viewModelFilters)

@@ -11,7 +11,9 @@ object RetrofitHelper {
 
 //    private const val baseurl = "http://26.166.70.79:8080"
 
-    private const val baseurl = "http://192.168.0.108:8080"
+    private const val baseurl = "http://10.107.144.5:8080"
+
+//    private const val baseurl = "http://192.168.0.108:8080"
 
     object HttpClientProvider {
         val client: OkHttpClient = OkHttpClient.Builder()

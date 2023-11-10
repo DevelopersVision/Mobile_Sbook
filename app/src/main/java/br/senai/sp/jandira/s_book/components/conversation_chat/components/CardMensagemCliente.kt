@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.sp
 fun CardMensagemCliente(
     menssagem : String,
     hora: String,
+    envio: Int,
     cor: Color
 ){
     Card(
@@ -41,6 +42,9 @@ fun CardMensagemCliente(
                 color = Color(0xFF3B4A54),
                 modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.End
+            )
+            Text(
+                text = "$envio"
             )
         }
     }
