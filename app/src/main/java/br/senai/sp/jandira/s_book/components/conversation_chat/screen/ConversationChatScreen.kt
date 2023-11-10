@@ -182,24 +182,24 @@ fun ConversationChatScreen(
 
             Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
                 LazyColumn(
-                    modifier = Modifier.padding(24.dp),
+                    modifier = Modifier.height(400.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    items(listaMensagens.mensagens.reversed()) {
+                    items(listaMensagens.mensagens) {
                         if (it.messageTo == idUsuario) {
-                            CardMensagemUser(
-                                menssagem = it.message ,
-                                hora = it.hora_criacao!!,
-                                envio = it.messageBy,
-                                cor = Color(221, 163, 93, 255)
-                            )
-                        } else {
                             CardMensagemCliente(
                                 menssagem = it.message,
                                 hora = it.hora_criacao!!,
                                 envio = it.messageBy,
                                 cor = Color(0xFF000000)
+                            )
+                        } else {
+                            CardMensagemUser(
+                                menssagem = it.message ,
+                                hora = it.hora_criacao!!,
+                                envio = it.messageBy,
+                                cor = Color(221, 163, 93, 255)
                             )
                         }
                     }

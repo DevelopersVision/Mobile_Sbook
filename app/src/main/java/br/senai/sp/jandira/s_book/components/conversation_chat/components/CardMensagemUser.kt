@@ -26,7 +26,6 @@ fun CardMensagemUser(
     envio : Int
 ) {
 
-
     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
         Card(
             shape = RoundedCornerShape(

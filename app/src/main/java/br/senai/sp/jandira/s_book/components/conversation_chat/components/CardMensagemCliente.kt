@@ -1,6 +1,8 @@
 package br.senai.sp.jandira.s_book.components.conversation_chat.components
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -23,29 +25,31 @@ fun CardMensagemCliente(
     envio: Int,
     cor: Color
 ){
-    Card(
-        shape = RoundedCornerShape(
-            topStart = 0.dp, topEnd = 16.dp, bottomStart = 16.dp, bottomEnd = 16.dp
-        ), modifier = Modifier.width(280.dp)
-    ) {
-        Column(modifier = Modifier.padding(12.dp)) {
-            Text(
-                text = menssagem,
-                fontSize = 12.sp,
-                fontWeight = FontWeight(400),
-                color = cor
-            )
-            Text(
-                text = hora,
-                fontSize = 10.sp,
-                fontWeight = FontWeight(400),
-                color = Color(0xFF3B4A54),
-                modifier = Modifier.fillMaxWidth(),
-                textAlign = TextAlign.End
-            )
-            Text(
-                text = "$envio"
-            )
+    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Start) {
+        Card(
+            shape = RoundedCornerShape(
+                topStart = 0.dp, topEnd = 16.dp, bottomStart = 16.dp, bottomEnd = 16.dp
+            ), modifier = Modifier.width(280.dp)
+        ) {
+            Column(modifier = Modifier.padding(12.dp)) {
+                Text(
+                    text = menssagem,
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight(400),
+                    color = cor
+                )
+                Text(
+                    text = hora,
+                    fontSize = 10.sp,
+                    fontWeight = FontWeight(400),
+                    color = Color(0xFF3B4A54),
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = TextAlign.End
+                )
+                Text(
+                    text = "$envio"
+                )
+            }
         }
     }
 }
