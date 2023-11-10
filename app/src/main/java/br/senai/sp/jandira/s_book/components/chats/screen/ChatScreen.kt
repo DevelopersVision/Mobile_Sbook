@@ -39,6 +39,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.R
+import br.senai.sp.jandira.s_book.model.chat.ChatClient
 import br.senai.sp.jandira.s_book.model.chat.SocketResponse
 import br.senai.sp.jandira.s_book.model.chat.view_model.ChatViewModel
 import coil.compose.AsyncImage
@@ -51,8 +52,9 @@ fun ChatScreen(
     navRotasController: NavController,
     socket: Socket,
     idUsuario: Int,
-    chatViewModel: ChatViewModel
-){
+    chatViewModel: ChatViewModel,
+    client: ChatClient,
+    ){
     val TAG = "Teste tela chat"
 
     Log.e(TAG, "ChatScreen: auiiiiiiiiiiii", )

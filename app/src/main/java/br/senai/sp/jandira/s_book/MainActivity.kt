@@ -78,6 +78,8 @@ class MainActivity : ComponentActivity() {
                     val chatViewModel = viewModel<ChatViewModel>()
                     val viewModelFilters = viewModel<ViweModelDosFiltros>()
 
+                    val client = ChatClient()
+
                     NavHost(
                         navController = navController, startDestination = "navigation_home_bar"
                     ){
@@ -217,7 +219,7 @@ class MainActivity : ComponentActivity() {
                             val client = ChatClient()
                             client.connect(data.toInt())
                             val socket = client.getSocket()
-                            ConversationChatScreen( navController,socket = socket, idUsuario = data.toInt(), chatViewModel = chatViewModel, client = ChatClient())
+                            ConversationChatScreen( navController,socket = socket, idUsuario = data.toInt(), chatViewModel = chatViewModel, client = client)
                         }
                         composable("tela_generica"){
                             GenericScreen(navController = navController, lifecycleScope = lifecycleScope ,navRotasController = navController, viewModelQueVaiPassarOsDados = viewModelAnuncio, viewModelQueVaiReceberOsgeneros = viewModelFilters)
