@@ -48,6 +48,7 @@ import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.R
 import br.senai.sp.jandira.s_book.Storage
 import br.senai.sp.jandira.s_book.components.universal.HeaderCreateAnnounce
+import br.senai.sp.jandira.s_book.view_model.AnnouncePhotosViewModel
 import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
@@ -58,7 +59,8 @@ import com.google.firebase.storage.StorageReference
 @Composable
 fun ThirdCreateAnnounceScreen(
     navController: NavController,
-    localStorage: Storage
+    localStorage: Storage,
+    viewModelImagens: AnnouncePhotosViewModel
 ) {
 
     val context = LocalContext.current
@@ -224,6 +226,7 @@ fun ThirdCreateAnnounceScreen(
                                                         if (selectedMedia.last() == uri) {
                                                             navController.navigate("quarto_anunciar")
                                                             localStorage.salvarValorString(context = context, selectedMedia.toString(), "foto_livro")
+                                                            viewModelImagens.fotos = selectedMedia
                                                         }
                                                     } else {
                                                         Toast.makeText(context, "ERRO AO TENTAR REALIZAR O UPLOAD", Toast.LENGTH_SHORT).show()
