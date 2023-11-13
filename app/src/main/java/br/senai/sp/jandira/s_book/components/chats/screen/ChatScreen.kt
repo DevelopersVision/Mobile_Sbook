@@ -167,6 +167,8 @@ fun ChatScreen(
                             navRotasController.navigate("conversa_chat")
                             chatViewModel.idChat = it.id_chat
                             chatViewModel.idUser2 = contato[0].id
+                            chatViewModel.foto = contato[0].foto
+                            chatViewModel.nome = contato[0].nome
                             socket.emit("listMessages", it.id_chat)
                             Log.e("luiz", "ChatScreen: ${contato[0].id}", )
                         }

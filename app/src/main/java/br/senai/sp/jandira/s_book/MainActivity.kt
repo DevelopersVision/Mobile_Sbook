@@ -202,9 +202,6 @@ class MainActivity : ComponentActivity() {
 
                             var array = User()
 
-
-
-
                             var data = ""
 
                             if(dadaUser.isNotEmpty()){

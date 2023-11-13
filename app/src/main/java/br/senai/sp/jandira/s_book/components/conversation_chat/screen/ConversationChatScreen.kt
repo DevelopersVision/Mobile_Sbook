@@ -47,9 +47,11 @@ import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.R
 import br.senai.sp.jandira.s_book.components.conversation_chat.components.CardMensagemCliente
 import br.senai.sp.jandira.s_book.components.conversation_chat.components.CardMensagemUser
+import br.senai.sp.jandira.s_book.components.conversation_chat.components.InputMenssagem
 import br.senai.sp.jandira.s_book.model.chat.ChatClient
 import br.senai.sp.jandira.s_book.model.chat.MesagensResponse
 import br.senai.sp.jandira.s_book.model.chat.view_model.ChatViewModel
+import coil.compose.AsyncImage
 import com.google.gson.Gson
 import io.socket.client.Socket
 import org.json.JSONObject
@@ -67,6 +69,8 @@ fun ConversationChatScreen(
 
     val idChat = chatViewModel.idChat
     val idUser2 = chatViewModel.idUser2
+    var foto = chatViewModel.foto
+    var nome = chatViewModel.nome
 
 
     var message by remember {
@@ -130,16 +134,16 @@ fun ConversationChatScreen(
                         .size(32.dp)
                         .clickable {})
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Image(
-                        painter = painterResource(id = R.drawable.susanna_profile),
-                        contentDescription = "",
+                    AsyncImage(
                         modifier = Modifier
                             .clip(CircleShape)
-                            .size(56.dp)
+                            .size(56.dp),
+                        model = foto,
+                        contentDescription = ""
                     )
-                    Spacer(modifier = Modifier.width(8.dp))
+                    Spacer(modifier = Modifier.width(10.dp))
                     Text(
-                        text = "Max Kellerman",
+                        text = nome,
                         fontSize = 18.sp,
                         fontWeight = FontWeight(600),
                         color = Color(0xFF000000)
@@ -180,9 +184,11 @@ fun ConversationChatScreen(
             }
             Spacer(modifier = Modifier.height(16.dp))
 
-            Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+            Column(
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
                 LazyColumn(
-                    modifier = Modifier.height(400.dp),
+                    modifier = Modifier.height(590.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
@@ -207,56 +213,25 @@ fun ConversationChatScreen(
             }
 
         }
-        Spacer(modifier = Modifier.height(16.dp))
-        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-            OutlinedTextField(
-                value =  message,
-                onValueChange = {
-                    message = it
-                },
-                trailingIcon = {
-                    IconButton(onClick = {}) {
-                        Icon(
-                            imageVector = Icons.Default.Image,
-                            contentDescription = "",
-                            tint = Color.Black
-                        )
-                    }
-                },
-                shape = RoundedCornerShape(50.dp),
-                colors = TextFieldDefaults.outlinedTextFieldColors(
-                    focusedBorderColor = colorResource(id = R.color.cinza),
-                    unfocusedBorderColor = colorResource(id = R.color.cinza)
-                )
-            )
+        Spacer(modifier = Modifier.height(5.dp))
+        InputMenssagem(
+            mensagem = message
+        ) {
 
-            Log.e("felipe", "ConversationChatScreen: ${idUsuario}", )
-            Log.e("felipe", "ConversationChatScreen: ${idUser2}", )
-            Button(
-                onClick = {
+            message = it
 
-                    val json = JSONObject().apply {
-                        put("messageBy", idUsuario)
-                        put("messageTo", idUser2)
-                        put("message", message)
-                        put("image", "")
-                        put("chatId", idChat)
-                    }
-
-                    Log.e("JSON", "$json", )
-                    // val jsonString = Json.encodeToString(json)
-
-                    client.sendMessage(json)
-                },
-                modifier = Modifier.size(50.dp),
-                shape = CircleShape,
-                colors = ButtonDefaults.buttonColors(Color(221, 163, 93, 255))
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.baseline_send_24),
-                    contentDescription = ""
-                )
+            val json = JSONObject().apply {
+                put("messageBy", idUsuario)
+                put("messageTo", idUser2)
+                put("message", message)
+                put("image", "")
+                put("chatId", idChat)
             }
+
+            Log.e("JSON", "$json", )
+            // val jsonString = Json.encodeToString(json)
+
+            client.sendMessage(json)
         }
     }
 }
