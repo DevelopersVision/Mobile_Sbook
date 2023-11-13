@@ -6,6 +6,7 @@ import br.senai.sp.jandira.s_book.model.Foto
 import br.senai.sp.jandira.s_book.model.Genero
 import br.senai.sp.jandira.s_book.model.TipoAnuncio
 import br.senai.sp.jandira.s_book.service.RetrofitHelper
+import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import retrofit2.Response
 
@@ -23,14 +24,57 @@ class CadastroAnuncioRepository {
         preco: Double,
         idUsuario: Int,
         idEstadoLivro: Int,
-        idIdioma: Int
-//        idEditora: Editora,
-//        fotos: List<Foto>,
-//        tiposAnuncio: List<TipoAnuncio>,
-//        generos: List<Genero>,
-//        autores: List<Autores>
+        idIdioma: Int,
+        idEditora: Int,
+        fotos: List<Foto>,
+        tiposAnuncio: List<TipoAnuncio>,
+        generos: List<Genero>,
+        autores: List<Autores>
     ): Response<JsonObject> {
         val requestBody = JsonObject().apply {
+
+            val fotosJsonArray = JsonArray()
+
+            fotos.forEach { foto ->
+                val fotoJsonObject = JsonObject().apply {
+                    addProperty("id", foto.id)
+                    addProperty("foto", foto.foto)
+                }
+                fotosJsonArray.add(fotoJsonObject)
+            }
+
+            val tipoAnuncioJsonArray = JsonArray()
+
+            tiposAnuncio.forEach { tipo ->
+                val tipoAnuncioJsonObject = JsonObject().apply {
+                    addProperty("id", tipo.id)
+                    addProperty("tipo", tipo.tipo)
+                }
+                tipoAnuncioJsonArray.add(tipoAnuncioJsonObject)
+            }
+
+            val generosJsonArray = JsonArray()
+
+            generos.forEach { genero ->
+                val generosJsonObject = JsonObject().apply {
+                    addProperty("id", genero.id)
+                    addProperty("nome",genero.nome)
+                }
+                generosJsonArray.add(generosJsonObject)
+            }
+
+
+            val autoresJsonArray = JsonArray()
+
+            autores.forEach { autor ->
+                val autoresJsonObject = JsonObject().apply {
+                    addProperty("id", autor.id)
+                    addProperty("nome",autor.nome)
+                }
+                autoresJsonArray.add(autoresJsonObject)
+            }
+
+
             addProperty("nome", nome)
             addProperty("numero_paginas", numeroPaginas)
             addProperty("ano_lancamento", anoLancamento)
@@ -42,11 +86,11 @@ class CadastroAnuncioRepository {
             addProperty("id_estado_livro", idEstadoLivro)
             addProperty("id_idioma", idIdioma)
 
-//            addProperty("id_editora", idEditora)
-//            addProperty("fotos", fotos)
-//            addProperty("tipos_anuncio", tiposAnuncio)
-//            addProperty("generos", generos)
-//            addProperty("autores", autores)
+            addProperty("id_editora", idEditora)
+            add("fotos", fotosJsonArray)
+            add("tipos_anuncio", tipoAnuncioJsonArray)
+            add("generos", generosJsonArray)
+            add("autores", autoresJsonArray)
         }
 
         return apiService.cadastroAnuncio(requestBody)

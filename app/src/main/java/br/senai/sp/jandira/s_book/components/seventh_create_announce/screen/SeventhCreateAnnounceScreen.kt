@@ -39,12 +39,14 @@ import androidx.compose.ui.unit.sp
 import br.senai.sp.jandira.s_book.R
 import br.senai.sp.jandira.s_book.Storage
 import br.senai.sp.jandira.s_book.components.universal.HeaderCreateAnnounce
+import br.senai.sp.jandira.s_book.view_model.AnnouncePhotosViewModel
 import coil.compose.AsyncImage
 import coil.compose.rememberImagePainter
 
 @Composable
 fun SeventhCreateAnnounceScreen(
-    localStorage: Storage
+    localStorage: Storage,
+    viewModel: AnnouncePhotosViewModel
 ){
 
     val context = LocalContext.current
@@ -105,7 +107,7 @@ fun SeventhCreateAnnounceScreen(
                     .width(160.dp)
             ) {
                 AsyncImage(
-                    model = uriImagem,
+                    model = viewModel.fotos?.get(1),
                     contentDescription = "",
                     contentScale = ContentScale.Crop
                 )
