@@ -57,6 +57,7 @@ import br.senai.sp.jandira.s_book.sqlite_repository.UserRepository
 import br.senai.sp.jandira.s_book.ui.theme.SBOOKTheme
 import br.senai.sp.jandira.s_book.view_model.AnnouncePhotosViewModel
 import br.senai.sp.jandira.s_book.view_model.AnuncioViewModel
+import br.senai.sp.jandira.s_book.view_model.ViewModelDosGenerosSelecionados
 import br.senai.sp.jandira.s_book.view_model.ViweModelDosFiltros
 
 class MainActivity : ComponentActivity() {
@@ -79,6 +80,7 @@ class MainActivity : ComponentActivity() {
                     val chatViewModel = viewModel<ChatViewModel>()
                     val viewModelFilters = viewModel<ViweModelDosFiltros>()
                     val viewModelDasImagens = viewModel<AnnouncePhotosViewModel>()
+                    val viewModelGeneros = viewModel<ViewModelDosGenerosSelecionados>()
 
                     val client = ChatClient()
 
@@ -181,7 +183,7 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable("quarto_anunciar"){
-                            FourthCreateAnnounceScreen(navController, localStorage)
+                            FourthCreateAnnounceScreen(navController, localStorage, viewModelGeneros)
                         }
 
                         composable("quinto_anunciar"){
@@ -193,7 +195,7 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable("setimo_anunciar"){
-                            SeventhCreateAnnounceScreen(localStorage, viewModelDasImagens)
+                            SeventhCreateAnnounceScreen(localStorage, viewModelDasImagens, viewModelGeneros)
                         }
 
                         composable("conversa_chat"){

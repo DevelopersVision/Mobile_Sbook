@@ -1,7 +1,7 @@
 package br.senai.sp.jandira.s_book.repository
 
+import android.net.Uri
 import br.senai.sp.jandira.s_book.model.Autores
-import br.senai.sp.jandira.s_book.model.Editora
 import br.senai.sp.jandira.s_book.model.Foto
 import br.senai.sp.jandira.s_book.model.Genero
 import br.senai.sp.jandira.s_book.model.TipoAnuncio
@@ -22,11 +22,11 @@ class CadastroAnuncioRepository {
         edicao: String,
         isbn: String,
         preco: Double,
-        idUsuario: Int,
+        idUsuario: Long,
         idEstadoLivro: Int,
         idIdioma: Int,
         idEditora: Int,
-        fotos: List<Foto>,
+        fotos: List<Uri>?,
         tiposAnuncio: List<TipoAnuncio>,
         generos: List<Genero>,
         autores: List<Autores>
@@ -35,10 +35,9 @@ class CadastroAnuncioRepository {
 
             val fotosJsonArray = JsonArray()
 
-            fotos.forEach { foto ->
+            fotos?.forEach { fotoUri ->
                 val fotoJsonObject = JsonObject().apply {
-                    addProperty("id", foto.id)
-                    addProperty("foto", foto.foto)
+                    addProperty("url", fotoUri.toString())
                 }
                 fotosJsonArray.add(fotoJsonObject)
             }

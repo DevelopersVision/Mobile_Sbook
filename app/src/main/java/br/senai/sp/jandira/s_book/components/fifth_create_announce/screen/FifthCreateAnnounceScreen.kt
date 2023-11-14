@@ -40,11 +40,14 @@ import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.R
 import br.senai.sp.jandira.s_book.Storage
 import br.senai.sp.jandira.s_book.components.universal.HeaderCreateAnnounce
+import br.senai.sp.jandira.s_book.model.Autores
 import br.senai.sp.jandira.s_book.model.EstadoLivro
 import br.senai.sp.jandira.s_book.model.EstadoLivroBaseResponse
 import br.senai.sp.jandira.s_book.model.Genero
+import br.senai.sp.jandira.s_book.model.TipoAnuncio
 import br.senai.sp.jandira.s_book.repository.CategoryList
 import br.senai.sp.jandira.s_book.service.RetrofitHelper
+import br.senai.sp.jandira.s_book.view_model.ViewModelDosTipoDeLivros
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -52,7 +55,8 @@ import retrofit2.Response
 @Composable
 fun FifthCreateAnnounceScreen(
     navController: NavController,
-    localStorage: Storage
+    localStorage: Storage,
+
 ){
 
     var listEstadosLivro by remember{
@@ -62,6 +66,8 @@ fun FifthCreateAnnounceScreen(
     var isChecked by remember {
         mutableStateOf(value = false)
     }
+
+
 
     var estadosSelecionados by remember {
         mutableStateOf<Set<String>>(emptySet())
@@ -136,6 +142,8 @@ fun FifthCreateAnnounceScreen(
                                     Log.e("thiago", "${estadosSelecionados}")
                                     val estadosSelecionadosString = estadosSelecionados.joinToString(", ")
                                     localStorage.salvarValorString(context = context, estadosSelecionadosString, "estado_livro")
+
+
                                 }
                             )
                         }

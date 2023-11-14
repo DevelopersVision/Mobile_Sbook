@@ -43,6 +43,7 @@ import br.senai.sp.jandira.s_book.components.universal.HeaderCreateAnnounce
 import br.senai.sp.jandira.s_book.model.Genero
 import br.senai.sp.jandira.s_book.repository.CategoryList
 import br.senai.sp.jandira.s_book.service.RetrofitHelper
+import br.senai.sp.jandira.s_book.view_model.ViewModelDosGenerosSelecionados
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -50,7 +51,8 @@ import retrofit2.Response
 @Composable
 fun FourthCreateAnnounceScreen(
     navController: NavController,
-    localStorage: Storage
+    localStorage: Storage,
+    viewlModel: ViewModelDosGenerosSelecionados
 ){
 
     var listGeneros by remember{
@@ -63,6 +65,10 @@ fun FourthCreateAnnounceScreen(
 
     var generosSelecionados by remember {
         mutableStateOf<Set<String>>(emptySet())
+    }
+
+    var arrayDeGeneros  by remember{
+        mutableStateOf(listOf<Genero>())
     }
 
     val context = LocalContext.current
@@ -112,6 +118,9 @@ fun FourthCreateAnnounceScreen(
                 LazyColumn(modifier = Modifier.height(480.dp)) {
                     items(listGeneros){
                         val isChecked = generosSelecionados.contains(it.nome)
+
+
+
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -132,12 +141,25 @@ fun FourthCreateAnnounceScreen(
                                 onCheckedChange = { isChecked ->
                                     if (isChecked) {
                                         generosSelecionados = generosSelecionados + it.nome
+
+                                        arrayDeGeneros = arrayDeGeneros.plus(it)
+
+                                        Log.e("TAGATAGATTATATATATTATATATATAT", "${arrayDeGeneros}")
+
                                     } else {
                                         generosSelecionados = generosSelecionados - it.nome
+
+                                        arrayDeGeneros = arrayDeGeneros.minus(it)
+
+                                        Log.e("TAGATAGATTATATATATTATATATATAT", "${arrayDeGeneros}")
                                     }
                                     Log.e("thiago", "${generosSelecionados}")
                                     val generosSelecionadosString = generosSelecionados.joinToString(", ")
                                     localStorage.salvarValorString(context = context, generosSelecionadosString, "genero_livro")
+
+                                    Log.e("TAGATAGATTATATATATTATATATATAT", "${arrayDeGeneros}")
+
+                                    viewlModel.selectedGeneros = arrayDeGeneros
                                 }
                             )
                         }

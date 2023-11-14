@@ -42,12 +42,14 @@ import br.senai.sp.jandira.s_book.R
 import br.senai.sp.jandira.s_book.Storage
 import br.senai.sp.jandira.s_book.components.first_create_announce.components.DropDownAutor
 import br.senai.sp.jandira.s_book.components.universal.HeaderCreateAnnounce
+import br.senai.sp.jandira.s_book.view_model.ViewModelDosAutores
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FirstCreateAnnounceScreen(
     navController: NavController,
-    localStorage: Storage
+    localStorage: Storage,
+    viewModelDosAutores: ViewModelDosAutores
 ){
 
     var nomeState by remember {
@@ -100,7 +102,7 @@ fun FirstCreateAnnounceScreen(
                     )
                 )
                 Spacer(modifier = Modifier.height(32.dp))
-                DropDownAutor(localStorage)
+                DropDownAutor(localStorage, viewModelDosAutores )
                 Spacer(modifier = Modifier.height(32.dp))
                 OutlinedTextField(
                     value = sinopseState,

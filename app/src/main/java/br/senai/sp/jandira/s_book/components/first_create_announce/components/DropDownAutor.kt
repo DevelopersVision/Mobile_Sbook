@@ -28,9 +28,11 @@ import br.senai.sp.jandira.s_book.R
 import br.senai.sp.jandira.s_book.Storage
 import br.senai.sp.jandira.s_book.model.AutorBaseResponse
 import br.senai.sp.jandira.s_book.model.Autores
+import br.senai.sp.jandira.s_book.model.Genero
 import br.senai.sp.jandira.s_book.model.Idioma
 import br.senai.sp.jandira.s_book.model.IdiomaBaseResponse
 import br.senai.sp.jandira.s_book.service.RetrofitHelper
+import br.senai.sp.jandira.s_book.view_model.ViewModelDosAutores
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -39,7 +41,8 @@ import retrofit2.Response
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DropDownAutor(
-    localStorage: Storage
+    localStorage: Storage,
+    viewModelDosAutores: ViewModelDosAutores
 ) {
 
     var isExpanded by remember {
@@ -51,6 +54,10 @@ fun DropDownAutor(
     }
 
     var listAutor by remember {
+        mutableStateOf(listOf<Autores>())
+    }
+
+    var arrayDeAutores  by remember{
         mutableStateOf(listOf<Autores>())
     }
 
@@ -119,6 +126,8 @@ fun DropDownAutor(
                         onClick = {
                             autorState = it.nome
                             isExpanded = false
+
+                            viewModelDosAutores.autores = arrayDeAutores.plus(it)
                         }
                     )
                 }

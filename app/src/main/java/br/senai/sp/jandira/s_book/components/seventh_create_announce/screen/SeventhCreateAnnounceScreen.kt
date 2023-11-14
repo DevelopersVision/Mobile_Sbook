@@ -39,17 +39,29 @@ import androidx.compose.ui.unit.sp
 import br.senai.sp.jandira.s_book.R
 import br.senai.sp.jandira.s_book.Storage
 import br.senai.sp.jandira.s_book.components.universal.HeaderCreateAnnounce
+import br.senai.sp.jandira.s_book.functions.createAnnounceApp
+import br.senai.sp.jandira.s_book.sqlite_repository.UserRepository
 import br.senai.sp.jandira.s_book.view_model.AnnouncePhotosViewModel
+import br.senai.sp.jandira.s_book.view_model.ViewModelDosAutores
+import br.senai.sp.jandira.s_book.view_model.ViewModelDosGenerosSelecionados
+import br.senai.sp.jandira.s_book.view_model.ViewModelDosTipoDeLivros
 import coil.compose.AsyncImage
-import coil.compose.rememberImagePainter
 
 @Composable
 fun SeventhCreateAnnounceScreen(
     localStorage: Storage,
-    viewModel: AnnouncePhotosViewModel
+    viewModel: AnnouncePhotosViewModel,
+    viewModelDosGenerosSelecionados: ViewModelDosGenerosSelecionados,
+    viewModelDosAutores: ViewModelDosAutores,
+    viewModelDosEstadoLivro: ViewModelDosTipoDeLivros
 ){
-
     val context = LocalContext.current
+
+    val array = UserRepository(context).findUsers()
+
+    val user = array[0]
+
+
 
     val nomeLivro = localStorage.lerValorString(context = context, "nome_livro")
     val sinopseLivro = localStorage.lerValorString(context = context, "sinopse_livro")
@@ -461,7 +473,24 @@ fun SeventhCreateAnnounceScreen(
             }
             Spacer(modifier = Modifier.height(48.dp))
             Button(
-                onClick = { /*TODO*/ },
+                onClick = {
+
+                    createAnnounceApp(nome = nomeLivro!!,
+                        numeroPaginas = numeroLivro!!.toInt(),
+                        anoLancamento = anoLivro!!,
+                        descricao = sinopseLivro!!,
+                        edicao = edicaoLivro!!,
+                        autores = viewModelDosAutores.autores!!,
+                        generos = viewModelDosGenerosSelecionados.selectedGeneros,
+                        fotos = viewModel.fotos,
+                        preco = precoLivro!!.toDouble(),
+                        tiposAnuncio = viewModelDosEstadoLivro.tiposDoAnuncio!!,
+                        idUsuario = user.id,
+                        context = context,
+                        isbn = isbnLivro,
+
+                        )
+                },
                 colors = ButtonDefaults.buttonColors(Color(218, 108, 39, 255)),
                 modifier = Modifier
                     .fillMaxWidth()

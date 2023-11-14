@@ -1,18 +1,15 @@
 package br.senai.sp.jandira.s_book.functions
 
 import android.content.Context
+import android.net.Uri
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.model.Autores
-import br.senai.sp.jandira.s_book.model.Editora
-import br.senai.sp.jandira.s_book.model.Foto
 import br.senai.sp.jandira.s_book.model.Genero
 import br.senai.sp.jandira.s_book.model.TipoAnuncio
 import br.senai.sp.jandira.s_book.repository.CadastroAnuncioRepository
-import br.senai.sp.jandira.s_book.repository.CadastroRepository
-import br.senai.sp.jandira.s_book.view_model.UserCategoryViewModel
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 
@@ -24,26 +21,28 @@ fun createAnnounceApp (
     edicao: String,
     isbn: String,
     preco: Double,
-    idUsuario: Int,
+    idUsuario: Long,
     idEstadoLivro: Int,
     idIdioma: Int,
-    idEditora: Editora,
-    fotos: List<Foto>,
+    idEditora: Int,
+    fotos: List<Uri>?,
     tiposAnuncio: List<TipoAnuncio>,
-    generos: List<Genero>,
+    generos: List<Genero>?,
     autores: List<Autores>,
     navController: NavController,
     lifecycleScope: LifecycleCoroutineScope,
     rota: String,
     context: Context,
-    viewModelUserCategory: UserCategoryViewModel
-){
+
+    ){
+
+
     val createAnnounceRepository = CadastroAnuncioRepository()
 
     lifecycleScope.launch {
 
         val response = createAnnounceRepository.cadastroAnuncio(
-            nome, numeroPaginas, anoLancamento, descricao, edicao, isbn, preco, idUsuario, idEstadoLivro, idIdioma
+            nome, numeroPaginas, anoLancamento, descricao, edicao, isbn, preco, idUsuario, idEstadoLivro, idIdioma, idEditora, autores = autores, fotos = fotos, tiposAnuncio =  tiposAnuncio,  generos = generos!!
         )
         val code = response.code()
 
@@ -59,7 +58,7 @@ fun createAnnounceApp (
             Log.e("jsonObject", "$jsonObject")
             Log.e("id", "$id")
 
-            viewModelUserCategory.id_usuario = id
+
 
             Toast.makeText(context, "Bem Vindo $nome", Toast.LENGTH_SHORT).show()
 

@@ -50,6 +50,7 @@ import br.senai.sp.jandira.s_book.model.EstadoLivroBaseResponse
 import br.senai.sp.jandira.s_book.model.TipoAnuncio
 import br.senai.sp.jandira.s_book.model.TipoAnuncioBaseResponse
 import br.senai.sp.jandira.s_book.service.RetrofitHelper
+import br.senai.sp.jandira.s_book.view_model.ViewModelDosTipoDeLivros
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -58,7 +59,8 @@ import retrofit2.Response
 @Composable
 fun SixthCreateAnnounceScreen(
     navController: NavController,
-    localStorage: Storage
+    localStorage: Storage,
+    viewModelDosTipoDeLivros: ViewModelDosTipoDeLivros
 ){
 
     var listTipoAnuncio by remember{
@@ -75,6 +77,10 @@ fun SixthCreateAnnounceScreen(
 
     var isVendaChecked by remember {
         mutableStateOf(false)
+    }
+
+    var arrayDosTiposDeAnuncio by remember{
+        mutableStateOf(listOf<TipoAnuncio>())
     }
 
     var vendaPriceState by remember {
@@ -149,8 +155,12 @@ fun SixthCreateAnnounceScreen(
                                 onCheckedChange = {isChecked ->
                                     if (isChecked) {
                                         tiposSelecionados = tiposSelecionados + it.tipo
+
+                                        viewModelDosTipoDeLivros.tiposDoAnuncio = arrayDosTiposDeAnuncio.plus(it)
                                     } else {
                                         tiposSelecionados = tiposSelecionados - it.tipo
+
+                                        viewModelDosTipoDeLivros.tiposDoAnuncio = arrayDosTiposDeAnuncio.minus(it)
                                     }
                                     isVendaChecked = tiposSelecionados.contains("Venda")
                                     Log.e("thiago", "${tiposSelecionados}")
