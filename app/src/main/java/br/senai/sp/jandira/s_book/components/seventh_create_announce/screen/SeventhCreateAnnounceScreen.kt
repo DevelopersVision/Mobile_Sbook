@@ -475,21 +475,21 @@ fun SeventhCreateAnnounceScreen(
             Button(
                 onClick = {
 
-                    createAnnounceApp(nome = nomeLivro!!,
-                        numeroPaginas = numeroLivro!!.toInt(),
-                        anoLancamento = anoLivro!!,
-                        descricao = sinopseLivro!!,
-                        edicao = edicaoLivro!!,
-                        autores = viewModelDosAutores.autores!!,
-                        generos = viewModelDosGenerosSelecionados.selectedGeneros,
-                        fotos = viewModel.fotos,
-                        preco = precoLivro!!.toDouble(),
-                        tiposAnuncio = viewModelDosEstadoLivro.tiposDoAnuncio!!,
-                        idUsuario = user.id,
-                        context = context,
-                        isbn = isbnLivro,
-
-                        )
+//                    createAnnounceApp(nome = nomeLivro!!,
+//                        numeroPaginas = numeroLivro!!.toInt(),
+//                        anoLancamento = anoLivro!!,
+//                        descricao = sinopseLivro!!,
+//                        edicao = edicaoLivro!!,
+//                        autores = viewModelDosAutores.autores!!,
+//                        generos = viewModelDosGenerosSelecionados.selectedGeneros,
+//                        fotos = viewModel.fotos,
+//                        preco = precoLivro!!.toDouble(),
+//                        tiposAnuncio = viewModelDosEstadoLivro.tiposDoAnuncio!!,
+//                        idUsuario = user.id,
+//                        context = context,
+//                        isbn = isbnLivro,
+//
+//                        )
                 },
                 colors = ButtonDefaults.buttonColors(Color(218, 108, 39, 255)),
                 modifier = Modifier

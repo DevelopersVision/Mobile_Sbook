@@ -57,7 +57,9 @@ import br.senai.sp.jandira.s_book.sqlite_repository.UserRepository
 import br.senai.sp.jandira.s_book.ui.theme.SBOOKTheme
 import br.senai.sp.jandira.s_book.view_model.AnnouncePhotosViewModel
 import br.senai.sp.jandira.s_book.view_model.AnuncioViewModel
+import br.senai.sp.jandira.s_book.view_model.ViewModelDosAutores
 import br.senai.sp.jandira.s_book.view_model.ViewModelDosGenerosSelecionados
+import br.senai.sp.jandira.s_book.view_model.ViewModelDosTipoDeLivros
 import br.senai.sp.jandira.s_book.view_model.ViweModelDosFiltros
 
 class MainActivity : ComponentActivity() {
@@ -81,6 +83,8 @@ class MainActivity : ComponentActivity() {
                     val viewModelFilters = viewModel<ViweModelDosFiltros>()
                     val viewModelDasImagens = viewModel<AnnouncePhotosViewModel>()
                     val viewModelGeneros = viewModel<ViewModelDosGenerosSelecionados>()
+                    val viewModelDosAutores = viewModel<ViewModelDosAutores>()
+                    val viewModelDosTiposDeLivro = viewModel<ViewModelDosTipoDeLivros>()
 
                     val client = ChatClient()
 
@@ -171,7 +175,7 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable("primeiro_anunciar"){
-                            FirstCreateAnnounceScreen(navController, localStorage = localStorage)
+                            FirstCreateAnnounceScreen(navController, localStorage = localStorage, viewModelDosAutores)
                         }
 
                         composable("segundo_anunciar"){
@@ -191,11 +195,11 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable("sexto_anunciar"){
-                            SixthCreateAnnounceScreen(navController, localStorage)
+                            SixthCreateAnnounceScreen(navController, localStorage, viewModelDosTiposDeLivro)
                         }
 
                         composable("setimo_anunciar"){
-                            SeventhCreateAnnounceScreen(localStorage, viewModelDasImagens, viewModelGeneros)
+                            SeventhCreateAnnounceScreen(localStorage, viewModelDasImagens, viewModelGeneros, viewModelDosAutores, viewModelDosTiposDeLivro)
                         }
 
                         composable("conversa_chat"){
