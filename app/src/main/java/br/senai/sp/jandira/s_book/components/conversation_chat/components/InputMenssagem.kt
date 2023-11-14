@@ -43,7 +43,7 @@ fun  InputMenssagem(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .height(60.dp),
+            .height(140.dp),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         OutlinedTextField(

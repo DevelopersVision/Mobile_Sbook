@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -38,6 +39,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -47,6 +49,7 @@ import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.R
 import br.senai.sp.jandira.s_book.components.conversation_chat.components.CardMensagemCliente
 import br.senai.sp.jandira.s_book.components.conversation_chat.components.CardMensagemUser
+import br.senai.sp.jandira.s_book.components.conversation_chat.components.Header
 import br.senai.sp.jandira.s_book.components.conversation_chat.components.InputMenssagem
 import br.senai.sp.jandira.s_book.model.chat.ChatClient
 import br.senai.sp.jandira.s_book.model.chat.MesagensResponse
@@ -78,13 +81,19 @@ fun ConversationChatScreen(
     }
 
 
+    Image(
+        modifier = Modifier.fillMaxSize(),
+        painter = painterResource(id = R.drawable.fundo),
+        contentDescription = "",
+        contentScale = ContentScale.FillBounds,
+    )
 
     Column(
         modifier = Modifier
-            .padding(24.dp)
-            .fillMaxSize(),
+            .fillMaxHeight(),
         verticalArrangement = Arrangement.SpaceBetween
     ) {
+
 
         var listaMensagens by remember {
             mutableStateOf(
@@ -122,71 +131,34 @@ fun ConversationChatScreen(
 
 
 
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Image(painter = painterResource(id = R.drawable.seta_voltar),
-                    contentDescription = "",
-                    modifier = Modifier
-                        .size(32.dp)
-                        .clickable {})
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    AsyncImage(
-                        modifier = Modifier
-                            .clip(CircleShape)
-                            .size(56.dp),
-                        model = foto,
-                        contentDescription = ""
-                    )
-                    Spacer(modifier = Modifier.width(10.dp))
-                    Text(
-                        text = nome,
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight(600),
-                        color = Color(0xFF000000)
-                    )
-                }
-                Row(horizontalArrangement = Arrangement.spacedBy(2.dp)) {
-                    Card(
-                        modifier = Modifier.size(8.dp), backgroundColor = Color.Black
-                    ) {}
-                    Card(
-                        modifier = Modifier.size(8.dp), backgroundColor = Color.Black
-                    ) {}
-                    Card(
-                        modifier = Modifier.size(8.dp), backgroundColor = Color.Black
-                    ) {}
-                }
-            }
-            Spacer(modifier = Modifier.height(32.dp))
-            Card(
-                modifier = Modifier
-                    .width(140.dp)
-                    .height(32.dp),
-                backgroundColor = Color(0xFFD9D9D9),
-                shape = RoundedCornerShape(8.dp)
-            ) {
-                Row(
-                    modifier = Modifier.fillMaxSize(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center
-                ) {
-                    Text(
-                        text = "3 de agosto de 2023",
-                        fontSize = 12.sp,
-                        fontWeight = FontWeight(600),
-                        color = Color(0xFF000000)
-                    )
-                }
-            }
-            Spacer(modifier = Modifier.height(16.dp))
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
 
-            Column(
-                verticalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
+            Header(foto = foto, nome = nome)
+            Spacer(modifier = Modifier.height(8.dp))
+            Column {
+                Card(
+                    modifier = Modifier
+                        .width(140.dp)
+                        .height(32.dp),
+                    backgroundColor = Color(0xFFD9D9D9),
+                    shape = RoundedCornerShape(8.dp)
+                ) {
+                    Row(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        Text(
+                            text = "3 de agosto de 2023",
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight(600),
+                            color = Color(0xFF000000)
+                        )
+                    }
+                }
+
                 LazyColumn(
                     modifier = Modifier.height(590.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -202,7 +174,7 @@ fun ConversationChatScreen(
                             )
                         } else {
                             CardMensagemUser(
-                                menssagem = it.message ,
+                                menssagem = it.message,
                                 hora = it.hora_criacao!!,
                                 envio = it.messageBy,
                                 cor = Color(221, 163, 93, 255)
@@ -210,28 +182,27 @@ fun ConversationChatScreen(
                         }
                     }
                 }
+                Spacer(modifier = Modifier.height(6.dp))
+                InputMenssagem(
+                    mensagem = message
+                ) {
+
+                    message = it
+
+                    val json = JSONObject().apply {
+                        put("messageBy", idUsuario)
+                        put("messageTo", idUser2)
+                        put("message", message)
+                        put("image", "")
+                        put("chatId", idChat)
+                    }
+
+                    Log.e("JSON", "$json")
+                    // val jsonString = Json.encodeToString(json)
+
+                    client.sendMessage(json)
+                }
             }
-
-        }
-        Spacer(modifier = Modifier.height(5.dp))
-        InputMenssagem(
-            mensagem = message
-        ) {
-
-            message = it
-
-            val json = JSONObject().apply {
-                put("messageBy", idUsuario)
-                put("messageTo", idUser2)
-                put("message", message)
-                put("image", "")
-                put("chatId", idChat)
-            }
-
-            Log.e("JSON", "$json", )
-            // val jsonString = Json.encodeToString(json)
-
-            client.sendMessage(json)
         }
     }
 }
