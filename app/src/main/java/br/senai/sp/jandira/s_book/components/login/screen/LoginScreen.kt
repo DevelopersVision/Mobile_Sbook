@@ -57,7 +57,7 @@ fun LoginScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Header()
-            if (isLoading == false) {
+            if (!isLoading) {
                 Form(
                     emailState,
                     senhaState,
@@ -67,16 +67,21 @@ fun LoginScreen(
                 )
 
                 DefaultButtonScreen(text = "Entrar", onClick = {
-                    isLoading = true // Mostra a ProgressBar antes de chamar a função de login
-                    login(emailState, senhaState, lifecycleScope!!, context, navController)
-                    isLoading =  true
+                    //isLoading = true // Mostra a ProgressBar antes de chamar a função de login
+                    login(emailState, senhaState, lifecycleScope!!, context, navController) {
+//                        Toast.makeText(
+//                            context, it, Toast.LENGTH_LONG
+//                        ).show()
+                        //isLoading = false
+                    }
+                    //isLoading =  true
                 })
 
                 TextContinueScreen()
                 GoogleScreen()
                 TextNotContScreen(navController)
             } else {
-                ProgressBar(isDisplayed = isLoading)
+                ProgressBar(isDisplayed = true)
             }
         }
     }
@@ -87,7 +92,8 @@ fun login(
     senha: String,
     lifecycleScope: LifecycleCoroutineScope,
     context: Context,
-    navController: NavController
+    navController: NavController,
+    onChangeLoading: (String) -> Unit
 ) {
 
     val validacaoDados = dataValidation(email, senha)
@@ -180,6 +186,8 @@ fun login(
                         Toast.makeText(
                             context, "O EMAIL OU SENHA INFORMADO NÃO É VALIDADO", Toast.LENGTH_LONG
                         ).show()
+
+                        onChangeLoading("O EMAIL OU SENHA INFORMADO NÃO É VALIDADO")
                     }
 
                     500 -> {
@@ -190,6 +198,8 @@ fun login(
                             Toast.LENGTH_LONG
                         )
                             .show()
+
+                        onChangeLoading("SERVIDOR INDISPONIVEL NO MOMENTO")
                     }
 
                     400 -> {
@@ -200,11 +210,15 @@ fun login(
                             "A SENHA INFORMADA NÃO É VALIDADA",
                             Toast.LENGTH_LONG
                         ).show()
+
+                        onChangeLoading("A SENHA INFORMADA NÃO É VALIDADA")
                     }
 
                     403 -> {
                         Log.e("LOGIN - ERROR - 403", "login: ${response.errorBody()?.string()}")
                         Toast.makeText(context, "A CONTA ESTÁ DESATIVADA", Toast.LENGTH_LONG).show()
+
+                        onChangeLoading("A CONTA ESTÁ DESATIVADA")
                     }
                 }
             }

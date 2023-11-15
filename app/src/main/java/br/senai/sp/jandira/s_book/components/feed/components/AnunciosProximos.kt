@@ -85,20 +85,7 @@ fun AnunciosProximos(
             call: Call<VerificarFavoritoBaseResponse>,
             response: Response<VerificarFavoritoBaseResponse>
         ) {
-            if (response.code() == 200) {
-
-
-
-                isChecked = true
-
-
-
-            } else {
-
-                isChecked = false
-
-
-            }
+            isChecked = response.code() == 200
         }
 
 
@@ -231,17 +218,10 @@ fun AnunciosProximos(
                                     Log.e("Ja ta favoritado bixo burro", "Plim")
 
                                     isChecked = false
-
-                                    Log.e("girlllllllllllllllllllllllllllllllllllllllllll", "${isChecked}")
                                     removerDosFavoritos(id_anuncio = id, id_usuario = user.id)
 
                                 } else {
-
-
-
                                     Log.e("Não ta favoritado", "Plum")
-
-                                    Log.e("girlllllllllllllllllllllllllllllllllllllllllll", "${isChecked}")
                                     isChecked = true
 
                                     if (lifecycleScope != null) {
@@ -265,7 +245,7 @@ fun AnunciosProximos(
                         Log.i("testando123", "${call}")
                     }
                 ) {
-                    Log.e("VSFDCRISTIANOARAUJO", "${isChecked}")
+
                     if (isChecked){
                         Image(
                             painter = painterResource(

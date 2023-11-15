@@ -182,9 +182,9 @@ fun Dados(
         ButtonExit(
             text = "Sair"
         ) {
-            UserRepository(context).deleteUser(array.id.toInt())
-
             navController.navigate("navigation_home_bar")
+
+            UserRepository(context).deleteAllUser()
         }
     }
 }

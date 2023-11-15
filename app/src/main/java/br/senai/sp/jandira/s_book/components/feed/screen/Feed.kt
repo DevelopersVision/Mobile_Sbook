@@ -15,6 +15,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -75,43 +76,40 @@ fun FeedScreen(
         mutableStateOf(listOf<JsonAnuncios>())
     }
 
-    val call = RetrofitHelper.getAnunciosService().getAnuncios(page)
+    LaunchedEffect(key1 = true){
+        val call = RetrofitHelper.getAnunciosService().getAnuncios(page)
 
-    // Executar a chamada
-    call.enqueue(object : Callback<AnunciosBaseResponse> {
-        override fun onResponse(
-            call: Call<AnunciosBaseResponse>, response: Response<AnunciosBaseResponse>
-        ) {
-            Log.e(TAG, "resposta: $response", )
+        // Executar a chamada
+        call.enqueue(object : Callback<AnunciosBaseResponse> {
+            override fun onResponse(
+                call: Call<AnunciosBaseResponse>, response: Response<AnunciosBaseResponse>
+            ) {
+                Log.e(TAG, "resposta: $response", )
 
-            if(response.code() == 200){
-                listAnuncios = response.body()!!.anuncios
-//                Log.e("Cont", "Contador: $cont ")
-//                Log.e("Lista", "Lista: $listAnuncios")
-//                Log.e("ListaEmpty", "Lista: ${listAnuncios.isNotEmpty()}")
-                if(cont && listAnuncios.isNotEmpty() && response.body()!!.page == page){
-                    listAnunciosFeed += listAnuncios
+                if(response.code() == 200){
+                    listAnuncios = response.body()!!.anuncios
 
-                    cont = false
+                    if(cont && listAnuncios.isNotEmpty() && response.body()!!.page == page){
+                        listAnunciosFeed += listAnuncios
+
+                        cont = false
+                    }
                 }else{
-//                    Log.e(TAG, "Contador morreu", )
+                    Toast.makeText(context, "erro da api", Toast.LENGTH_SHORT).show()
                 }
-//                Log.e("lista", "onResponse: $listAnuncios")
-            }else{
-                Toast.makeText(context, "erro da api", Toast.LENGTH_SHORT).show()
+
             }
 
-        }
-
-        override fun onFailure(call: Call<AnunciosBaseResponse>, t: Throwable) {
+            override fun onFailure(call: Call<AnunciosBaseResponse>, t: Throwable) {
 //            Log.d("ERROR_FEED", "ERROR NA CHAMADA DE FEED")
 //            Log.d("ERROR_FEED-t", "$t")
 //            Log.d("ERROR_FEED-tmessage", "${t.message}")
 //            Log.d("ERROR_FEED-tstacktrace", "${t.stackTrace}")
 //            Log.d("ERROR_FEED-tlocalized", t.localizedMessage!!)
 //            Log.d("ERROR_FEED-tcause", "${t.cause}")
-        }
-    })
+            }
+        })
+    }
 
     val array = UserRepository(context).findUsers()
     var user = User()
@@ -200,9 +198,6 @@ fun FeedScreen(
                                             viewModelQueVaiPassarOsDados.editora = item.editora
                                             viewModelQueVaiPassarOsDados.idioma = item.idioma
                                             viewModelQueVaiPassarOsDados.preco = item.anuncio.preco
-//                                        Log.e("Valor Preco", "${viewModelQueVaiPassarOsDados.preco}")
-                                        } else {
-//                                            Log.e("Anunciante", "null")
                                         }
                                     }
                                 },
@@ -280,49 +275,3 @@ fun getAnuncios(page: Int): List<JsonAnuncios> {
 
     return listAnuncios
 }
-
-//val call = RetrofitHelper.getAnunciosFavoritadosService()
-//                                    .verificarFavorito(user.id, id)
-//
-//
-//                                // Executar a chamada
-//                                call.enqueue(object : Callback<VerificarFavoritoBaseResponse> {
-//                                    override fun onResponse(
-//                                        call: Call<VerificarFavoritoBaseResponse>,
-//                                        response: Response<VerificarFavoritoBaseResponse>
-//                                    ) {
-//
-//                                        Log.e("BODY", "onResponse: ${response.body()}")
-//
-//
-//                                        if (response.isSuccessful) {
-//
-//                                            Log.e("Ja ta favoritado bixo burro", "Plim")
-//                                            isChecked = false
-//
-//
-//                                            removerDosFavoritos(id_anuncio = id, id_usuario = user.id)
-//                                            coracaoClik()
-//                                        } else {
-//                                            Log.e("MORREU", "morreu")
-//                                            Log.e(
-//                                                "ErrorBody",
-//                                                "burrei: ${response.errorBody()?.string()!!}",
-//                                            )
-//                                            isChecked = true
-//
-//                                            Log.e("Log de Hoje felipe", "${id}")
-//                                            Log.e("Log de Hoje felipe", "${user.id}")
-//                                            favoritarAnuncio(id_anuncio = id, id_usuario = user.id, lifecycleScope = lifecycleScope)
-//                                        }
-//                                    }
-//
-//
-//                                    override fun onFailure(
-//                                        call: Call<VerificarFavoritoBaseResponse>,
-//                                        t: Throwable
-//                                    ) {
-//                                        Log.d("mudou o nome", "Depois da chamada da API:")
-//                                    }
-//                                })
-//                            Log.i("testando123", "${call}")
