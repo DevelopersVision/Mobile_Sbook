@@ -44,7 +44,6 @@ fun LoginScreen(
     var emailState by remember { mutableStateOf("") }
     var senhaState by remember { mutableStateOf("") }
     var isLoading by remember { mutableStateOf(false) } // Variável para controlar a visibilidade da ProgressBar
-    var pesquisaState by remember { mutableStateOf("") }
     val context = LocalContext.current
 
     Surface(
@@ -97,7 +96,7 @@ fun login(
         val loginRepository = LoginRepository()
 
         lifecycleScope.launch {
-            val response = loginRepository.loginUsuario(email, senha)
+            val response = loginRepository.loginUsuarioV2(email, senha)
             val code = response.code()
 
             if (response.isSuccessful) {

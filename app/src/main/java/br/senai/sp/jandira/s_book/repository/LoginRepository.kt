@@ -15,4 +15,13 @@ class LoginRepository {
 
         return apiService.loginUsuario(requestBody)
     }
+
+    suspend fun loginUsuarioV2(email: String?, senha: String?): Response<JsonObject> {
+        val requestBody = JsonObject().apply {
+            addProperty("email", email)
+            addProperty("senha", senha)
+        }
+
+        return apiService.loginUsuarioV2(requestBody)
+    }
 }

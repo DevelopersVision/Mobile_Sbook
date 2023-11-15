@@ -14,4 +14,8 @@ interface LoginService {
     @POST("/v1/sbook/login")
     suspend fun loginUsuario(@Body body: JsonObject): Response<JsonObject>
 
+    @Headers("Content-Type: application/json")
+    @POST("/v2/sbook/login")
+    suspend fun loginUsuarioV2(@Body body: JsonObject): Response<JsonObject>
+
 }
