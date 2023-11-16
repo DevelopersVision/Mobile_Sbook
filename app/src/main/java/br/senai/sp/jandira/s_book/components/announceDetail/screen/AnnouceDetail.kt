@@ -19,6 +19,7 @@ import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.components.announceDetail.components.CardInformacao
 import br.senai.sp.jandira.s_book.components.announceDetail.components.FooterDescricao
 import br.senai.sp.jandira.s_book.components.announceDetail.components.Header
+import br.senai.sp.jandira.s_book.model.chat.view_model.ChatViewModel
 import br.senai.sp.jandira.s_book.view_model.AnuncioViewModel
 
 
@@ -26,6 +27,7 @@ import br.senai.sp.jandira.s_book.view_model.AnuncioViewModel
 fun AnnouceDetail(
     navController: NavController,
     viewMODEL: AnuncioViewModel,
+//    viewModelChat: ChatViewModel,
     lifecycleScope: LifecycleCoroutineScope
 ){
     //Log.e("viewLuiz", "${viewMODEL.autor}")
@@ -40,7 +42,8 @@ fun AnnouceDetail(
         ){
             items(1){
                 Header(viewMODEL)
-                CardInformacao(viewMODEL, lifecycleScope, onClick = {})
+                CardInformacao(viewMODEL, lifecycleScope, onClick = {
+                })
                 Spacer(modifier = Modifier.height(12.dp))
                 FooterDescricao(viewMODEL)
             }

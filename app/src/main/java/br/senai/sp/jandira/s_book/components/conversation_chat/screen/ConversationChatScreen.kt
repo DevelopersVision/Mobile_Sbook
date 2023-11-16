@@ -81,12 +81,12 @@ fun ConversationChatScreen(
     }
 
 
-    Image(
-        modifier = Modifier.fillMaxSize(),
-        painter = painterResource(id = R.drawable.fundo),
-        contentDescription = "",
-        contentScale = ContentScale.FillBounds,
-    )
+//    Image(
+//        modifier = Modifier.fillMaxSize(),
+//        painter = painterResource(id = R.drawable.fundo),
+//        contentDescription = "",
+//        contentScale = ContentScale.FillBounds,
+//    )
 
     Column(
         modifier = Modifier
@@ -137,7 +137,9 @@ fun ConversationChatScreen(
 
             Header(foto = foto, nome = nome)
             Spacer(modifier = Modifier.height(8.dp))
-            Column {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
                 Card(
                     modifier = Modifier
                         .width(140.dp)
@@ -151,7 +153,7 @@ fun ConversationChatScreen(
                         horizontalArrangement = Arrangement.Center
                     ) {
                         Text(
-                            text = "3 de agosto de 2023",
+                            text = "16 de novembro de 2023",
                             fontSize = 12.sp,
                             fontWeight = FontWeight(600),
                             color = Color(0xFF000000)
@@ -160,7 +162,7 @@ fun ConversationChatScreen(
                 }
 
                 LazyColumn(
-                    modifier = Modifier.height(590.dp),
+                    modifier = Modifier.height(590.dp).padding(12.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
@@ -188,6 +190,7 @@ fun ConversationChatScreen(
                 ) {
 
                     message = it
+                    message = ""
 
                     val json = JSONObject().apply {
                         put("messageBy", idUsuario)
@@ -201,6 +204,7 @@ fun ConversationChatScreen(
                     // val jsonString = Json.encodeToString(json)
 
                     client.sendMessage(json)
+
                 }
             }
         }
