@@ -23,6 +23,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.R
 import coil.compose.AsyncImage
 
@@ -30,7 +31,8 @@ import coil.compose.AsyncImage
 @Composable
 fun Header(
     foto: String,
-    nome: String
+    nome: String,
+    onclick: () -> Unit
 ) {
     Row(
         modifier = Modifier.fillMaxWidth().background(Color.White).padding(24.dp),
@@ -41,7 +43,9 @@ fun Header(
             contentDescription = "",
             modifier = Modifier
                 .size(32.dp)
-                .clickable {})
+                .clickable {
+                    onclick()
+                })
         AsyncImage(
             modifier = Modifier
                 .clip(CircleShape)

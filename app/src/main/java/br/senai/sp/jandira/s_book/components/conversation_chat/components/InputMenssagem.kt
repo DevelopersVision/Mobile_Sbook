@@ -71,6 +71,7 @@ fun  InputMenssagem(
         Button(
             onClick = {
                       onclick(mensagemState)
+                mensagemState = ""
             },
             modifier = Modifier.size(60.dp),
             shape = CircleShape,

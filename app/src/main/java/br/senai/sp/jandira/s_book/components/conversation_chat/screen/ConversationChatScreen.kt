@@ -54,6 +54,7 @@ import br.senai.sp.jandira.s_book.components.conversation_chat.components.InputM
 import br.senai.sp.jandira.s_book.model.chat.ChatClient
 import br.senai.sp.jandira.s_book.model.chat.MesagensResponse
 import br.senai.sp.jandira.s_book.model.chat.view_model.ChatViewModel
+import br.senai.sp.jandira.s_book.navigation_home_bar.BottomBarScreen
 import coil.compose.AsyncImage
 import com.google.gson.Gson
 import io.socket.client.Socket
@@ -64,6 +65,7 @@ import org.json.JSONObject
 @Composable
 fun ConversationChatScreen(
     navController: NavController,
+    navRotasController: NavController,
     client: ChatClient,
     socket: Socket,
     chatViewModel: ChatViewModel,
@@ -135,7 +137,10 @@ fun ConversationChatScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            Header(foto = foto, nome = nome)
+            Header(foto = foto, nome = nome, onclick = {
+                navController.popBackStack()
+            })
+
             Spacer(modifier = Modifier.height(8.dp))
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally
@@ -190,7 +195,6 @@ fun ConversationChatScreen(
                 ) {
 
                     message = it
-                    message = ""
 
                     val json = JSONObject().apply {
                         put("messageBy", idUsuario)

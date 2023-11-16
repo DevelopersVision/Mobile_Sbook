@@ -224,7 +224,7 @@ class MainActivity : ComponentActivity() {
                             val client = ChatClient()
                             client.connect(data.toInt())
                             val socket = client.getSocket()
-                            ConversationChatScreen( navController,socket = socket, idUsuario = data.toInt(), chatViewModel = chatViewModel, client = client)
+                            ConversationChatScreen( navController,socket = socket, idUsuario = data.toInt(), chatViewModel = chatViewModel, client = client, navRotasController = navController)
                         }
                         composable("tela_generica"){
                             GenericScreen(navController = navController, lifecycleScope = lifecycleScope ,navRotasController = navController, viewModelQueVaiPassarOsDados = viewModelAnuncio, viewModelQueVaiReceberOsgeneros = viewModelFilters)
