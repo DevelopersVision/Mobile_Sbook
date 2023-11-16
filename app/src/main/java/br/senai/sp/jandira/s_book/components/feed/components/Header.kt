@@ -120,7 +120,7 @@ fun Header(
         shape = RoundedCornerShape(bottomStart = 16.dp, bottomEnd = 16.dp)
     ) {
         Image(
-            painter = painterResource(id = R.drawable.fundo),
+            painter = painterResource(id = R.drawable.fundofeed),
             contentDescription = "",
             contentScale = ContentScale.FillBounds
         )

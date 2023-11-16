@@ -55,9 +55,8 @@ fun SearchScreen(
                 call: Call<AnuncioNoPageBaseResponse>,
                 response: Response<AnuncioNoPageBaseResponse>
             ) {
-                var body = response.errorBody()
-                listAnuncios = response.body()?.anuncios.orEmpty()
-                isLoading = false
+                listAnuncios = response.body()!!.anuncios
+                isLoading = true
                 Log.e("eu thiago felipe", "${listAnuncios}")
             }
 
@@ -100,7 +99,6 @@ fun SearchScreen(
             LazyColumn(
                 modifier = Modifier.fillMaxSize()
             ) {
-
                 items(listAnuncios.filter { anuncio ->
                     anuncio.anuncio.nome.contains(pesquisar, ignoreCase = true)
                 }) { item ->

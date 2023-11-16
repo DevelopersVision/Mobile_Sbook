@@ -348,7 +348,9 @@ fun CardInformacao(
                                     } else {
                                         DefaultButtonScreen(
                                             text = "${it.tipo}",
-                                        ) {}
+                                        ) {
+                                            onClick()
+                                        }
                                     }
                                 }
                             }
@@ -358,7 +360,9 @@ fun CardInformacao(
                                     Log.e("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "${it.tipo}")
                                     DefaultButtonScreen(
                                         text = "${it.tipo}",
-                                    ) {}
+                                    ) {
+                                        onClick()
+                                    }
                                 }
                             }
                         }
