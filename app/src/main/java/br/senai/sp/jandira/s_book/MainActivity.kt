@@ -9,8 +9,10 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -59,6 +61,7 @@ import br.senai.sp.jandira.s_book.view_model.AnnouncePhotosViewModel
 import br.senai.sp.jandira.s_book.view_model.AnuncioViewModel
 import br.senai.sp.jandira.s_book.view_model.ViewModelDosAutores
 import br.senai.sp.jandira.s_book.view_model.ViewModelDosGenerosSelecionados
+import br.senai.sp.jandira.s_book.view_model.ViewModelDosIds
 import br.senai.sp.jandira.s_book.view_model.ViewModelDosTipoDeLivros
 import br.senai.sp.jandira.s_book.view_model.ViweModelDosFiltros
 
@@ -85,6 +88,7 @@ class MainActivity : ComponentActivity() {
                     val viewModelGeneros = viewModel<ViewModelDosGenerosSelecionados>()
                     val viewModelDosAutores = viewModel<ViewModelDosAutores>()
                     val viewModelDosTiposDeLivro = viewModel<ViewModelDosTipoDeLivros>()
+                    val viewModelDosIdentificadores = viewModel<ViewModelDosIds>()
 
                     val client = ChatClient()
 
@@ -179,7 +183,7 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable("segundo_anunciar"){
-                            SecondCreateAnnounceScreen(navController, localStorage)
+                            SecondCreateAnnounceScreen(navController, localStorage, viewModelDosIdentificadores)
                         }
 
                         composable("terceiro_anunciar"){
@@ -191,7 +195,7 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable("quinto_anunciar"){
-                            FifthCreateAnnounceScreen(navController, localStorage)
+                            FifthCreateAnnounceScreen(navController, localStorage, viewModelDosIdentificadores)
                         }
 
                         composable("sexto_anunciar"){
@@ -199,7 +203,9 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable("setimo_anunciar"){
-                            SeventhCreateAnnounceScreen(localStorage, viewModelDasImagens, viewModelGeneros, viewModelDosAutores, viewModelDosTiposDeLivro)
+                            SeventhCreateAnnounceScreen(localStorage, viewModelDasImagens, viewModelGeneros, viewModelDosAutores, viewModelDosTiposDeLivro, viewModelDosIdentificadores, lifecycleScope = lifecycleScope,
+                                navController = navController,
+                                rota = "my_announces")
                         }
 
                         composable("conversa_chat"){

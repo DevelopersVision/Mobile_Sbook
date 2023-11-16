@@ -42,12 +42,14 @@ import br.senai.sp.jandira.s_book.Storage
 import br.senai.sp.jandira.s_book.components.second_create_announce.components.DropDownEditora
 import br.senai.sp.jandira.s_book.components.second_create_announce.components.DropDownIdioma
 import br.senai.sp.jandira.s_book.components.universal.HeaderCreateAnnounce
+import br.senai.sp.jandira.s_book.view_model.ViewModelDosIds
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SecondCreateAnnounceScreen(
     navController: NavController,
-    localStorage: Storage
+    localStorage: Storage,
+    viewModelDosIds: ViewModelDosIds
 ){
 
     var numeroState by remember {
@@ -86,9 +88,9 @@ fun SecondCreateAnnounceScreen(
                     color = Color(0xFF2A2929)
                 )
                 Spacer(modifier = Modifier.height(24.dp))
-                DropDownIdioma(localStorage)
+                DropDownIdioma(localStorage, viewModelDosIds)
                 Spacer(modifier = Modifier.height(24.dp))
-                DropDownEditora(localStorage)
+                DropDownEditora(localStorage, viewModelDosIds)
                 Spacer(modifier = Modifier.height(24.dp))
                 OutlinedTextField(
                     value = numeroState,

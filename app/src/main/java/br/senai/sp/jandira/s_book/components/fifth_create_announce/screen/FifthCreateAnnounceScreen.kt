@@ -47,6 +47,7 @@ import br.senai.sp.jandira.s_book.model.Genero
 import br.senai.sp.jandira.s_book.model.TipoAnuncio
 import br.senai.sp.jandira.s_book.repository.CategoryList
 import br.senai.sp.jandira.s_book.service.RetrofitHelper
+import br.senai.sp.jandira.s_book.view_model.ViewModelDosIds
 import br.senai.sp.jandira.s_book.view_model.ViewModelDosTipoDeLivros
 import retrofit2.Call
 import retrofit2.Callback
@@ -56,7 +57,7 @@ import retrofit2.Response
 fun FifthCreateAnnounceScreen(
     navController: NavController,
     localStorage: Storage,
-
+    viewModelDosIds: ViewModelDosIds
 ){
 
     var listEstadosLivro by remember{
@@ -139,6 +140,7 @@ fun FifthCreateAnnounceScreen(
                                 checked = isChecked,
                                 onCheckedChange = {isChecked ->
                                     estadosSelecionados = setOf(it.estado).takeIf { isChecked } ?: emptySet()
+                                    viewModelDosIds.id_estadoLivro = it.id
                                     Log.e("thiago", "${estadosSelecionados}")
                                     val estadosSelecionadosString = estadosSelecionados.joinToString(", ")
                                     localStorage.salvarValorString(context = context, estadosSelecionadosString, "estado_livro")

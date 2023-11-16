@@ -16,7 +16,7 @@ import org.json.JSONObject
 fun createAnnounceApp (
     nome: String,
     numeroPaginas: Int,
-    anoLancamento: String,
+    anoLancamento: Int,
     descricao: String,
     edicao: String,
     isbn: String,

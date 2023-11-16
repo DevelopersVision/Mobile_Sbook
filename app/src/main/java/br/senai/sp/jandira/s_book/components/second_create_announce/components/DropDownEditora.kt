@@ -32,6 +32,7 @@ import br.senai.sp.jandira.s_book.model.EditoraBaseResponse
 import br.senai.sp.jandira.s_book.model.Idioma
 import br.senai.sp.jandira.s_book.model.IdiomaBaseResponse
 import br.senai.sp.jandira.s_book.service.RetrofitHelper
+import br.senai.sp.jandira.s_book.view_model.ViewModelDosIds
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -40,7 +41,8 @@ import retrofit2.Response
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DropDownEditora(
-    localStorage: Storage
+    localStorage: Storage,
+    viewModelDosIds: ViewModelDosIds
 ) {
 
     var isExpanded by remember {
@@ -118,7 +120,9 @@ fun DropDownEditora(
                     DropdownMenuItem(
                         text = { Text(text = it.nome, color = Color.Black) },
                         onClick = {
+
                             editoraState = it.nome
+                            viewModelDosIds.id_editora = it.id
                             isExpanded = false
                         }
                     )
