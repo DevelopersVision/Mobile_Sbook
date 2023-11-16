@@ -255,13 +255,22 @@ fun SixthCreateAnnounceScreen(
                         .size(72.dp)
                         .clickable {
                             if (tiposSelecionados.isNotEmpty()) {
+
+
                                 if (!isVendaChecked || (isVendaChecked && vendaPriceState.isNotBlank())) {
+
+
                                     navController.navigate("setimo_anunciar")
 
                                     localStorage.salvarValorString(context, vendaPriceState, "venda_price")
 
                                     val tiposSelecionadosString = tiposSelecionados.joinToString(", ")
+
+
+
                                     localStorage.salvarValorString(context = context, tiposSelecionadosString, "tipo_livro")
+
+
                                 } else {
                                     Toast.makeText(context, "Gostaria de vender por qual preço é obrigatório quando 'Venda' está selecionado.", Toast.LENGTH_SHORT).show()
                                 }

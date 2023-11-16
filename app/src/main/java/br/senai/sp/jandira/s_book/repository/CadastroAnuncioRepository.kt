@@ -17,7 +17,7 @@ class CadastroAnuncioRepository {
     suspend fun cadastroAnuncio(
         nome: String,
         numeroPaginas: Int,
-        anoLancamento: String,
+        anoLancamento: Int,
         descricao: String,
         edicao: String,
         isbn: String,
@@ -36,10 +36,7 @@ class CadastroAnuncioRepository {
             val fotosJsonArray = JsonArray()
 
             fotos?.forEach { fotoUri ->
-                val fotoJsonObject = JsonObject().apply {
-                    addProperty("url", fotoUri.toString())
-                }
-                fotosJsonArray.add(fotoJsonObject)
+                fotosJsonArray.add(fotoUri.toString())
             }
 
             val tipoAnuncioJsonArray = JsonArray()

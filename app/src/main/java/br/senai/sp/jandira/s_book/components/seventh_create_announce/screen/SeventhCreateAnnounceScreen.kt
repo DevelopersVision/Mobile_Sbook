@@ -1,5 +1,6 @@
 package br.senai.sp.jandira.s_book.components.seventh_create_announce.screen
 
+import android.content.Context
 import android.net.Uri
 import android.util.Log
 import androidx.compose.foundation.Image
@@ -36,6 +37,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.LifecycleCoroutineScope
+import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.R
 import br.senai.sp.jandira.s_book.Storage
 import br.senai.sp.jandira.s_book.components.universal.HeaderCreateAnnounce
@@ -44,6 +47,7 @@ import br.senai.sp.jandira.s_book.sqlite_repository.UserRepository
 import br.senai.sp.jandira.s_book.view_model.AnnouncePhotosViewModel
 import br.senai.sp.jandira.s_book.view_model.ViewModelDosAutores
 import br.senai.sp.jandira.s_book.view_model.ViewModelDosGenerosSelecionados
+import br.senai.sp.jandira.s_book.view_model.ViewModelDosIds
 import br.senai.sp.jandira.s_book.view_model.ViewModelDosTipoDeLivros
 import coil.compose.AsyncImage
 
@@ -53,7 +57,11 @@ fun SeventhCreateAnnounceScreen(
     viewModel: AnnouncePhotosViewModel,
     viewModelDosGenerosSelecionados: ViewModelDosGenerosSelecionados,
     viewModelDosAutores: ViewModelDosAutores,
-    viewModelDosEstadoLivro: ViewModelDosTipoDeLivros
+    viewModelDosEstadoLivro: ViewModelDosTipoDeLivros,
+    viewModelDosIds: ViewModelDosIds,
+    lifecycleScope: LifecycleCoroutineScope,
+    rota: String,
+    navController: NavController
 ){
     val context = LocalContext.current
 
@@ -475,21 +483,77 @@ fun SeventhCreateAnnounceScreen(
             Button(
                 onClick = {
 
-//                    createAnnounceApp(nome = nomeLivro!!,
-//                        numeroPaginas = numeroLivro!!.toInt(),
-//                        anoLancamento = anoLivro!!,
-//                        descricao = sinopseLivro!!,
-//                        edicao = edicaoLivro!!,
-//                        autores = viewModelDosAutores.autores!!,
-//                        generos = viewModelDosGenerosSelecionados.selectedGeneros,
-//                        fotos = viewModel.fotos,
-//                        preco = precoLivro!!.toDouble(),
-//                        tiposAnuncio = viewModelDosEstadoLivro.tiposDoAnuncio!!,
-//                        idUsuario = user.id,
-//                        context = context,
-//                        isbn = isbnLivro,
-//
-//                        )
+                    Log.e("Comecou os log kkk numero de Paginas", "${numeroLivro!!.toInt()}")
+                    Log.e("Comecou os log kkk ano de lancamento ", "${anoLivro!!}")
+                    Log.e("Comecou os log kkk sinpose", "${sinopseLivro!!}")
+                    Log.e("Comecou os log kkk edicao", "${edicaoLivro!!}")
+                    Log.e("Comecou os log kkk autores", "${viewModelDosAutores.autores!!}")
+                    Log.e("Comecou os log kkk generos", "${viewModelDosGenerosSelecionados.selectedGeneros}")
+                    Log.e("Comecou os log kkk fotos", "${viewModel.fotos}")
+                    Log.e("Comecou os log kkk preco", "${precoLivro!!.toDouble()}")
+                    Log.e("Comecou os log :::: tiposAnuncio", "${viewModelDosEstadoLivro.tiposDoAnuncio!!}")
+                    Log.e("Comecou os log kkk id do usuario ", "${user.id}")
+                    Log.e("Comecou os log kkk isbn", "${isbnLivro!!}")
+                    Log.e("Comecou os log kkk id da editora", "${viewModelDosIds.id_editora!!}")
+                    Log.e("Comecou os log kkk id do idioma", "${viewModelDosIds.id_idioma!!}")
+                    Log.e("Comecou os log kkk id do estado do livro", "${viewModelDosIds.id_estadoLivro!!}")
+                    Log.e("Comecou os log kkk id da rota", "${rota}")
+
+
+                    createAnnounceApp(nome = nomeLivro!!,
+                        numeroPaginas = numeroLivro!!.toInt(),
+
+
+                        anoLancamento = anoLivro!!.toInt(),
+
+
+                        descricao = sinopseLivro!!,
+
+
+                        edicao = edicaoLivro!!,
+
+
+                        autores = viewModelDosAutores.autores!!,
+
+
+                        generos = viewModelDosGenerosSelecionados.selectedGeneros,
+
+
+                        fotos = viewModel.fotos,
+
+
+                        preco = precoLivro!!.toDouble(),
+
+
+                        tiposAnuncio = viewModelDosEstadoLivro.tiposDoAnuncio!!,
+
+
+                        idUsuario = user.id,
+
+
+                        context = context,
+
+
+                        isbn = isbnLivro!!,
+
+
+                        idEditora = viewModelDosIds.id_editora!!,
+
+
+                        idIdioma = viewModelDosIds.id_idioma!!,
+
+
+                        idEstadoLivro = viewModelDosIds.id_estadoLivro!!,
+
+
+                        lifecycleScope = lifecycleScope,
+
+
+                        rota = rota,
+
+
+                        navController = navController
+                        )
                 },
                 colors = ButtonDefaults.buttonColors(Color(218, 108, 39, 255)),
                 modifier = Modifier

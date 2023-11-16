@@ -9,7 +9,7 @@ import retrofit2.http.POST
 interface CadastroAnuncioService {
 
     @Headers("Content-Type: application/json")
-    @POST("/v1/sbook/publicar-anuncio")
+    @POST("/v1/sbook/anuncio")
     suspend fun cadastroAnuncio(@Body body: JsonObject): Response<JsonObject>
 
 }
