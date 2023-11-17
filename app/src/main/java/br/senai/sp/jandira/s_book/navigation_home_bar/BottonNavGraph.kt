@@ -48,7 +48,7 @@ fun ButtonNavGraph(
                 viewModelQueVaiPassarOsDados = anuncioViewMODEL
             )
         }
-        Log.e("eu", "ButtonNavGraph: ${BottomBarScreen.Chat.route}", )
+
         composable(route = BottomBarScreen.Chat.route){
 
 

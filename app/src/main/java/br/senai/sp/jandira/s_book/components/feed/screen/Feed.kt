@@ -35,7 +35,10 @@ import br.senai.sp.jandira.s_book.components.feed.components.AnunciosProximos
 import br.senai.sp.jandira.s_book.components.feed.components.ButtonCarregar
 import br.senai.sp.jandira.s_book.components.feed.components.EscolhaFazer
 import br.senai.sp.jandira.s_book.components.feed.components.Header
+import br.senai.sp.jandira.s_book.components.perfil.components.converterData
 import br.senai.sp.jandira.s_book.components.universal.ProgressBar
+import br.senai.sp.jandira.s_book.functions.deleteUserSQLite
+import br.senai.sp.jandira.s_book.functions.saveLogin
 import br.senai.sp.jandira.s_book.model.AnunciosBaseResponse
 import br.senai.sp.jandira.s_book.model.JsonAnuncios
 import br.senai.sp.jandira.s_book.model.ResponseUsuario
@@ -76,46 +79,127 @@ fun FeedScreen(
         mutableStateOf(listOf<JsonAnuncios>())
     }
 
-    LaunchedEffect(key1 = true){
-        val call = RetrofitHelper.getAnunciosService().getAnuncios(page)
-
-        // Executar a chamada
-        call.enqueue(object : Callback<AnunciosBaseResponse> {
-            override fun onResponse(
-                call: Call<AnunciosBaseResponse>, response: Response<AnunciosBaseResponse>
-            ) {
-                Log.e(TAG, "resposta: $response", )
-
-                if(response.code() == 200){
-                    listAnuncios = response.body()!!.anuncios
-
-                    if(cont && listAnuncios.isNotEmpty() && response.body()!!.page == page){
-                        listAnunciosFeed += listAnuncios
-
-                        cont = false
-                    }
-                }else{
-                    Toast.makeText(context, "erro da api", Toast.LENGTH_SHORT).show()
-                }
-
-            }
-
-            override fun onFailure(call: Call<AnunciosBaseResponse>, t: Throwable) {
-//            Log.d("ERROR_FEED", "ERROR NA CHAMADA DE FEED")
-//            Log.d("ERROR_FEED-t", "$t")
-//            Log.d("ERROR_FEED-tmessage", "${t.message}")
-//            Log.d("ERROR_FEED-tstacktrace", "${t.stackTrace}")
-//            Log.d("ERROR_FEED-tlocalized", t.localizedMessage!!)
-//            Log.d("ERROR_FEED-tcause", "${t.cause}")
-            }
-        })
+    var imagemPefil by remember {
+        mutableStateOf("")
     }
 
-    val array = UserRepository(context).findUsers()
-    var user = User()
+    var statusPerfil by remember {
+        mutableStateOf(false)
+    }
 
-    if (array.isNotEmpty()) {
-        user = array[0]
+    var user2 by remember {
+        mutableStateOf(
+            Usuario(
+                0,
+                "",
+                "",
+                "",
+                "",
+                "",
+                false,
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                id_endereco = 0
+            )
+        )
+    }
+
+
+
+    LaunchedEffect(key1 = true){
+
+            val call = RetrofitHelper.getAnunciosService().getAnuncios(page)
+
+            // Executar a chamada
+            call.enqueue(object : Callback<AnunciosBaseResponse> {
+                override fun onResponse(
+                    call: Call<AnunciosBaseResponse>, response: Response<AnunciosBaseResponse>
+                ) {
+                    Log.e(TAG, "resposta: $response", )
+
+                    if(response.code() == 200){
+                        listAnuncios = response.body()!!.anuncios
+
+                        if(cont && listAnuncios.isNotEmpty() && response.body()!!.page == page){
+                            listAnunciosFeed += listAnuncios
+
+                            cont = false
+                        }
+                    }else{
+                        Toast.makeText(context, "erro da api", Toast.LENGTH_SHORT).show()
+                    }
+
+                }
+
+                override fun onFailure(call: Call<AnunciosBaseResponse>, t: Throwable) {
+//            Log.d("ERROR_FEED", "ERROR NA CHAMADA DE FEED")
+//            Log.d("ERROR_FEED-t", "$t")
+                    Log.d("ERROR_FEED-tmessage", "${t.message}")
+                    Log.d("ERROR_FEED-tstacktrace", "${t.stackTrace}")
+//            Log.d("ERROR_FEED-tlocalized", t.localizedMessage!!)
+//            Log.d("ERROR_FEED-tcause", "${t.cause}")
+                }
+            })
+
+            Thread{
+                val dadaUser = UserRepository(context).findUsers()
+
+                var array = User()
+
+                var data = ""
+
+                if (dadaUser.isNotEmpty()) {
+                    statusPerfil = true
+
+                    array = dadaUser[0]
+
+                    imagemPefil = array.foto
+
+                    data = converterData(array.dataNascimento)
+
+                    // Cria uma chamada para o EndPoint
+                    val call = RetrofitHelper.getUserByIdService().getUsuarioById(array.id)
+
+                    // Executar a chamada
+                    call.enqueue(object : Callback<ResponseUsuario> {
+                        override fun onResponse(
+                            call: Call<ResponseUsuario>,
+                            response: Response<ResponseUsuario>
+                        ) {
+                            Log.e("TAG", "onResponse: ${response.body()}")
+                            user2 = response.body()?.dados!!
+
+                            deleteUserSQLite(context = context, array.id.toInt())
+
+                            saveLogin(
+                                context = context,
+                                id = user2.id_usuario,
+                                nome = user2.nome,
+                                token = array.token,
+                                email = user2.email,
+                                cep = user2.cep,
+                                idEndereco = user2.id_endereco,
+                                foto = user2.foto,
+                                dataNascimento = user2.data_nascimento,
+                                logradouro = user2.logradouro,
+                                bairro = user2.bairro,
+                                cidade = user2.cidade,
+                                ufEstado = user2.estado,
+                                senha = array.senha,
+                                cpf = user2.cpf
+                            )
+                        }
+
+                        override fun onFailure(call: Call<ResponseUsuario>, t: Throwable) {
+                            Log.e("Morreu User", "Morreu na call de user no feed")
+                        }
+                    })
+                }
+            }.start()
     }
 
     var isLoading by remember { mutableStateOf(false) } // Variável para controlar a visibilidade da ProgressBar
@@ -127,7 +211,7 @@ fun FeedScreen(
             .verticalScroll(rememberScrollState())
             .background(Color.White)
     ) {
-        Header(navController, navRotasController, context)
+        Header(navController, navRotasController, context, imagemPefil, statusPerfil)
         Column(
             modifier = Modifier
                 .fillMaxSize()

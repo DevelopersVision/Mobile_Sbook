@@ -2,6 +2,7 @@ package br.senai.sp.jandira.s_book.components.feed.components
 
 import android.content.Context
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -19,6 +20,7 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -39,6 +41,7 @@ import br.senai.sp.jandira.s_book.components.favorite.screen.FavoritoScreen
 import br.senai.sp.jandira.s_book.components.perfil.components.converterData
 import br.senai.sp.jandira.s_book.functions.deleteUserSQLite
 import br.senai.sp.jandira.s_book.functions.saveLogin
+import br.senai.sp.jandira.s_book.model.AnunciosBaseResponse
 import br.senai.sp.jandira.s_book.model.ResponseUsuario
 import br.senai.sp.jandira.s_book.model.Usuario
 import br.senai.sp.jandira.s_book.models_private.User
@@ -53,64 +56,120 @@ import retrofit2.Response
 fun Header(
     navController: NavController,
     navRotasController: NavController,
-    context: Context
+    context: Context,
+    imagemPerfil: String,
+    statusPerfil: Boolean
 ) {
 
-    val dadaUser = UserRepository(context).findUsers()
+//    val dadaUser = UserRepository(context).findUsers()
+//
+//    var array = User()
+//
+//    var data = ""
+//
+//    var user by remember {
+//        mutableStateOf(
+//            Usuario(
+//                0,
+//                "",
+//                "",
+//                "",
+//                "",
+//                "",
+//                false,
+//                "",
+//                "",
+//                "",
+//                "",
+//                "",
+//                "",
+//                id_endereco = 0
+//            )
+//        )
+//    }
+//
+//    if (dadaUser.isNotEmpty()) {
+//        array = dadaUser[0]
+//
+//        data = converterData(array.dataNascimento)
+//
+//        // Cria uma chamada para o EndPoint
+//        val call = RetrofitHelper.getUserByIdService().getUsuarioById(array.id)
+//
+//        // Executar a chamada
+//        call.enqueue(object : Callback<ResponseUsuario> {
+//            override fun onResponse(
+//                call: Call<ResponseUsuario>,
+//                response: Response<ResponseUsuario>
+//            ) {
+//                Log.e("TAG", "onResponse: ${response.body()}")
+//                user = response.body()?.dados!!
+//
+//                deleteUserSQLite(context = context, array.id.toInt())
+//
+//                saveLogin(
+//                    context = context,
+//                    id = user.id_usuario,
+//                    nome = user.nome,
+//                    token = array.token,
+//                    email = user.email,
+//                    cep = user.cep,
+//                    idEndereco = user.id_endereco,
+//                    foto = user.foto,
+//                    dataNascimento = user.data_nascimento,
+//                    logradouro = user.logradouro,
+//                    bairro = user.bairro,
+//                    cidade = user.cidade,
+//                    ufEstado = user.estado,
+//                    senha = array.senha,
+//                    cpf = user.cpf
+//                )
+//            }
+//
+//            override fun onFailure(call: Call<ResponseUsuario>, t: Throwable) {
+//                Log.e("Morreu User", "Morreu na call de user no feed")
+//            }
+//        })
+//    }
 
-    var array = User()
-
-    var data = ""
-
-    var user by remember {
-        mutableStateOf(Usuario(0, "", "", "", "", "", false, "", "", "", "", "", "", id_endereco = 0))
-    }
-
-    if (dadaUser.isNotEmpty()) {
-        array = dadaUser[0]
-
-        data = converterData(array.dataNascimento)
-
-        // Cria uma chamada para o EndPoint
-        val call = RetrofitHelper.getUserByIdService().getUsuarioById(array.id)
-
-        // Executar a chamada
-        call.enqueue(object : Callback<ResponseUsuario> {
-            override fun onResponse(
-                call: Call<ResponseUsuario>,
-                response: Response<ResponseUsuario>
-            ) {
-                Log.e("TAG", "onResponse: ${response.body()}")
-                user = response.body()?.dados!!
-
-                deleteUserSQLite(context = context, array.id.toInt())
-
-                saveLogin(
-                    context = context,
-                    id = user.id_usuario,
-                    nome = user.nome,
-                    token = array.token,
-                    email = user.email,
-                    cep = user.cep,
-                    idEndereco = user.id_endereco,
-                    foto = user.foto,
-                    dataNascimento = user.data_nascimento,
-                    logradouro = user.logradouro,
-                    bairro = user.bairro,
-                    cidade = user.cidade,
-                    ufEstado = user.estado,
-                    senha = array.senha,
-                    cpf = user.cpf
-                )
-            }
-
-            override fun onFailure(call: Call<ResponseUsuario>, t: Throwable) {
-
-            }
-        })
-    }
-
-
+//        // Cria uma chamada para o EndPoint
+//        val call = RetrofitHelper.getUserByIdService().getUsuarioById(array.id)
+//
+//        // Executar a chamada
+//        call.enqueue(object : Callback<ResponseUsuario> {
+//            override fun onResponse(
+//                call: Call<ResponseUsuario>,
+//                response: Response<ResponseUsuario>
+//            ) {
+//                Log.e("TAG", "onResponse: ${response.body()}")
+//                user = response.body()?.dados!!
+//
+//                deleteUserSQLite(context = context, array.id.toInt())
+//
+//                saveLogin(
+//                    context = context,
+//                    id = user.id_usuario,
+//                    nome = user.nome,
+//                    token = array.token,
+//                    email = user.email,
+//                    cep = user.cep,
+//                    idEndereco = user.id_endereco,
+//                    foto = user.foto,
+//                    dataNascimento = user.data_nascimento,
+//                    logradouro = user.logradouro,
+//                    bairro = user.bairro,
+//                    cidade = user.cidade,
+//                    ufEstado = user.estado,
+//                    senha = array.senha,
+//                    cpf = user.cpf
+//                )
+//            }
+//
+//            override fun onFailure(call: Call<ResponseUsuario>, t: Throwable) {
+//                Log.e("Morreu User", "Morreu na call de user no feed", )
+//            }
+//        })
+//    }
 
 
     Card(
@@ -139,30 +198,31 @@ fun Header(
                     contentDescription = "",
                     modifier = Modifier.size(52.dp)
                 )
-                if(user.id_usuario.toInt() == 0){
+                if (!statusPerfil) {
                     Image(
                         painter = painterResource(id = R.drawable.padrao),
                         contentDescription = "",
-                        modifier = Modifier.size(32.dp)
+                        modifier = Modifier
+                            .size(32.dp)
                             .clickable {
-                                if(dadaUser.isNotEmpty()){
+                                if (statusPerfil) {
                                     navRotasController.navigate("profile")
-                                }else{
+                                } else {
                                     navRotasController.navigate("login")
                                 }
                             }
                     )
-                }else{
+                } else {
                     AsyncImage(
-                        model = user.foto,
+                        model = imagemPerfil,
                         contentDescription = "",
                         modifier = Modifier
                             .size(50.dp)
                             .clip(CircleShape)
                             .clickable {
-                                if(dadaUser.isNotEmpty()){
+                                if (statusPerfil) {
                                     navRotasController.navigate("profile")
-                                }else{
+                                } else {
                                     navRotasController.navigate("login")
                                 }
                             }

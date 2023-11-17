@@ -2,8 +2,11 @@ package br.senai.sp.jandira.s_book.components.conversation_chat.screen
 
 import android.util.Log
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -83,16 +86,11 @@ fun ConversationChatScreen(
     }
 
 
-//    Image(
-//        modifier = Modifier.fillMaxSize(),
-//        painter = painterResource(id = R.drawable.fundo),
-//        contentDescription = "",
-//        contentScale = ContentScale.FillBounds,
-//    )
+
 
     Column(
         modifier = Modifier
-            .fillMaxHeight(),
+            .fillMaxSize(),
         verticalArrangement = Arrangement.SpaceBetween
     ) {
 
@@ -133,83 +131,109 @@ fun ConversationChatScreen(
 
 
 
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(740.dp)
         ) {
-
-            Header(foto = foto, nome = nome, onclick = {
-                navController.popBackStack()
-            })
-
-            Spacer(modifier = Modifier.height(8.dp))
+            Image(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .fillMaxWidth(),
+                painter = painterResource(id = R.drawable.fundo),
+                contentDescription = "",
+                contentScale = ContentScale.FillBounds,
+            )
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Card(
-                    modifier = Modifier
-                        .width(140.dp)
-                        .height(32.dp),
-                    backgroundColor = Color(0xFFD9D9D9),
-                    shape = RoundedCornerShape(8.dp)
-                ) {
-                    Row(
-                        modifier = Modifier.fillMaxSize(),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Center
-                    ) {
-                        Text(
-                            text = "16 de novembro de 2023",
-                            fontSize = 12.sp,
-                            fontWeight = FontWeight(600),
-                            color = Color(0xFF000000)
-                        )
-                    }
-                }
+                Header(foto = foto, nome = nome, onclick = {
+                    navController.popBackStack()
+                })
 
-                LazyColumn(
-                    modifier = Modifier.height(590.dp).padding(12.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                Spacer(modifier = Modifier.height(8.dp))
+                Column(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    items(listaMensagens.mensagens) {
-                        if (it.messageTo == idUsuario) {
-                            CardMensagemCliente(
-                                menssagem = it.message,
-                                hora = it.hora_criacao!!,
-                                envio = it.messageBy,
-                                cor = Color(0xFF000000)
-                            )
-                        } else {
-                            CardMensagemUser(
-                                menssagem = it.message,
-                                hora = it.hora_criacao!!,
-                                envio = it.messageBy,
-                                cor = Color(221, 163, 93, 255)
+                    Card(
+                        modifier = Modifier
+                            .width(140.dp)
+                            .height(32.dp),
+                        backgroundColor = Color(0xFFD9D9D9),
+                        shape = RoundedCornerShape(8.dp)
+                    ) {
+                        Row(
+                            modifier = Modifier.fillMaxSize(),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.Center
+                        ) {
+                            Text(
+                                text = "16 de novembro de 2023",
+                                fontSize = 12.sp,
+                                fontWeight = FontWeight(600),
+                                color = Color(0xFF000000)
                             )
                         }
                     }
-                }
-                Spacer(modifier = Modifier.height(6.dp))
-                InputMenssagem(
-                    mensagem = message
-                ) {
-
-                    message = it
-
-                    val json = JSONObject().apply {
-                        put("messageBy", idUsuario)
-                        put("messageTo", idUser2)
-                        put("message", message)
-                        put("image", "")
-                        put("chatId", idChat)
+                    LazyColumn(
+                        modifier = Modifier
+                            .height(590.dp)
+                            .padding(12.dp),
+                        verticalArrangement = Arrangement.spacedBy(8.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        items(listaMensagens.mensagens) {
+                            if (it.messageTo == idUsuario) {
+                                CardMensagemCliente(
+                                    menssagem = it.message,
+                                    hora = it.hora_criacao!!,
+                                    envio = it.messageBy,
+                                    cor = Color(0xFF000000)
+                                )
+                            } else {
+                                CardMensagemUser(
+                                    menssagem = it.message,
+                                    hora = it.hora_criacao!!,
+                                    envio = it.messageBy,
+                                    cor = Color(221, 163, 93, 255)
+                                )
+                            }
+                        }
                     }
-
-                    Log.e("JSON", "$json")
-                    // val jsonString = Json.encodeToString(json)
-
-                    client.sendMessage(json)
-
                 }
+            }
+        }
+//        Spacer(modifier = Modifier.height(6.dp))
+
+        Column (
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(300.dp)
+                .border(
+                    width = 0.5.dp,
+                    color = Color(0xFF808080),
+                    shape = RoundedCornerShape(topEnd = 8.dp, topStart = 8.dp)
+                ),
+        ){
+            InputMenssagem(
+                mensagem = message
+            ) {
+
+                message = it
+
+                val json = JSONObject().apply {
+                    put("messageBy", idUsuario)
+                    put("messageTo", idUser2)
+                    put("message", message)
+                    put("image", "")
+                    put("chatId", idChat)
+                }
+
+                Log.e("JSON", "$json")
+                // val jsonString = Json.encodeToString(json)
+
+                client.sendMessage(json)
+
             }
         }
     }

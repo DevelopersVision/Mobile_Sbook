@@ -35,7 +35,10 @@ fun Header(
     onclick: () -> Unit
 ) {
     Row(
-        modifier = Modifier.fillMaxWidth().background(Color.White).padding(24.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(Color.White)
+            .padding(24.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
