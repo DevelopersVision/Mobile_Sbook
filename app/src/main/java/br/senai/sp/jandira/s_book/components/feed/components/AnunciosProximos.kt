@@ -198,51 +198,56 @@ fun AnunciosProximos(
                         .size(40.dp),
                     onClick = {
 
+                        val dadosUser = UserRepository(context).findUsers()
 
-                        // Cria uma chamada para o EndPoint
-                        val call = RetrofitHelper.getAnunciosFavoritadosService()
-                            .verificarFavorito(user.id, id)
+                        if(dadosUser.isEmpty()){
+                            navController.navigate("login")
+                        }else{
+                            // Cria uma chamada para o EndPoint
+                            val call = RetrofitHelper.getAnunciosFavoritadosService()
+                                .verificarFavorito(user.id, id)
 
 
-                        // Executar a chamada
-                        call.enqueue(object : Callback<VerificarFavoritoBaseResponse> {
-                            override fun onResponse(
-                                call: Call<VerificarFavoritoBaseResponse>,
-                                response: Response<VerificarFavoritoBaseResponse>
-                            ) {
+                            // Executar a chamada
+                            call.enqueue(object : Callback<VerificarFavoritoBaseResponse> {
+                                override fun onResponse(
+                                    call: Call<VerificarFavoritoBaseResponse>,
+                                    response: Response<VerificarFavoritoBaseResponse>
+                                ) {
 
-                                Log.e("BODY", "onResponse: ${response.body()}")
+                                    Log.e("BODY", "onResponse: ${response.body()}")
 
-                                if (response.code() == 200) {
+                                    if (response.code() == 200) {
 
-                                    Log.e("Ja ta favoritado bixo burro", "Plim")
+                                        Log.e("Ja ta favoritado bixo burro", "Plim")
 
-                                    isChecked = false
-                                    removerDosFavoritos(id_anuncio = id, id_usuario = user.id)
+                                        isChecked = false
+                                        removerDosFavoritos(id_anuncio = id, id_usuario = user.id)
 
-                                } else {
-                                    Log.e("Não ta favoritado", "Plum")
-                                    isChecked = true
+                                    } else {
+                                        Log.e("Não ta favoritado", "Plum")
+                                        isChecked = true
 
-                                    if (lifecycleScope != null) {
-                                        favoritarAnuncio(
-                                            id_anuncio = id,
-                                            id_usuario = user.id,
-                                            lifecycleScope = lifecycleScope,
-                                        )
+                                        if (lifecycleScope != null) {
+                                            favoritarAnuncio(
+                                                id_anuncio = id,
+                                                id_usuario = user.id,
+                                                lifecycleScope = lifecycleScope,
+                                            )
+                                        }
                                     }
                                 }
-                            }
 
 
-                            override fun onFailure(
-                                call: Call<VerificarFavoritoBaseResponse>,
-                                t: Throwable
-                            ) {
-                                Log.d("mudou o nome", "Depois da chamada da API:")
-                            }
-                        })
-                        Log.i("testando123", "${call}")
+                                override fun onFailure(
+                                    call: Call<VerificarFavoritoBaseResponse>,
+                                    t: Throwable
+                                ) {
+                                    Log.d("mudou o nome", "Depois da chamada da API:")
+                                }
+                            })
+                            Log.i("testando123", "${call}")
+                        }
                     }
                 ) {
 
