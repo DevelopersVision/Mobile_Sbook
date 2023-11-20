@@ -86,5 +86,9 @@ fun ButtonNavGraph(
                 LoginScreen(navController = navRotasController, lifecycleScope = lifecycleScope)
             }
         }
+
+        composable("doacoes"){
+
+        }
     }
 }

@@ -209,7 +209,7 @@ fun FavoritoScreen(
                 Spacer(modifier = Modifier.height(100.dp))
                 NoExist(
                     onclick = {
-                        navController.navigate("feed")
+                        navController.navigate("navigation_home_bar")
                     },
                     textTitulo = "Nenhum favorito ainda :(",
                     textSubTitulo = "Escolha o que você mais gostou",
