@@ -270,7 +270,7 @@ fun EditUser(
             cidade = cidadeState,
             email = emailState
         )
-        MyCategoriesEditUser(user.generos)
+        MyCategoriesEditUser(user.generos, navController)
         Spacer(modifier = Modifier.height(5.dp))
         ButtonsEditUser {
 

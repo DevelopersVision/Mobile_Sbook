@@ -33,12 +33,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.R
 import br.senai.sp.jandira.s_book.model.GeneroProfileV2
 
 @Composable
 fun MyCategoriesEditUser(
-    generos: List<GeneroProfileV2>
+    generos: List<GeneroProfileV2>,
+    navController: NavController
 ) {
 
     var lista by remember {
@@ -64,6 +66,9 @@ fun MyCategoriesEditUser(
                 color = Color(170, 98, 49, 255),
             )
             Text(
+                modifier = Modifier.clickable {
+                                              navController.navigate("NewFavoriteGenres")
+                },
                 text = "adicionar mais",
                 fontSize = 12.sp,
                 fontWeight = FontWeight(400),

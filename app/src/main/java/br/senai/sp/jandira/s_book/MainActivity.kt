@@ -39,6 +39,7 @@ import br.senai.sp.jandira.s_book.components.insert_code.screen.InsertCode
 import br.senai.sp.jandira.s_book.components.login.screen.LoginScreen
 import br.senai.sp.jandira.s_book.components.my_announces.screen.MyAnnounceScreen
 import br.senai.sp.jandira.s_book.components.my_informations.screen.MyInformationsScreen
+import br.senai.sp.jandira.s_book.components.profile.screens.NewFavoriteGenres
 import br.senai.sp.jandira.s_book.components.profile.screens.ProfileScreen
 import br.senai.sp.jandira.s_book.components.rediscover_password.screen.RediscoverPasswordScreen
 import br.senai.sp.jandira.s_book.components.second_create_announce.screen.SecondCreateAnnounceScreen
@@ -104,6 +105,10 @@ class MainActivity : ComponentActivity() {
 
                         composable("create_account") {
                             CreateContScreen(navController = navController, viewModel = viewModelCreateAccount)
+                        }
+
+                        composable("NewFavoriteGenres"){
+                            NewFavoriteGenres(navController)
                         }
 
                         composable("create_account_endereco") {
