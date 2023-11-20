@@ -1,6 +1,7 @@
 package br.senai.sp.jandira.s_book.components.my_informations.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -27,7 +28,8 @@ fun BoxMyInformations(
     label : String,
     value: String,
     onValueChange: (String) -> Unit,
-    readOnly: Boolean
+    readOnly: Boolean,
+    onClickable: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -51,7 +53,10 @@ fun BoxMyInformations(
             },
             modifier = Modifier
                 .fillMaxWidth()
-                .then(Modifier.padding(0.dp)),
+                .then(Modifier.padding(0.dp))
+                .clickable {
+                    onClickable()
+                },
             textStyle = TextStyle(
                 fontSize = 16.sp,
                 fontFamily = FontFamily(Font(R.font.poppinsmedium)),

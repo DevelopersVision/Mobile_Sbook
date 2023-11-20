@@ -23,6 +23,7 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.senai.sp.jandira.s_book.R
@@ -52,7 +53,7 @@ fun BoxCEP(
         BasicTextField(
             value = value ,
             onValueChange = {
-                onValueChange(value)
+                onValueChange(it)
             },
             modifier = Modifier
                 .fillMaxWidth()
@@ -63,7 +64,9 @@ fun BoxCEP(
                 fontWeight = FontWeight(500),
                 color = Color(0xFF455A64)
             ),
-            readOnly = readOnly
+            readOnly = readOnly,
+            maxLines = 1,
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
         )
         Box(
             modifier = Modifier

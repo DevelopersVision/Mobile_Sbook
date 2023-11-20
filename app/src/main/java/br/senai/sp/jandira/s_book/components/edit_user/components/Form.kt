@@ -1,6 +1,7 @@
 package br.senai.sp.jandira.s_book.components.edit_user.components
 
 import android.content.Context
+import android.provider.ContactsContract.CommonDataKinds.Email
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
@@ -50,71 +51,56 @@ import br.senai.sp.jandira.s_book.sqlite_repository.UserRepository
 
 @Composable
 fun Form(
-    context: Context
-){
+    context: Context,
+    nome: String,
+    email: String,
+    data: String,
+    cep: String,
+    onNomeChange: (String) -> Unit,
+    onDateChange: (String) -> Unit,
+    onCepChange: (String) -> Unit,
 
-    //var userRating by remember { mutableStateOf(0) }
-
-    val dadaUser = UserRepository(context).findUsers()
-
-    var array = User()
-
-    var data = ""
-
-    if (dadaUser.isNotEmpty()) {
-        array = dadaUser[0]
-
-        data = converterData(array.dataNascimento)
-    }
-
-    var nomeState by remember {
-        mutableStateOf(array.nome)
-    }
-
-    var emailState by remember {
-        mutableStateOf(array.email)
-    }
+    logradouro: String,
+    ufEstado: String,
+    cidade: String
+) {
 
     var cepState by remember {
-        mutableStateOf(array.cep)
-    }
-
-    var selectedDate by remember { mutableStateOf(data) }
-
-    var senhaState by remember {
         mutableStateOf("")
     }
-    var redefinirsenhaState by remember {
-        mutableStateOf("")
-    }
-
 
     Column(
         modifier = Modifier.fillMaxWidth()
     ) {
         Text(
             text = "Informações do Usuário",
-                fontSize = 20.sp,
-                fontWeight = FontWeight(600),
-                color = Color(170, 98, 49, 255),
+            fontSize = 20.sp,
+            fontWeight = FontWeight(600),
+            color = Color(170, 98, 49, 255),
         )
         Spacer(modifier = Modifier.height(24.dp))
         Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
             BoxMyInformations(
                 label = "Nome",
-                value = nomeState,
+                value = nome,
                 onValueChange = {
-                    nomeState = it
+                    onNomeChange(it)
                 },
-                readOnly = false
+                readOnly = false,
+                onClickable = {}
             )
             BoxMyInformations(
                 label = "Email",
-                value = emailState,
-                onValueChange = {
-                    emailState = it
-                },
-                readOnly = false
+                value = email,
+                onValueChange = {},
+                readOnly = true,
+                onClickable = {
+                    Toast.makeText(
+                        context,
+                        "O email que você utiliza para realizar o login não pode ser alterado",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             )
             Row(
                 modifier = Modifier
@@ -123,17 +109,17 @@ fun Form(
             ) {
                 BoxCEP(
                     label = "CEP",
-                    value = cepState,
+                    value = cep,
                     onValueChange = {
-                        cepState = it
+                        onCepChange(it)
                     },
                     readOnly = false
                 )
                 BoxDataNasicmento(
                     context = context,
-                    selectedDate = selectedDate,
+                    selectedDate = data,
                     onDateChange = {
-                                   selectedDate = it
+                        onDateChange(it)
                     },
                     readOnly = true
                 )
@@ -151,7 +137,13 @@ fun Form(
             modifier = Modifier
                 .fillMaxWidth()
                 .clickable {
-                           Toast.makeText(context, "Não é necessário mudar o endereço manualmente, mude o CEP que será atualizado", Toast.LENGTH_SHORT).show()
+                    Toast
+                        .makeText(
+                            context,
+                            "Não é necessário mudar o endereço manualmente, mude o CEP que será atualizado",
+                            Toast.LENGTH_SHORT
+                        )
+                        .show()
                 },
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(16.dp)
@@ -163,13 +155,13 @@ fun Form(
             )
             Column() {
                 Text(
-                    text = "Rua Odilon Henrique de Macedo",
+                    text = logradouro,
                     fontSize = 16.sp,
                     fontWeight = FontWeight(500),
                     color = Color(0xFF455A64),
                 )
                 Text(
-                    text = "Carapicuíba, SP",
+                    text = "$cidade, $ufEstado",
                     fontSize = 14.sp,
                     fontWeight = FontWeight(500),
                     color = Color(0xFF808080),

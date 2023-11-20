@@ -1,5 +1,6 @@
 package br.senai.sp.jandira.s_book.components.edit_user.components
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -16,6 +17,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collection.mutableVectorOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -32,22 +34,18 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.senai.sp.jandira.s_book.R
+import br.senai.sp.jandira.s_book.model.GeneroProfileV2
 
-@Preview
 @Composable
-fun MyCategoriesEditUser() {
-    val listaCategorias = listOf<String>(
-        "Tecnologia e Ciência",
-        "Ficção Contemporânea",
-        "Humanidades e Ciências Sociais",
-        "Humor",
-        "Religião e Espiritualidade",
-        "Ação"
-    )
+fun MyCategoriesEditUser(
+    generos: List<GeneroProfileV2>
+) {
 
     var lista by remember {
-        mutableStateOf(listaCategorias)
+        mutableStateOf(listOf<GeneroProfileV2>())
     }
+
+    lista = generos
 
     Column(
         modifier = Modifier
@@ -76,7 +74,6 @@ fun MyCategoriesEditUser() {
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             items(lista) {
-
                 Row(
                     modifier = Modifier
                         .border(
@@ -86,7 +83,7 @@ fun MyCategoriesEditUser() {
                         )
                         .background(Color(0xFFFFFFFF))
                         .clickable {
-                            lista = lista.filter {category ->
+                            lista = lista.filter { category ->
                                 category != it
                             }
                         }
@@ -95,7 +92,7 @@ fun MyCategoriesEditUser() {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = it,
+                        text = it.nome_genero,
                         style = TextStyle(
                             fontSize = 14.sp,
                             fontFamily = FontFamily(Font(R.font.intermedium)),

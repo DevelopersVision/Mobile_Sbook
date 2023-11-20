@@ -4,7 +4,9 @@ package br.senai.sp.jandira.s_book.components.edit_user.components
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Card
 import androidx.compose.runtime.Composable
@@ -12,14 +14,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import br.senai.sp.jandira.s_book.R
+import coil.compose.AsyncImage
 
-@Preview
 @Composable
-fun PhotoEdit() {
+fun PhotoEdit(
+    foto: String
+) {
     val camera = R.drawable.camera
 
     Box(
@@ -32,8 +37,8 @@ fun PhotoEdit() {
                 .size(100.dp),
             shape = CircleShape
         ) {
-            Image(
-                painter = painterResource(id = R.drawable.logo),
+            AsyncImage(
+                model = foto,
                 contentDescription = "",
                 modifier = Modifier
                     .size(64.dp)

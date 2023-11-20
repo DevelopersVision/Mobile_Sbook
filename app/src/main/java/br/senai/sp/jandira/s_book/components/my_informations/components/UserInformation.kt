@@ -59,13 +59,15 @@ fun UserInformations(
                 label = "Nome",
                 value = array.nome,
                 onValueChange = {},
-                readOnly = true
+                readOnly = true,
+                onClickable = {}
             )
             BoxMyInformations(
                 label = "Email",
                 value = array.email,
                 onValueChange = {},
-                readOnly = true
+                readOnly = true,
+                onClickable = {}
             )
             Row(
                 modifier = Modifier
