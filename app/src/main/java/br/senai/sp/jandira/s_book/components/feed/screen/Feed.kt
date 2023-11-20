@@ -59,9 +59,12 @@ fun FeedScreen(
     viewModelQueVaiPassarOsDados: AnuncioViewModel,
 
 ) {
+
     val TAG = "Teste FEED"
 
     val context = LocalContext.current
+
+    val dadaUser = UserRepository(context).findUsers()
 
     var page by remember {
         mutableIntStateOf(1)
@@ -146,8 +149,6 @@ fun FeedScreen(
             })
 
             Thread{
-                val dadaUser = UserRepository(context).findUsers()
-
                 var array = User()
 
                 var data = ""
@@ -219,7 +220,13 @@ fun FeedScreen(
         ) {
             EscolhaFazer(
                 filter = { navRotasController.navigate("Filters") },
-                anuncio = { navRotasController.navigate("primeiro_anunciar") }
+                anuncio = {
+                    if(dadaUser.isNotEmpty()){
+                        navRotasController.navigate("primeiro_anunciar")
+                    }else{
+                        navRotasController.navigate("login")
+                    }
+                }
             )
             Spacer(modifier = Modifier.height(18.dp))
             Text(
