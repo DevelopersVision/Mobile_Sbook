@@ -2,6 +2,7 @@ package br.senai.sp.jandira.s_book.repository
 
 import android.net.Uri
 import br.senai.sp.jandira.s_book.model.Autores
+import br.senai.sp.jandira.s_book.model.AutoresParaPostAnuncio
 import br.senai.sp.jandira.s_book.model.Foto
 import br.senai.sp.jandira.s_book.model.Genero
 import br.senai.sp.jandira.s_book.model.TipoAnuncio
@@ -27,9 +28,9 @@ class CadastroAnuncioRepository {
         idIdioma: Int,
         idEditora: Int,
         fotos: List<Uri>?,
-        tiposAnuncio: List<TipoAnuncio>,
-        generos: List<Genero>,
-        autores: List<Autores>
+        tiposAnuncio: List<Int>,
+        generos: List<Int>,
+        autores: List<AutoresParaPostAnuncio>
     ): Response<JsonObject> {
         val requestBody = JsonObject().apply {
 
@@ -39,33 +40,22 @@ class CadastroAnuncioRepository {
                 fotosJsonArray.add(fotoUri.toString())
             }
 
-            val tipoAnuncioJsonArray = JsonArray()
-
+            val tiposAnuncioJsonArray = JsonArray()
             tiposAnuncio.forEach { tipo ->
-                val tipoAnuncioJsonObject = JsonObject().apply {
-                    addProperty("id", tipo.id)
-                    addProperty("tipo", tipo.tipo)
-                }
-                tipoAnuncioJsonArray.add(tipoAnuncioJsonObject)
+                tiposAnuncioJsonArray.add(tipo)
             }
 
             val generosJsonArray = JsonArray()
-
             generos.forEach { genero ->
-                val generosJsonObject = JsonObject().apply {
-                    addProperty("id", genero.id)
-                    addProperty("nome",genero.nome)
-                }
-                generosJsonArray.add(generosJsonObject)
+                generosJsonArray.add(genero)
             }
-
 
             val autoresJsonArray = JsonArray()
 
             autores.forEach { autor ->
                 val autoresJsonObject = JsonObject().apply {
-                    addProperty("id", autor.id)
-                    addProperty("nome",autor.nome)
+                    addProperty("status_autor", autor.status_autor)
+                    addProperty("id_autor",autor.id_autor)
                 }
                 autoresJsonArray.add(autoresJsonObject)
             }
@@ -84,7 +74,7 @@ class CadastroAnuncioRepository {
 
             addProperty("id_editora", idEditora)
             add("fotos", fotosJsonArray)
-            add("tipos_anuncio", tipoAnuncioJsonArray)
+            add("tipos_anuncio",tiposAnuncioJsonArray)
             add("generos", generosJsonArray)
             add("autores", autoresJsonArray)
         }

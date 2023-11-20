@@ -80,7 +80,7 @@ fun SixthCreateAnnounceScreen(
     }
 
     var arrayDosTiposDeAnuncio by remember{
-        mutableStateOf(listOf<TipoAnuncio>())
+        mutableStateOf(listOf<Int>())
     }
 
     var vendaPriceState by remember {
@@ -156,11 +156,11 @@ fun SixthCreateAnnounceScreen(
                                     if (isChecked) {
                                         tiposSelecionados = tiposSelecionados + it.tipo
 
-                                        viewModelDosTipoDeLivros.tiposDoAnuncio = arrayDosTiposDeAnuncio.plus(it)
+                                        viewModelDosTipoDeLivros.tiposDoAnuncio = arrayDosTiposDeAnuncio.plus(it.id)
                                     } else {
                                         tiposSelecionados = tiposSelecionados - it.tipo
 
-                                        viewModelDosTipoDeLivros.tiposDoAnuncio = arrayDosTiposDeAnuncio.minus(it)
+                                        viewModelDosTipoDeLivros.tiposDoAnuncio = arrayDosTiposDeAnuncio.minus(it.id)
                                     }
                                     isVendaChecked = tiposSelecionados.contains("Venda")
                                     Log.e("thiago", "${tiposSelecionados}")

@@ -127,7 +127,7 @@ fun DropDownAutor(
                             autorState = it.nome
                             isExpanded = false
 
-                            viewModelDosAutores.autores = arrayDeAutores.plus(it)
+                            //viewModelDosAutores.autores = arrayDeAutores.plus(it)
                         }
                     )
                 }

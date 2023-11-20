@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.model.Autores
+import br.senai.sp.jandira.s_book.model.AutoresParaPostAnuncio
 import br.senai.sp.jandira.s_book.model.Genero
 import br.senai.sp.jandira.s_book.model.TipoAnuncio
 import br.senai.sp.jandira.s_book.repository.CadastroAnuncioRepository
@@ -26,9 +27,9 @@ fun createAnnounceApp (
     idIdioma: Int,
     idEditora: Int,
     fotos: List<Uri>?,
-    tiposAnuncio: List<TipoAnuncio>,
-    generos: List<Genero>?,
-    autores: List<Autores>,
+    tiposAnuncio: List<Int>,
+    generos: List<Int>?,
+    autores: List<AutoresParaPostAnuncio>,
     navController: NavController,
     lifecycleScope: LifecycleCoroutineScope,
     rota: String,

@@ -68,7 +68,7 @@ fun FourthCreateAnnounceScreen(
     }
 
     var arrayDeGeneros  by remember{
-        mutableStateOf(listOf<Genero>())
+        mutableStateOf(listOf<Int>())
     }
 
     val context = LocalContext.current
@@ -142,14 +142,14 @@ fun FourthCreateAnnounceScreen(
                                     if (isChecked) {
                                         generosSelecionados = generosSelecionados + it.nome
 
-                                        arrayDeGeneros = arrayDeGeneros.plus(it)
+                                        arrayDeGeneros = arrayDeGeneros.plus(it.id)
 
                                         Log.e("TAGATAGATTATATATATTATATATATAT", "${arrayDeGeneros}")
 
                                     } else {
                                         generosSelecionados = generosSelecionados - it.nome
 
-                                        arrayDeGeneros = arrayDeGeneros.minus(it)
+                                        arrayDeGeneros = arrayDeGeneros.minus(it.id)
 
                                         Log.e("TAGATAGATTATATATATTATATATATAT", "${arrayDeGeneros}")
                                     }

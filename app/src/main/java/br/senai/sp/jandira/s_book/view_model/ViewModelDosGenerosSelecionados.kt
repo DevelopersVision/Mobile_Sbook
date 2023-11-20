@@ -5,5 +5,5 @@ import br.senai.sp.jandira.s_book.model.Genero
 
 class ViewModelDosGenerosSelecionados: ViewModel() {
 
-    var selectedGeneros: List<Genero>? = emptyList()
+    var selectedGeneros: List<Int>? = emptyList()
 }
