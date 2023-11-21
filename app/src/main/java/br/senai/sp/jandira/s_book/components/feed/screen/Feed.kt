@@ -269,6 +269,10 @@ fun FeedScreen(
 
                                             viewModelQueVaiPassarOsDados.id = item.anuncio.id
 
+                                            viewModelQueVaiPassarOsDados.id_anunciante = item.anuncio.anunciante
+
+                                            Log.e("Id do Anunciante", "${viewModelQueVaiPassarOsDados.id_anunciante}")
+
                                             viewModelQueVaiPassarOsDados.nome = item.anuncio.nome
 
                                             viewModelQueVaiPassarOsDados.generos = item.generos

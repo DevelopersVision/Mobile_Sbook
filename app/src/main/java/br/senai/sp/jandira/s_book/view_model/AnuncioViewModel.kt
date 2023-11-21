@@ -22,7 +22,7 @@ import retrofit2.Response
 import javax.security.auth.callback.Callback
 
 class AnuncioViewModel: ViewModel() {
-//    var id: Int? = 0
+    var id_anunciante: Long? = 0
     var foto: List<Foto> = listOf<Foto>()
 //    var nome: String? = ""
     var generos: List<Genero> = listOf()
