@@ -8,7 +8,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.components.donations.components.HeaderDonations
 
-@Preview
 @Composable
 fun DonationsScreen(
     navController: NavController

@@ -226,7 +226,9 @@ fun FeedScreen(
                         navRotasController.navigate("login")
                     }
                 },
-                doacao = {}
+                doacao = {
+                    navRotasController.navigate("donations")
+                }
             )
             Spacer(modifier = Modifier.height(18.dp))
             Text(

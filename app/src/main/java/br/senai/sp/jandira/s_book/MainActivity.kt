@@ -24,6 +24,7 @@ import br.senai.sp.jandira.s_book.components.cep.screen.CepScreen
 import br.senai.sp.jandira.s_book.components.conversation_chat.screen.ConversationChatScreen
 import br.senai.sp.jandira.s_book.components.create_account.screen.CreateContScreen
 import br.senai.sp.jandira.s_book.components.create_account_endereco.screen.CreateAccountEndereco
+import br.senai.sp.jandira.s_book.components.donations.screen.DonationsScreen
 import br.senai.sp.jandira.s_book.components.favorite.screen.FavoritoScreen
 import br.senai.sp.jandira.s_book.components.fifth_create_announce.screen.FifthCreateAnnounceScreen
 import br.senai.sp.jandira.s_book.components.filterGenero.screen.FilterGeneroScreen
@@ -102,8 +103,13 @@ class MainActivity : ComponentActivity() {
                         composable("navigation_home_bar") {
                             MainScreen(navController, lifecycleScope, anuncioViewMODEL = viewModelAnuncio, chatViewModel, viewModelId)
                         }
+
                         composable("login") {
                             LoginScreen(navController = navController, lifecycleScope = lifecycleScope)
+                        }
+
+                        composable("donations") {
+                            DonationsScreen(navController = navController)
                         }
 
                         composable("create_account") {
