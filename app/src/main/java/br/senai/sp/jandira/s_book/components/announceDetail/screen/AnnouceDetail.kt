@@ -1,5 +1,6 @@
 package br.senai.sp.jandira.s_book.components.announceDetail.screen
 
+import android.content.Context
 import android.util.Log
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Column
@@ -26,7 +27,9 @@ import br.senai.sp.jandira.s_book.components.announceDetail.components.FooterDes
 import br.senai.sp.jandira.s_book.components.announceDetail.components.Header
 import br.senai.sp.jandira.s_book.model.chat.ChatClient
 import br.senai.sp.jandira.s_book.model.chat.SocketResponse
+import br.senai.sp.jandira.s_book.model.chat.UserChat
 import br.senai.sp.jandira.s_book.model.chat.view_model.ChatViewModel
+import br.senai.sp.jandira.s_book.sqlite_repository.UserRepository
 import br.senai.sp.jandira.s_book.view_model.AnuncioViewModel
 import com.google.gson.Gson
 import io.socket.client.Socket
@@ -36,50 +39,45 @@ import io.socket.client.Socket
 fun AnnouceDetail(
     navController: NavController,
     viewMODEL: AnuncioViewModel,
-//    socket: Socket,
-//    idUsuario: Int,
-//    chatViewModel: ChatViewModel,
-//    client: ChatClient,
-    lifecycleScope: LifecycleCoroutineScope
+    socket: Socket,
+    idUsuario: Int,
+    chatViewModel: ChatViewModel,
+    client: ChatClient,
+    lifecycleScope: LifecycleCoroutineScope,
+    context: Context
 ) {
     //Log.e("viewLuiz", "${viewMODEL.autor}")
 
+    val userRating by remember { mutableStateOf(0) }
 
-//
-//    socket.emit("createRooom")
-//
-//    var listUsuario by remember {
-//        mutableStateOf(
-//            listOf<Int>(
-//                idUsuario,
-//                viewMODEL.id
-//            )
-//        )
-//    }
+    val dadaUser = UserRepository(context).findUsers()
 
 
 
 
-    // Ouça o evento do socket
-//    socket.on("receive_contacts") { args ->
-//        args.let { d ->
-//            if (d.isNotEmpty()) {
-//                val data = d[0]
-//                if (data.toString().isNotEmpty()) {
-//                    val chat = Gson().fromJson(data.toString(), SocketResponse::class.java)
-//
-//                    listaContatos = chat
-//                }
-//            }
-//        }
-//    }
+    var listUsuario by remember {
+        mutableStateOf(
+            listOf(
+                UserChat(
+                    id = idUsuario,
+                    foto = dadaUser[0].foto,
+                    nome = dadaUser[0].nome
+                ),
+                UserChat(
+                    id = viewMODEL.id_anunciante!!.toInt(),
+                    foto = viewMODEL.anunciante_foto!!,
+                    nome = chatViewModel.nome
+                )
+            )
+        )
+    }
+
 
 
 
 
     Surface(
-        modifier = Modifier
-            .fillMaxSize(),
+        modifier = Modifier.fillMaxSize(),
     ) {
         Column(
             modifier = Modifier
@@ -90,6 +88,14 @@ fun AnnouceDetail(
 
             Header(viewMODEL)
             CardInformacao(viewMODEL, lifecycleScope, onClick = {
+
+                socket.emit("createRooom", listUsuario)
+
+                navController.navigate("conversa_chat")
+                chatViewModel.idChat = listUsuario[0].id.toString()
+                chatViewModel.idUser2 = listUsuario[1].id
+                chatViewModel.foto = listUsuario[1].foto
+                chatViewModel.nome = listUsuario[1].nome
 
             })
             Spacer(modifier = Modifier.height(12.dp))
