@@ -111,43 +111,41 @@ fun FeedScreen(
         )
     }
 
+    val call = RetrofitHelper.getAnunciosService().getAnuncios(page)
+
+    // Executar a chamada
+    call.enqueue(object : Callback<AnunciosBaseResponse> {
+        override fun onResponse(
+            call: Call<AnunciosBaseResponse>, response: Response<AnunciosBaseResponse>
+        ) {
+            Log.e(TAG, "resposta: $response", )
+
+            if(response.code() == 200){
+                listAnuncios = response.body()!!.anuncios
+
+                if(cont && listAnuncios.isNotEmpty() && response.body()!!.page == page){
+                    listAnunciosFeed += listAnuncios
+
+                    cont = false
+                }
+            }else{
+                Toast.makeText(context, "erro da api", Toast.LENGTH_SHORT).show()
+            }
+
+        }
+
+        override fun onFailure(call: Call<AnunciosBaseResponse>, t: Throwable) {
+//            Log.d("ERROR_FEED", "ERROR NA CHAMADA DE FEED")
+//            Log.d("ERROR_FEED-t", "$t")
+            Log.d("ERROR_FEED-tmessage", "${t.message}")
+            Log.d("ERROR_FEED-tstacktrace", "${t.stackTrace}")
+//            Log.d("ERROR_FEED-tlocalized", t.localizedMessage!!)
+//            Log.d("ERROR_FEED-tcause", "${t.cause}")
+        }
+    })
 
 
     LaunchedEffect(key1 = true){
-
-            val call = RetrofitHelper.getAnunciosService().getAnuncios(page)
-
-            // Executar a chamada
-            call.enqueue(object : Callback<AnunciosBaseResponse> {
-                override fun onResponse(
-                    call: Call<AnunciosBaseResponse>, response: Response<AnunciosBaseResponse>
-                ) {
-                    Log.e(TAG, "resposta: $response", )
-
-                    if(response.code() == 200){
-                        listAnuncios = response.body()!!.anuncios
-
-                        if(cont && listAnuncios.isNotEmpty() && response.body()!!.page == page){
-                            listAnunciosFeed += listAnuncios
-
-                            cont = false
-                        }
-                    }else{
-                        Toast.makeText(context, "erro da api", Toast.LENGTH_SHORT).show()
-                    }
-
-                }
-
-                override fun onFailure(call: Call<AnunciosBaseResponse>, t: Throwable) {
-//            Log.d("ERROR_FEED", "ERROR NA CHAMADA DE FEED")
-//            Log.d("ERROR_FEED-t", "$t")
-                    Log.d("ERROR_FEED-tmessage", "${t.message}")
-                    Log.d("ERROR_FEED-tstacktrace", "${t.stackTrace}")
-//            Log.d("ERROR_FEED-tlocalized", t.localizedMessage!!)
-//            Log.d("ERROR_FEED-tcause", "${t.cause}")
-                }
-            })
-
             Thread{
                 var array = User()
 
@@ -302,10 +300,13 @@ fun FeedScreen(
                     }
                     Spacer(modifier = Modifier.height(20.dp))
                 }
+
+                Log.e("Morreeeu", "FeedScreen: ${isLoading}", )
                 if (cont == true) {
-                    isLoading == true
-                    ProgressBar(isDisplayed = !isLoading)
+                    isLoading = true
+                    ProgressBar(isDisplayed = isLoading)
                     Spacer(modifier = Modifier.height(48.dp))
+                    Log.e("favela venceu", "FeedScreen: ${isLoading}", )
                 }else{
                     Row(
                         modifier = Modifier
@@ -316,6 +317,7 @@ fun FeedScreen(
                         ButtonCarregar {
                             page++
                             cont = true
+                            Log.e("favela morreu", "FeedScreen: ${isLoading}", )
                         }
                     }
                     Spacer(modifier = Modifier.height(48.dp))

@@ -90,6 +90,7 @@ class MainActivity : ComponentActivity() {
                     val viewModelDosAutores = viewModel<ViewModelDosAutores>()
                     val viewModelDosTiposDeLivro = viewModel<ViewModelDosTipoDeLivros>()
                     val viewModelDosIdentificadores = viewModel<ViewModelDosIds>()
+                    val context = LocalContext.current
 
                     val client = ChatClient()
 
@@ -148,8 +149,41 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable("annouceDetail"){
-                            AnnouceDetail(navController, viewModelAnuncio, lifecycleScope = lifecycleScope,)
+
+                            val context = LocalContext.current
+
+                            val dadaUser = UserRepository(context).findUsers()
+
+                            var array = User()
+
+                            var data = ""
+
+                            if(dadaUser.isNotEmpty()){
+                                array = dadaUser[0]
+
+
+                                data = array.id.toString()
+                            }
+
+                            Log.e("eu mandei", "id: ${data}", )
+
+                            val client = ChatClient()
+                            client.connect(data.toInt())
+                            val socket = client.getSocket()
+
+                            AnnouceDetail(
+                                navController = navController,
+                                viewMODEL = viewModelAnuncio,
+                                socket = socket ,
+                                idUsuario = data.toInt(),
+                                chatViewModel = chatViewModel,
+                                client = client ,
+                                lifecycleScope = lifecycleScope,
+                                context = context
+                            )
                         }
+
+//                        navController, viewModelAnuncio, lifecycleScope = lifecycleScope,
 
                         composable("editUser"){
                             EditUser(navController)

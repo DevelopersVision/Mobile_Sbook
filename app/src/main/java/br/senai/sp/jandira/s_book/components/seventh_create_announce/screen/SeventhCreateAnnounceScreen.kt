@@ -500,60 +500,60 @@ fun SeventhCreateAnnounceScreen(
                     Log.e("Comecou os log kkk id da rota", "${rota}")
 
 
-                    createAnnounceApp(nome = nomeLivro!!,
-                        numeroPaginas = numeroLivro!!.toInt(),
-
-
-                        anoLancamento = anoLivro!!.toInt(),
-
-
-                        descricao = sinopseLivro!!,
-
-
-                        edicao = edicaoLivro!!,
-
-
-                        autores = viewModelDosAutores.autores!!,
-
-
-                        generos = viewModelDosGenerosSelecionados.selectedGeneros,
-
-
-                        fotos = viewModel.fotos,
-
-
-                        preco = precoLivro!!.toDouble(),
-
-
-                        tiposAnuncio = viewModelDosEstadoLivro.tiposDoAnuncio!!,
-
-
-                        idUsuario = user.id,
-
-
-                        context = context,
-
-
-                        isbn = isbnLivro!!,
-
-
-                        idEditora = viewModelDosIds.id_editora!!,
-
-
-                        idIdioma = viewModelDosIds.id_idioma!!,
-
-
-                        idEstadoLivro = viewModelDosIds.id_estadoLivro!!,
-
-
-                        lifecycleScope = lifecycleScope,
-
-
-                        rota = rota,
-
-
-                        navController = navController
-                        )
+//                    createAnnounceApp(nome = nomeLivro!!,
+//                        numeroPaginas = numeroLivro!!.toInt(),
+//
+//
+//                        anoLancamento = anoLivro!!.toInt(),
+//
+//
+//                        descricao = sinopseLivro!!,
+//
+//
+//                        edicao = edicaoLivro!!,
+//
+//
+////                        autores = viewModelDosAutores.autores!!,
+//
+//
+//                        generos = viewModelDosGenerosSelecionados.selectedGeneros,
+//
+//
+//                        fotos = viewModel.fotos,
+//
+//
+//                        preco = precoLivro!!.toDouble(),
+//
+//
+//                        tiposAnuncio = viewModelDosEstadoLivro.tiposDoAnuncio!!,
+//
+//
+//                        idUsuario = user.id,
+//
+//
+//                        context = context,
+//
+//
+//                        isbn = isbnLivro!!,
+//
+//
+//                        idEditora = viewModelDosIds.id_editora!!,
+//
+//
+//                        idIdioma = viewModelDosIds.id_idioma!!,
+//
+//
+//                        idEstadoLivro = viewModelDosIds.id_estadoLivro!!,
+//
+//
+//                        lifecycleScope = lifecycleScope,
+//
+//
+//                        rota = rota,
+//
+//
+//                        navController = navController
+//                        )
                 },
                 colors = ButtonDefaults.buttonColors(Color(218, 108, 39, 255)),
                 modifier = Modifier
