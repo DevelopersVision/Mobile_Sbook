@@ -6,10 +6,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.navigation.NavController
-import br.senai.sp.jandira.s_book.model.Autores
 import br.senai.sp.jandira.s_book.model.AutoresParaPostAnuncio
-import br.senai.sp.jandira.s_book.model.Genero
-import br.senai.sp.jandira.s_book.model.TipoAnuncio
 import br.senai.sp.jandira.s_book.repository.CadastroAnuncioRepository
 import kotlinx.coroutines.launch
 import org.json.JSONObject
@@ -21,7 +18,7 @@ fun createAnnounceApp (
     descricao: String,
     edicao: String,
     isbn: String,
-    preco: Double,
+    preco: Double?,
     idUsuario: Long,
     idEstadoLivro: Int,
     idIdioma: Int,
@@ -43,7 +40,7 @@ fun createAnnounceApp (
     lifecycleScope.launch {
 
         val response = createAnnounceRepository.cadastroAnuncio(
-            nome, numeroPaginas, anoLancamento, descricao, edicao, isbn, preco, idUsuario, idEstadoLivro, idIdioma, idEditora, autores = autores, fotos = fotos, tiposAnuncio =  tiposAnuncio,  generos = generos!!
+            nome, numeroPaginas, anoLancamento, descricao, edicao, isbn, preco!!, idUsuario, idEstadoLivro, idIdioma, idEditora, autores = autores, fotos = fotos, tiposAnuncio =  tiposAnuncio,  generos = generos!!
         )
         val code = response.code()
 

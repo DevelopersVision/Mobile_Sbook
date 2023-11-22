@@ -83,7 +83,7 @@ fun SeventhCreateAnnounceScreen(
     val isbnLivro = localStorage.lerValorString(context = context, "isbn_livro")
     val estadoLivro = localStorage.lerValorString(context = context, "estado_livro")
     val tipoLivro = localStorage.lerValorString(context = context, "tipo_livro")
-    val precoLivro = localStorage.lerValorString(context = context, "venda_price")
+    var precoLivro = localStorage.lerValorString(context = context, "venda_price")
     val imagemLivro = localStorage.lerValorString(context = context, "foto_livro")
 
     val uriString = imagemLivro?.removePrefix("[")?.removeSuffix("]")
@@ -489,15 +489,26 @@ fun SeventhCreateAnnounceScreen(
                     Log.e("Comecou os log kkk edicao", "${edicaoLivro!!}")
                     Log.e("Comecou os log kkk autores", "${viewModelDosAutores.status_autor!!}")
                     Log.e("Comecou os log kkk autores", "${viewModelDosAutores.id_autor!!}")
-                    Log.e("Comecou os log kkk generos", "${viewModelDosGenerosSelecionados.selectedGeneros}")
+                    Log.e(
+                        "Comecou os log kkk generos",
+                        "${viewModelDosGenerosSelecionados.selectedGeneros}"
+                    )
                     Log.e("Comecou os log kkk fotos", "${viewModel.fotos}")
-                    Log.e("Comecou os log kkk preco", "${precoLivro!!.toDouble()}")
-                    Log.e("Comecou os log :::: tiposAnuncio", "${viewModelDosEstadoLivro.tiposDoAnuncio!!}")
+
+                    Log.e(
+                        "Comecou os log :::: tiposAnuncio",
+                        "${viewModelDosEstadoLivro.tiposDoAnuncio!!}"
+                    )
                     Log.e("Comecou os log kkk id do usuario ", "${user.id}")
                     Log.e("Comecou os log kkk isbn", "${isbnLivro!!}")
                     Log.e("Comecou os log kkk id da editora", "${viewModelDosIds.id_editora!!}")
                     Log.e("Comecou os log kkk id do idioma", "${viewModelDosIds.id_idioma!!}")
-                    Log.e("Comecou os log kkk id do estado do livro", "${viewModelDosIds.id_estadoLivro!!}")
+                    Log.e(
+                        "Comecou os log kkk id do estado do livro",
+                        "${viewModelDosIds.id_estadoLivro!!}"
+                    )
+
+                    Log.e("Mostra", "${precoLivro!!}")
                     Log.e("Comecou os log kkk id da rota", "${rota}")
 
 
@@ -510,60 +521,121 @@ fun SeventhCreateAnnounceScreen(
 
 
 
-                    createAnnounceApp(nome = nomeLivro!!,
-                        numeroPaginas = numeroLivro!!.toInt(),
+
+                    if (precoLivro == null || precoLivro == "" || precoLivro.isEmpty()) {
+                        createAnnounceApp(
+                            nome = nomeLivro!!,
+                            numeroPaginas = numeroLivro!!.toInt(),
 
 
-                        anoLancamento = anoLivro!!.toInt(),
+                            anoLancamento = anoLivro!!.toInt(),
 
 
-                        descricao = sinopseLivro!!,
+                            descricao = sinopseLivro!!,
 
 
-                        edicao = edicaoLivro!!,
+                            edicao = edicaoLivro!!,
 
 
-                        autores = autores,
+                            autores = autores,
 
 
-                        generos = viewModelDosGenerosSelecionados.selectedGeneros,
+                            generos = viewModelDosGenerosSelecionados.selectedGeneros,
 
 
-                        fotos = viewModel.fotos,
+                            fotos = viewModel.fotos,
 
 
-                        preco = precoLivro!!.toDouble(),
+                            preco = null,
 
 
-                        tiposAnuncio = viewModelDosEstadoLivro.tiposDoAnuncio!!,
+                            tiposAnuncio = viewModelDosEstadoLivro.tiposDoAnuncio!!,
 
 
-                        idUsuario = user.id,
+                            idUsuario = user.id,
 
 
-                        context = context,
+                            context = context,
 
 
-                        isbn = isbnLivro!!,
+                            isbn = isbnLivro!!,
 
 
-                        idEditora = viewModelDosIds.id_editora!!,
+                            idEditora = viewModelDosIds.id_editora!!,
 
 
-                        idIdioma = viewModelDosIds.id_idioma!!,
+                            idIdioma = viewModelDosIds.id_idioma!!,
 
 
-                        idEstadoLivro = viewModelDosIds.id_estadoLivro!!,
+                            idEstadoLivro = viewModelDosIds.id_estadoLivro!!,
 
 
-                        lifecycleScope = lifecycleScope,
+                            lifecycleScope = lifecycleScope,
 
 
-                        rota = rota,
+                            rota = rota,
 
 
-                        navController = navController
+                            navController = navController
                         )
+                    } else {
+                        createAnnounceApp(
+                            nome = nomeLivro!!,
+                            numeroPaginas = numeroLivro!!.toInt(),
+
+
+                            anoLancamento = anoLivro!!.toInt(),
+
+
+                            descricao = sinopseLivro!!,
+
+
+                            edicao = edicaoLivro!!,
+
+
+                            autores = autores,
+
+
+                            generos = viewModelDosGenerosSelecionados.selectedGeneros,
+
+
+                            fotos = viewModel.fotos,
+
+
+                            preco = precoLivro.toDouble(),
+
+
+                            tiposAnuncio = viewModelDosEstadoLivro.tiposDoAnuncio!!,
+
+
+                            idUsuario = user.id,
+
+
+                            context = context,
+
+
+                            isbn = isbnLivro!!,
+
+
+                            idEditora = viewModelDosIds.id_editora!!,
+
+
+                            idIdioma = viewModelDosIds.id_idioma!!,
+
+
+                            idEstadoLivro = viewModelDosIds.id_estadoLivro!!,
+
+
+                            lifecycleScope = lifecycleScope,
+
+
+                            rota = rota,
+
+
+                            navController = navController
+                        )
+                    }
+
                 },
                 colors = ButtonDefaults.buttonColors(Color(218, 108, 39, 255)),
                 modifier = Modifier
