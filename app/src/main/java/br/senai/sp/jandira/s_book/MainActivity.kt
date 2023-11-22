@@ -49,6 +49,7 @@ import br.senai.sp.jandira.s_book.components.tela_generica.screen.GenericScreen
 import br.senai.sp.jandira.s_book.components.third_create_announce.screen.ThirdCreateAnnounceScreen
 import br.senai.sp.jandira.s_book.model.chat.ChatClient
 import br.senai.sp.jandira.s_book.model.chat.view_model.ChatViewModel
+import br.senai.sp.jandira.s_book.model.chat.view_model.viewModelId
 import br.senai.sp.jandira.s_book.models_private.User
 //import br.senai.sp.jandira.s_book.components.second_create_announce.screen.SecondCreateAnnounceScreen
 import br.senai.sp.jandira.s_book.view_model.CreateAccountView
@@ -90,6 +91,7 @@ class MainActivity : ComponentActivity() {
                     val viewModelDosAutores = viewModel<ViewModelDosAutores>()
                     val viewModelDosTiposDeLivro = viewModel<ViewModelDosTipoDeLivros>()
                     val viewModelDosIdentificadores = viewModel<ViewModelDosIds>()
+                    val viewModelId = viewModel<viewModelId>()
                     val context = LocalContext.current
 
                     val client = ChatClient()
@@ -98,7 +100,7 @@ class MainActivity : ComponentActivity() {
                         navController = navController, startDestination = "navigation_home_bar"
                     ){
                         composable("navigation_home_bar") {
-                            MainScreen(navController, lifecycleScope, anuncioViewMODEL = viewModelAnuncio, chatViewModel)
+                            MainScreen(navController, lifecycleScope, anuncioViewMODEL = viewModelAnuncio, chatViewModel, viewModelId)
                         }
                         composable("login") {
                             LoginScreen(navController = navController, lifecycleScope = lifecycleScope)
@@ -179,7 +181,8 @@ class MainActivity : ComponentActivity() {
                                 chatViewModel = chatViewModel,
                                 client = client ,
                                 lifecycleScope = lifecycleScope,
-                                context = context
+                                context = context,
+                                viewModelId = viewModelId,
                             )
                         }
 

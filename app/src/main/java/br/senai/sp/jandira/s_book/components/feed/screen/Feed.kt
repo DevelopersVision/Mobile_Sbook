@@ -43,6 +43,7 @@ import br.senai.sp.jandira.s_book.model.AnunciosBaseResponse
 import br.senai.sp.jandira.s_book.model.JsonAnuncios
 import br.senai.sp.jandira.s_book.model.ResponseUsuario
 import br.senai.sp.jandira.s_book.model.Usuario
+import br.senai.sp.jandira.s_book.model.chat.view_model.viewModelId
 import br.senai.sp.jandira.s_book.models_private.User
 import br.senai.sp.jandira.s_book.service.RetrofitHelper
 import br.senai.sp.jandira.s_book.sqlite_repository.UserRepository
@@ -57,7 +58,7 @@ fun FeedScreen(
     navRotasController: NavController,
     lifecycleScope: LifecycleCoroutineScope?,
     viewModelQueVaiPassarOsDados: AnuncioViewModel,
-
+    viewModelId: viewModelId
 ) {
 
     val TAG = "Teste FEED"
@@ -265,9 +266,14 @@ fun FeedScreen(
                                     val anunciante = getAnunciante(item.anuncio.anunciante) { usuario ->
                                         if (usuario != null) {
 
+
                                             viewModelQueVaiPassarOsDados.id = item.anuncio.id
 
                                             viewModelQueVaiPassarOsDados.id_anunciante = item.anuncio.anunciante
+
+                                            viewModelId.id_anunciante = item.anuncio.anunciante
+                                            viewModelId.foto_anunciante = usuario.foto
+                                            viewModelId.nome_anunciante = usuario.nome
 
                                             Log.e("Id do Anunciante", "${viewModelQueVaiPassarOsDados.id_anunciante}")
 
