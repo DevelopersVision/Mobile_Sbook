@@ -225,7 +225,8 @@ fun FeedScreen(
                     }else{
                         navRotasController.navigate("login")
                     }
-                }
+                },
+                doacao = {}
             )
             Spacer(modifier = Modifier.height(18.dp))
             Text(

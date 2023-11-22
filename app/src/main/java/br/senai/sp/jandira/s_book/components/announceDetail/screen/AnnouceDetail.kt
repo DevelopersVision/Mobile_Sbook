@@ -36,6 +36,7 @@ import br.senai.sp.jandira.s_book.sqlite_repository.UserRepository
 import br.senai.sp.jandira.s_book.view_model.AnuncioViewModel
 import com.google.gson.Gson
 import io.socket.client.Socket
+import org.json.JSONObject
 
 
 @Composable
@@ -80,6 +81,15 @@ fun AnnouceDetail(
                 )
             )
         )
+    }
+
+    val json = JSONObject().apply {
+        put("id", idUsuario )
+        put("foto", dadaUser[0].foto)
+        put("nome", dadaUser[0].nome)
+        put("id", idAnunciante)
+        put("foto", fotoAnunciante)
+        put("nome", nomeAnunciante)
     }
 
     Log.e("estamos aquiiiii", "${listUsuario}", )
