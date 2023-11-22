@@ -18,12 +18,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.senai.sp.jandira.s_book.R
+import br.senai.sp.jandira.s_book.sqlite_repository.UserRepository
 
 
 @Composable
@@ -31,8 +33,11 @@ fun HeaderAnnounce(
     onclick: ()-> Unit,
 ) {
 
+    val context = LocalContext.current
 
+    val array = UserRepository(context).findUsers()
 
+    val user = array[0]
     Card(
         modifier = Modifier
             .fillMaxWidth()

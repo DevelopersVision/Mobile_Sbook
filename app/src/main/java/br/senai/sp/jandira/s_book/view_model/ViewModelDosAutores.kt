@@ -5,5 +5,6 @@ import br.senai.sp.jandira.s_book.model.Autores
 import br.senai.sp.jandira.s_book.model.AutoresParaPostAnuncio
 
 class ViewModelDosAutores: ViewModel() {
-    var autores: List<Int>? = emptyList()
+    var status_autor: Boolean? = true
+    var id_autor: Int? = 0
 }

@@ -28,6 +28,7 @@ import br.senai.sp.jandira.s_book.R
 import br.senai.sp.jandira.s_book.Storage
 import br.senai.sp.jandira.s_book.model.AutorBaseResponse
 import br.senai.sp.jandira.s_book.model.Autores
+import br.senai.sp.jandira.s_book.model.AutoresParaPostAnuncio
 import br.senai.sp.jandira.s_book.model.Genero
 import br.senai.sp.jandira.s_book.model.Idioma
 import br.senai.sp.jandira.s_book.model.IdiomaBaseResponse
@@ -58,7 +59,7 @@ fun DropDownAutor(
     }
 
     var arrayDeAutores  by remember{
-        mutableStateOf(listOf<Autores>())
+        mutableStateOf(listOf<AutoresParaPostAnuncio>())
     }
 
     val call = RetrofitHelper.getAutoresService().getAutores()
@@ -127,7 +128,8 @@ fun DropDownAutor(
                             autorState = it.nome
                             isExpanded = false
 
-                             //viewModelDosAutores.autores = arrayDeAutores.plus(it.id)
+                            viewModelDosAutores.status_autor = true
+                             viewModelDosAutores.id_autor = it.id
                         }
                     )
                 }

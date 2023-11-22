@@ -53,11 +53,11 @@ fun createAnnounceApp (
 
             val jsonString = response.body().toString()
             val jsonObject = JSONObject(jsonString)
-            val id = jsonObject.getInt("id")
+            //val id = jsonObject.getInt("id")
 
             Log.e("jsonString", "$jsonString")
             Log.e("jsonObject", "$jsonObject")
-            Log.e("id", "$id")
+            //Log.e("id", "$id")
 
 
 

@@ -23,6 +23,7 @@ import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.components.my_announces.components.HeaderAnnounce
 import br.senai.sp.jandira.s_book.components.universal.NoExist
+import br.senai.sp.jandira.s_book.model.AnuncioNoPageBaseResponse
 import br.senai.sp.jandira.s_book.model.AnunciosUserBaseResponse
 import br.senai.sp.jandira.s_book.model.JsonAnuncios
 import br.senai.sp.jandira.s_book.service.RetrofitHelper
@@ -47,23 +48,27 @@ fun MyAnnounceScreen(
 
     val user = array[0]
 
+    Log.e("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "${user.id}")
+
     // Cria uma chamada para o EndPoint
     val call = RetrofitHelper.getAnunciosByIdUserService().getAnunciosByUsuarioId(user.id)
 
-    Log.e("Thiago", "Antes da chamada da API: ${listAnuncios}")
 
     // Executar a chamada
-    call.enqueue(object : Callback<AnunciosUserBaseResponse> {
+    call.enqueue(object : Callback<AnuncioNoPageBaseResponse>{
         override fun onResponse(
-            call: Call<AnunciosUserBaseResponse>,
-            response: Response<AnunciosUserBaseResponse>
+            call: Call<AnuncioNoPageBaseResponse>,
+            response: Response<AnuncioNoPageBaseResponse>
         ) {
+
+            Log.e("OXIIIIIIIIIIIIIII", "${response.body()!!}")
+
             listAnuncios = response.body()!!.anuncios
-            Log.e("Thiago2", "Antes da chamada da API: ${listAnuncios}")
+
         }
 
-        override fun onFailure(call: Call<AnunciosUserBaseResponse>, t: Throwable) {
-            Log.d("API Call", "Depois da chamada da API: ${listAnuncios}")
+        override fun onFailure(call: Call<AnuncioNoPageBaseResponse>, t: Throwable) {
+            Log.d("API Call", "Depois da chamada da API: ${t.message}")
         }
     })
 
@@ -81,6 +86,10 @@ fun MyAnnounceScreen(
                 onclick = { navRotasController.navigate("profile")}
             )
             Spacer(modifier = Modifier.height(24.dp))
+
+
+            Log.e("HAAAATILEILATUYBALITUBADADA", "${listAnuncios.isNotEmpty()}")
+
             if(listAnuncios.isNotEmpty()){
                 LazyColumn(
                     modifier = Modifier.padding(24.dp).fillMaxSize(),

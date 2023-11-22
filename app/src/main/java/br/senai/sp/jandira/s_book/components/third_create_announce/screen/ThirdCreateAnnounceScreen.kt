@@ -226,7 +226,9 @@ fun ThirdCreateAnnounceScreen(
                                                         if (selectedMedia.last() == uri) {
                                                             navController.navigate("quarto_anunciar")
                                                             localStorage.salvarValorString(context = context, selectedMedia.toString(), "foto_livro")
-                                                            viewModelImagens.fotos = selectedMedia
+                                                            viewModelImagens.fotos = listOf(
+                                                                downloadUri
+                                                            )
                                                         }
                                                     } else {
                                                         Toast.makeText(context, "ERRO AO TENTAR REALIZAR O UPLOAD", Toast.LENGTH_SHORT).show()

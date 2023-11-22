@@ -1,6 +1,5 @@
 package br.senai.sp.jandira.s_book.components.seventh_create_announce.screen
 
-import android.content.Context
 import android.net.Uri
 import android.util.Log
 import androidx.compose.foundation.Image
@@ -43,6 +42,7 @@ import br.senai.sp.jandira.s_book.R
 import br.senai.sp.jandira.s_book.Storage
 import br.senai.sp.jandira.s_book.components.universal.HeaderCreateAnnounce
 import br.senai.sp.jandira.s_book.functions.createAnnounceApp
+import br.senai.sp.jandira.s_book.model.AutoresParaPostAnuncio
 import br.senai.sp.jandira.s_book.sqlite_repository.UserRepository
 import br.senai.sp.jandira.s_book.view_model.AnnouncePhotosViewModel
 import br.senai.sp.jandira.s_book.view_model.ViewModelDosAutores
@@ -487,7 +487,8 @@ fun SeventhCreateAnnounceScreen(
                     Log.e("Comecou os log kkk ano de lancamento ", "${anoLivro!!}")
                     Log.e("Comecou os log kkk sinpose", "${sinopseLivro!!}")
                     Log.e("Comecou os log kkk edicao", "${edicaoLivro!!}")
-                    Log.e("Comecou os log kkk autores", "${viewModelDosAutores.autores!!}")
+                    Log.e("Comecou os log kkk autores", "${viewModelDosAutores.status_autor!!}")
+                    Log.e("Comecou os log kkk autores", "${viewModelDosAutores.id_autor!!}")
                     Log.e("Comecou os log kkk generos", "${viewModelDosGenerosSelecionados.selectedGeneros}")
                     Log.e("Comecou os log kkk fotos", "${viewModel.fotos}")
                     Log.e("Comecou os log kkk preco", "${precoLivro!!.toDouble()}")
@@ -498,6 +499,15 @@ fun SeventhCreateAnnounceScreen(
                     Log.e("Comecou os log kkk id do idioma", "${viewModelDosIds.id_idioma!!}")
                     Log.e("Comecou os log kkk id do estado do livro", "${viewModelDosIds.id_estadoLivro!!}")
                     Log.e("Comecou os log kkk id da rota", "${rota}")
+
+
+                    val autores = listOf(
+                        AutoresParaPostAnuncio(
+                            status_autor = viewModelDosAutores.status_autor!!,
+                            id_autor = viewModelDosAutores.id_autor!!
+                        )
+                    )
+
 
 
                     createAnnounceApp(nome = nomeLivro!!,
@@ -513,7 +523,7 @@ fun SeventhCreateAnnounceScreen(
                         edicao = edicaoLivro!!,
 
 
-                        autores = viewModelDosAutores.autores!!,
+                        autores = autores,
 
 
                         generos = viewModelDosGenerosSelecionados.selectedGeneros,
