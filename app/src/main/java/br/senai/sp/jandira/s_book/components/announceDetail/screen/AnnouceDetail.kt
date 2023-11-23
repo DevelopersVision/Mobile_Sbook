@@ -175,15 +175,15 @@ fun AnnouceDetail(
 
                                 newChat = chat
                                 Log.e("luiz aquiiii", "AnnouceDetail: ${chat}")
-
+                                Log.e("luiz testando dentro", "${ newChat.id_chat}", )
+                                chatViewModel.idChat = newChat.id_chat
                             }
                         }
                     }
                 }
 
-                chatViewModel.idChat = newChat.id_chat
 
-                Log.e("luiz testando", "${ newChat.id_chat}", )
+                Log.e("luiz testando fora", "${ newChat.id_chat}", )
                 chatViewModel.idUser2 = idAnunciante.toInt()
                 chatViewModel.foto = fotoAnunciante
                 chatViewModel.nome = nomeAnunciante

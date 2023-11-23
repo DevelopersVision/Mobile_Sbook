@@ -110,6 +110,7 @@ fun ConversationChatScreen(
             )
         }
 
+        socket.emit("listMessages", idChat)
         LaunchedEffect(listaMensagens) {
             // Ouça o evento do socket
             socket.on("receive_message") { args ->
