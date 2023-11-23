@@ -2,13 +2,10 @@ package br.senai.sp.jandira.s_book.components.announceDetail.screen
 
 import android.content.Context
 import android.util.Log
-import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Surface
@@ -28,13 +25,14 @@ import br.senai.sp.jandira.s_book.components.announceDetail.components.FooterDes
 import br.senai.sp.jandira.s_book.components.announceDetail.components.Header
 import br.senai.sp.jandira.s_book.model.chat.ChatClient
 import br.senai.sp.jandira.s_book.model.chat.MesagensResponse
-import br.senai.sp.jandira.s_book.model.chat.SocketResponse
 import br.senai.sp.jandira.s_book.model.chat.UserChat
 import br.senai.sp.jandira.s_book.model.chat.view_model.ChatViewModel
 import br.senai.sp.jandira.s_book.model.chat.view_model.viewModelId
 import br.senai.sp.jandira.s_book.sqlite_repository.UserRepository
 import br.senai.sp.jandira.s_book.view_model.AnuncioViewModel
 import com.google.gson.Gson
+import com.google.gson.JsonArray
+import com.google.gson.JsonObject
 import io.socket.client.Socket
 import org.json.JSONObject
 
@@ -49,17 +47,9 @@ fun AnnouceDetail(
     client: ChatClient,
     lifecycleScope: LifecycleCoroutineScope,
     context: Context,
-    viewModelId : viewModelId
+    viewModelId: viewModelId
 ) {
-    //Log.e("viewLuiz", "${viewMODEL.autor}")
-
-    val userRating by remember { mutableStateOf(0) }
-
     val dadaUser = UserRepository(context).findUsers()
-
-    Log.e("vamos verrrr", "${viewModelId.foto_anunciante}", )
-    Log.e("vamos verrrr", "${viewModelId.nome_anunciante}", )
-    Log.e("vamos verrrr", "${viewModelId.id_anunciante}", )
 
     val fotoAnunciante = viewModelId.foto_anunciante
     val nomeAnunciante = viewModelId.nome_anunciante
@@ -68,31 +58,11 @@ fun AnnouceDetail(
 
     var listUsuario by remember {
         mutableStateOf(
-            listOf(
-                UserChat(
-                    id = idUsuario,
-                    foto = dadaUser[0].foto,
-                    nome = dadaUser[0].nome
-                ),
-                UserChat(
-                    id = idAnunciante.toInt(),
-                    foto = fotoAnunciante,
-                    nome = nomeAnunciante
-                )
-            )
+            listOf<UserChat>()
         )
     }
 
-    val json = JSONObject().apply {
-        put("id", idUsuario )
-        put("foto", dadaUser[0].foto)
-        put("nome", dadaUser[0].nome)
-        put("id", idAnunciante)
-        put("foto", fotoAnunciante)
-        put("nome", nomeAnunciante)
-    }
-
-    Log.e("estamos aquiiiii", "${listUsuario}", )
+    Log.e("estamos aquiiiii", "${listUsuario}")
 
     var newChat by remember {
         mutableStateOf(
@@ -125,7 +95,72 @@ fun AnnouceDetail(
             Header(viewMODEL)
             CardInformacao(viewMODEL, lifecycleScope, onClick = {
 
-                socket.emit("createRooom", listUsuario)
+//                val jsonUser1 = JSONObject().apply {
+//                    put("id", idUsuario )
+//                    put("foto", dadaUser[0].foto)
+//                    put("nome", dadaUser[0].nome)
+//                }
+//
+//                val jsonUserAnunciante = JSONObject().apply {
+//                    put("id", idAnunciante)
+//                    put("foto", fotoAnunciante)
+//                    put("nome", nomeAnunciante)
+//                }
+
+                val jsonUser1 = UserChat(
+                    id = idUsuario,
+                    foto = dadaUser[0].foto,
+                    nome = dadaUser[0].nome
+                )
+
+                Log.w("idmeu", "id meu: $idUsuario", )
+
+                val jsonUserAnunciante = UserChat(
+                    id = idAnunciante.toInt(),
+                    foto = fotoAnunciante,
+                    nome = nomeAnunciante
+                )
+
+                listUsuario = listUsuario + jsonUser1
+
+                listUsuario = listUsuario + jsonUserAnunciante
+
+//                val jsonBody = JSONObject().apply {
+////                    val usersArray = JsonArray()
+////
+////                    if (listUsuario.isNotEmpty()) {
+////                        for (user in listUsuario) {
+////                            val userObject = JsonObject().apply {
+////                                addProperty("id", user.id)
+////                                addProperty("nome", user.nome)
+////                                addProperty("foto", user.foto)
+////                            }
+////                            usersArray.add(userObject)
+////                        }
+////                    }
+//
+//                    accumulate("users", listUsuario)
+//                }
+
+                val jsonBody = JsonObject().apply {
+                    val usersArray = JsonArray()
+
+                    for (user in listUsuario) {
+                        val userObject = JsonObject().apply {
+                            addProperty("id", user.id)
+                            addProperty("nome", user.nome)
+                            addProperty("foto", user.foto)
+                        }
+                        usersArray.add(userObject)
+                    }
+
+                    add("users", usersArray)
+                    //addProperty("status", true)
+                }
+
+
+                socket.emit("createRooom", jsonBody)
+
 
                 // Ouça o evento do socket
                 socket.on("newChat") { args ->
@@ -133,13 +168,13 @@ fun AnnouceDetail(
                         if (d.isNotEmpty()) {
                             val data = d[0]
 
-                            Log.e("Data", "$data", )
+                            Log.e("Data", "$data")
                             if (data.toString().isNotEmpty()) {
                                 val chat =
                                     Gson().fromJson(data.toString(), MesagensResponse::class.java)
 
                                 newChat = chat
-                                Log.e("luiz aquiiii", "AnnouceDetail: ${chat}", )
+                                Log.e("luiz aquiiii", "AnnouceDetail: ${chat}")
 
                             }
                         }
@@ -147,9 +182,11 @@ fun AnnouceDetail(
                 }
 
                 chatViewModel.idChat = newChat.id_chat
-                chatViewModel.idUser2 = listUsuario[1].id
-                chatViewModel.foto = listUsuario[1].foto
-                chatViewModel.nome = listUsuario[1].nome
+
+                Log.e("luiz testando", "${ newChat.id_chat}", )
+                chatViewModel.idUser2 = idAnunciante.toInt()
+                chatViewModel.foto = fotoAnunciante
+                chatViewModel.nome = nomeAnunciante
 
                 navController.navigate("conversa_chat")
             })
