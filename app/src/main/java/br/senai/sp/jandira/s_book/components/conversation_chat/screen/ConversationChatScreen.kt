@@ -33,6 +33,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Image
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -109,22 +110,39 @@ fun ConversationChatScreen(
             )
         }
 
+        LaunchedEffect(listaMensagens) {
+            // Ouça o evento do socket
+            socket.on("receive_message") { args ->
+                args.let { d ->
+                    if (d.isNotEmpty()) {
+                        val data = d[0]
+                        if (data.toString().isNotEmpty()) {
+                            val mensagens =
+                                Gson().fromJson(data.toString(), MesagensResponse::class.java)
 
-        // Ouça o evento do socket
-        socket.on("receive_message") { args ->
-            args.let { d ->
-                if (d.isNotEmpty()) {
-                    val data = d[0]
-                    if (data.toString().isNotEmpty()) {
-                        val mensagens =
-                            Gson().fromJson(data.toString(), MesagensResponse::class.java)
-
-                        listaMensagens = mensagens
-                        Log.e("TesteIndo", "${listaMensagens.mensagens.reversed()}")
+                            listaMensagens = mensagens
+                            Log.e("TesteIndo", "${listaMensagens.mensagens.reversed()}")
+                        }
                     }
                 }
             }
         }
+
+//        socket.on("receive_message") { args ->
+//            args.let { d ->
+//                if (d.isNotEmpty()) {
+//                    val data = d[0]
+//                    if (data.toString().isNotEmpty()) {
+//                        val mensagens =
+//                            Gson().fromJson(data.toString(), MesagensResponse::class.java)
+//
+//                        listaMensagens = mensagens
+//                        Log.e("TesteIndo", "${listaMensagens.mensagens.reversed()}")
+//                    }
+//                }
+//            }
+//        }
+
 
 
         Log.e("jojo", "Lista de Mensagens: ${listaMensagens.mensagens}")
