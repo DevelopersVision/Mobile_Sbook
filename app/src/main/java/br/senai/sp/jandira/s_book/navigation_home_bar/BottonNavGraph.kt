@@ -22,6 +22,7 @@ import br.senai.sp.jandira.s_book.models_private.User
 import br.senai.sp.jandira.s_book.service.RetrofitHelper.HttpClientProvider.client
 import br.senai.sp.jandira.s_book.sqlite_repository.UserRepository
 import br.senai.sp.jandira.s_book.view_model.AnuncioViewModel
+import br.senai.sp.jandira.s_book.view_model.RotaViewModel
 import io.socket.client.Socket
 
 
@@ -33,7 +34,8 @@ fun ButtonNavGraph(
     context: Context,
     anuncioViewMODEL: AnuncioViewModel,
     chatViewModel: ChatViewModel,
-    viewModelId: viewModelId
+    viewModelId: viewModelId,
+    rotaViewModel: RotaViewModel
 ) {
     val context = LocalContext.current
 
@@ -49,6 +51,8 @@ fun ButtonNavGraph(
         startDestination = BottomBarScreen.Feed.route,
     ){
         composable(route = BottomBarScreen.Feed.route){
+            rotaViewModel.navRotasController = navController
+
             FeedScreen(navController = navController, lifecycleScope = lifecycleScope ,navRotasController = navRotasController, viewModelQueVaiPassarOsDados = anuncioViewMODEL, viewModelId = viewModelId)
         }
 

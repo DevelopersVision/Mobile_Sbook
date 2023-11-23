@@ -62,6 +62,7 @@ import br.senai.sp.jandira.s_book.sqlite_repository.UserRepository
 import br.senai.sp.jandira.s_book.ui.theme.SBOOKTheme
 import br.senai.sp.jandira.s_book.view_model.AnnouncePhotosViewModel
 import br.senai.sp.jandira.s_book.view_model.AnuncioViewModel
+import br.senai.sp.jandira.s_book.view_model.RotaViewModel
 import br.senai.sp.jandira.s_book.view_model.ViewModelDosAutores
 import br.senai.sp.jandira.s_book.view_model.ViewModelDosGenerosSelecionados
 import br.senai.sp.jandira.s_book.view_model.ViewModelDosIds
@@ -80,6 +81,7 @@ class MainActivity : ComponentActivity() {
                 ) {
 
                     val navController = rememberNavController()
+                    val rotasViewModel = viewModel<RotaViewModel>()
 
                     val viewModelCreateAccount = viewModel<CreateAccountView>()
                     val viewModelResetPassword = viewModel<ResetPasswordView>()
@@ -103,7 +105,7 @@ class MainActivity : ComponentActivity() {
                         navController = navController, startDestination = "navigation_home_bar"
                     ){
                         composable("navigation_home_bar") {
-                            MainScreen(navController, lifecycleScope, anuncioViewMODEL = viewModelAnuncio, chatViewModel, viewModelId)
+                            MainScreen(navController, lifecycleScope, anuncioViewMODEL = viewModelAnuncio, chatViewModel, viewModelId, rotasViewModel)
                         }
 
                         composable("login") {
@@ -280,7 +282,7 @@ class MainActivity : ComponentActivity() {
                             val client = ChatClient()
                             client.connect(data.toInt())
                             val socket = client.getSocket()
-                            ConversationChatScreen( navController,socket = socket, idUsuario = data.toInt(), chatViewModel = chatViewModel, client = client, navRotasController = navController)
+                            ConversationChatScreen( navController,socket = socket, idUsuario = data.toInt(), chatViewModel = chatViewModel, client = client, navRotasViewModel = rotasViewModel)
                         }
                         composable("tela_generica"){
                             GenericScreen(navController = navController, lifecycleScope = lifecycleScope ,navRotasController = navController, viewModelQueVaiPassarOsDados = viewModelAnuncio, viewModelQueVaiReceberOsgeneros = viewModelFilters)

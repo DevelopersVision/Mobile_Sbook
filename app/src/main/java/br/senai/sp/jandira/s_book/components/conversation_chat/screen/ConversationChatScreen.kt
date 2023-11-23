@@ -52,6 +52,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.R
 import br.senai.sp.jandira.s_book.components.conversation_chat.components.CardMensagemCliente
+import br.senai.sp.jandira.s_book.components.conversation_chat.components.CardMensagemClienteFoto
 import br.senai.sp.jandira.s_book.components.conversation_chat.components.CardMensagemUser
 import br.senai.sp.jandira.s_book.components.conversation_chat.components.Header
 import br.senai.sp.jandira.s_book.components.conversation_chat.components.InputMenssagem
@@ -59,6 +60,7 @@ import br.senai.sp.jandira.s_book.model.chat.ChatClient
 import br.senai.sp.jandira.s_book.model.chat.MesagensResponse
 import br.senai.sp.jandira.s_book.model.chat.view_model.ChatViewModel
 import br.senai.sp.jandira.s_book.navigation_home_bar.BottomBarScreen
+import br.senai.sp.jandira.s_book.view_model.RotaViewModel
 import coil.compose.AsyncImage
 import com.google.gson.Gson
 import io.socket.client.Socket
@@ -69,7 +71,7 @@ import org.json.JSONObject
 @Composable
 fun ConversationChatScreen(
     navController: NavController,
-    navRotasController: NavController,
+    navRotasViewModel: RotaViewModel,
     client: ChatClient,
     socket: Socket,
     chatViewModel: ChatViewModel,
@@ -81,6 +83,8 @@ fun ConversationChatScreen(
     var foto = chatViewModel.foto
     var nome = chatViewModel.nome
 
+
+    val navRotasController = navRotasViewModel.navRotasController
 
     var message by remember {
         mutableStateOf("")
@@ -167,7 +171,7 @@ fun ConversationChatScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Header(foto = foto, nome = nome, onclick = {
-                    navController.popBackStack()
+                    navRotasController?.navigate("chats")
                 })
 
                 Spacer(modifier = Modifier.height(8.dp))
@@ -202,20 +206,39 @@ fun ConversationChatScreen(
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         items(listaMensagens.mensagens) {
-                            if (it.messageTo == idUsuario) {
-                                CardMensagemCliente(
-                                    menssagem = it.message,
-                                    hora = it.hora_criacao!!,
-                                    envio = it.messageBy,
-                                    cor = Color(0xFF000000)
-                                )
-                            } else {
-                                CardMensagemUser(
-                                    menssagem = it.message,
-                                    hora = it.hora_criacao!!,
-                                    envio = it.messageBy,
-                                    cor = Color(221, 163, 93, 255)
-                                )
+
+                            if (it.message == "" && it.image != ""){
+                                if (it.messageTo == idUsuario) {
+                                    CardMensagemClienteFoto(
+                                        menssagem = "",
+                                        hora = it.hora_criacao!!.substring(0,5),
+                                        cor = Color(0xFF000000),
+                                        foto = it.image
+                                    )
+                                } else {
+                                    CardMensagemClienteFoto(
+                                        menssagem = "",
+                                        hora = it.hora_criacao!!.substring(0,5),
+                                        cor = Color(221, 163, 93, 255),
+                                        foto = it.image
+                                    )
+                                }
+                            }else{
+                                if (it.messageTo == idUsuario) {
+                                    CardMensagemCliente(
+                                        menssagem = it.message,
+                                        hora = it.hora_criacao!!.substring(0,5),
+                                        envio = it.messageBy,
+                                        cor = Color(0xFF000000)
+                                    )
+                                } else {
+                                    CardMensagemUser(
+                                        menssagem = it.message,
+                                        hora = it.hora_criacao!!.substring(0,5),
+                                        envio = it.messageBy,
+                                        cor = Color(221, 163, 93, 255)
+                                    )
+                                }
                             }
                         }
                     }

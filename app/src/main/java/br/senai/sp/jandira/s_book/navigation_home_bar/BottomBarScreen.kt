@@ -34,7 +34,7 @@ sealed class BottomBarScreen(
 
     object  Profile : BottomBarScreen(
         route = "profile",
-        title = "perfil",
+        title = "Perfil",
         icon = Icons.Default.AccountCircle
     )
 
