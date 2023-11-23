@@ -137,8 +137,6 @@ fun CardInformacao(
 
     Log.e("viewDoCardAgora", "${viewModel}")
 
-    var favorito = Icons.Default.FavoriteBorder
-
     Surface(
         modifier = Modifier
             .width(370.dp)
@@ -339,6 +337,12 @@ fun CardInformacao(
                                     color = Color(0xFF404040),
                                     modifier = Modifier
                                 )
+                                Spacer(modifier = Modifier.height(5.dp))
+                                DefaultButtonScreen(
+                                    text = "Comprar",
+                                ) {
+                                    onClick()
+                                }
                             }
                             LazyColumn() {
                                 items(viewModel.tipo_anuncio) {

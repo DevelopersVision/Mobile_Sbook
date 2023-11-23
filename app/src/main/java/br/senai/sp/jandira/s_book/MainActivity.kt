@@ -196,8 +196,6 @@ class MainActivity : ComponentActivity() {
                             )
                         }
 
-//                        navController, viewModelAnuncio, lifecycleScope = lifecycleScope,
-
                         composable("editUser"){
                             EditUser(navController)
                         }

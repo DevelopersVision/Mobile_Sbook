@@ -228,14 +228,12 @@ fun ConversationChatScreen(
                                     CardMensagemCliente(
                                         menssagem = it.message,
                                         hora = it.hora_criacao!!.substring(0,5),
-                                        envio = it.messageBy,
                                         cor = Color(0xFF000000)
                                     )
                                 } else {
                                     CardMensagemUser(
                                         menssagem = it.message,
                                         hora = it.hora_criacao!!.substring(0,5),
-                                        envio = it.messageBy,
                                         cor = Color(221, 163, 93, 255)
                                     )
                                 }

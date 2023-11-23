@@ -9,9 +9,9 @@ import java.util.concurrent.TimeUnit
 
 object RetrofitHelper {
 
-//   private const val baseurl = "http://192.168.15.35:8080"
+   private const val baseurl = "http://192.168.0.108:8080"
 
-    private const val baseurl = "http://10.107.144.23:8080"
+//    private const val baseurl = "http://10.107.144.23:8080"
 
     //private const val baseurl = "http://26.254.150.48:8080"
 

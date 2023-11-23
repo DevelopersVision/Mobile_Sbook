@@ -23,7 +23,6 @@ fun CardMensagemUser(
     menssagem: String,
     hora: String,
     cor: Color,
-    envio : Int
 ) {
 
     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
@@ -48,9 +47,6 @@ fun CardMensagemUser(
                     color = Color(0xFF3B4A54),
                     modifier = Modifier.fillMaxWidth(),
                     textAlign = TextAlign.End
-                )
-                Text(
-                    text = "$envio"
                 )
             }
         }
