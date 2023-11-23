@@ -66,6 +66,7 @@ import br.senai.sp.jandira.s_book.view_model.ViewModelDosAutores
 import br.senai.sp.jandira.s_book.view_model.ViewModelDosGenerosSelecionados
 import br.senai.sp.jandira.s_book.view_model.ViewModelDosIds
 import br.senai.sp.jandira.s_book.view_model.ViewModelDosTipoDeLivros
+import br.senai.sp.jandira.s_book.view_model.ViewModelPreco
 import br.senai.sp.jandira.s_book.view_model.ViweModelDosFiltros
 
 class MainActivity : ComponentActivity() {
@@ -93,6 +94,7 @@ class MainActivity : ComponentActivity() {
                     val viewModelDosTiposDeLivro = viewModel<ViewModelDosTipoDeLivros>()
                     val viewModelDosIdentificadores = viewModel<ViewModelDosIds>()
                     val viewModelId = viewModel<viewModelId>()
+                    val viewModelPreco = viewModel<ViewModelPreco>()
                     val context = LocalContext.current
 
                     val client = ChatClient()
@@ -247,13 +249,13 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable("sexto_anunciar"){
-                            SixthCreateAnnounceScreen(navController, localStorage, viewModelDosTiposDeLivro)
+                            SixthCreateAnnounceScreen(navController, localStorage, viewModelDosTiposDeLivro, viewModelPreco)
                         }
 
                         composable("setimo_anunciar"){
                             SeventhCreateAnnounceScreen(localStorage, viewModelDasImagens, viewModelGeneros, viewModelDosAutores, viewModelDosTiposDeLivro, viewModelDosIdentificadores, lifecycleScope = lifecycleScope,
                                 navController = navController,
-                                rota = "my_announces")
+                                rota = "my_announces", viewModelPreco = viewModelPreco)
                         }
 
                         composable("conversa_chat"){

@@ -51,6 +51,7 @@ import br.senai.sp.jandira.s_book.model.TipoAnuncio
 import br.senai.sp.jandira.s_book.model.TipoAnuncioBaseResponse
 import br.senai.sp.jandira.s_book.service.RetrofitHelper
 import br.senai.sp.jandira.s_book.view_model.ViewModelDosTipoDeLivros
+import br.senai.sp.jandira.s_book.view_model.ViewModelPreco
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -60,7 +61,8 @@ import retrofit2.Response
 fun SixthCreateAnnounceScreen(
     navController: NavController,
     localStorage: Storage,
-    viewModelDosTipoDeLivros: ViewModelDosTipoDeLivros
+    viewModelDosTipoDeLivros: ViewModelDosTipoDeLivros,
+    viewModelPreco: ViewModelPreco
 ){
 
     var listTipoAnuncio by remember{
@@ -263,6 +265,7 @@ fun SixthCreateAnnounceScreen(
                                     navController.navigate("setimo_anunciar")
 
                                     localStorage.salvarValorString(context, vendaPriceState, "venda_price")
+                                    viewModelPreco.preco = vendaPriceState.toDouble()
 
                                     val tiposSelecionadosString = tiposSelecionados.joinToString(", ")
 

@@ -49,6 +49,7 @@ import br.senai.sp.jandira.s_book.view_model.ViewModelDosAutores
 import br.senai.sp.jandira.s_book.view_model.ViewModelDosGenerosSelecionados
 import br.senai.sp.jandira.s_book.view_model.ViewModelDosIds
 import br.senai.sp.jandira.s_book.view_model.ViewModelDosTipoDeLivros
+import br.senai.sp.jandira.s_book.view_model.ViewModelPreco
 import coil.compose.AsyncImage
 
 @Composable
@@ -61,7 +62,8 @@ fun SeventhCreateAnnounceScreen(
     viewModelDosIds: ViewModelDosIds,
     lifecycleScope: LifecycleCoroutineScope,
     rota: String,
-    navController: NavController
+    navController: NavController,
+    viewModelPreco: ViewModelPreco
 ){
     val context = LocalContext.current
 
@@ -83,7 +85,8 @@ fun SeventhCreateAnnounceScreen(
     val isbnLivro = localStorage.lerValorString(context = context, "isbn_livro")
     val estadoLivro = localStorage.lerValorString(context = context, "estado_livro")
     val tipoLivro = localStorage.lerValorString(context = context, "tipo_livro")
-    var precoLivro = localStorage.lerValorString(context = context, "venda_price")
+
+//    var precoLivro = localStorage.lerValorString(context = context, "venda_price")
     val imagemLivro = localStorage.lerValorString(context = context, "foto_livro")
 
     val uriString = imagemLivro?.removePrefix("[")?.removeSuffix("]")
@@ -101,7 +104,7 @@ fun SeventhCreateAnnounceScreen(
         when (tipo.trim()) {
             "Troca" -> "Troca"
             "Doação" -> "Doação"
-            "Venda" -> if (tiposSelecionados.size == 1) "R$ $precoLivro" else "venda por R$ $precoLivro"
+            "Venda" -> if (tiposSelecionados.size == 1) "R$ ${viewModelPreco.preco}" else "venda por R$ ${viewModelPreco.preco}"
             else -> ""
         }
     }
@@ -508,7 +511,6 @@ fun SeventhCreateAnnounceScreen(
                         "${viewModelDosIds.id_estadoLivro!!}"
                     )
 
-                    Log.e("Mostra", "${precoLivro!!}")
                     Log.e("Comecou os log kkk id da rota", "${rota}")
 
 
@@ -522,7 +524,7 @@ fun SeventhCreateAnnounceScreen(
 
 
 
-                    if (precoLivro == null || precoLivro == "" || precoLivro.isEmpty()) {
+                    if (viewModelPreco.preco == null) {
                         createAnnounceApp(
                             nome = nomeLivro!!,
                             numeroPaginas = numeroLivro!!.toInt(),
@@ -602,7 +604,7 @@ fun SeventhCreateAnnounceScreen(
                             fotos = viewModel.fotos,
 
 
-                            preco = precoLivro.toDouble(),
+                            preco = viewModelPreco.preco,
 
 
                             tiposAnuncio = viewModelDosEstadoLivro.tiposDoAnuncio!!,
