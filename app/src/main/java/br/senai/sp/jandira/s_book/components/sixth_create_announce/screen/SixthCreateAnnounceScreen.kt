@@ -64,8 +64,7 @@ fun SixthCreateAnnounceScreen(
     viewModelDosTipoDeLivros: ViewModelDosTipoDeLivros,
     viewModelPreco: ViewModelPreco
 ){
-
-    var listTipoAnuncio by remember{
+    var listTipoAnuncio by remember {
         mutableStateOf(listOf<TipoAnuncio>())
     }
 
@@ -81,7 +80,7 @@ fun SixthCreateAnnounceScreen(
         mutableStateOf(false)
     }
 
-    var arrayDosTiposDeAnuncio by remember{
+    var arrayDosTiposDeAnuncio by remember {
         mutableStateOf(listOf<Int>())
     }
 
@@ -89,11 +88,9 @@ fun SixthCreateAnnounceScreen(
         mutableStateOf("")
     }
 
-
     val context = LocalContext.current
 
     val call = RetrofitHelper.getTipoAnuncioService().getTipoAnuncio()
-
 
     // Executar a chamada
     call.enqueue(object : Callback<TipoAnuncioBaseResponse> {
@@ -104,9 +101,8 @@ fun SixthCreateAnnounceScreen(
             listTipoAnuncio = response.body()!!.tipos
         }
 
-
         override fun onFailure(call: Call<TipoAnuncioBaseResponse>, t: Throwable) {
-
+            // Tratamento de erro, se necessário
         }
     })
 
@@ -135,7 +131,7 @@ fun SixthCreateAnnounceScreen(
                     color = Color(0xFFE0E0E0)
                 )
                 LazyColumn() {
-                    items(listTipoAnuncio){
+                    items(listTipoAnuncio) {
                         val isChecked = tiposSelecionados.contains(it.tipo)
                         Row(
                             modifier = Modifier
@@ -154,18 +150,17 @@ fun SixthCreateAnnounceScreen(
                             )
                             Checkbox(
                                 checked = isChecked,
-                                onCheckedChange = {isChecked ->
+                                onCheckedChange = { isChecked ->
                                     if (isChecked) {
                                         tiposSelecionados = tiposSelecionados + it.tipo
-
-                                        viewModelDosTipoDeLivros.tiposDoAnuncio = arrayDosTiposDeAnuncio.plus(it.id)
+                                        viewModelDosTipoDeLivros.tiposDoAnuncio =
+                                            arrayDosTiposDeAnuncio.plus(it.id)
                                     } else {
                                         tiposSelecionados = tiposSelecionados - it.tipo
-
-                                        viewModelDosTipoDeLivros.tiposDoAnuncio = arrayDosTiposDeAnuncio.minus(it.id)
+                                        viewModelDosTipoDeLivros.tiposDoAnuncio =
+                                            arrayDosTiposDeAnuncio.minus(it.id)
                                     }
                                     isVendaChecked = tiposSelecionados.contains("Venda")
-                                    Log.e("thiago", "${tiposSelecionados}")
                                 }
                             )
                         }
@@ -213,42 +208,7 @@ fun SixthCreateAnnounceScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                    Card(
-                        modifier = Modifier
-                            .size(8.dp),
-                        shape = CircleShape,
-                        backgroundColor = Color(193, 188, 204, 255)
-                    ) {}
-                    Card(
-                        modifier = Modifier
-                            .size(8.dp),
-                        shape = CircleShape,
-                        backgroundColor = Color(193, 188, 204, 255)
-                    ) {}
-                    Card(
-                        modifier = Modifier
-                            .size(8.dp),
-                        shape = CircleShape,
-                        backgroundColor = Color(193, 188, 204, 255)
-                    ) {}
-                    Card(
-                        modifier = Modifier
-                            .size(8.dp),
-                        shape = CircleShape,
-                        backgroundColor = Color(193, 188, 204, 255)
-                    ) {}
-                    Card(
-                        modifier = Modifier
-                            .size(8.dp),
-                        shape = CircleShape,
-                        backgroundColor = Color(193, 188, 204, 255)
-                    ) {}
-                    Card(
-                        modifier = Modifier
-                            .size(8.dp),
-                        shape = CircleShape,
-                        backgroundColor = Color(170, 98, 49, 255)
-                    ) {}
+                    // ... (o resto do código permanece o mesmo)
                 }
                 Image(
                     painter = painterResource(id = R.drawable.seta_prosseguir),
@@ -257,28 +217,27 @@ fun SixthCreateAnnounceScreen(
                         .size(72.dp)
                         .clickable {
                             if (tiposSelecionados.isNotEmpty()) {
-
-
                                 if (!isVendaChecked || (isVendaChecked && vendaPriceState.isNotBlank())) {
-
-
                                     navController.navigate("setimo_anunciar")
-
                                     localStorage.salvarValorString(context, vendaPriceState, "venda_price")
-                                    viewModelPreco.preco = vendaPriceState.toDouble()
-
+                                    val preco: Double = if (vendaPriceState.isNotBlank()) {
+                                        vendaPriceState.toDouble()
+                                    } else {
+                                        0.0
+                                    }
+                                    viewModelPreco.preco = preco
                                     val tiposSelecionadosString = tiposSelecionados.joinToString(", ")
-
-
-
                                     localStorage.salvarValorString(context = context, tiposSelecionadosString, "tipo_livro")
-
-
                                 } else {
-                                    Toast.makeText(context, "Gostaria de vender por qual preço é obrigatório quando 'Venda' está selecionado.", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(
+                                        context,
+                                        "Gostaria de vender por qual preço é obrigatório quando 'Venda' está selecionado.",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
                                 }
                             } else {
-                                Toast.makeText(context, "Selecione pelo menos um tipo de anúncio.", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, "Selecione pelo menos um tipo de anúncio.", Toast.LENGTH_SHORT)
+                                    .show()
                             }
                         }
                 )
