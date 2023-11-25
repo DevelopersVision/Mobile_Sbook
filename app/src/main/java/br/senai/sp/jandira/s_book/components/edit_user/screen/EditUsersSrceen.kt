@@ -1,6 +1,10 @@
 package br.senai.sp.jandira.s_book.components.edit_user.screen
 
+import android.net.Uri
 import android.util.Log
+import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Arrangement
@@ -29,6 +33,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.R
 import br.senai.sp.jandira.s_book.components.edit_user.components.ButtonsEditUser
@@ -51,6 +56,7 @@ import br.senai.sp.jandira.s_book.models_private.User
 import br.senai.sp.jandira.s_book.service.RetrofitHelper
 import br.senai.sp.jandira.s_book.service.RetrofitHelperViaCep
 import br.senai.sp.jandira.s_book.sqlite_repository.UserRepository
+import br.senai.sp.jandira.s_book.view_model.UserGenresViewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -58,7 +64,8 @@ import retrofit2.Response
 //@Preview(showSystemUi = true)
 @Composable
 fun EditUser(
-    navController: NavController
+    navController: NavController,
+    userGenresViewModel: UserGenresViewModel
 ) {
 
     val context = LocalContext.current
@@ -107,6 +114,7 @@ fun EditUser(
     var date by remember {
         mutableStateOf("")
     }
+    userGenresViewModel.id_usuario = dadosUser[0].id.toInt()
 
     date = converterData(dadosUser[0].dataNascimento)
 
@@ -116,6 +124,10 @@ fun EditUser(
 
     var ruaState by remember {
         mutableStateOf(dadosUser[0].logradouro)
+    }
+
+    var isPersonOver18 by remember {
+        mutableStateOf(true)
     }
 
     var cidadeState by remember {
@@ -137,6 +149,10 @@ fun EditUser(
     var selectedDate by remember { mutableStateOf(date) }
 
     cepState = cepState.replace("-", "")
+
+
+
+
 
     Column(
         modifier = Modifier
@@ -178,9 +194,14 @@ fun EditUser(
                                 val response = response.body()
 
                                 if (response != null) {
-                                    ruaState = response.logradouro
-                                    cidadeState = response.localidade
-                                    ufEstadoState = response.uf
+
+                                    if(response.cep != null && response.uf != null ){
+                                        ruaState = response.logradouro
+                                        cidadeState = response.localidade
+                                        ufEstadoState = response.uf
+                                    }else{
+                                        Toast.makeText(context, "CEP INVÁLIDO", Toast.LENGTH_LONG).show()
+                                    }
 
                                     Log.e("VIACEP - SUCESS - 200", "cep: $response")
                                 }
@@ -192,85 +213,17 @@ fun EditUser(
                         })
 
                     }
-
-//                    if(cepState.length == 8 && cepState[5] == '-'){
-//
-//
-//                        Log.e("Teste 1", "Entrou nesse + $cepState", )
-//                        cepState = it
-//
-//                        cepState = cepState.substring(0, 5) + cepState.substring(5 + 1)
-//
-//                        val call = RetrofitHelperViaCep.getLocal().getEndereco(cepState)
-//
-//                        call.enqueue(object : Callback<ViaCep> {
-//                            override fun onResponse(
-//                                call: Call<ViaCep>,
-//                                response: Response<ViaCep>
-//                            ) {
-//
-//                                val response = response.body()
-//
-//                                if (response != null) {
-//                                    ruaState = response.logradouro
-//                                    cidadeState = response.localidade
-//                                    ufEstadoState = response.uf
-//
-//                                    Log.e("VIACEP - SUCESS - 200", "cep: $response")
-//                                }
-//                            }
-//
-//                            override fun onFailure(call: Call<ViaCep>, t: Throwable) {
-//                                TODO("Not yet implemented")
-//                            }
-//                        })
-//
-//
-//                    }else{
-//                        if (cepState.length == 8) {
-//                            Log.e("Teste 2", "Entrou aqui + $cepState", )
-//
-//                            val call = RetrofitHelperViaCep.getLocal().getEndereco(cepState)
-//
-//                            cepState = it
-//
-//                            call.enqueue(object : Callback<ViaCep> {
-//                                override fun onResponse(
-//                                    call: Call<ViaCep>,
-//                                    response: Response<ViaCep>
-//                                ) {
-//
-//                                    val response = response.body()
-//
-//                                    if (response != null) {
-//                                        ruaState = response.logradouro
-//                                        cidadeState = response.localidade
-//                                        ufEstadoState = response.uf
-//
-//                                        Log.e("VIACEP - SUCESS - 200", "cep: $response")
-//                                    }
-//                                }
-//
-//                                override fun onFailure(call: Call<ViaCep>, t: Throwable) {
-//                                    TODO("Not yet implemented")
-//                                }
-//                            })
-//
-//
-//                        }else{
-//                            cepState = it
-//
-//                            Log.e("Teste 3", "Entrou aqui + $cepState", )
-//                        }
-//                    }
                 }
             },
             logradouro = ruaState,
             ufEstado = ufEstadoState,
             cidade = cidadeState,
-            email = emailState
+            email = emailState,
+            onIsPersonOver18 = {
+                isPersonOver18 = it
+            }
         )
-        MyCategoriesEditUser(user.generos, navController)
+        MyCategoriesEditUser(user.generos, navController, userGenresViewModel)
         Spacer(modifier = Modifier.height(5.dp))
         ButtonsEditUser {
 

@@ -56,9 +56,11 @@ fun Form(
     email: String,
     data: String,
     cep: String,
+
     onNomeChange: (String) -> Unit,
     onDateChange: (String) -> Unit,
     onCepChange: (String) -> Unit,
+    onIsPersonOver18: (Boolean) -> Unit,
 
     logradouro: String,
     ufEstado: String,
@@ -121,7 +123,12 @@ fun Form(
                     onDateChange = {
                         onDateChange(it)
                     },
-                    readOnly = true
+                    readOnly = true,
+                    onIsPersonOver18 = {
+                        onIsPersonOver18(it)
+                        if(!it)
+                            Toast.makeText(context, "Tem que ter 18 anos para usar o sistema", Toast.LENGTH_LONG).show()
+                    }
                 )
             }
         }

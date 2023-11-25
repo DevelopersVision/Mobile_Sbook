@@ -30,4 +30,23 @@ class UserCategoryRepository {
 
         return apiService.inserirCategoriasdoUsuario(requestBody)
     }
+
+    suspend fun newFavoriteGenres(id_usuario: Int, generos_preferidos: List<Genero>): Response<JsonObject>{
+        val generosJsonArray = JsonArray()
+
+        for (genero in generos_preferidos) {
+            val generoJsonObject = JsonObject().apply {
+                addProperty("id", genero.id)
+                addProperty("nome", genero.nome)
+            }
+            generosJsonArray.add(generoJsonObject)
+        }
+
+        val requestBody = JsonObject().apply {
+            addProperty("id_usuario", id_usuario)
+            add("generos_preferidos", generosJsonArray)
+        }
+
+        return apiService.atualizarGenerosUsuario(requestBody)
+    }
 }

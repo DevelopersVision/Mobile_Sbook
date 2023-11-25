@@ -1,8 +1,12 @@
 package br.senai.sp.jandira.s_book.components.edit_user.components
 
 
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
@@ -10,6 +14,10 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Card
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -27,9 +35,30 @@ fun PhotoEdit(
 ) {
     val camera = R.drawable.camera
 
+    var fotoUri by remember {
+        mutableStateOf<Uri?>(null)
+    }
+
+    var status by remember {
+        mutableStateOf(false)
+    }
+
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
+    ) { uri ->
+        uri.let {
+            status = true
+
+            fotoUri = it
+        }
+    }
+
     Box(
         modifier = Modifier
-            .size(100.dp),
+            .size(100.dp)
+            .clickable {
+                launcher.launch("image/*")
+            },
         contentAlignment = Alignment.BottomEnd,
     ) {
         Card(
@@ -38,7 +67,7 @@ fun PhotoEdit(
             shape = CircleShape
         ) {
             AsyncImage(
-                model = foto,
+                model = if(status){fotoUri}else{foto},
                 contentDescription = "",
                 modifier = Modifier
                     .size(64.dp)
@@ -47,7 +76,8 @@ fun PhotoEdit(
                         elevation = 4.dp,
                         spotColor = Color(0x40000000),
                         ambientColor = Color(0x40000000)
-                    )
+                    ),
+                contentScale = ContentScale.Crop
             )
         }
         Image(

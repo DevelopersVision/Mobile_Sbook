@@ -30,17 +30,28 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.senai.sp.jandira.s_book.model.Genero
+import br.senai.sp.jandira.s_book.model.GeneroProfileV2
 import br.senai.sp.jandira.s_book.repository.CategoryList
 import br.senai.sp.jandira.s_book.service.RetrofitHelper
+import br.senai.sp.jandira.s_book.view_model.UserGenresViewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-@Preview
 @Composable
-fun ListGenres() {
+fun ListGenres(userGenresViewModel: UserGenresViewModel) {
     var listCategory by remember{
         mutableStateOf(listOf<Genero>())
+    }
+
+    val generos = userGenresViewModel.generos
+
+    var lista by remember{
+        mutableStateOf(generos)
+    }
+
+    var statusLista by remember {
+        mutableStateOf(false)
     }
 
     // Cria uma chamada para o EndPoint
@@ -78,10 +89,25 @@ fun ListGenres() {
 
             var isChecked by remember { mutableStateOf(false) }
 
+            var statusGenero by remember {
+                mutableStateOf(false)
+            }
+
             var altura = 30
 
             if(it.nome.length > 26){
                 altura = 48
+            }
+
+            for (genero in lista){
+                if(genero.id_genero == it.id && statusGenero == false){
+                    statusGenero = true
+                    isChecked = true
+                    cor = 0x5C2C0C
+                    var jsonGenero = Genero(it.id, it.nome)
+                    arrayGeneros = arrayGeneros + jsonGenero
+                    Log.e("Murilo e Luiz e Eu", "${arrayGeneros}")
+                }
             }
 
             Row{
@@ -108,6 +134,7 @@ fun ListGenres() {
                                 isChecked = false
                                 cor = 0xFFCCFFFF.toInt()
                                 arrayGeneros = arrayGeneros.filter { it.id != id }
+                                lista = lista.filter { it.id_genero != id }
                                 Log.e("Murilo e Luiz e Eu", "${arrayGeneros}")
                             }
                         },
@@ -140,5 +167,6 @@ fun ListGenres() {
 
             }
         }
+        userGenresViewModel.newList = arrayGeneros
     }
 }

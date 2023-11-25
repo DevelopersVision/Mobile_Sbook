@@ -36,11 +36,13 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.R
 import br.senai.sp.jandira.s_book.model.GeneroProfileV2
+import br.senai.sp.jandira.s_book.view_model.UserGenresViewModel
 
 @Composable
 fun MyCategoriesEditUser(
     generos: List<GeneroProfileV2>,
-    navController: NavController
+    navController: NavController,
+    userGenresViewModel: UserGenresViewModel
 ) {
 
     var lista by remember {
@@ -67,7 +69,9 @@ fun MyCategoriesEditUser(
             )
             Text(
                 modifier = Modifier.clickable {
-                                              navController.navigate("NewFavoriteGenres")
+                    Log.e("Saida Lista", "${lista}" )
+                    userGenresViewModel.generos = lista
+                    navController.navigate("NewFavoriteGenres")
                 },
                 text = "adicionar mais",
                 fontSize = 12.sp,

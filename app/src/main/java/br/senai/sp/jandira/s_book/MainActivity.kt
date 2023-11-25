@@ -63,6 +63,7 @@ import br.senai.sp.jandira.s_book.ui.theme.SBOOKTheme
 import br.senai.sp.jandira.s_book.view_model.AnnouncePhotosViewModel
 import br.senai.sp.jandira.s_book.view_model.AnuncioViewModel
 import br.senai.sp.jandira.s_book.view_model.RotaViewModel
+import br.senai.sp.jandira.s_book.view_model.UserGenresViewModel
 import br.senai.sp.jandira.s_book.view_model.ViewModelDosAutores
 import br.senai.sp.jandira.s_book.view_model.ViewModelDosGenerosSelecionados
 import br.senai.sp.jandira.s_book.view_model.ViewModelDosIds
@@ -83,6 +84,7 @@ class MainActivity : ComponentActivity() {
                     val navController = rememberNavController()
                     val rotasViewModel = viewModel<RotaViewModel>()
 
+                    val viewModelUserGenres = viewModel<UserGenresViewModel>()
                     val viewModelCreateAccount = viewModel<CreateAccountView>()
                     val viewModelResetPassword = viewModel<ResetPasswordView>()
                     val viewModelUserCategory = viewModel<UserCategoryViewModel>()
@@ -121,7 +123,7 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable("NewFavoriteGenres"){
-                            NewFavoriteGenres(navController)
+                            NewFavoriteGenres(navController, viewModelUserGenres, lifecycleScope)
                         }
 
                         composable("create_account_endereco") {
@@ -197,7 +199,7 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable("editUser"){
-                            EditUser(navController)
+                            EditUser(navController, viewModelUserGenres)
                         }
 
                         composable("filters"){

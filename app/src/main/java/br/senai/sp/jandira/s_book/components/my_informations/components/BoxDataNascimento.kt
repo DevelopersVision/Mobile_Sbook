@@ -41,6 +41,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.senai.sp.jandira.s_book.R
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.Date
 import java.util.Locale
 import java.util.TimeZone
@@ -52,7 +54,8 @@ fun BoxDataNasicmento(
     context: Context,
     selectedDate: String,
     onDateChange: (String) -> Unit,
-    readOnly: Boolean
+    readOnly: Boolean,
+    onIsPersonOver18: (Boolean) -> Unit
 ) {
     val focusManager = LocalFocusManager.current
 
@@ -75,6 +78,11 @@ fun BoxDataNasicmento(
                         datePickerState
                             .selectedDateMillis?.let { millis ->
                                 onDateChange(millis.toBrazilianDateFormat())
+
+                                val age = isPersonOver18(millis.toAmerican())
+
+                                Log.d("Maior de Idade", "$age")
+
                             }
                         showDatePickerDialog = false
                     }) {
@@ -162,4 +170,37 @@ fun Long.toBrazilianDateFormat(
         timeZone = TimeZone.getTimeZone("GMT")
     }
     return formatter.format(date)
+}
+
+fun Long.toAmerican(
+    pattern: String = "yyyy-MM-dd"
+): String {
+    val date = Date(this)
+    val formatter = SimpleDateFormat(
+        pattern, Locale("pt-br")
+    ).apply {
+        timeZone = TimeZone.getTimeZone("GMT")
+    }
+    return formatter.format(date)
+}
+
+fun isPersonOver18(data: String): Boolean {
+    val dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+    val dateOfBirth = try {
+        LocalDate.parse(data, dateFormat)
+    } catch (e: Exception) {
+        null
+    }
+
+    if (dateOfBirth != null) {
+        val currentDate = LocalDate.now()
+        val age = currentDate.year - dateOfBirth.year
+
+        return (age > 18) || (age == 18 &&
+                (currentDate.monthValue > dateOfBirth.monthValue ||
+                        (currentDate.monthValue == dateOfBirth.monthValue &&
+                                currentDate.dayOfMonth >= dateOfBirth.dayOfMonth)))
+    }
+
+    return false
 }
