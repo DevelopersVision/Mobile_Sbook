@@ -1,5 +1,6 @@
 package br.senai.sp.jandira.s_book.components.edit_user.screen
 
+import android.content.Context
 import android.net.Uri
 import android.util.Log
 import android.widget.Toast
@@ -146,6 +147,12 @@ fun EditUser(
         mutableStateOf(dadosUser[0].cep)
     }
 
+    var bairroState by remember {
+        mutableStateOf(dadosUser[0].bairro)
+    }
+
+    val id_endereco = dadosUser[0].idEndereco
+
     var selectedDate by remember { mutableStateOf(date) }
 
     cepState = cepState.replace("-", "")
@@ -199,6 +206,7 @@ fun EditUser(
                                         ruaState = response.logradouro
                                         cidadeState = response.localidade
                                         ufEstadoState = response.uf
+                                        bairroState = response.bairro
                                     }else{
                                         Toast.makeText(context, "CEP INVÁLIDO", Toast.LENGTH_LONG).show()
                                     }
@@ -229,5 +237,25 @@ fun EditUser(
 
         }
     }
+}
+
+
+fun updateUser(
+    lifecycleCoroutineScope: LifecycleCoroutineScope,
+    context: Context,
+    navController: NavController,
+    onChangeLoading: (String) -> Unit,
+    id_usuario: Int,
+    id_endereco: Int,
+    logradouro: String,
+    bairro: String,
+    cidade: String,
+    estado: String,
+    nome: String,
+    data_nascimento: String,
+    cep: String,
+    isPersonOver18: Boolean
+){
+
 }
 
