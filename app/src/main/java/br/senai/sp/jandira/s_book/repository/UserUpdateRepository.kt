@@ -7,7 +7,7 @@ import retrofit2.Response
 class UserUpdateRepository {
     private val apiService = RetrofitHelper.updateUserService()
 
-    fun atualizarDadosUsuario(
+    suspend fun atualizarDadosUsuario(
         id_usuario: Int,
         id_endereco: Int,
         logradouro: String,

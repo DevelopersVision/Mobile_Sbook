@@ -22,20 +22,12 @@ import br.senai.sp.jandira.s_book.sqlite_repository.UserRepository
 
 @Composable
 fun UserInformations(
-    context: Context
+    context: Context,
+    nome: String,
+    email: String,
+    cep: String,
+    data: String
 ) {
-
-    val dadaUser = UserRepository(context).findUsers()
-
-    var array = User()
-
-    var data = ""
-
-    if (dadaUser.isNotEmpty()) {
-        array = dadaUser[0]
-
-        data = converterData(array.dataNascimento)
-    }
 
     Column(
         modifier = Modifier.fillMaxWidth(),
@@ -57,14 +49,14 @@ fun UserInformations(
         ) {
             BoxMyInformations(
                 label = "Nome",
-                value = array.nome,
+                value = nome,
                 onValueChange = {},
                 readOnly = true,
                 onClickable = {}
             )
             BoxMyInformations(
                 label = "Email",
-                value = array.email,
+                value = email,
                 onValueChange = {},
                 readOnly = true,
                 onClickable = {}
@@ -76,7 +68,7 @@ fun UserInformations(
             ) {
                 BoxCEP(
                     label = "CEP",
-                    value = array.cep,
+                    value = cep,
                     onValueChange = {},
                     readOnly = true
                 )

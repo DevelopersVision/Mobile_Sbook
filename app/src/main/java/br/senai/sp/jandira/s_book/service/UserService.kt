@@ -20,7 +20,7 @@ interface UserService {
 
     @Headers("Content-Type: application/json")
     @PUT("/v1/sbook/atualizar-usuario")
-    fun updateUserData(@Body body: JsonObject): Response<JsonObject>
+    suspend fun updateUserData(@Body body: JsonObject): Response<JsonObject>
 
     @Headers("Content-Type: application/json")
     @PUT("/v1/sbook/atualizar-foto-usuario")

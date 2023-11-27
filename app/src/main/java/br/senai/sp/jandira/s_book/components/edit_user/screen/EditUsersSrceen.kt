@@ -37,6 +37,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.R
+import br.senai.sp.jandira.s_book.components.create_account.components.toAmericanDateFormat
 import br.senai.sp.jandira.s_book.components.edit_user.components.ButtonsEditUser
 import br.senai.sp.jandira.s_book.components.edit_user.components.Form
 import br.senai.sp.jandira.s_book.components.edit_user.components.MyCategoriesEditUser
@@ -47,6 +48,7 @@ import br.senai.sp.jandira.s_book.components.universal.DefaultButtonScreen
 import br.senai.sp.jandira.s_book.components.universal.HeaderProfile
 import br.senai.sp.jandira.s_book.functions.deleteUserSQLite
 import br.senai.sp.jandira.s_book.functions.saveLogin
+import br.senai.sp.jandira.s_book.model.Genero
 import br.senai.sp.jandira.s_book.model.GeneroProfileV2
 import br.senai.sp.jandira.s_book.model.ResponseUsuario
 import br.senai.sp.jandira.s_book.model.ResponseUsuarioV2
@@ -54,15 +56,21 @@ import br.senai.sp.jandira.s_book.model.Usuario
 import br.senai.sp.jandira.s_book.model.UsuarioV2
 import br.senai.sp.jandira.s_book.model.ViaCep
 import br.senai.sp.jandira.s_book.models_private.User
+import br.senai.sp.jandira.s_book.repository.UserCategoryRepository
 import br.senai.sp.jandira.s_book.repository.UserUpdateRepository
 import br.senai.sp.jandira.s_book.service.RetrofitHelper
 import br.senai.sp.jandira.s_book.service.RetrofitHelperViaCep
 import br.senai.sp.jandira.s_book.sqlite_repository.UserRepository
 import br.senai.sp.jandira.s_book.view_model.UserGenresViewModel
+import com.google.gson.JsonObject
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+import java.util.TimeZone
 
 //@Preview(showSystemUi = true)
 @Composable
@@ -161,7 +169,13 @@ fun EditUser(
     cepState = cepState.replace("-", "")
 
 
+    var generosState by remember {
+        mutableStateOf(user.generos)
+    }
 
+    var listGeneros by remember {
+        mutableStateOf(listOf<Genero>())
+    }
 
 
     Column(
@@ -234,27 +248,64 @@ fun EditUser(
                 isPersonOver18 = it
             }
         )
-        MyCategoriesEditUser(user.generos, navController, userGenresViewModel)
+        MyCategoriesEditUser(user.generos, navController, userGenresViewModel){
+            generosState = it
+        }
         Spacer(modifier = Modifier.height(5.dp))
         ButtonsEditUser {
-            updateUser(
-                lifecycleScope = lifecycleScope,
-                context = context,
-                navController = navController,
-                onChangeLoading = {
 
-                },
-            id_usuario = dadosUser[0].id.toInt(),
-            id_endereco = id_endereco,
-            logradouro = ruaState,
-            bairro = bairroState,
-            cidade = cidadeState,
-            estado = ufEstadoState,
-            nome = nomeState,
-            data_nascimento = date,
-            cep = cepState,
-            isPersonOver18 = isPersonOver18
-            )
+            if(user.generos.size != generosState.size){
+
+                for (genero in generosState){
+//                    val generoJson = JsonObject().apply {
+//                        addProperty("id", genero.id_genero)
+//                        addProperty("nome", genero.nome_genero)
+//                    }
+
+                    val generoJson = Genero(id = genero.id_genero, nome = genero.nome_genero)
+
+                    listGeneros = listGeneros + generoJson
+                }
+
+                updateUserWithListGenero(
+                    lifecycleScope = lifecycleScope,
+                    context = context,
+                    navController = navController,
+                    onChangeLoading = {
+
+                    },
+                    id_usuario = dadosUser[0].id.toInt(),
+                    id_endereco = id_endereco,
+                    logradouro = ruaState,
+                    bairro = bairroState,
+                    cidade = cidadeState,
+                    estado = ufEstadoState,
+                    nome = nomeState,
+                    data_nascimento = date,
+                    cep = cepState,
+                    isPersonOver18 = isPersonOver18,
+                    generos_preferidos = listGeneros
+                )
+            }else{
+                updateUser(
+                    lifecycleScope = lifecycleScope,
+                    context = context,
+                    navController = navController,
+                    onChangeLoading = {
+
+                    },
+                    id_usuario = dadosUser[0].id.toInt(),
+                    id_endereco = id_endereco,
+                    logradouro = ruaState,
+                    bairro = bairroState,
+                    cidade = cidadeState,
+                    estado = ufEstadoState,
+                    nome = nomeState,
+                    data_nascimento = date,
+                    cep = cepState,
+                    isPersonOver18 = isPersonOver18
+                )
+            }
         }
     }
 }
@@ -277,6 +328,8 @@ fun updateUser(
     isPersonOver18: Boolean
 ){
 
+    val dataAmerican = data_nascimento.toAmericanDateFormat()
+
     if(isPersonOver18){
         val userUpdateRepository = UserUpdateRepository()
 
@@ -289,7 +342,7 @@ fun updateUser(
                 cidade = cidade,
                 estado = estado,
                 nome = nome,
-                data_nascimento = data_nascimento,
+                data_nascimento = dataAmerican,
                 cep = cep
             )
 
@@ -321,6 +374,84 @@ fun updateUser(
     }else{
         Toast.makeText(context, "Tem que ser maior de 18 anos", Toast.LENGTH_LONG).show()
     }
-
 }
 
+fun updateUserWithListGenero(
+    lifecycleScope: LifecycleCoroutineScope,
+    context: Context,
+    navController: NavController,
+    onChangeLoading: (String) -> Unit,
+    id_usuario: Int,
+    id_endereco: Int,
+    logradouro: String,
+    bairro: String,
+    cidade: String,
+    estado: String,
+    nome: String,
+    data_nascimento: String,
+    cep: String,
+    isPersonOver18: Boolean,
+    generos_preferidos: List<Genero>
+){
+
+    val dataAmerican = data_nascimento.toAmericanDateFormat()
+
+    if(isPersonOver18){
+        val userUpdateRepository = UserUpdateRepository()
+        val userCategoryRepository = UserCategoryRepository()
+
+        lifecycleScope.launch {
+            val responseGeneros = userCategoryRepository.newFavoriteGenres(id_usuario, generos_preferidos)
+            val response = userUpdateRepository.atualizarDadosUsuario(
+                id_usuario = id_usuario,
+                id_endereco = id_endereco,
+                logradouro = logradouro,
+                bairro = bairro,
+                cidade = cidade,
+                estado = estado,
+                nome = nome,
+                data_nascimento = dataAmerican,
+                cep = cep
+            )
+
+            val code = response.code()
+
+            if(response.isSuccessful){
+                Toast.makeText(context, "Dados atualizado com sucesso", Toast.LENGTH_LONG).show()
+                navController.navigate("profile")
+            }else{
+                when(code){
+                    400 -> {
+                        Toast.makeText(
+                            context,
+                            "Falta dados a serem enviados",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+
+                    500 -> {
+                        Toast.makeText(
+                            context,
+                            "Servidor está fora do ar, tente mais tarde",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                }
+            }
+        }
+    }else{
+        Toast.makeText(context, "Tem que ser maior de 18 anos", Toast.LENGTH_LONG).show()
+    }
+}
+
+fun Long.toAmerican(
+    pattern: String = "yyyy-MM-dd"
+): String {
+    val date = Date(this)
+    val formatter = SimpleDateFormat(
+        pattern, Locale("pt-br")
+    ).apply {
+        timeZone = TimeZone.getTimeZone("GMT")
+    }
+    return formatter.format(date)
+}

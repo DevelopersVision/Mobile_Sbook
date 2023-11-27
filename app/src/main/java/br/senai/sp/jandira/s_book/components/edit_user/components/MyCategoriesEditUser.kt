@@ -42,7 +42,8 @@ import br.senai.sp.jandira.s_book.view_model.UserGenresViewModel
 fun MyCategoriesEditUser(
     generos: List<GeneroProfileV2>,
     navController: NavController,
-    userGenresViewModel: UserGenresViewModel
+    userGenresViewModel: UserGenresViewModel,
+    onChangeLista: (List<GeneroProfileV2>) -> Unit
 ) {
 
     var lista by remember {
@@ -95,6 +96,8 @@ fun MyCategoriesEditUser(
                             lista = lista.filter { category ->
                                 category != it
                             }
+
+                            onChangeLista(lista)
                         }
                         .padding(18.5.dp, 7.dp),
                     horizontalArrangement = Arrangement.spacedBy(15.dp),

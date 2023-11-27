@@ -21,19 +21,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.senai.sp.jandira.s_book.R
+import br.senai.sp.jandira.s_book.model.Genero
+import br.senai.sp.jandira.s_book.model.GeneroProfileV2
 
-@Preview
 @Composable
-fun MyCategories() {
-
-    val listaCategorias = listOf<String>(
-        "Tecnologia e Ciência",
-        "Ficção Contemporânea",
-        "Humanidades e Ciências Sociais",
-        "Humor",
-        "Religião e Espiritualidade",
-        "Ação"
-    )
+fun MyCategories(
+    listaCategorias: List<GeneroProfileV2>
+) {
 
     Column(
         modifier = Modifier
@@ -63,7 +57,7 @@ fun MyCategories() {
                         .padding(18.5.dp, 7.dp)
                 ) {
                     Text(
-                        text = it,
+                        text = it.nome_genero,
                         style = TextStyle(
                             fontSize = 14.sp,
                             fontFamily = FontFamily(Font(R.font.intermedium)),
