@@ -2,6 +2,7 @@ package br.senai.sp.jandira.s_book.components.insert_code.components
 
 import android.content.Context
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -95,10 +96,11 @@ fun insertCode (
                 Log.e("reset", "reset: $erroBody")
             }
         }else{
+            Toast.makeText(context, "Token digitado é inválido", Toast.LENGTH_LONG).show()
             Log.e("reset", "reset")
         }
     }
 }
 fun insertCodeValidation (codigo: Int): Boolean {
-    return (codigo.countOneBits() == 4)
+    return (codigo.toString().length == 4)
 }
