@@ -199,7 +199,7 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable("editUser"){
-                            EditUser(navController, viewModelUserGenres)
+                            EditUser(navController, viewModelUserGenres, lifecycleScope)
                         }
 
                         composable("filters"){

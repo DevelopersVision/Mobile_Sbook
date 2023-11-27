@@ -54,10 +54,12 @@ import br.senai.sp.jandira.s_book.model.Usuario
 import br.senai.sp.jandira.s_book.model.UsuarioV2
 import br.senai.sp.jandira.s_book.model.ViaCep
 import br.senai.sp.jandira.s_book.models_private.User
+import br.senai.sp.jandira.s_book.repository.UserUpdateRepository
 import br.senai.sp.jandira.s_book.service.RetrofitHelper
 import br.senai.sp.jandira.s_book.service.RetrofitHelperViaCep
 import br.senai.sp.jandira.s_book.sqlite_repository.UserRepository
 import br.senai.sp.jandira.s_book.view_model.UserGenresViewModel
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -66,7 +68,8 @@ import retrofit2.Response
 @Composable
 fun EditUser(
     navController: NavController,
-    userGenresViewModel: UserGenresViewModel
+    userGenresViewModel: UserGenresViewModel,
+    lifecycleScope: LifecycleCoroutineScope
 ) {
 
     val context = LocalContext.current
@@ -234,14 +237,31 @@ fun EditUser(
         MyCategoriesEditUser(user.generos, navController, userGenresViewModel)
         Spacer(modifier = Modifier.height(5.dp))
         ButtonsEditUser {
+            updateUser(
+                lifecycleScope = lifecycleScope,
+                context = context,
+                navController = navController,
+                onChangeLoading = {
 
+                },
+            id_usuario = dadosUser[0].id.toInt(),
+            id_endereco = id_endereco,
+            logradouro = ruaState,
+            bairro = bairroState,
+            cidade = cidadeState,
+            estado = ufEstadoState,
+            nome = nomeState,
+            data_nascimento = date,
+            cep = cepState,
+            isPersonOver18 = isPersonOver18
+            )
         }
     }
 }
 
 
 fun updateUser(
-    lifecycleCoroutineScope: LifecycleCoroutineScope,
+    lifecycleScope: LifecycleCoroutineScope,
     context: Context,
     navController: NavController,
     onChangeLoading: (String) -> Unit,
@@ -256,6 +276,51 @@ fun updateUser(
     cep: String,
     isPersonOver18: Boolean
 ){
+
+    if(isPersonOver18){
+        val userUpdateRepository = UserUpdateRepository()
+
+        lifecycleScope.launch {
+            val response = userUpdateRepository.atualizarDadosUsuario(
+                id_usuario = id_usuario,
+                id_endereco = id_endereco,
+                logradouro = logradouro,
+                bairro = bairro,
+                cidade = cidade,
+                estado = estado,
+                nome = nome,
+                data_nascimento = data_nascimento,
+                cep = cep
+            )
+
+            val code = response.code()
+
+            if(response.isSuccessful){
+                Toast.makeText(context, "Dados atualizado com sucesso", Toast.LENGTH_LONG).show()
+                navController.navigate("profile")
+            }else{
+                when(code){
+                    400 -> {
+                        Toast.makeText(
+                            context,
+                            "Falta dados a serem enviados",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+
+                    500 -> {
+                        Toast.makeText(
+                            context,
+                            "Servidor está fora do ar, tente mais tarde",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                }
+            }
+        }
+    }else{
+        Toast.makeText(context, "Tem que ser maior de 18 anos", Toast.LENGTH_LONG).show()
+    }
 
 }
 
