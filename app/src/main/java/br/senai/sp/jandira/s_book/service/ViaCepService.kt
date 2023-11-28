@@ -13,6 +13,6 @@ import retrofit2.http.Path
 
 interface ViaCepService {
 
-    @GET("{cep}/json")
+    @GET("{cep}")
     fun getEndereco(@Path("cep") cep: String): Call<ViaCep>
 }

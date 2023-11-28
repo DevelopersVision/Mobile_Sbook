@@ -25,10 +25,10 @@ fun pegarCEP(cep: String, navController: NavController, rota: String, viewModel:
 
                 if(response != null){
                     viewModel.cep = response.cep
-                    viewModel.bairro = response.bairro
-                    viewModel.ufEstado = response.uf
-                    viewModel.cidade = response.localidade
-                    viewModel.logradouro = response.logradouro
+                    viewModel.bairro = response.neighborhood
+                    viewModel.ufEstado = response.state
+                    viewModel.cidade = response.city
+                    viewModel.logradouro = response.street
 
                     Log.e("VIACEP - SUCESS - 200", "cep: $response")
                     navController.navigate(rota)

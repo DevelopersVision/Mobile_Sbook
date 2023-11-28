@@ -33,7 +33,7 @@ class UserUpdateRepository {
         return apiService.updateUserData(requestBody)
     }
 
-    fun atualizarFotoUsuario(id: Int, foto: String): Response<JsonObject> {
+    suspend fun atualizarFotoUsuario(id: Int, foto: String): Response<JsonObject> {
         val requestBody = JsonObject().apply {
             addProperty("id", id)
             addProperty("foto", foto)

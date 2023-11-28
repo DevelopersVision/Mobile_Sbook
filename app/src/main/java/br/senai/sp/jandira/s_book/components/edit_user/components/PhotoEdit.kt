@@ -31,7 +31,8 @@ import coil.compose.AsyncImage
 
 @Composable
 fun PhotoEdit(
-    foto: String
+    foto: String,
+    onChangePhoto: (Uri) -> Unit
 ) {
     val camera = R.drawable.camera
 
@@ -50,6 +51,7 @@ fun PhotoEdit(
             status = true
 
             fotoUri = it
+            onChangePhoto(fotoUri!!)
         }
     }
 

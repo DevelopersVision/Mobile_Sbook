@@ -62,6 +62,9 @@ import br.senai.sp.jandira.s_book.service.RetrofitHelper
 import br.senai.sp.jandira.s_book.service.RetrofitHelperViaCep
 import br.senai.sp.jandira.s_book.sqlite_repository.UserRepository
 import br.senai.sp.jandira.s_book.view_model.UserGenresViewModel
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import com.google.gson.JsonObject
 import kotlinx.coroutines.launch
 import retrofit2.Call
@@ -177,6 +180,10 @@ fun EditUser(
         mutableStateOf(listOf<Genero>())
     }
 
+    var photoState by remember {
+        mutableStateOf<Uri?>(null)
+    }
+
 
     Column(
         modifier = Modifier
@@ -189,7 +196,9 @@ fun EditUser(
         HeaderProfile {
             navController.navigate("profile")
         }
-        PhotoEdit(dadosUser[0].foto)
+        PhotoEdit(dadosUser[0].foto){
+            photoState = it
+        }
         Form(
             context = context,
             nome = nomeState,
@@ -219,11 +228,11 @@ fun EditUser(
 
                                 if (response != null) {
 
-                                    if(response.cep != null && response.uf != null ){
-                                        ruaState = response.logradouro
-                                        cidadeState = response.localidade
-                                        ufEstadoState = response.uf
-                                        bairroState = response.bairro
+                                    if(response.cep != null && response.state != null ){
+                                        ruaState = response.street
+                                        cidadeState = response.city
+                                        ufEstadoState = response.state
+                                        bairroState = response.neighborhood
                                     }else{
                                         Toast.makeText(context, "CEP INVÁLIDO", Toast.LENGTH_LONG).show()
                                     }
@@ -233,7 +242,7 @@ fun EditUser(
                             }
 
                             override fun onFailure(call: Call<ViaCep>, t: Throwable) {
-                                TODO("Not yet implemented")
+                                Toast.makeText(context, "SERVIÇO FORA DO AR TENTE MAIS TARDE", Toast.LENGTH_LONG).show()
                             }
                         })
 
@@ -284,7 +293,8 @@ fun EditUser(
                     data_nascimento = date,
                     cep = cepState,
                     isPersonOver18 = isPersonOver18,
-                    generos_preferidos = listGeneros
+                    generos_preferidos = listGeneros,
+                    photo = photoState
                 )
             }else{
                 updateUser(
@@ -303,7 +313,8 @@ fun EditUser(
                     nome = nomeState,
                     data_nascimento = date,
                     cep = cepState,
-                    isPersonOver18 = isPersonOver18
+                    isPersonOver18 = isPersonOver18,
+                    photo = photoState
                 )
             }
         }
@@ -325,7 +336,8 @@ fun updateUser(
     nome: String,
     data_nascimento: String,
     cep: String,
-    isPersonOver18: Boolean
+    isPersonOver18: Boolean,
+    photo: Uri?
 ){
 
     val dataAmerican = data_nascimento.toAmericanDateFormat()
@@ -334,6 +346,50 @@ fun updateUser(
         val userUpdateRepository = UserUpdateRepository()
 
         lifecycleScope.launch {
+            if(photo != null){
+                Log.w("PhotoFirebase", "${photo}", )
+                val storageReference: StorageReference = FirebaseStorage.getInstance().reference.child("images")
+
+                val firebaseFirestore: FirebaseFirestore = FirebaseFirestore.getInstance()
+
+                var imagemUrl: String = ""
+
+                val storageRef = storageReference.child("${photo}-${System.currentTimeMillis()}.jpg")
+                storageRef.putFile(photo).addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        storageRef.downloadUrl.addOnSuccessListener { downloadUri ->
+                            val map = hashMapOf("pic" to downloadUri.toString())
+                            firebaseFirestore.collection("images").add(map).addOnCompleteListener { firestoreTask ->
+                                if (firestoreTask.isSuccessful) {
+                                    Log.e("Firebase", "Foto adicionada", )
+                                    Toast.makeText(context, "FOTO ADICIONADA COM SUCESSO", Toast.LENGTH_SHORT).show()
+                                } else {
+                                    Log.e("Firebase", "Erro, ${firestoreTask.result}", )
+                                    Toast.makeText(context, "ERRO AO TENTAR REALIZAR O UPLOAD", Toast.LENGTH_SHORT).show()
+                                }
+                            }
+                        }
+                    } else {
+                        Toast.makeText(context, "ERRO AO TENTAR REALIZAR O UPLOAD", Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                firebaseFirestore.collection("images")
+                    .get().addOnSuccessListener {
+                        for(i in it){
+                            if(it.last() == i){
+                                imagemUrl = i.data["pic"].toString()
+
+                                Log.e("FotoFirebase2", imagemUrl )
+
+                                lifecycleScope.launch {
+                                    userUpdateRepository.atualizarFotoUsuario(id_usuario, imagemUrl)
+                                }
+                            }
+                        }
+                    }
+            }
+
             val response = userUpdateRepository.atualizarDadosUsuario(
                 id_usuario = id_usuario,
                 id_endereco = id_endereco,
@@ -391,7 +447,8 @@ fun updateUserWithListGenero(
     data_nascimento: String,
     cep: String,
     isPersonOver18: Boolean,
-    generos_preferidos: List<Genero>
+    generos_preferidos: List<Genero>,
+    photo: Uri?
 ){
 
     val dataAmerican = data_nascimento.toAmericanDateFormat()
@@ -401,6 +458,52 @@ fun updateUserWithListGenero(
         val userCategoryRepository = UserCategoryRepository()
 
         lifecycleScope.launch {
+
+            Log.d("PhotoFirebase2", "${photo}")
+
+            if(photo != null){
+                val storageReference: StorageReference = FirebaseStorage.getInstance().reference.child("images")
+
+                val firebaseFirestore: FirebaseFirestore = FirebaseFirestore.getInstance()
+
+                var imagemUrl: String = ""
+
+                val storageRef = storageReference.child("${photo}-${System.currentTimeMillis()}.jpg")
+                storageRef.putFile(photo).addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        storageRef.downloadUrl.addOnSuccessListener { downloadUri ->
+                            val map = hashMapOf("pic" to downloadUri.toString())
+                            firebaseFirestore.collection("images").add(map).addOnCompleteListener { firestoreTask ->
+                                if (firestoreTask.isSuccessful) {
+                                    Log.e("Firebase", "Foto adicionada", )
+                                    Toast.makeText(context, "FOTO ADICIONADA COM SUCESSO", Toast.LENGTH_SHORT).show()
+                                } else {
+                                    Log.e("Firebase", "Erro, ${firestoreTask.result}", )
+                                    Toast.makeText(context, "ERRO AO TENTAR REALIZAR O UPLOAD", Toast.LENGTH_SHORT).show()
+                                }
+                            }
+                        }
+                    } else {
+                        Toast.makeText(context, "ERRO AO TENTAR REALIZAR O UPLOAD", Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                firebaseFirestore.collection("images")
+                    .get().addOnSuccessListener {
+                        for(i in it){
+                            if(it.last() == i){
+                                imagemUrl = i.data["pic"].toString()
+
+                                Log.e("FotoFirebase2", imagemUrl )
+
+                                lifecycleScope.launch {
+                                    userUpdateRepository.atualizarFotoUsuario(id_usuario, imagemUrl)
+                                }
+                            }
+                        }
+                    }
+            }
+
             val responseGeneros = userCategoryRepository.newFavoriteGenres(id_usuario, generos_preferidos)
             val response = userUpdateRepository.atualizarDadosUsuario(
                 id_usuario = id_usuario,

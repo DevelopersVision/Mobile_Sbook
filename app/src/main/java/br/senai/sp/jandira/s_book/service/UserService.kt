@@ -24,5 +24,5 @@ interface UserService {
 
     @Headers("Content-Type: application/json")
     @PUT("/v1/sbook/atualizar-foto-usuario")
-    fun updateUserPhoto(@Body body: JsonObject): Response<JsonObject>
+    suspend fun updateUserPhoto(@Body body: JsonObject): Response<JsonObject>
 }
