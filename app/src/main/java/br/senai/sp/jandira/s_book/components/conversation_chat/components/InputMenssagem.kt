@@ -32,6 +32,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.R
 import org.json.JSONObject
 
@@ -39,7 +40,8 @@ import org.json.JSONObject
 @Composable
 fun  InputMenssagem(
     mensagem:String,
-    onclick: (String) -> Unit
+    onclick: (String) -> Unit,
+    navController: NavController
 ){
     var mensagemState by remember {
         mutableStateOf(mensagem)
@@ -59,7 +61,9 @@ fun  InputMenssagem(
                 mensagemState = it
             },
             trailingIcon = {
-                IconButton(onClick = {}) {
+                IconButton(onClick = {
+                    navController.navigate("PictureScreen")
+                }) {
                     Icon(
                         imageVector = Icons.Default.Image,
                         contentDescription = "",

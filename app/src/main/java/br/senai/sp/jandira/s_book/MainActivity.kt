@@ -22,6 +22,7 @@ import br.senai.sp.jandira.s_book.components.announceDetail.screen.AnnouceDetail
 import br.senai.sp.jandira.s_book.components.category.screen.CategoryScreen
 import br.senai.sp.jandira.s_book.components.cep.screen.CepScreen
 import br.senai.sp.jandira.s_book.components.conversation_chat.screen.ConversationChatScreen
+import br.senai.sp.jandira.s_book.components.conversation_chat.screen.PictureScreen
 import br.senai.sp.jandira.s_book.components.create_account.screen.CreateContScreen
 import br.senai.sp.jandira.s_book.components.create_account_endereco.screen.CreateAccountEndereco
 import br.senai.sp.jandira.s_book.components.donations.screen.DonationsScreen
@@ -287,6 +288,12 @@ class MainActivity : ComponentActivity() {
                         composable("tela_generica"){
                             GenericScreen(navController = navController, lifecycleScope = lifecycleScope ,navRotasController = navController, viewModelQueVaiPassarOsDados = viewModelAnuncio, viewModelQueVaiReceberOsgeneros = viewModelFilters)
                         }
+
+                        composable("PictureScreen"){
+                            PictureScreen(navController)
+                        }
+
+
                     }
                 }
             }

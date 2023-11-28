@@ -243,6 +243,7 @@ fun ConversationChatScreen(
                 }
             }
         }
+
 //        Spacer(modifier = Modifier.height(6.dp))
 
         Column (
@@ -256,25 +257,25 @@ fun ConversationChatScreen(
                 ),
         ){
             InputMenssagem(
-                mensagem = message
-            ) {
+                mensagem = message,
+                onclick = {
+                    message = it
 
-                message = it
+                    val json = JSONObject().apply {
+                        put("messageBy", idUsuario)
+                        put("messageTo", idUser2)
+                        put("message", message)
+                        put("image", "")
+                        put("chatId", idChat)
+                    }
 
-                val json = JSONObject().apply {
-                    put("messageBy", idUsuario)
-                    put("messageTo", idUser2)
-                    put("message", message)
-                    put("image", "")
-                    put("chatId", idChat)
-                }
+                    Log.e("JSON", "$json")
+                    // val jsonString = Json.encodeToString(json)
 
-                Log.e("JSON", "$json")
-                // val jsonString = Json.encodeToString(json)
-
-                client.sendMessage(json)
-
-            }
+                    client.sendMessage(json)
+                },
+                navController = navController
+            )
         }
     }
 }
