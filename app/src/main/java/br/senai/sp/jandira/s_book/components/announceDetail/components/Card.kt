@@ -313,7 +313,7 @@ fun CardInformacao(
                             .width(292.dp)
                             .height(120.dp),
                     ) {
-                        if (viewModel.preco != null) {
+                        if (viewModel.preco != null && viewModel.preco != 0.00) {
                             Text(
                                 text = "R$ ${viewModel.preco}",
                                 fontSize = 20.sp,

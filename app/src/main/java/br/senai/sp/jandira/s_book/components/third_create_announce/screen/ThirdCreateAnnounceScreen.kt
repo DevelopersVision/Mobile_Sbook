@@ -215,22 +215,21 @@ fun ThirdCreateAnnounceScreen(
                         .size(72.dp)
                         .clickable {
                             if (selectedMedia.isNotEmpty()) {
+                                val uploadedImageUrls = mutableListOf<String>() // Para armazenar as URLs das imagens
+
                                 for (uri in selectedMedia) {
                                     val storageRef = storageRef.child("${uri.lastPathSegment}-${System.currentTimeMillis()}.jpg")
                                     storageRef.putFile(uri).addOnCompleteListener { task ->
                                         if (task.isSuccessful) {
                                             storageRef.downloadUrl.addOnSuccessListener { downloadUri ->
-                                                val map = hashMapOf("pic" to downloadUri.toString())
-                                                firebaseFirestore.collection("images").add(map).addOnCompleteListener { firestoreTask ->
-                                                    if (firestoreTask.isSuccessful) {
-                                                        if (selectedMedia.last() == uri) {
-                                                            navController.navigate("quarto_anunciar")
-                                                            localStorage.salvarValorString(context = context, selectedMedia.toString(), "foto_livro")
-                                                            viewModelImagens.fotos = selectedMedia
-                                                        }
-                                                    } else {
-                                                        Toast.makeText(context, "ERRO AO TENTAR REALIZAR O UPLOAD", Toast.LENGTH_SHORT).show()
-                                                    }
+                                                val imageUrl = downloadUri.toString()
+                                                uploadedImageUrls.add(imageUrl)
+
+                                                if (uploadedImageUrls.size == selectedMedia.size) {
+                                                    // Todas as imagens foram carregadas, agora atualize a ViewModel
+                                                    viewModelImagens.fotos = uploadedImageUrls
+                                                    navController.navigate("quarto_anunciar")
+                                                    localStorage.salvarValorString(context = context, uploadedImageUrls.toString(), "foto_livro")
                                                 }
                                             }
                                         } else {
@@ -241,6 +240,7 @@ fun ThirdCreateAnnounceScreen(
                             } else {
                                 Toast.makeText(context, "Selecione ao menos 1 imagem para prosseguir", Toast.LENGTH_SHORT).show()
                             }
+
                         }
                 )
             }

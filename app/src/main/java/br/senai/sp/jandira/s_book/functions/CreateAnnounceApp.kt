@@ -1,7 +1,6 @@
 package br.senai.sp.jandira.s_book.functions
 
 import android.content.Context
-import android.net.Uri
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.LifecycleCoroutineScope
@@ -23,7 +22,7 @@ fun createAnnounceApp (
     idEstadoLivro: Int,
     idIdioma: Int,
     idEditora: Int,
-    fotos: List<Uri>?,
+    fotos: List<String>?,
     tiposAnuncio: List<Int>,
     generos: List<Int>?,
     autores: List<AutoresParaPostAnuncio>,

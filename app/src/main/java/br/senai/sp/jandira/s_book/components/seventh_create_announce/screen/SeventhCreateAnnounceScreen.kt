@@ -40,9 +40,13 @@ import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.R
 import br.senai.sp.jandira.s_book.Storage
+import br.senai.sp.jandira.s_book.components.feed.screen.getAnunciante
 import br.senai.sp.jandira.s_book.components.universal.HeaderCreateAnnounce
 import br.senai.sp.jandira.s_book.functions.createAnnounceApp
 import br.senai.sp.jandira.s_book.model.AutoresParaPostAnuncio
+import br.senai.sp.jandira.s_book.model.ResponseUsuario
+import br.senai.sp.jandira.s_book.model.Usuario
+import br.senai.sp.jandira.s_book.service.RetrofitHelper
 import br.senai.sp.jandira.s_book.sqlite_repository.UserRepository
 import br.senai.sp.jandira.s_book.view_model.AnnouncePhotosViewModel
 import br.senai.sp.jandira.s_book.view_model.ViewModelDosAutores
@@ -51,6 +55,9 @@ import br.senai.sp.jandira.s_book.view_model.ViewModelDosIds
 import br.senai.sp.jandira.s_book.view_model.ViewModelDosTipoDeLivros
 import br.senai.sp.jandira.s_book.view_model.ViewModelPreco
 import coil.compose.AsyncImage
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 @Composable
 fun SeventhCreateAnnounceScreen(
@@ -70,6 +77,9 @@ fun SeventhCreateAnnounceScreen(
     val array = UserRepository(context).findUsers()
 
     val user = array[0]
+
+
+
 
 
 
@@ -211,8 +221,11 @@ fun SeventhCreateAnnounceScreen(
                     )
                     Spacer(modifier = Modifier.height(24.dp))
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Image(
-                            painter = painterResource(id = R.drawable.susanna_profile),
+
+
+
+                        AsyncImage(
+                            model = user.foto,
                             contentDescription = "",
                             modifier = Modifier
                                 .size(64.dp)
@@ -221,13 +234,13 @@ fun SeventhCreateAnnounceScreen(
                         Spacer(modifier = Modifier.width(8.dp))
                         Column {
                             Text(
-                                text = "Max Kellerman",
+                                text = user.nome,
                                 fontSize = 20.sp,
                                 fontWeight = FontWeight(600),
                                 color = Color(0xFF000000)
                             )
                             Text(
-                                text = "Carapícuiba, São Paulo",
+                                text = "${user.cidade}, ${user.ufEstado}",
                                 fontSize = 12.sp,
                                 fontWeight = FontWeight(600),
                                 color = Color(0xFF9F9898)
@@ -654,4 +667,21 @@ fun SeventhCreateAnnounceScreen(
             }
         }
     }
+}
+
+fun getAnunciante(id: Long, callback: (Usuario?) -> Unit) {
+    val call = RetrofitHelper.getUserByIdService().getUsuarioById(id)
+
+    call.enqueue(object : Callback<ResponseUsuario> {
+        override fun onResponse(
+            call: Call<ResponseUsuario>, response: Response<ResponseUsuario>
+        ) {
+            val usuario = response.body()?.dados
+            callback(usuario)
+        }
+
+        override fun onFailure(call: Call<ResponseUsuario>, t: Throwable) {
+            callback(null) // Em caso de falha, passa null para o callback
+        }
+    })
 }

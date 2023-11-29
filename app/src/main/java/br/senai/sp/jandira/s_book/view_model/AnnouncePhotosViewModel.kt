@@ -5,5 +5,5 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 
 class AnnouncePhotosViewModel: ViewModel() {
-    var fotos: List<Uri>? = emptyList()
+    var fotos: List<String>? = emptyList()
 }

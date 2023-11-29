@@ -1,11 +1,6 @@
 package br.senai.sp.jandira.s_book.repository
 
-import android.net.Uri
-import br.senai.sp.jandira.s_book.model.Autores
 import br.senai.sp.jandira.s_book.model.AutoresParaPostAnuncio
-import br.senai.sp.jandira.s_book.model.Foto
-import br.senai.sp.jandira.s_book.model.Genero
-import br.senai.sp.jandira.s_book.model.TipoAnuncio
 import br.senai.sp.jandira.s_book.service.RetrofitHelper
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
@@ -27,7 +22,7 @@ class CadastroAnuncioRepository {
         idEstadoLivro: Int,
         idIdioma: Int,
         idEditora: Int,
-        fotos: List<Uri>?,
+        fotos: List<String>?,
         tiposAnuncio: List<Int>,
         generos: List<Int>,
         autores: List<AutoresParaPostAnuncio>
