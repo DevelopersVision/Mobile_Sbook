@@ -234,7 +234,23 @@ fun ConversationChatScreen(
                                     CardMensagemUser(
                                         menssagem = it.message,
                                         hora = it.hora_criacao!!.substring(0,5),
-                                        cor = Color(221, 163, 93, 255)
+                                        cor = Color(221, 163, 93, 255),
+                                        onDelete = {
+                                            socket.on("deleteMessage") { args ->
+                                                args.let { d ->
+                                                    if (d.isNotEmpty()) {
+                                                        val idMessageDeleted = d[0] as String
+                                                        listaMensagens = listaMensagens.copy(
+                                                            mensagens = listaMensagens.mensagens
+                                                                .filterNot { it.message == idMessageDeleted }
+                                                                .toMutableList()
+                                                        )
+                                                        Log.e("IDMANO", "${idMessageDeleted}")
+                                                    }
+                                                }
+                                            }
+                                            client.deleteMessage(it._id.toString())
+                                        }
                                     )
                                 }
                             }

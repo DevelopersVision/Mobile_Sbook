@@ -21,6 +21,12 @@ class ChatClient() {
             socket.emit("listContacts", idUsuario)
         }
 
+        socket.on("deleteMessage") { args ->
+            val deletedMessage = args[0] as JSONObject
+            println("Delete Message: $deletedMessage")
+
+        }
+
         socket.on("message") { args ->
             val message = args[0] as String
             println("Received message: $message")
@@ -33,6 +39,13 @@ class ChatClient() {
 
     fun sendMessage(message: JSONObject) {
         socket.emit("message", message)
+    }
+
+    fun deleteMessage(messageId: String) {
+//        val json = JSONObject().apply {
+//            put("message", messageId)
+//        }
+        socket.emit("deleteMessage", messageId)
     }
 
     @Synchronized
