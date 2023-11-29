@@ -43,19 +43,32 @@ import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.R
 import br.senai.sp.jandira.s_book.components.conversation_chat.components.HeaderPicture
 import br.senai.sp.jandira.s_book.functions.FirebaseMessage
+import br.senai.sp.jandira.s_book.model.chat.ChatClient
+import br.senai.sp.jandira.s_book.model.chat.view_model.ChatViewModel
 import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import io.socket.client.Socket
+import org.json.JSONObject
 
 
 //@Preview(showSystemUi = true)
 @Composable
 fun PictureScreen(
-    navController: NavController
+    navController: NavController,
+    chatViewModel: ChatViewModel,
+    client: ChatClient,
+    socket: Socket,
+    idUsuario: Int,
 ) {
 
     val context = LocalContext.current
 
+    var nome = chatViewModel.nome
+    val idChat = chatViewModel.idChat
+    val idUser2 = chatViewModel.idUser2
 
     var fotoUri by remember {
         mutableStateOf<Uri?>(null)
@@ -66,8 +79,11 @@ fun PictureScreen(
     )
 
     var imagem by remember {
-        mutableStateOf("https://icones.pro/wp-content/uploads/2021/02/icone-utilisateur-gris.png")
+        mutableStateOf("https://th.bing.com/th/id/OIP.94DLYHt0KpXQv1n4z-U6tgAAAA?rs=1&pid=ImgDetMain")
     }
+
+    val storageRef: StorageReference = FirebaseStorage.getInstance().reference.child("chat")
+
 
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
@@ -97,7 +113,7 @@ fun PictureScreen(
                         launcher.launch("image/*")
                         Log.e("foto", "$fotoUri",)
                         fotoUri?.let {
-//                           imagem = FirebaseMessage(imagem = fotoUri!!, context = context)
+                           imagem = fotoUri.toString()
                         }
                     }
             ) {
@@ -129,7 +145,7 @@ fun PictureScreen(
                     color = Color(0xFF000000),
                     )
                 Text(
-                        text = "Luiz da silva",
+                    text = nome,
                     fontSize = 16.sp,
                     fontFamily = FontFamily(Font(R.font.intermedium)),
                     fontWeight = FontWeight(600),
@@ -146,7 +162,30 @@ fun PictureScreen(
             ) {
                 Button(
                     onClick = {
-                              navController.navigate("conversa_chat")
+                        val storageRefChild = storageRef.child("${System.currentTimeMillis()}_${fotoUri!!.lastPathSegment}")
+                        val uploadTask = storageRefChild.putFile(fotoUri!!)
+
+                        uploadTask.addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                storageRefChild.downloadUrl.addOnSuccessListener { downloadUri ->
+                                    // Agora você pode usar downloadUri para obter a URL da imagem no Firebase Storage
+                                    val imageUrl = downloadUri.toString()
+
+                                    val json = JSONObject().apply {
+                                        put("messageBy", idUsuario)
+                                        put("messageTo", idUser2)
+                                        put("message", "")
+                                        put("image", imageUrl)
+                                        put("chatId", idChat)
+                                    }
+
+                                    client.sendMessage(json)
+                                }
+                            } else {
+                                Log.e("PictureScreen", "Error uploading image to Firebase Storage: ${task.exception}")
+                            }
+                        }
+                        navController.navigate("conversa_chat")
                     },
                     modifier = Modifier.size(60.dp),
                     shape = CircleShape,

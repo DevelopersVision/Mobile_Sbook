@@ -290,7 +290,34 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable("PictureScreen"){
-                            PictureScreen(navController)
+                            val context = LocalContext.current
+
+                            val dadaUser = UserRepository(context).findUsers()
+
+                            var array = User()
+
+                            var data = ""
+
+                            if(dadaUser.isNotEmpty()){
+                                array = dadaUser[0]
+
+
+                                data = array.id.toString()
+                            }
+
+                            Log.e("eu mandei", "id: ${data}", )
+
+                            val client = ChatClient()
+                            client.connect(data.toInt())
+                            val socket = client.getSocket()
+
+                            PictureScreen(
+                                navController = navController,
+                                socket = socket,
+                                idUsuario = data.toInt(),
+                                chatViewModel = chatViewModel,
+                                client = client
+                            )
                         }
 
 
