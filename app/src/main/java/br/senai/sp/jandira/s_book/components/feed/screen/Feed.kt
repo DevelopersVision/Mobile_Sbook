@@ -130,7 +130,8 @@ fun FeedScreen(
                     cont = false
                 }
             }else{
-                Toast.makeText(context, "erro da api", Toast.LENGTH_SHORT).show()
+                cont = false
+                Toast.makeText(context, "Não tem mais anuncios a ser mostrado", Toast.LENGTH_SHORT).show()
             }
 
         }

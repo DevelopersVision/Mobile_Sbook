@@ -206,7 +206,7 @@ fun Header(
                             .size(32.dp)
                             .clickable {
                                 if (statusPerfil) {
-                                    navRotasController.navigate("profile")
+                                    //navRotasController.navigate("profile")
                                 } else {
                                     navRotasController.navigate("login")
                                 }
@@ -221,7 +221,7 @@ fun Header(
                             .clip(CircleShape)
                             .clickable {
                                 if (statusPerfil) {
-                                    navRotasController.navigate("profile")
+                                    //navRotasController.navigate("profile")
                                 } else {
                                     navRotasController.navigate("login")
                                 }

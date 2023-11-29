@@ -68,7 +68,7 @@ fun DonationsScreen(
         override fun onResponse(
             call: Call<AnuncioDonationsResponse>, response: Response<AnuncioDonationsResponse>
         ) {
-            Log.e("ResponseDonations", "resposta: $response")
+            Log.e("Page", "$page")
 
             if (response.code() == 200) {
                 listaAnuncioDoacao = response.body()!!.anuncios
@@ -79,12 +79,14 @@ fun DonationsScreen(
                     cont = false
                 }
             } else {
+                cont = false
                 Toast.makeText(context, "erro da api", Toast.LENGTH_SHORT).show()
             }
 
         }
 
         override fun onFailure(call: Call<AnuncioDonationsResponse>, t: Throwable) {
+            cont = false
             Toast.makeText(context, "SERVIÇO ESTÁ FORA DO AR TENTE MAIS TARDE", Toast.LENGTH_LONG)
                 .show()
             Log.d("ERROR_FEED-tmessage", "${t.message}")
@@ -97,7 +99,7 @@ fun DonationsScreen(
         modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         HeaderDonations {
-            navController.navigate("navigation_home_bar")
+            navController.popBackStack()
         }
         LazyColumn(
             modifier = Modifier

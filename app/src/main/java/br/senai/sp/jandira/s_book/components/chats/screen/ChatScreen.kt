@@ -62,7 +62,8 @@ fun ChatScreen(
     var listaContatos by remember {
         mutableStateOf(
             SocketResponse(
-                users = listOf()
+                users = listOf(),
+                id_user = 0
             )
         )
     }
@@ -75,7 +76,11 @@ fun ChatScreen(
                 if (data.toString().isNotEmpty()) {
                     val chat = Gson().fromJson(data.toString(), SocketResponse::class.java)
 
-                    listaContatos = chat
+                    Log.e("Ids", "${chat.id_user} e $idUsuario", )
+
+                    if(chat.id_user == idUsuario){
+                        listaContatos = chat
+                    }
                 }
             }
         }
@@ -170,7 +175,7 @@ fun ChatScreen(
                             chatViewModel.foto = contato[0].foto
                             chatViewModel.nome = contato[0].nome
                             socket.emit("listMessages", it.id_chat)
-                            Log.e("luiz", "ChatScreen: ${contato[0].id}", )
+                            Log.e("luiz", "ChatScreen: ${contato[0].id}",)
                         }
                 ) {
                     Row(
