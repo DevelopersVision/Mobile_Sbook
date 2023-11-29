@@ -157,7 +157,7 @@ fun ConversationChatScreen(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(740.dp)
+                .height(730.dp)
         ) {
             Image(
                 modifier = Modifier
@@ -178,26 +178,26 @@ fun ConversationChatScreen(
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Card(
-                        modifier = Modifier
-                            .width(140.dp)
-                            .height(32.dp),
-                        backgroundColor = Color(0xFFD9D9D9),
-                        shape = RoundedCornerShape(8.dp)
-                    ) {
-                        Row(
-                            modifier = Modifier.fillMaxSize(),
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.Center
-                        ) {
-                            Text(
-                                text = "16 de novembro de 2023",
-                                fontSize = 12.sp,
-                                fontWeight = FontWeight(600),
-                                color = Color(0xFF000000)
-                            )
-                        }
-                    }
+//                    Card(
+//                        modifier = Modifier
+//                            .width(140.dp)
+//                            .height(32.dp),
+//                        backgroundColor = Color(0xFFD9D9D9),
+//                        shape = RoundedCornerShape(8.dp)
+//                    ) {
+//                        Row(
+//                            modifier = Modifier.fillMaxSize(),
+//                            verticalAlignment = Alignment.CenterVertically,
+//                            horizontalArrangement = Arrangement.Center
+//                        ) {
+//                            Text(
+//                                text = "16 de novembro de 2023",
+//                                fontSize = 12.sp,
+//                                fontWeight = FontWeight(600),
+//                                color = Color(0xFF000000)
+//                            )
+//                        }
+//                    }
                     LazyColumn(
                         modifier = Modifier
                             .height(590.dp)
@@ -265,7 +265,7 @@ fun ConversationChatScreen(
         Column (
             modifier = Modifier
                 .fillMaxWidth()
-                .height(300.dp)
+                .height(320.dp)
                 .border(
                     width = 0.5.dp,
                     color = Color(0xFF808080),

@@ -50,7 +50,7 @@ fun  InputMenssagem(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .height(140.dp)
+            .height(320.dp)
             .padding(horizontal = 24.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically

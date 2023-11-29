@@ -1,5 +1,6 @@
 package br.senai.sp.jandira.s_book.components.conversation_chat.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTransformGestures
 import androidx.compose.foundation.layout.Arrangement
@@ -9,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
@@ -21,6 +23,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Canvas
 import androidx.compose.ui.graphics.Color
@@ -57,36 +60,35 @@ fun CardMensagemUser(
                         }
                     }
                 },
-            backgroundColor = cor
+            backgroundColor = if (isLongPressActive) Color.Black.copy(alpha = 0.2f) else cor
         ) {
             Row(
                 modifier = Modifier
                     .padding(12.dp)
                     .fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
+                horizontalArrangement = Arrangement.Center
             ) {
                 androidx.compose.foundation.Canvas(
                     modifier = Modifier
-                        .size(12.dp),
+                        .size(12.dp)
+                        .fillMaxWidth(),
                     onDraw = {
                         drawCircle(
                             color = if (isLongPressActive) Color.Transparent else Color.Transparent
                         )
                     }
                 )
-
                 // Adicionando o ícone de lixeira
                 if (isLongPressActive) {
                     Column (
                         modifier = Modifier
-                            .clickable{
+                            .clickable {
                                 onDelete()
                             }
                     ){
-                        // Substitute o cone abattoir pelo ícone de lixeira real que você deseja usar
+                        // Substitua o ícone padrão pelo ícone de lixeira real que você deseja usar
                         Icon(Icons.Default.Delete, contentDescription = "Delete")
                     }
-
                 }
             }
 
