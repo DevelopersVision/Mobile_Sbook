@@ -80,7 +80,7 @@ fun DonationsScreen(
                 }
             } else {
                 cont = false
-                Toast.makeText(context, "erro da api", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Não tem mais anuncios a ser mostrado", Toast.LENGTH_SHORT).show()
             }
 
         }

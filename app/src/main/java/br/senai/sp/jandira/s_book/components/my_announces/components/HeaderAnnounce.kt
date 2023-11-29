@@ -41,7 +41,7 @@ fun HeaderAnnounce(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .height(260.dp),
+            .height(180.dp),
         backgroundColor = Color(0xFF784F34),
         shape = RoundedCornerShape(bottomStart = 24.dp, bottomEnd = 24.dp)
     ){
@@ -78,7 +78,7 @@ fun HeaderAnnounce(
             }
             Column {
                 Text(
-                    text = "Olá, Maria",
+                    text = "Olá, ${array[0].nome}",
                     fontSize = 16.sp,
                     fontWeight = FontWeight(400),
                     color = Color(0xFFFFFFFF)
@@ -90,23 +90,23 @@ fun HeaderAnnounce(
                     color = Color(0xFFFFFFFF)
                 )
             }
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.End
-            ) {
-                androidx.compose.material3.Button(
-                    onClick = { /*TODO*/ },
-                    colors = ButtonDefaults.buttonColors(Color(221, 163, 93, 255)),
-                    modifier = Modifier.size(64.dp),
-                    shape = CircleShape
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.user),
-                        contentDescription = "",
-                        modifier = Modifier.size(24.dp)
-                    )
-                }
-            }
+//            Row(
+//                modifier = Modifier.fillMaxWidth(),
+//                horizontalArrangement = Arrangement.End
+//            ) {
+//                androidx.compose.material3.Button(
+//                    onClick = { /*TODO*/ },
+//                    colors = ButtonDefaults.buttonColors(Color(221, 163, 93, 255)),
+//                    modifier = Modifier.size(64.dp),
+//                    shape = CircleShape
+//                ) {
+//                    Image(
+//                        painter = painterResource(id = R.drawable.user),
+//                        contentDescription = "",
+//                        modifier = Modifier.size(24.dp)
+//                    )
+//                }
+//            }
         }
     }
 

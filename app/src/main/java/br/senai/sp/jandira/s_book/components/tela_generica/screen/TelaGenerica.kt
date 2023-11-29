@@ -1,6 +1,7 @@
 package br.senai.sp.jandira.s_book.components.tela_generica.screen
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -20,12 +21,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.components.feed.components.AnunciosProximos
 import br.senai.sp.jandira.s_book.components.feed.screen.getAnunciante
 import br.senai.sp.jandira.s_book.components.tela_generica.components.Header
+import br.senai.sp.jandira.s_book.components.universal.NoExist
 import br.senai.sp.jandira.s_book.components.universal.ProgressBar
 import br.senai.sp.jandira.s_book.model.AnunciosBaseResponse
 import br.senai.sp.jandira.s_book.model.JsonAnuncios
@@ -45,8 +48,14 @@ fun GenericScreen(
     viewModelQueVaiReceberOsgeneros: ViweModelDosFiltros
 ) {
 
+    val context = LocalContext.current
+
     var listAnunciosFiltrados by remember {
         mutableStateOf(listOf<JsonAnuncios>())
+    }
+
+    var status by remember {
+        mutableStateOf(false)
     }
 
 
@@ -64,12 +73,17 @@ fun GenericScreen(
             call: Call<AnunciosBaseResponse>, response: Response<AnunciosBaseResponse>
         ) {
             Log.e("Responde . BODY: ", "${response.body()}")
-            listAnunciosFiltrados = response.body()!!.anuncios
 
+            if(response.body() != null){
+                listAnunciosFiltrados = response.body()!!.anuncios
+            }else{
+                status = true
+            }
         }
 
         override fun onFailure(call: Call<AnunciosBaseResponse>, t: Throwable) {
-
+            Toast.makeText(context, "SERVIÇO ESTÁ FORA DO AR TENTE MAIS TARDE", Toast.LENGTH_LONG)
+                .show()
         }
     })
 
@@ -84,8 +98,21 @@ fun GenericScreen(
             navRotasController.navigate("filters")
         }
 
-
-        if (listAnunciosFiltrados.isEmpty()) {
+        if(status){
+            Row(
+                modifier = Modifier.fillMaxWidth().padding(top = 32.dp),
+                horizontalArrangement = Arrangement.Center
+            ) {
+                NoExist(
+                    onclick = {
+                        //navRotasController.navigate("primeiro_anunciar")
+                    },
+                    textTitulo = "Nenhum anúncio ainda :(",
+                    textSubTitulo = "Tente mudar a sua pesquisa",
+                    textDecisão = ""
+                )
+            }
+        }else if (listAnunciosFiltrados.isEmpty()) {
             isLoading == true
             ProgressBar(isDisplayed = !isLoading)
         } else {
