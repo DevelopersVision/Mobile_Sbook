@@ -62,7 +62,9 @@ import br.senai.sp.jandira.s_book.service.RetrofitHelper
 import br.senai.sp.jandira.s_book.service.RetrofitHelperViaCep
 import br.senai.sp.jandira.s_book.sqlite_repository.UserRepository
 import br.senai.sp.jandira.s_book.view_model.UserGenresViewModel
+import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.gson.JsonObject
@@ -71,6 +73,8 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.Date
 import java.util.Locale
 import java.util.TimeZone
@@ -196,7 +200,7 @@ fun EditUser(
         HeaderProfile {
             navController.navigate("profile")
         }
-        PhotoEdit(dadosUser[0].foto){
+        PhotoEdit(dadosUser[0].foto) {
             photoState = it
         }
         Form(
@@ -214,7 +218,7 @@ fun EditUser(
                 if (it.length < 9) {
                     cepState = it
 
-                    if(cepState.length == 8){
+                    if (cepState.length == 8) {
 
                         val call = RetrofitHelperViaCep.getLocal().getEndereco(cepState)
 
@@ -228,13 +232,14 @@ fun EditUser(
 
                                 if (response != null) {
 
-                                    if(response.cep != null && response.state != null ){
+                                    if (response.cep != null && response.state != null) {
                                         ruaState = response.street
                                         cidadeState = response.city
                                         ufEstadoState = response.state
                                         bairroState = response.neighborhood
-                                    }else{
-                                        Toast.makeText(context, "CEP INVÁLIDO", Toast.LENGTH_LONG).show()
+                                    } else {
+                                        Toast.makeText(context, "CEP INVÁLIDO", Toast.LENGTH_LONG)
+                                            .show()
                                     }
 
                                     Log.e("VIACEP - SUCESS - 200", "cep: $response")
@@ -242,7 +247,11 @@ fun EditUser(
                             }
 
                             override fun onFailure(call: Call<ViaCep>, t: Throwable) {
-                                Toast.makeText(context, "SERVIÇO FORA DO AR TENTE MAIS TARDE", Toast.LENGTH_LONG).show()
+                                Toast.makeText(
+                                    context,
+                                    "SERVIÇO FORA DO AR TENTE MAIS TARDE",
+                                    Toast.LENGTH_LONG
+                                ).show()
                             }
                         })
 
@@ -257,15 +266,16 @@ fun EditUser(
                 isPersonOver18 = it
             }
         )
-        MyCategoriesEditUser(user.generos, navController, userGenresViewModel){
+        MyCategoriesEditUser(user.generos, navController, userGenresViewModel) {
             generosState = it
         }
         Spacer(modifier = Modifier.height(5.dp))
         ButtonsEditUser {
+            Log.d("Sizes", "${user.generos.size} -- ${generosState.size}")
 
-            if(user.generos.size != generosState.size){
+            if (user.generos.size != generosState.size && generosState.isNotEmpty()) {
 
-                for (genero in generosState){
+                for (genero in generosState) {
 //                    val generoJson = JsonObject().apply {
 //                        addProperty("id", genero.id_genero)
 //                        addProperty("nome", genero.nome_genero)
@@ -296,7 +306,7 @@ fun EditUser(
                     generos_preferidos = listGeneros,
                     photo = photoState
                 )
-            }else{
+            } else {
                 updateUser(
                     lifecycleScope = lifecycleScope,
                     context = context,
@@ -338,56 +348,92 @@ fun updateUser(
     cep: String,
     isPersonOver18: Boolean,
     photo: Uri?
-){
+) {
 
     val dataAmerican = data_nascimento.toAmericanDateFormat()
 
-    if(isPersonOver18){
+    if (isPersonOver18) {
         val userUpdateRepository = UserUpdateRepository()
 
         lifecycleScope.launch {
-            if(photo != null){
-                Log.w("PhotoFirebase", "${photo}", )
-                val storageReference: StorageReference = FirebaseStorage.getInstance().reference.child("images")
+            if (photo != null) {
+                Log.w("PhotoFirebase", "${photo}")
+                val storageReference: StorageReference =
+                    FirebaseStorage.getInstance().reference.child("images")
 
                 val firebaseFirestore: FirebaseFirestore = FirebaseFirestore.getInstance()
 
                 var imagemUrl: String = ""
 
-                val storageRef = storageReference.child("${photo}-${System.currentTimeMillis()}.jpg")
+                val storageRef = storageReference.child(System.currentTimeMillis().toString())
                 storageRef.putFile(photo).addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         storageRef.downloadUrl.addOnSuccessListener { downloadUri ->
-                            val map = hashMapOf("pic" to downloadUri.toString())
-                            firebaseFirestore.collection("images").add(map).addOnCompleteListener { firestoreTask ->
-                                if (firestoreTask.isSuccessful) {
-                                    Log.e("Firebase", "Foto adicionada", )
-                                    Toast.makeText(context, "FOTO ADICIONADA COM SUCESSO", Toast.LENGTH_SHORT).show()
-                                } else {
-                                    Log.e("Firebase", "Erro, ${firestoreTask.result}", )
-                                    Toast.makeText(context, "ERRO AO TENTAR REALIZAR O UPLOAD", Toast.LENGTH_SHORT).show()
+                            //val map = hashMapOf("pic" to downloadUri.toString())
+
+                            val map = HashMap<String, Any>()
+                            map["pic"] = downloadUri.toString()
+                            map["timestamp"] =
+                                LocalDateTime.parse(LocalDateTime.now().toString()).toString()
+                            Log.w("NOW", "${LocalDateTime.parse(LocalDateTime.now().toString())}")
+                            Log.w(
+                                "NOW", "${
+                                    LocalDateTime.parse(
+                                        LocalDateTime.now().format(
+                                            DateTimeFormatter.ISO_DATE_TIME
+                                        )
+                                    )
+                                }"
+                            )
+
+                            firebaseFirestore.collection("images").add(map)
+                                .addOnCompleteListener { firestoreTask ->
+                                    if (firestoreTask.isSuccessful) {
+                                        Log.e("Firebase", "Foto adicionada")
+                                        Toast.makeText(
+                                            context,
+                                            "FOTO ADICIONADA COM SUCESSO",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+
+                                        firebaseFirestore.collection("images") // Substitua "pic" pelo nome do campo correto
+                                            .orderBy("timestamp", Query.Direction.DESCENDING)
+                                            .limit(1)
+                                            .get()
+                                            .addOnSuccessListener { querySnapshot ->
+                                                imagemUrl = querySnapshot.documents[0].data!!["pic"].toString()
+
+                                                lifecycleScope.launch {
+                                                   val respondeURL = userUpdateRepository.atualizarFotoUsuario(id_usuario, imagemUrl)
+
+                                                    if(respondeURL.isSuccessful){
+                                                        navController.navigate("profile")
+                                                    }
+                                                }
+                                            }
+                                            .addOnFailureListener { exception ->
+                                                Log.e("Firebase", "Erro ao obter imagens: $exception")
+                                                exception.printStackTrace()  // Adiciona esta linha para imprimir o stack trace
+                                            }
+
+                                    } else {
+                                        Log.e("Firebase", "Erro, ${firestoreTask.result}")
+                                        Toast.makeText(
+                                            context,
+                                            "ERRO AO TENTAR REALIZAR O UPLOAD",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
                                 }
-                            }
                         }
                     } else {
-                        Toast.makeText(context, "ERRO AO TENTAR REALIZAR O UPLOAD", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            context,
+                            "ERRO AO TENTAR REALIZAR O UPLOAD",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
-
-                firebaseFirestore.collection("images")
-                    .get().addOnSuccessListener {
-                        for(i in it){
-                            if(it.last() == i){
-                                imagemUrl = i.data["pic"].toString()
-
-                                Log.e("FotoFirebase2", imagemUrl )
-
-                                lifecycleScope.launch {
-                                    userUpdateRepository.atualizarFotoUsuario(id_usuario, imagemUrl)
-                                }
-                            }
-                        }
-                    }
             }
 
             val response = userUpdateRepository.atualizarDadosUsuario(
@@ -404,11 +450,14 @@ fun updateUser(
 
             val code = response.code()
 
-            if(response.isSuccessful){
+            if (response.isSuccessful) {
                 Toast.makeText(context, "Dados atualizado com sucesso", Toast.LENGTH_LONG).show()
-                navController.navigate("profile")
-            }else{
-                when(code){
+
+                if(photo == null){
+                    navController.navigate("profile")
+                }
+            } else {
+                when (code) {
                     400 -> {
                         Toast.makeText(
                             context,
@@ -427,7 +476,7 @@ fun updateUser(
                 }
             }
         }
-    }else{
+    } else {
         Toast.makeText(context, "Tem que ser maior de 18 anos", Toast.LENGTH_LONG).show()
     }
 }
@@ -449,11 +498,11 @@ fun updateUserWithListGenero(
     isPersonOver18: Boolean,
     generos_preferidos: List<Genero>,
     photo: Uri?
-){
+) {
 
     val dataAmerican = data_nascimento.toAmericanDateFormat()
 
-    if(isPersonOver18){
+    if (isPersonOver18) {
         val userUpdateRepository = UserUpdateRepository()
         val userCategoryRepository = UserCategoryRepository()
 
@@ -461,40 +510,60 @@ fun updateUserWithListGenero(
 
             Log.d("PhotoFirebase2", "${photo}")
 
-            if(photo != null){
-                val storageReference: StorageReference = FirebaseStorage.getInstance().reference.child("images")
+            if (photo != null) {
+                Log.w("PhotoFirebase", "${photo}")
+                val storageReference: StorageReference =
+                    FirebaseStorage.getInstance().reference.child("images")
 
                 val firebaseFirestore: FirebaseFirestore = FirebaseFirestore.getInstance()
 
                 var imagemUrl: String = ""
 
-                val storageRef = storageReference.child("${photo}-${System.currentTimeMillis()}.jpg")
+                val storageRef = storageReference.child(System.currentTimeMillis().toString())
                 storageRef.putFile(photo).addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         storageRef.downloadUrl.addOnSuccessListener { downloadUri ->
-                            val map = hashMapOf("pic" to downloadUri.toString())
-                            firebaseFirestore.collection("images").add(map).addOnCompleteListener { firestoreTask ->
-                                if (firestoreTask.isSuccessful) {
-                                    Log.e("Firebase", "Foto adicionada", )
-                                    Toast.makeText(context, "FOTO ADICIONADA COM SUCESSO", Toast.LENGTH_SHORT).show()
-                                } else {
-                                    Log.e("Firebase", "Erro, ${firestoreTask.result}", )
-                                    Toast.makeText(context, "ERRO AO TENTAR REALIZAR O UPLOAD", Toast.LENGTH_SHORT).show()
+                            //val map = hashMapOf("pic" to downloadUri.toString())
+
+                            val map = HashMap<String, Any>()
+                            map["pic"] = downloadUri.toString()
+
+                            firebaseFirestore.collection("images").add(map)
+                                .addOnCompleteListener { firestoreTask ->
+                                    if (firestoreTask.isSuccessful) {
+                                        Log.e("Firebase", "Foto adicionada")
+                                        Toast.makeText(
+                                            context,
+                                            "FOTO ADICIONADA COM SUCESSO",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    } else {
+                                        Log.e("Firebase", "Erro, ${firestoreTask.result}")
+                                        Toast.makeText(
+                                            context,
+                                            "ERRO AO TENTAR REALIZAR O UPLOAD",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
                                 }
-                            }
                         }
                     } else {
-                        Toast.makeText(context, "ERRO AO TENTAR REALIZAR O UPLOAD", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            context,
+                            "ERRO AO TENTAR REALIZAR O UPLOAD",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
 
                 firebaseFirestore.collection("images")
                     .get().addOnSuccessListener {
-                        for(i in it){
-                            if(it.last() == i){
+                        for (i in it) {
+                            Log.e("IT", "${it}")
+                            if (it.last() == i) {
                                 imagemUrl = i.data["pic"].toString()
 
-                                Log.e("FotoFirebase2", imagemUrl )
+                                Log.e("FotoFirebase2", imagemUrl)
 
                                 lifecycleScope.launch {
                                     userUpdateRepository.atualizarFotoUsuario(id_usuario, imagemUrl)
@@ -504,7 +573,8 @@ fun updateUserWithListGenero(
                     }
             }
 
-            val responseGeneros = userCategoryRepository.newFavoriteGenres(id_usuario, generos_preferidos)
+            val responseGeneros =
+                userCategoryRepository.newFavoriteGenres(id_usuario, generos_preferidos)
             val response = userUpdateRepository.atualizarDadosUsuario(
                 id_usuario = id_usuario,
                 id_endereco = id_endereco,
@@ -519,11 +589,11 @@ fun updateUserWithListGenero(
 
             val code = response.code()
 
-            if(response.isSuccessful){
+            if (response.isSuccessful) {
                 Toast.makeText(context, "Dados atualizado com sucesso", Toast.LENGTH_LONG).show()
                 navController.navigate("profile")
-            }else{
-                when(code){
+            } else {
+                when (code) {
                     400 -> {
                         Toast.makeText(
                             context,
@@ -542,7 +612,7 @@ fun updateUserWithListGenero(
                 }
             }
         }
-    }else{
+    } else {
         Toast.makeText(context, "Tem que ser maior de 18 anos", Toast.LENGTH_LONG).show()
     }
 }
