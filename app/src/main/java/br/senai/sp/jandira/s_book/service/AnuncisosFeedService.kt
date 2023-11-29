@@ -1,5 +1,6 @@
 package br.senai.sp.jandira.s_book.service
 
+import br.senai.sp.jandira.s_book.model.AnuncioDonationsResponse
 import br.senai.sp.jandira.s_book.model.AnuncioNoPageBaseResponse
 import br.senai.sp.jandira.s_book.model.AnunciosBaseResponse
 import br.senai.sp.jandira.s_book.model.AnunciosFavoritosBaseResponse
@@ -12,6 +13,7 @@ interface AnuncisosFeedService {
     @GET("v1/sbook/anuncio")
     fun getAnuncios(@Query("page") page: Int): Call<AnunciosBaseResponse>
 
-
+    @GET("v1/sbook/anuncio-doacao")
+    fun getAnuncioDoacao(@Query("page") page: Int): Call<AnuncioDonationsResponse>
 
 }

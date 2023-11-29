@@ -115,9 +115,9 @@ class MainActivity : ComponentActivity() {
                             LoginScreen(navController = navController, lifecycleScope = lifecycleScope)
                         }
 
-                        composable("donations") {
-                            DonationsScreen(navController = navController)
-                        }
+//                        composable("donations") {
+//                            DonationsScreen(navController = navController)
+//                        }
 
                         composable("create_account") {
                             CreateContScreen(navController = navController, viewModel = viewModelCreateAccount)
