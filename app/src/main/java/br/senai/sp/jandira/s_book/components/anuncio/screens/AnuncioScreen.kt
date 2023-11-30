@@ -73,13 +73,13 @@ fun AnuncioScreen() {
 //            }
 
 
-            override fun onFailure(
-                call: Call<VerificarFavoritoBaseResponse>,
-                t: Throwable
-            ) {
-                Log.d("mudou o nome", "Depois da chamada da API:")
-            }
-        })
+//            override fun onFailure(
+//                call: Call<VerificarFavoritoBaseResponse>,
+//                t: Throwable
+//            ) {
+//                Log.d("mudou o nome", "Depois da chamada da API:")
+//            }
+//        })
 
 
 //    BoxAnuncio(
