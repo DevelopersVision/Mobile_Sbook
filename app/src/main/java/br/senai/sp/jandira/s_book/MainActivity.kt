@@ -66,6 +66,7 @@ import br.senai.sp.jandira.s_book.view_model.ViewModelDosIds
 import br.senai.sp.jandira.s_book.view_model.ViewModelDosTipoDeLivros
 import br.senai.sp.jandira.s_book.view_model.ViewModelPreco
 import br.senai.sp.jandira.s_book.view_model.ViweModelDosFiltros
+import io.socket.client.Socket
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -160,23 +161,27 @@ class MainActivity : ComponentActivity() {
 
                             var data = ""
 
+                            var socket: Socket? = null
+
                             if(dadaUser.isNotEmpty()){
                                 array = dadaUser[0]
 
 
                                 data = array.id.toString()
+
+                                val client = ChatClient()
+                                client.connect(data.toInt())
+                                socket = client.getSocket()
+                            }else{
+                                data = 0.toString()
                             }
 
                             Log.e("eu mandei", "id: ${data}", )
 
-                            val client = ChatClient()
-                            client.connect(data.toInt())
-                            val socket = client.getSocket()
-
                             AnnouceDetail(
                                 navController = navController,
                                 viewMODEL = viewModelAnuncio,
-                                socket = socket ,
+                                socket = socket,
                                 idUsuario = data.toInt(),
                                 chatViewModel = chatViewModel,
                                 client = client ,

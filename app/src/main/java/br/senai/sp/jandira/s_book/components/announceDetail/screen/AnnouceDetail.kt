@@ -41,7 +41,7 @@ import org.json.JSONObject
 fun AnnouceDetail(
     navController: NavController,
     viewMODEL: AnuncioViewModel,
-    socket: Socket,
+    socket: Socket?,
     idUsuario: Int,
     chatViewModel: ChatViewModel,
     client: ChatClient,
@@ -95,7 +95,8 @@ fun AnnouceDetail(
             Header(viewMODEL)
             CardInformacao(viewMODEL, lifecycleScope, onClick = {
 
-//                val jsonUser1 = JSONObject().apply {
+                if (socket != null) {
+                    //                val jsonUser1 = JSONObject().apply {
 //                    put("id", idUsuario )
 //                    put("foto", dadaUser[0].foto)
 //                    put("nome", dadaUser[0].nome)
@@ -107,23 +108,23 @@ fun AnnouceDetail(
 //                    put("nome", nomeAnunciante)
 //                }
 
-                val jsonUser1 = UserChat(
-                    id = idUsuario,
-                    foto = dadaUser[0].foto,
-                    nome = dadaUser[0].nome
-                )
+                    val jsonUser1 = UserChat(
+                        id = idUsuario,
+                        foto = dadaUser[0].foto,
+                        nome = dadaUser[0].nome
+                    )
 
-                Log.w("idmeu", "id meu: $idUsuario", )
+                    Log.w("idmeu", "id meu: $idUsuario")
 
-                val jsonUserAnunciante = UserChat(
-                    id = idAnunciante.toInt(),
-                    foto = fotoAnunciante,
-                    nome = nomeAnunciante
-                )
+                    val jsonUserAnunciante = UserChat(
+                        id = idAnunciante.toInt(),
+                        foto = fotoAnunciante,
+                        nome = nomeAnunciante
+                    )
 
-                listUsuario = listUsuario + jsonUser1
+                    listUsuario = listUsuario + jsonUser1
 
-                listUsuario = listUsuario + jsonUserAnunciante
+                    listUsuario = listUsuario + jsonUserAnunciante
 
 //                val jsonBody = JSONObject().apply {
 ////                    val usersArray = JsonArray()
@@ -142,53 +143,60 @@ fun AnnouceDetail(
 //                    accumulate("users", listUsuario)
 //                }
 
-                val jsonBody = JsonObject().apply {
-                    val usersArray = JsonArray()
+                    val jsonBody = JsonObject().apply {
+                        val usersArray = JsonArray()
 
-                    for (user in listUsuario) {
-                        val userObject = JsonObject().apply {
-                            addProperty("id", user.id)
-                            addProperty("nome", user.nome)
-                            addProperty("foto", user.foto)
+                        for (user in listUsuario) {
+                            val userObject = JsonObject().apply {
+                                addProperty("id", user.id)
+                                addProperty("nome", user.nome)
+                                addProperty("foto", user.foto)
+                            }
+                            usersArray.add(userObject)
                         }
-                        usersArray.add(userObject)
+
+                        add("users", usersArray)
+                        //addProperty("status", true)
                     }
 
-                    add("users", usersArray)
-                    //addProperty("status", true)
-                }
+
+                    socket.emit("createRooom", jsonBody)
 
 
-                socket.emit("createRooom", jsonBody)
+                    // Ouça o evento do socket
+                    socket.on("newChat") { args ->
+                        args.let { d ->
+                            if (d.isNotEmpty()) {
+                                val data = d[0]
 
+                                Log.e("Data", "$data")
+                                if (data.toString().isNotEmpty()) {
+                                    val chat =
+                                        Gson().fromJson(
+                                            data.toString(),
+                                            MesagensResponse::class.java
+                                        )
 
-                // Ouça o evento do socket
-                socket.on("newChat") { args ->
-                    args.let { d ->
-                        if (d.isNotEmpty()) {
-                            val data = d[0]
-
-                            Log.e("Data", "$data")
-                            if (data.toString().isNotEmpty()) {
-                                val chat =
-                                    Gson().fromJson(data.toString(), MesagensResponse::class.java)
-
-                                newChat = chat
-                                Log.e("luiz aquiiii", "AnnouceDetail: ${chat}")
-                                Log.e("luiz testando dentro", "${ newChat.id_chat}", )
-                                chatViewModel.idChat = newChat.id_chat
+                                    newChat = chat
+                                    Log.e("luiz aquiiii", "AnnouceDetail: ${chat}")
+                                    Log.e("luiz testando dentro", "${newChat.id_chat}")
+                                    chatViewModel.idChat = newChat.id_chat
+                                }
                             }
                         }
                     }
+
+
+
+                    Log.e("luiz testando fora", "${newChat.id_chat}")
+                    chatViewModel.idUser2 = idAnunciante.toInt()
+                    chatViewModel.foto = fotoAnunciante
+                    chatViewModel.nome = nomeAnunciante
+
+                    navController.navigate("conversa_chat")
+                } else {
+                    navController.navigate("login")
                 }
-
-
-                Log.e("luiz testando fora", "${ newChat.id_chat}", )
-                chatViewModel.idUser2 = idAnunciante.toInt()
-                chatViewModel.foto = fotoAnunciante
-                chatViewModel.nome = nomeAnunciante
-
-                navController.navigate("conversa_chat")
             })
             Spacer(modifier = Modifier.height(12.dp))
             FooterDescricao(viewMODEL)
