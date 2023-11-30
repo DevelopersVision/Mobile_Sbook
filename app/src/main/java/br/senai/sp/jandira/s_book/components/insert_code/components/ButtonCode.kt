@@ -23,35 +23,50 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun ButtonCode (
     text: String,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    corState: Boolean
 ){
-    Row(
-        modifier = Modifier
-            .shadow(elevation = 4.dp, spotColor = Color(0x40000000), ambientColor = Color(0x40000000))
-            .width(300.dp)
-            .height(48.dp)
-            .background(Color(0xFFE6E6E6), shape = RoundedCornerShape( size = 4.dp))
-            .padding()
-            .clickable { onClick() },
-        horizontalArrangement = Arrangement.spacedBy(2.dp, Alignment.CenterHorizontally),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Text(
-            text = text,
-            style = TextStyle(
-                fontSize = 16.sp,
-                fontWeight = FontWeight(700),
-                color = Color(0xFF808080),
+    if(corState){
+        Row(
+            modifier = Modifier
+                .shadow(elevation = 4.dp, spotColor = Color(0x40000000), ambientColor = Color(0x40000000))
+                .width(300.dp)
+                .height(48.dp)
+                .background(Color(0xFFDA6C27), shape = RoundedCornerShape( size = 4.dp))
+                .padding()
+                .clickable { onClick() },
+            horizontalArrangement = Arrangement.spacedBy(2.dp, Alignment.CenterHorizontally),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = text,
+                style = TextStyle(
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight(700),
+                    color = Color(0xFFFFFFFF),
+                )
             )
-        )
+        }
+    }else{
+        Row(
+            modifier = Modifier
+                .shadow(elevation = 4.dp, spotColor = Color(0x40000000), ambientColor = Color(0x40000000))
+                .width(300.dp)
+                .height(48.dp)
+                .background(Color(0xFFE6E6E6), shape = RoundedCornerShape( size = 4.dp))
+                .padding()
+                .clickable { onClick() },
+            horizontalArrangement = Arrangement.spacedBy(2.dp, Alignment.CenterHorizontally),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = text,
+                style = TextStyle(
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight(700),
+                    color = Color(0xFF808080),
+                )
+            )
+        }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun ButtonCodeScreen() {
-    ButtonCode(
-        text = "Continuar",
-        onClick = {}
-    )
 }

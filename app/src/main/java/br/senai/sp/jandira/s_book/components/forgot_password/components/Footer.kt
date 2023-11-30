@@ -88,7 +88,7 @@ fun resetPassword(
                 viewModel.email = response.body()?.get("email")?.toString()
 
                 Log.e("FORGOT PASSWORD - SUCESS - 201", "forgot_password: ${response.body()}")
-                Toast.makeText(context, "EMAIL VÁLIDADO", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "CÓDIGO ENVIADO", Toast.LENGTH_SHORT).show()
 
                 navController.navigate("insert_code")
             } else {

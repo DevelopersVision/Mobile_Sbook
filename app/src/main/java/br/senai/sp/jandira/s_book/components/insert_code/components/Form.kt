@@ -20,6 +20,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.navigation.NavController
+import br.senai.sp.jandira.s_book.components.forgot_password.components.resetPassword
 import br.senai.sp.jandira.s_book.components.universal.DefaultButtonScreen
 import br.senai.sp.jandira.s_book.components.universal.ProgressBar
 import br.senai.sp.jandira.s_book.view_model.ResetPasswordView
@@ -36,6 +37,10 @@ fun Form(
 ) {
     var codigoState by remember {
         mutableStateOf("")
+    }
+
+    var corState by remember {
+        mutableStateOf(false)
     }
 
     val context = LocalContext.current
@@ -55,7 +60,10 @@ fun Form(
                 "Codigo",
                 codigoState
             ) {
-                codigoState = it
+                corState = it.isNotEmpty()
+                if(it.length < 5){
+                    codigoState = it
+                }
             }
         }
         Spacer(modifier = Modifier.height(64.dp))
@@ -65,14 +73,18 @@ fun Form(
             text = "Continuar",
             onClick = {
                 onLoadingStateChanged(true) // Informa que o carregamento está ocorrendo
-                insertCode(navController, lifecycleScope, viewModel, context, codigoState.toInt())
-                onLoadingStateChanged(false) // Informa que o carregamento foi concluído
-            }
+                insertCode(navController, lifecycleScope, viewModel, context, codigoState.toInt()){
+                    onLoadingStateChanged(it) // Informa que o carregamento foi concluído
+                }
+            },
+            corState = corState
         )
         Spacer(modifier = Modifier.height(24.dp))
         DefaultButtonScreen(
             text = "Reenviar código"
-        ) {}
+        ) {
+            resetPassword(email = viewModel.email!!, lifecycleScope, viewModel, navController, context)
+        }
     }
 }
 
@@ -83,7 +95,8 @@ fun insertCode(
     lifecycleScope: LifecycleCoroutineScope,
     viewModel: ResetPasswordView,
     context: Context,
-    codigoState: Int
+    codigoState: Int,
+    onLoading: (Boolean) -> Unit
 ) {
     val resetPasswordRepository = ResetPasswordRepository()
     lifecycleScope.launch {
@@ -96,13 +109,18 @@ fun insertCode(
                 viewModel.id = response.body()?.get("id")?.asInt
                 viewModel.email = ""
 
+                onLoading(false)
                 navController.navigate("change_password")
             } else {
                 val erroBody = response.errorBody()?.string()
 
+                onLoading(false)
+                Toast.makeText(context, "Token digitado é inválido", Toast.LENGTH_LONG).show()
                 Log.e("reset", "reset: $erroBody")
             }
         } else {
+
+            onLoading(false)
             Toast.makeText(context, "Token digitado é inválido", Toast.LENGTH_LONG).show()
             Log.e("reset", "reset")
         }
