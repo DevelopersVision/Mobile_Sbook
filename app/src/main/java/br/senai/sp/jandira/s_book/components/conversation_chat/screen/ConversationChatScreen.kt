@@ -64,13 +64,11 @@ fun ConversationChatScreen(
     var nome = chatViewModel.nome
 
 
-    //val navRotasController = navRotasViewModel.navRotasController
 
     var message by remember {
         mutableStateOf("")
     }
 
-//    var listaMensagenss by remember { mutableStateOf(listOf(Mensagem(1, "Olá"))) }
 
     val listState = rememberLazyListState()
 
@@ -161,29 +159,6 @@ fun ConversationChatScreen(
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-//                    Card(
-//                        modifier = Modifier
-//                            .width(140.dp)
-//                            .height(32.dp),
-//                        backgroundColor = Color(0xFFD9D9D9),
-//                        shape = RoundedCornerShape(8.dp)
-//                    ) {
-//                        Row(
-//                            modifier = Modifier.fillMaxSize(),
-//                            verticalAlignment = Alignment.CenterVertically,
-//                            horizontalArrangement = Arrangement.Center
-//                        ) {
-//                            Text(
-//                                text = "16 de novembro de 2023",
-//                                fontSize = 12.sp,
-//                                fontWeight = FontWeight(600),
-//                                color = Color(0xFF000000)
-//                            )
-//                        }
-//                    }
-
-
-
                     LazyColumn(
                         modifier = Modifier
                             .height(730.dp)
@@ -267,24 +242,7 @@ fun ConversationChatScreen(
             }
         }
 
-//        @Composable
-//        fun adicionarMensagem(conteudo: String) {
-//            val novaMensagem = Mensagem(listaMensagenss.size + 1, conteudo)
-//            // Adiciona a nova mensagem à lista
-//            listaMensagens = listaMensagens + novaMensagem
-//
-//            // Rola automaticamente para o último item
-//            // Note que estamos usando a referência de listaMensagens.size - 1
-//            // porque acabamos de adicionar um novo item à lista
-//            LaunchedEffect(listaMensagenss.size - 1) {
-//                listState.scrollToItem(listaMensagenss.size - 1)
-//            }
-//        }
-//
-//        // Chamada para adicionar mensagem (substitua pela sua lógica)
-//        adicionarMensagem("Nova mensagem")
 
-//        Spacer(modifier = Modifier.height(6.dp))
 
         Column (
             modifier = Modifier
@@ -320,4 +278,3 @@ fun ConversationChatScreen(
     }
 }
 
-data class Mensagem(val id: Int, val conteudo: String)

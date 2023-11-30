@@ -79,7 +79,7 @@ fun PictureScreen(
     )
 
     var imagem by remember {
-        mutableStateOf("https://th.bing.com/th/id/OIP.94DLYHt0KpXQv1n4z-U6tgAAAA?rs=1&pid=ImgDetMain")
+        mutableStateOf("https://camo.githubusercontent.com/b7b7dca15c743879821e7cfc14e8034ecee3588e221de0a6f436423e304d95f5/68747470733a2f2f7a7562652e696f2f66696c65732f706f722d756d612d626f612d63617573612f33363664616462316461323032353338616531333332396261333464393030362d696d6167652e706e67")
     }
 
     val storageRef: StorageReference = FirebaseStorage.getInstance().reference.child("chat")
@@ -103,7 +103,9 @@ fun PictureScreen(
                 .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            HeaderPicture()
+            HeaderPicture {
+                navController.popBackStack()
+            }
             Spacer(modifier = Modifier.height(13.dp))
             Column(
                 modifier = Modifier

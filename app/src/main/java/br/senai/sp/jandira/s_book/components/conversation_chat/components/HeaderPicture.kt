@@ -27,10 +27,9 @@ import androidx.compose.ui.unit.sp
 import br.senai.sp.jandira.s_book.R
 import coil.compose.AsyncImage
 
-@Preview(showSystemUi = true)
 @Composable
 fun HeaderPicture(
-
+    onclick: () -> Unit
 ) {
 
     Column(
@@ -52,7 +51,7 @@ fun HeaderPicture(
                 modifier = Modifier
                     .size(32.dp)
                     .clickable {
-//                    onclick()
+                    onclick()
                     })
 
             Row(
@@ -74,7 +73,7 @@ fun HeaderPicture(
                 modifier = Modifier
                     .size(32.dp)
                     .clickable {
-//                    onclick()
+                    onclick()
                     })
         }
         Column(
