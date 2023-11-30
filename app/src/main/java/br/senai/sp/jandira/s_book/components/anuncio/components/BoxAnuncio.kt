@@ -70,7 +70,8 @@ fun BoxAnuncio(
                 spotColor = Color(0x40000000),
                 ambientColor = Color(0x40000000)
             )
-            .padding(horizontal = 24.dp, vertical = 20.dp)
+            .padding(horizontal = 24.dp, vertical = 20.dp),
+        verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
         Column {
             Row(
@@ -181,6 +182,32 @@ fun BoxAnuncio(
                     .height(1.dp)
                     .background(Color.Black)
             ) {}
+        }
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
+            for (genero in listaGeneros){
+                if(genero == listaGeneros.last()){
+                    Text(
+                        text = "${genero.nome} ",
+                        fontSize = 14.sp,
+                        fontFamily = FontFamily(Font(R.font.intermedium)),
+                        fontWeight = FontWeight(600),
+                        color = Color(0xFF808080),
+                        modifier = Modifier
+                    )
+                }else{
+                    Text(
+                        text = "${genero.nome}, ",
+                        fontSize = 14.sp,
+                        fontFamily = FontFamily(Font(R.font.intermedium)),
+                        fontWeight = FontWeight(600),
+                        color = Color(0xFF808080),
+                        modifier = Modifier
+                    )
+                }
+            }
         }
     }
 }
