@@ -67,14 +67,14 @@ fun LoginScreen(
                 )
 
                 DefaultButtonScreen(text = "Entrar", onClick = {
-                    //isLoading = true // Mostra a ProgressBar antes de chamar a função de login
+                    isLoading = true // Mostra a ProgressBar antes de chamar a função de login
                     login(emailState, senhaState, lifecycleScope!!, context, navController) {
-//                        Toast.makeText(
-//                            context, it, Toast.LENGTH_LONG
-//                        ).show()
-                        //isLoading = false
+                        Toast.makeText(
+                            context, it, Toast.LENGTH_LONG
+                        ).show()
+                        isLoading = false
                     }
-                    //isLoading =  true
+                    isLoading =  true
                 })
 
                 TextContinueScreen()

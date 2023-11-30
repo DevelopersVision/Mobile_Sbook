@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.components.universal.DefaultButtonScreen
+import br.senai.sp.jandira.s_book.components.universal.ProgressBar
 import br.senai.sp.jandira.s_book.view_model.ResetPasswordView
 import br.senai.sp.jandira.s_book.repository.ResetPasswordRepository
 import kotlinx.coroutines.launch
@@ -30,38 +31,43 @@ import kotlinx.coroutines.launch
 fun Form(
     navController: NavController,
     lifecycleScope: LifecycleCoroutineScope,
-    viewModel: ResetPasswordView
-){
+    viewModel: ResetPasswordView,
+    onLoadingStateChanged: (Boolean) -> Unit // Lambda para informar o estado de carregamento
+) {
     var codigoState by remember {
         mutableStateOf("")
     }
 
     val context = LocalContext.current
 
-    Column (
+    Column(
         modifier = Modifier
             .fillMaxWidth()
             .height(300.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-
-        ) {
-        Row (
+    ) {
+        Row(
             modifier = Modifier
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(24.dp, Alignment.CenterHorizontally),
-
+        ) {
+            TextFieldCode(
+                "Codigo",
+                codigoState
             ) {
-                TextFieldCode(
-                    "Codigo",
-                    codigoState
-                ) {
-                    codigoState = it
-                }
+                codigoState = it
+            }
         }
         Spacer(modifier = Modifier.height(64.dp))
+
+        // Mostra a ProgressBar antes de chamar a função de login
         ButtonCode(
             text = "Continuar",
-            onClick = { insertCode(navController, lifecycleScope, viewModel, context, codigoState.toInt()) }
+            onClick = {
+                onLoadingStateChanged(true) // Informa que o carregamento está ocorrendo
+                insertCode(navController, lifecycleScope, viewModel, context, codigoState.toInt())
+                onLoadingStateChanged(false) // Informa que o carregamento foi concluído
+            }
         )
         Spacer(modifier = Modifier.height(24.dp))
         DefaultButtonScreen(
@@ -71,7 +77,8 @@ fun Form(
 }
 
 
-fun insertCode (
+
+fun insertCode(
     navController: NavController,
     lifecycleScope: LifecycleCoroutineScope,
     viewModel: ResetPasswordView,
@@ -82,7 +89,7 @@ fun insertCode (
     lifecycleScope.launch {
         val email = viewModel.email
 
-        if(insertCodeValidation(codigoState)){
+        if (insertCodeValidation(codigoState)) {
             val response = resetPasswordRepository.validateToken(email, codigoState)
 
             if (response.isSuccessful) {
@@ -95,12 +102,13 @@ fun insertCode (
 
                 Log.e("reset", "reset: $erroBody")
             }
-        }else{
+        } else {
             Toast.makeText(context, "Token digitado é inválido", Toast.LENGTH_LONG).show()
             Log.e("reset", "reset")
         }
     }
 }
-fun insertCodeValidation (codigo: Int): Boolean {
+
+fun insertCodeValidation(codigo: Int): Boolean {
     return (codigo.toString().length == 4)
 }
