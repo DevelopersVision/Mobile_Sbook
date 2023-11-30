@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,6 +33,7 @@ import br.senai.sp.jandira.s_book.model.EditoraBaseResponse
 import br.senai.sp.jandira.s_book.model.Idioma
 import br.senai.sp.jandira.s_book.model.IdiomaBaseResponse
 import br.senai.sp.jandira.s_book.service.RetrofitHelper
+import br.senai.sp.jandira.s_book.view_model.ViewModelDoPostAnuncio
 import br.senai.sp.jandira.s_book.view_model.ViewModelDosIds
 import retrofit2.Call
 import retrofit2.Callback
@@ -42,14 +44,15 @@ import retrofit2.Response
 @Composable
 fun DropDownEditora(
     localStorage: Storage,
-    viewModelDosIds: ViewModelDosIds
+    viewModelDosIds: ViewModelDosIds,
+    viewModelDoPostAnuncio: ViewModelDoPostAnuncio
 ) {
 
     var isExpanded by remember {
         mutableStateOf(false)
     }
 
-    var editoraState by remember {
+    var editoraState by rememberSaveable {
         mutableStateOf(value = "")
     }
 
@@ -130,5 +133,6 @@ fun DropDownEditora(
             }
         }
         localStorage.salvarValorString(context = context, editoraState, "editora_livro")
+        viewModelDoPostAnuncio.editoraDoLivro = editoraState
     }
 }

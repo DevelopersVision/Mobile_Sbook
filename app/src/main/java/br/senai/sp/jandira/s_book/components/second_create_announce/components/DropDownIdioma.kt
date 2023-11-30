@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,6 +33,7 @@ import br.senai.sp.jandira.s_book.model.Idioma
 import br.senai.sp.jandira.s_book.model.IdiomaBaseResponse
 import br.senai.sp.jandira.s_book.model.JsonAnuncios
 import br.senai.sp.jandira.s_book.service.RetrofitHelper
+import br.senai.sp.jandira.s_book.view_model.ViewModelDoPostAnuncio
 import br.senai.sp.jandira.s_book.view_model.ViewModelDosIds
 import retrofit2.Call
 import retrofit2.Callback
@@ -42,14 +44,15 @@ import retrofit2.Response
 @Composable
 fun DropDownIdioma(
     localStorage: Storage,
-    viewModelDosIds: ViewModelDosIds
+    viewModelDosIds: ViewModelDosIds,
+    viewModelDoPostAnuncio: ViewModelDoPostAnuncio
 ) {
 
     var isExpanded by remember {
         mutableStateOf(false)
     }
 
-    var idiomaState by remember {
+    var idiomaState by rememberSaveable {
         mutableStateOf(value = "")
     }
 
@@ -129,5 +132,6 @@ fun DropDownIdioma(
             }
         }
         localStorage.salvarValorString(context = context, idiomaState, "idioma_livro")
+        viewModelDoPostAnuncio.idiomaDolivro = idiomaState
     }
 }

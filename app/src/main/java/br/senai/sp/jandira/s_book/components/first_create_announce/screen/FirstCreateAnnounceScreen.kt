@@ -26,6 +26,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -42,6 +43,7 @@ import br.senai.sp.jandira.s_book.R
 import br.senai.sp.jandira.s_book.Storage
 import br.senai.sp.jandira.s_book.components.first_create_announce.components.DropDownAutor
 import br.senai.sp.jandira.s_book.components.universal.HeaderCreateAnnounce
+import br.senai.sp.jandira.s_book.view_model.ViewModelDoPostAnuncio
 import br.senai.sp.jandira.s_book.view_model.ViewModelDosAutores
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -49,14 +51,15 @@ import br.senai.sp.jandira.s_book.view_model.ViewModelDosAutores
 fun FirstCreateAnnounceScreen(
     navController: NavController,
     localStorage: Storage,
-    viewModelDosAutores: ViewModelDosAutores
+    viewModelDosAutores: ViewModelDosAutores,
+    viewModelDoPostAnuncio: ViewModelDoPostAnuncio
 ){
 
-    var nomeState by remember {
+    var nomeState by rememberSaveable {
         mutableStateOf(value = "")
     }
 
-    var sinopseState by remember {
+    var sinopseState by rememberSaveable {
         mutableStateOf(value = "")
     }
 
@@ -177,7 +180,9 @@ fun FirstCreateAnnounceScreen(
                             if (nomeState.isNotEmpty() && sinopseState.isNotEmpty()) {
                                 navController.navigate("segundo_anunciar")
                                 localStorage.salvarValorString(context = context, nomeState, "nome_livro")
+                                viewModelDoPostAnuncio.nomedolivro = nomeState
                                 localStorage.salvarValorString(context = context, sinopseState, "sinopse_livro")
+                                viewModelDoPostAnuncio.sinopse = sinopseState
                             } else {
                                 Toast.makeText(context, "Preencha todos os campos antes de prosseguir", Toast.LENGTH_SHORT).show()
                             }

@@ -24,6 +24,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -42,6 +43,7 @@ import br.senai.sp.jandira.s_book.Storage
 import br.senai.sp.jandira.s_book.components.second_create_announce.components.DropDownEditora
 import br.senai.sp.jandira.s_book.components.second_create_announce.components.DropDownIdioma
 import br.senai.sp.jandira.s_book.components.universal.HeaderCreateAnnounce
+import br.senai.sp.jandira.s_book.view_model.ViewModelDoPostAnuncio
 import br.senai.sp.jandira.s_book.view_model.ViewModelDosIds
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -49,22 +51,23 @@ import br.senai.sp.jandira.s_book.view_model.ViewModelDosIds
 fun SecondCreateAnnounceScreen(
     navController: NavController,
     localStorage: Storage,
-    viewModelDosIds: ViewModelDosIds
+    viewModelDosIds: ViewModelDosIds,
+    viewModelDoPostAnuncio: ViewModelDoPostAnuncio
 ){
 
-    var numeroState by remember {
+    var numeroState by rememberSaveable {
         mutableStateOf(value = "")
     }
 
-    var anoState by remember {
+    var anoState by rememberSaveable {
         mutableStateOf(value = "")
     }
 
-    var edicaoState by remember {
+    var edicaoState by rememberSaveable {
         mutableStateOf(value = "")
     }
 
-    var isbnState by remember {
+    var isbnState by rememberSaveable {
         mutableStateOf(value = "")
     }
 
@@ -88,9 +91,9 @@ fun SecondCreateAnnounceScreen(
                     color = Color(0xFF2A2929)
                 )
                 Spacer(modifier = Modifier.height(24.dp))
-                DropDownIdioma(localStorage, viewModelDosIds)
+                DropDownIdioma(localStorage, viewModelDosIds, viewModelDoPostAnuncio)
                 Spacer(modifier = Modifier.height(24.dp))
-                DropDownEditora(localStorage, viewModelDosIds)
+                DropDownEditora(localStorage, viewModelDosIds, viewModelDoPostAnuncio)
                 Spacer(modifier = Modifier.height(24.dp))
                 OutlinedTextField(
                     value = numeroState,
@@ -233,9 +236,14 @@ fun SecondCreateAnnounceScreen(
                             if (numeroState.isNotEmpty() && anoState.isNotEmpty() && edicaoState.isNotEmpty() && isbnState.isNotEmpty()) {
                                 navController.navigate("terceiro_anunciar")
                                 localStorage.salvarValorString(context = context, numeroState, "numero_livro")
+                                viewModelDoPostAnuncio.numeroDePaginas = numeroState.toInt()!!
                                 localStorage.salvarValorString(context = context, anoState, "ano_livro")
+                                viewModelDoPostAnuncio.anoDeLancamento = anoState
                                 localStorage.salvarValorString(context = context, edicaoState, "edicao_livro")
+                                viewModelDoPostAnuncio.edicaoLivro = edicaoState
+
                                 localStorage.salvarValorString(context = context, isbnState, "isbn_livro")
+                                viewModelDoPostAnuncio.isbn = isbnState
                             } else {
                                 Toast.makeText(context, "Preencha todos os campos antes de prosseguir", Toast.LENGTH_SHORT).show()
                             }

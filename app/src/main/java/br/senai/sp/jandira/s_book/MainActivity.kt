@@ -60,6 +60,7 @@ import br.senai.sp.jandira.s_book.ui.theme.SBOOKTheme
 import br.senai.sp.jandira.s_book.view_model.AnnouncePhotosViewModel
 import br.senai.sp.jandira.s_book.view_model.AnuncioViewModel
 import br.senai.sp.jandira.s_book.view_model.UserGenresViewModel
+import br.senai.sp.jandira.s_book.view_model.ViewModelDoPostAnuncio
 import br.senai.sp.jandira.s_book.view_model.ViewModelDosAutores
 import br.senai.sp.jandira.s_book.view_model.ViewModelDosGenerosSelecionados
 import br.senai.sp.jandira.s_book.view_model.ViewModelDosIds
@@ -95,6 +96,7 @@ class MainActivity : ComponentActivity() {
                     val viewModelDosIdentificadores = viewModel<ViewModelDosIds>()
                     val viewModelId = viewModel<viewModelId>()
                     val viewModelPreco = viewModel<ViewModelPreco>()
+                    val viewModelDoPostAnuncio = viewModel<ViewModelDoPostAnuncio>()
                     val context = LocalContext.current
 
                     val client = ChatClient()
@@ -224,15 +226,15 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable("primeiro_anunciar"){
-                            FirstCreateAnnounceScreen(navController, localStorage = localStorage, viewModelDosAutores)
+                            FirstCreateAnnounceScreen(navController, localStorage = localStorage, viewModelDosAutores, viewModelDoPostAnuncio)
                         }
 
                         composable("segundo_anunciar"){
-                            SecondCreateAnnounceScreen(navController, localStorage, viewModelDosIdentificadores)
+                            SecondCreateAnnounceScreen(navController, localStorage, viewModelDosIdentificadores, viewModelDoPostAnuncio)
                         }
 
                         composable("terceiro_anunciar"){
-                            ThirdCreateAnnounceScreen(navController, localStorage, viewModelDasImagens)
+                            ThirdCreateAnnounceScreen(navController, localStorage, viewModelDasImagens, viewModelDoPostAnuncio)
                         }
 
                         composable("quarto_anunciar"){
@@ -244,7 +246,7 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable("sexto_anunciar"){
-                            SixthCreateAnnounceScreen(navController, localStorage, viewModelDosTiposDeLivro, viewModelPreco)
+                            SixthCreateAnnounceScreen(navController, localStorage, viewModelDosTiposDeLivro, viewModelPreco, viewModelDoPostAnuncio)
                         }
 
                         composable("setimo_anunciar"){

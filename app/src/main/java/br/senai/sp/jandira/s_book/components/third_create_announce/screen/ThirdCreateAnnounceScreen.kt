@@ -32,6 +32,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -49,6 +50,7 @@ import br.senai.sp.jandira.s_book.R
 import br.senai.sp.jandira.s_book.Storage
 import br.senai.sp.jandira.s_book.components.universal.HeaderCreateAnnounce
 import br.senai.sp.jandira.s_book.view_model.AnnouncePhotosViewModel
+import br.senai.sp.jandira.s_book.view_model.ViewModelDoPostAnuncio
 import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
@@ -60,7 +62,8 @@ import com.google.firebase.storage.StorageReference
 fun ThirdCreateAnnounceScreen(
     navController: NavController,
     localStorage: Storage,
-    viewModelImagens: AnnouncePhotosViewModel
+    viewModelImagens: AnnouncePhotosViewModel,
+    viewModelDoPostAnuncio: ViewModelDoPostAnuncio
 ) {
 
     val context = LocalContext.current
@@ -69,7 +72,7 @@ fun ThirdCreateAnnounceScreen(
 
     val firebaseFirestore: FirebaseFirestore = FirebaseFirestore.getInstance()
 
-    var fotoUri by remember {
+    var fotoUri by rememberSaveable {
         mutableStateOf<Uri?>(null)
     }
 
@@ -79,7 +82,7 @@ fun ThirdCreateAnnounceScreen(
 
     var isImageSelected by remember { mutableStateOf(false) }
 
-    var selectedMedia by remember {
+    var selectedMedia by rememberSaveable {
         mutableStateOf<List<Uri>>(emptyList())
     }
 
@@ -89,6 +92,7 @@ fun ThirdCreateAnnounceScreen(
         uri?.let {
             fotoUri = it
             selectedMedia = selectedMedia + listOf(it)
+            viewModelDoPostAnuncio.imagensJaselecionadas = selectedMedia
         }
     }
 

@@ -50,6 +50,7 @@ import br.senai.sp.jandira.s_book.model.EstadoLivroBaseResponse
 import br.senai.sp.jandira.s_book.model.TipoAnuncio
 import br.senai.sp.jandira.s_book.model.TipoAnuncioBaseResponse
 import br.senai.sp.jandira.s_book.service.RetrofitHelper
+import br.senai.sp.jandira.s_book.view_model.ViewModelDoPostAnuncio
 import br.senai.sp.jandira.s_book.view_model.ViewModelDosTipoDeLivros
 import br.senai.sp.jandira.s_book.view_model.ViewModelPreco
 import retrofit2.Call
@@ -62,7 +63,8 @@ fun SixthCreateAnnounceScreen(
     navController: NavController,
     localStorage: Storage,
     viewModelDosTipoDeLivros: ViewModelDosTipoDeLivros,
-    viewModelPreco: ViewModelPreco
+    viewModelPreco: ViewModelPreco,
+    viewModelDoPostAnuncio: ViewModelDoPostAnuncio
 ){
     var listTipoAnuncio by remember {
         mutableStateOf(listOf<TipoAnuncio>())
@@ -228,6 +230,7 @@ fun SixthCreateAnnounceScreen(
                                     viewModelPreco.preco = preco
                                     val tiposSelecionadosString = tiposSelecionados.joinToString(", ")
                                     localStorage.salvarValorString(context = context, tiposSelecionadosString, "tipo_livro")
+                                    viewModelDoPostAnuncio.tipoDoAnuncio = tiposSelecionadosString
                                 } else {
                                     Toast.makeText(
                                         context,
