@@ -14,14 +14,17 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -67,8 +70,9 @@ fun ConversationChatScreen(
         mutableStateOf("")
     }
 
+//    var listaMensagenss by remember { mutableStateOf(listOf(Mensagem(1, "Olá"))) }
 
-
+    val listState = rememberLazyListState()
 
     Column(
         modifier = Modifier
@@ -177,12 +181,16 @@ fun ConversationChatScreen(
 //                            )
 //                        }
 //                    }
+
+
+
                     LazyColumn(
                         modifier = Modifier
-                            .height(590.dp)
+                            .height(730.dp)
                             .padding(12.dp),
                         verticalArrangement = Arrangement.spacedBy(8.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        state = listState
                     ) {
                         items(listaMensagens.mensagens) {
 
@@ -199,7 +207,23 @@ fun ConversationChatScreen(
                                         menssagem = "",
                                         hora = it.hora_criacao!!.substring(0,5),
                                         cor = Color(221, 163, 93, 255),
-                                        foto = it.image
+                                        foto = it.image,
+                                        onDelete = {
+                                            socket.on("deleteMessage") { args ->
+                                                args.let { d ->
+                                                    if (d.isNotEmpty()) {
+                                                        val idMessageDeleted = d[0] as String
+                                                        listaMensagens = listaMensagens.copy(
+                                                            mensagens = listaMensagens.mensagens
+                                                                .filterNot { it.message == idMessageDeleted }
+                                                                .toMutableList()
+                                                        )
+                                                        Log.e("IDMANO", "${idMessageDeleted}")
+                                                    }
+                                                }
+                                            }
+                                            client.deleteMessage(it._id.toString())
+                                        }
                                     )
                                 }
                             }else{
@@ -233,11 +257,32 @@ fun ConversationChatScreen(
                                     )
                                 }
                             }
+                            LaunchedEffect(true) {
+                                listState.scrollToItem(listaMensagens.mensagens.size - 1)
+                            }
                         }
                     }
+
                 }
             }
         }
+
+//        @Composable
+//        fun adicionarMensagem(conteudo: String) {
+//            val novaMensagem = Mensagem(listaMensagenss.size + 1, conteudo)
+//            // Adiciona a nova mensagem à lista
+//            listaMensagens = listaMensagens + novaMensagem
+//
+//            // Rola automaticamente para o último item
+//            // Note que estamos usando a referência de listaMensagens.size - 1
+//            // porque acabamos de adicionar um novo item à lista
+//            LaunchedEffect(listaMensagenss.size - 1) {
+//                listState.scrollToItem(listaMensagenss.size - 1)
+//            }
+//        }
+//
+//        // Chamada para adicionar mensagem (substitua pela sua lógica)
+//        adicionarMensagem("Nova mensagem")
 
 //        Spacer(modifier = Modifier.height(6.dp))
 
@@ -274,3 +319,5 @@ fun ConversationChatScreen(
         }
     }
 }
+
+data class Mensagem(val id: Int, val conteudo: String)
