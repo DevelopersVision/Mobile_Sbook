@@ -214,7 +214,7 @@ fun ThirdCreateAnnounceScreen(
                     modifier = Modifier
                         .size(72.dp)
                         .clickable {
-                            if (selectedMedia.isNotEmpty()) {
+                            if (selectedMedia.size >= 3) {
                                 val uploadedImageUrls = mutableListOf<String>() // Para armazenar as URLs das imagens
 
                                 for (uri in selectedMedia) {
@@ -234,11 +234,12 @@ fun ThirdCreateAnnounceScreen(
                                             }
                                         } else {
                                             Toast.makeText(context, "ERRO AO TENTAR REALIZAR O UPLOAD", Toast.LENGTH_SHORT).show()
+                                            Toast.makeText(context, "Selecione ao menos 3 imagens para prosseguir", Toast.LENGTH_SHORT).show()
                                         }
                                     }
                                 }
                             } else {
-                                Toast.makeText(context, "Selecione ao menos 1 imagem para prosseguir", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, "Selecione ao menos 3 imagens para prosseguir", Toast.LENGTH_SHORT).show()
                             }
 
                         }
