@@ -3,10 +3,7 @@ package br.senai.sp.jandira.s_book.navigation_home_bar
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.ContentAlpha
@@ -24,7 +21,6 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.LifecycleCoroutineScope
@@ -37,9 +33,7 @@ import androidx.navigation.compose.rememberNavController
 import br.senai.sp.jandira.s_book.R
 import br.senai.sp.jandira.s_book.model.chat.view_model.ChatViewModel
 import br.senai.sp.jandira.s_book.model.chat.view_model.viewModelId
-import br.senai.sp.jandira.s_book.service.NavigationManager
 import br.senai.sp.jandira.s_book.view_model.AnuncioViewModel
-import br.senai.sp.jandira.s_book.view_model.RotaViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -53,7 +47,7 @@ fun MainScreen(
 ) {
     val context = LocalContext.current
     val navController = rememberNavController()
-    NavigationManager.navController = navController
+
     Scaffold(
         bottomBar = { BottonBar(navController = navController)}
     ) {

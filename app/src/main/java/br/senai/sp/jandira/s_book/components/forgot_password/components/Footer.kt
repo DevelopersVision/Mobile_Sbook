@@ -108,7 +108,7 @@ fun resetPassword(
         }
     } else {
         Log.e("FORGOT PASSWORD - ERROR", "forgot_password")
-        Toast.makeText(context, "EMAIL OU SENHA NÃO INSERIDO CORRETAMENTE", Toast.LENGTH_LONG)
+        Toast.makeText(context, "DIGITE UM EMAIL", Toast.LENGTH_LONG)
             .show()
     }
 }

@@ -9,10 +9,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -25,7 +23,6 @@ import br.senai.sp.jandira.s_book.components.conversation_chat.screen.Conversati
 import br.senai.sp.jandira.s_book.components.conversation_chat.screen.PictureScreen
 import br.senai.sp.jandira.s_book.components.create_account.screen.CreateContScreen
 import br.senai.sp.jandira.s_book.components.create_account_endereco.screen.CreateAccountEndereco
-import br.senai.sp.jandira.s_book.components.donations.screen.DonationsScreen
 import br.senai.sp.jandira.s_book.components.favorite.screen.FavoritoScreen
 import br.senai.sp.jandira.s_book.components.fifth_create_announce.screen.FifthCreateAnnounceScreen
 import br.senai.sp.jandira.s_book.components.filterGenero.screen.FilterGeneroScreen
@@ -42,7 +39,6 @@ import br.senai.sp.jandira.s_book.components.login.screen.LoginScreen
 import br.senai.sp.jandira.s_book.components.my_announces.screen.MyAnnounceScreen
 import br.senai.sp.jandira.s_book.components.my_informations.screen.MyInformationsScreen
 import br.senai.sp.jandira.s_book.components.profile.screens.NewFavoriteGenres
-import br.senai.sp.jandira.s_book.components.profile.screens.ProfileScreen
 import br.senai.sp.jandira.s_book.components.rediscover_password.screen.RediscoverPasswordScreen
 import br.senai.sp.jandira.s_book.components.second_create_announce.screen.SecondCreateAnnounceScreen
 import br.senai.sp.jandira.s_book.components.seventh_create_announce.screen.SeventhCreateAnnounceScreen
@@ -58,13 +54,11 @@ import br.senai.sp.jandira.s_book.view_model.CreateAccountView
 import br.senai.sp.jandira.s_book.view_model.ResetPasswordView
 import br.senai.sp.jandira.s_book.view_model.UserCategoryViewModel
 import br.senai.sp.jandira.s_book.navigation_home_bar.MainScreen
-import br.senai.sp.jandira.s_book.service.NavigationManager
 import br.senai.sp.jandira.s_book.sqlite_repository.UserRepository
 
 import br.senai.sp.jandira.s_book.ui.theme.SBOOKTheme
 import br.senai.sp.jandira.s_book.view_model.AnnouncePhotosViewModel
 import br.senai.sp.jandira.s_book.view_model.AnuncioViewModel
-import br.senai.sp.jandira.s_book.view_model.RotaViewModel
 import br.senai.sp.jandira.s_book.view_model.UserGenresViewModel
 import br.senai.sp.jandira.s_book.view_model.ViewModelDosAutores
 import br.senai.sp.jandira.s_book.view_model.ViewModelDosGenerosSelecionados
