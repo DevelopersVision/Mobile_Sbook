@@ -37,6 +37,7 @@ import androidx.navigation.compose.rememberNavController
 import br.senai.sp.jandira.s_book.R
 import br.senai.sp.jandira.s_book.model.chat.view_model.ChatViewModel
 import br.senai.sp.jandira.s_book.model.chat.view_model.viewModelId
+import br.senai.sp.jandira.s_book.service.NavigationManager
 import br.senai.sp.jandira.s_book.view_model.AnuncioViewModel
 import br.senai.sp.jandira.s_book.view_model.RotaViewModel
 
@@ -48,11 +49,11 @@ fun MainScreen(
     lifecycleScope: LifecycleCoroutineScope,
     anuncioViewMODEL: AnuncioViewModel,
     chatViewModel: ChatViewModel,
-    viewModelId: viewModelId,
-    rotaViewModel: RotaViewModel
+    viewModelId: viewModelId
 ) {
     val context = LocalContext.current
     val navController = rememberNavController()
+    NavigationManager.navController = navController
     Scaffold(
         bottomBar = { BottonBar(navController = navController)}
     ) {
@@ -63,8 +64,7 @@ fun MainScreen(
             context,
             anuncioViewMODEL,
             chatViewModel = chatViewModel,
-            viewModelId = viewModelId,
-            rotaViewModel
+            viewModelId = viewModelId
         )
     }
 }

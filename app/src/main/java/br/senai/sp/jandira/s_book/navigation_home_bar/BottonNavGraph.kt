@@ -35,8 +35,7 @@ fun ButtonNavGraph(
     context: Context,
     anuncioViewMODEL: AnuncioViewModel,
     chatViewModel: ChatViewModel,
-    viewModelId: viewModelId,
-    rotaViewModel: RotaViewModel
+    viewModelId: viewModelId
 ) {
     val context = LocalContext.current
 
@@ -52,7 +51,6 @@ fun ButtonNavGraph(
         startDestination = BottomBarScreen.Feed.route,
     ){
         composable(route = BottomBarScreen.Feed.route){
-            rotaViewModel.navRotasController = navController
 
             FeedScreen(navController = navController, lifecycleScope = lifecycleScope ,navRotasController = navRotasController, viewModelQueVaiPassarOsDados = anuncioViewMODEL, viewModelId = viewModelId)
         }
@@ -90,6 +88,7 @@ fun ButtonNavGraph(
                 LoginScreen(navController = navRotasController, lifecycleScope = lifecycleScope)
             }
         }
+
         composable(route = BottomBarScreen.Profile.route){
             if(dadaUser.isNotEmpty()){
                 ProfileScreen(navRotasController)

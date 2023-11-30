@@ -126,8 +126,9 @@ fun Form(
                     readOnly = true,
                     onIsPersonOver18 = {
                         onIsPersonOver18(it)
-                        if(!it)
+                        if(!it){
                             Toast.makeText(context, "Tem que ter 18 anos para usar o sistema", Toast.LENGTH_LONG).show()
+                        }
                     }
                 )
             }

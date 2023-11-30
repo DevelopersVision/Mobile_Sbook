@@ -198,7 +198,7 @@ fun EditUser(
         verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
         HeaderProfile {
-            navController.navigate("profile")
+            navController.navigate("navigation_home_bar")
         }
         PhotoEdit(dadosUser[0].foto) {
             photoState = it
@@ -211,6 +211,7 @@ fun EditUser(
             },
             data = selectedDate,
             onDateChange = {
+                Log.e("Date", "$selectedDate e $it")
                 selectedDate = it
             },
             cep = cepState,
@@ -300,7 +301,7 @@ fun EditUser(
                     cidade = cidadeState,
                     estado = ufEstadoState,
                     nome = nomeState,
-                    data_nascimento = date,
+                    data_nascimento = selectedDate,
                     cep = cepState,
                     isPersonOver18 = isPersonOver18,
                     generos_preferidos = listGeneros,
@@ -321,7 +322,7 @@ fun EditUser(
                     cidade = cidadeState,
                     estado = ufEstadoState,
                     nome = nomeState,
-                    data_nascimento = date,
+                    data_nascimento = selectedDate,
                     cep = cepState,
                     isPersonOver18 = isPersonOver18,
                     photo = photoState
@@ -407,7 +408,7 @@ fun updateUser(
                                                    val respondeURL = userUpdateRepository.atualizarFotoUsuario(id_usuario, imagemUrl)
 
                                                     if(respondeURL.isSuccessful){
-                                                        navController.navigate("profile")
+                                                         navController.navigate("navigation_home_bar")
                                                     }
                                                 }
                                             }
@@ -454,7 +455,7 @@ fun updateUser(
                 Toast.makeText(context, "Dados atualizado com sucesso", Toast.LENGTH_LONG).show()
 
                 if(photo == null){
-                    navController.navigate("profile")
+                     navController.navigate("navigation_home_bar")
                 }
             } else {
                 when (code) {
@@ -591,7 +592,7 @@ fun updateUserWithListGenero(
 
             if (response.isSuccessful) {
                 Toast.makeText(context, "Dados atualizado com sucesso", Toast.LENGTH_LONG).show()
-                navController.navigate("profile")
+                 navController.navigate("navigation_home_bar")
             } else {
                 when (code) {
                     400 -> {

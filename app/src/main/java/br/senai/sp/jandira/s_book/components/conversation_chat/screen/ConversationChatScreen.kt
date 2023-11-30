@@ -50,16 +50,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import br.senai.sp.jandira.s_book.R
 import br.senai.sp.jandira.s_book.components.conversation_chat.components.CardMensagemCliente
 import br.senai.sp.jandira.s_book.components.conversation_chat.components.CardMensagemClienteFoto
 import br.senai.sp.jandira.s_book.components.conversation_chat.components.CardMensagemUser
+import br.senai.sp.jandira.s_book.components.conversation_chat.components.CardMensagemUserFoto
 import br.senai.sp.jandira.s_book.components.conversation_chat.components.Header
 import br.senai.sp.jandira.s_book.components.conversation_chat.components.InputMenssagem
 import br.senai.sp.jandira.s_book.model.chat.ChatClient
 import br.senai.sp.jandira.s_book.model.chat.MesagensResponse
 import br.senai.sp.jandira.s_book.model.chat.view_model.ChatViewModel
 import br.senai.sp.jandira.s_book.navigation_home_bar.BottomBarScreen
+import br.senai.sp.jandira.s_book.service.NavigationManager
 import br.senai.sp.jandira.s_book.view_model.RotaViewModel
 import coil.compose.AsyncImage
 import com.google.gson.Gson
@@ -71,7 +74,6 @@ import org.json.JSONObject
 @Composable
 fun ConversationChatScreen(
     navController: NavController,
-    navRotasViewModel: RotaViewModel,
     client: ChatClient,
     socket: Socket,
     chatViewModel: ChatViewModel,
@@ -83,8 +85,10 @@ fun ConversationChatScreen(
     var foto = chatViewModel.foto
     var nome = chatViewModel.nome
 
+    val navRotasObject = NavigationManager.navController
 
-    val navRotasController = navRotasViewModel.navRotasController
+
+    //val navRotasController = navRotasViewModel.navRotasController
 
     var message by remember {
         mutableStateOf("")
@@ -170,9 +174,11 @@ fun ConversationChatScreen(
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Header(foto = foto, nome = nome, onclick = {
-                    navRotasController?.navigate("chats")
-                })
+                Header(foto = foto, nome = nome) {
+                    Log.d("Click", "Click")
+
+                    navController.popBackStack()
+                }
 
                 Spacer(modifier = Modifier.height(8.dp))
                 Column(
@@ -216,7 +222,7 @@ fun ConversationChatScreen(
                                         foto = it.image
                                     )
                                 } else {
-                                    CardMensagemClienteFoto(
+                                    CardMensagemUserFoto(
                                         menssagem = "",
                                         hora = it.hora_criacao!!.substring(0,5),
                                         cor = Color(221, 163, 93, 255),

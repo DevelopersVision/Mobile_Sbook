@@ -113,7 +113,7 @@ fun PictureScreen(
                         launcher.launch("image/*")
                         Log.e("foto", "$fotoUri",)
                         fotoUri?.let {
-                           imagem = fotoUri.toString()
+                            imagem = fotoUri.toString()
                         }
                     }
             ) {
@@ -178,6 +178,8 @@ fun PictureScreen(
                                         put("image", imageUrl)
                                         put("chatId", idChat)
                                     }
+
+                                    Log.e("JSON", "$json")
 
                                     client.sendMessage(json)
                                 }

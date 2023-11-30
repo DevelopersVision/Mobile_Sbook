@@ -76,8 +76,6 @@ fun ChatScreen(
                 if (data.toString().isNotEmpty()) {
                     val chat = Gson().fromJson(data.toString(), SocketResponse::class.java)
 
-                    Log.e("Ids", "${chat.id_user} e $idUsuario", )
-
                     if(chat.id_user == idUsuario){
                         listaContatos = chat
                     }

@@ -58,6 +58,7 @@ import br.senai.sp.jandira.s_book.view_model.CreateAccountView
 import br.senai.sp.jandira.s_book.view_model.ResetPasswordView
 import br.senai.sp.jandira.s_book.view_model.UserCategoryViewModel
 import br.senai.sp.jandira.s_book.navigation_home_bar.MainScreen
+import br.senai.sp.jandira.s_book.service.NavigationManager
 import br.senai.sp.jandira.s_book.sqlite_repository.UserRepository
 
 import br.senai.sp.jandira.s_book.ui.theme.SBOOKTheme
@@ -83,7 +84,6 @@ class MainActivity : ComponentActivity() {
                 ) {
 
                     val navController = rememberNavController()
-                    val rotasViewModel = viewModel<RotaViewModel>()
 
                     val viewModelUserGenres = viewModel<UserGenresViewModel>()
                     val viewModelCreateAccount = viewModel<CreateAccountView>()
@@ -107,17 +107,14 @@ class MainActivity : ComponentActivity() {
                     NavHost(
                         navController = navController, startDestination = "navigation_home_bar"
                     ){
+
                         composable("navigation_home_bar") {
-                            MainScreen(navController, lifecycleScope, anuncioViewMODEL = viewModelAnuncio, chatViewModel, viewModelId, rotasViewModel)
+                            MainScreen(navController, lifecycleScope, anuncioViewMODEL = viewModelAnuncio, chatViewModel, viewModelId)
                         }
 
                         composable("login") {
                             LoginScreen(navController = navController, lifecycleScope = lifecycleScope)
                         }
-
-//                        composable("donations") {
-//                            DonationsScreen(navController = navController)
-//                        }
 
                         composable("create_account") {
                             CreateContScreen(navController = navController, viewModel = viewModelCreateAccount)
@@ -153,10 +150,6 @@ class MainActivity : ComponentActivity() {
 
                         composable("cep"){
                             CepScreen(navController = navController, viewModel = viewModelCreateAccount)
-                        }
-
-                        composable("profile"){
-                            ProfileScreen(navController = navController)
                         }
 
                         composable("my_informations"){
@@ -283,7 +276,7 @@ class MainActivity : ComponentActivity() {
                             val client = ChatClient()
                             client.connect(data.toInt())
                             val socket = client.getSocket()
-                            ConversationChatScreen( navController,socket = socket, idUsuario = data.toInt(), chatViewModel = chatViewModel, client = client, navRotasViewModel = rotasViewModel)
+                            ConversationChatScreen( navController,socket = socket, idUsuario = data.toInt(), chatViewModel = chatViewModel, client = client)
                         }
                         composable("tela_generica"){
                             GenericScreen(navController = navController, lifecycleScope = lifecycleScope ,navRotasController = navController, viewModelQueVaiPassarOsDados = viewModelAnuncio, viewModelQueVaiReceberOsgeneros = viewModelFilters)
