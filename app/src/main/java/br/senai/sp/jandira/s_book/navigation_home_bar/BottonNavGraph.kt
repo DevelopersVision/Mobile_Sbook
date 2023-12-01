@@ -11,6 +11,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import br.senai.sp.jandira.s_book.components.advertiser.screen.AdvertiserScreen
 import br.senai.sp.jandira.s_book.components.announce.screens.AnnounceScreen
 import br.senai.sp.jandira.s_book.components.chats.screen.ChatScreen
 import br.senai.sp.jandira.s_book.components.donations.screen.DonationsScreen
@@ -79,6 +80,10 @@ fun ButtonNavGraph(
 
         composable("donations") {
             DonationsScreen(navController = navController, sharedViewModel, viewModelAnuncioV2)
+        }
+
+        composable("advertiser") {
+            AdvertiserScreen(navController = navController, viewModelAnuncioV2)
         }
 
         composable("announce") {

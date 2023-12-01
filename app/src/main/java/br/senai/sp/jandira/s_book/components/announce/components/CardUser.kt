@@ -1,5 +1,6 @@
 package br.senai.sp.jandira.s_book.components.announce.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -27,10 +28,11 @@ fun CardUser(
     foto: String,
     ciade: String,
     ufEstado: String,
-    nome: String
+    nome: String,
+    onClicK: () -> Unit
 ) {
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth().clickable { onClicK() },
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {

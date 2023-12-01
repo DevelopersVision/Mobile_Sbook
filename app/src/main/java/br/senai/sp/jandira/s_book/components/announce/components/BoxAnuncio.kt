@@ -290,6 +290,8 @@ fun BoxAnuncio(
             ciade = dadosAnuncio.endereco.cidade,
             ufEstado = dadosAnuncio.endereco.estado,
             nome = dadosAnuncio.anunciante.nome
-        )
+        ){
+            navRotasController.navigate("advertiser")
+        }
     }
 }
