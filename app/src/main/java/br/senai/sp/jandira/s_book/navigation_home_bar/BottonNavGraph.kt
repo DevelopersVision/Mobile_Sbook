@@ -58,7 +58,7 @@ fun ButtonNavGraph(
     ){
         composable(route = BottomBarScreen.Feed.route){
 
-            FeedScreen(navController = navController, lifecycleScope = lifecycleScope ,navRotasController = navRotasController, viewModelQueVaiPassarOsDados = anuncioViewMODEL, viewModelId = viewModelId)
+            FeedScreen(navController = navController, lifecycleScope = lifecycleScope ,navRotasController = navRotasController, viewModelQueVaiPassarOsDados = viewModelAnuncioV2, viewModelId = viewModelId)
         }
 
         composable("my_announces"){

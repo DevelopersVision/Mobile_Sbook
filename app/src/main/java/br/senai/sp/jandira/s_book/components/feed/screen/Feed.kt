@@ -48,6 +48,7 @@ import br.senai.sp.jandira.s_book.models_private.User
 import br.senai.sp.jandira.s_book.service.RetrofitHelper
 import br.senai.sp.jandira.s_book.sqlite_repository.UserRepository
 import br.senai.sp.jandira.s_book.view_model.AnuncioViewModel
+import br.senai.sp.jandira.s_book.view_model.AnuncioViewModelV2
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -57,7 +58,7 @@ fun FeedScreen(
     navController: NavController,
     navRotasController: NavController,
     lifecycleScope: LifecycleCoroutineScope?,
-    viewModelQueVaiPassarOsDados: AnuncioViewModel,
+    viewModelQueVaiPassarOsDados: AnuncioViewModelV2,
     viewModelId: viewModelId
 ) {
 
@@ -263,44 +264,46 @@ fun FeedScreen(
                                 autor = item.autores[0].nome,
                                 preco = item.anuncio.preco,
                                 id = item.anuncio.id,
-                                navController = navRotasController,
+                                navController = navController,
                                 lifecycleScope = lifecycleScope,
                                 onClick = {
-                                    viewModelQueVaiPassarOsDados.foto = item.foto
+                                   // viewModelQueVaiPassarOsDados.foto = item.foto
                                     val anunciante = getAnunciante(item.anuncio.anunciante) { usuario ->
                                         if (usuario != null) {
+                                            viewModelQueVaiPassarOsDados.idAnuncio = item.anuncio.id
+                                            viewModelQueVaiPassarOsDados.dadosAnuncio = item
+                                            viewModelQueVaiPassarOsDados.idAnunciante = item.anuncio.anunciante.toInt()
 
-
-                                            viewModelQueVaiPassarOsDados.id = item.anuncio.id
-
-                                            viewModelQueVaiPassarOsDados.id_anunciante = item.anuncio.anunciante
-
-                                            viewModelId.id_anunciante = item.anuncio.anunciante
-                                            viewModelId.foto_anunciante = usuario.foto
-                                            viewModelId.nome_anunciante = usuario.nome
-
-                                            Log.e("Id do Anunciante", "${viewModelQueVaiPassarOsDados.id_anunciante}")
-
-                                            viewModelQueVaiPassarOsDados.nome = item.anuncio.nome
-
-                                            viewModelQueVaiPassarOsDados.generos = item.generos
-                                            viewModelQueVaiPassarOsDados.tipo_anuncio =
-                                                item.tipo_anuncio
-
-                                            viewModelQueVaiPassarOsDados.anunciante_foto = usuario.foto
-
-                                            viewModelQueVaiPassarOsDados.anunciante_nome = usuario.nome
-                                            viewModelQueVaiPassarOsDados.cidade_anuncio = usuario.cidade
-                                            viewModelQueVaiPassarOsDados.estado_anuncio = usuario.estado
-                                            viewModelQueVaiPassarOsDados.descricao =
-                                                item.anuncio.descricao
-
-                                            viewModelQueVaiPassarOsDados.ano_edicao =
-                                                item.anuncio.ano_lancamento
-                                            viewModelQueVaiPassarOsDados.autor = item.autores
-                                            viewModelQueVaiPassarOsDados.editora = item.editora
-                                            viewModelQueVaiPassarOsDados.idioma = item.idioma
-                                            viewModelQueVaiPassarOsDados.preco = item.anuncio.preco
+//                                            viewModelQueVaiPassarOsDados.id = item.anuncio.id
+//
+//                                            viewModelQueVaiPassarOsDados.id_anunciante = item.anuncio.anunciante
+//
+//                                            viewModelId.id_anunciante = item.anuncio.anunciante
+//                                            viewModelId.foto_anunciante = usuario.foto
+//                                            viewModelId.nome_anunciante = usuario.nome
+//
+//                                            Log.e("Id do Anunciante", "${viewModelQueVaiPassarOsDados.id_anunciante}")
+//
+//                                            viewModelQueVaiPassarOsDados.nome = item.anuncio.nome
+//
+//                                            viewModelQueVaiPassarOsDados.generos = item.generos
+//                                            viewModelQueVaiPassarOsDados.tipo_anuncio =
+//                                                item.tipo_anuncio
+//
+//                                            viewModelQueVaiPassarOsDados.anunciante_foto = usuario.foto
+//
+//                                            viewModelQueVaiPassarOsDados.anunciante_nome = usuario.nome
+//                                            viewModelQueVaiPassarOsDados.cidade_anuncio = usuario.cidade
+//                                            viewModelQueVaiPassarOsDados.estado_anuncio = usuario.estado
+//                                            viewModelQueVaiPassarOsDados.descricao =
+//                                                item.anuncio.descricao
+//
+//                                            viewModelQueVaiPassarOsDados.ano_edicao =
+//                                                item.anuncio.ano_lancamento
+//                                            viewModelQueVaiPassarOsDados.autor = item.autores
+//                                            viewModelQueVaiPassarOsDados.editora = item.editora
+//                                            viewModelQueVaiPassarOsDados.idioma = item.idioma
+//                                            viewModelQueVaiPassarOsDados.preco = item.anuncio.preco
                                         }
                                     }
                                 },

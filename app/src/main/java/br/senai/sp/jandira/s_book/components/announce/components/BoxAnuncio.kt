@@ -50,7 +50,8 @@ fun BoxAnuncio(
     dadosAnuncio: JsonAnuncios,
     context: Context,
     lifecycleScope: LifecycleCoroutineScope,
-    navRotasController: NavController
+    navRotasController: NavController,
+    onClick: () -> Unit
 ) {
     val dadosUser = UserRepository(context).findUsers()
     var isChecked by remember { mutableStateOf(false) }
@@ -262,7 +263,7 @@ fun BoxAnuncio(
                             )
                         )
                     }
-                    ButtonAnuncio(onClick = { /*TODO*/ }, text = "Clique Aqui")
+                    ButtonAnuncio(onClick = onClick, text = "Clique Aqui")
                 }
             } else if (tipoAnuncio[0].id == 3) {
                 Column(
@@ -279,10 +280,10 @@ fun BoxAnuncio(
                         )
                     )
 
-                    ButtonAnuncio(onClick = { /*TODO*/ }, text = "Clique Aqui")
+                    ButtonAnuncio(onClick = onClick, text = "Clique Aqui")
                 }
             } else {
-                ButtonAnuncio(onClick = { /*TODO*/ }, text = "Doa-se, Clique Aqui")
+                ButtonAnuncio(onClick = onClick, text = "Doa-se, Clique Aqui")
             }
         }
         CardUser(

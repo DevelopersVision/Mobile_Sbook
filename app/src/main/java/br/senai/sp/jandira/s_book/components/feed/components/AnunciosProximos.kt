@@ -105,7 +105,7 @@ fun AnunciosProximos(
             .height(260.dp)
             .clickable {
                 onClick()
-                navController.navigate("annouceDetail")
+                navController.navigate("announce")
             }
             .shadow(
                 elevation = 6.dp,
