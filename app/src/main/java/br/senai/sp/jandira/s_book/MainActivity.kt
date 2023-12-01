@@ -59,6 +59,7 @@ import br.senai.sp.jandira.s_book.sqlite_repository.UserRepository
 import br.senai.sp.jandira.s_book.ui.theme.SBOOKTheme
 import br.senai.sp.jandira.s_book.view_model.AnnouncePhotosViewModel
 import br.senai.sp.jandira.s_book.view_model.AnuncioViewModel
+import br.senai.sp.jandira.s_book.view_model.SharedViewModel
 import br.senai.sp.jandira.s_book.view_model.UserGenresViewModel
 import br.senai.sp.jandira.s_book.view_model.ViewModelDoPostAnuncio
 import br.senai.sp.jandira.s_book.view_model.ViewModelDosAutores
@@ -97,6 +98,7 @@ class MainActivity : ComponentActivity() {
                     val viewModelId = viewModel<viewModelId>()
                     val viewModelPreco = viewModel<ViewModelPreco>()
                     val viewModelDoPostAnuncio = viewModel<ViewModelDoPostAnuncio>()
+                    val sharedViewModel = viewModel<SharedViewModel>()
                     val context = LocalContext.current
 
                     val client = ChatClient()
@@ -106,7 +108,7 @@ class MainActivity : ComponentActivity() {
                     ){
 
                         composable("navigation_home_bar") {
-                            MainScreen(navController, lifecycleScope, anuncioViewMODEL = viewModelAnuncio, chatViewModel, viewModelId)
+                            MainScreen(navController, lifecycleScope, anuncioViewMODEL = viewModelAnuncio, chatViewModel, viewModelId, sharedViewModel)
                         }
 
                         composable("login") {

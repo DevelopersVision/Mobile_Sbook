@@ -1,5 +1,7 @@
 package br.senai.sp.jandira.s_book.model
 
+import br.senai.sp.jandira.s_book.model.chat.UserChat
+
 data class JsonAnuncios(
     val anuncio: Anuncio,
     val idioma: Idioma,
@@ -9,5 +11,6 @@ data class JsonAnuncios(
     val foto: List<Foto>,
     val generos: List<Genero>,
     val tipo_anuncio: List<TipoAnuncio>,
-    val autores: List<Autores>
+    val autores: List<Autores>,
+    val anunciante: UserChat
 )

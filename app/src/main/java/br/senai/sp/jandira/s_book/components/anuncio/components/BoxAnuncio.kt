@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
@@ -27,6 +29,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.LifecycleCoroutineScope
@@ -35,6 +38,7 @@ import br.senai.sp.jandira.s_book.R
 import br.senai.sp.jandira.s_book.components.my_announces.components.favoritarAnuncio
 import br.senai.sp.jandira.s_book.components.my_announces.components.removerDosFavoritos
 import br.senai.sp.jandira.s_book.model.Genero
+import br.senai.sp.jandira.s_book.model.JsonAnuncios
 import br.senai.sp.jandira.s_book.model.TipoAnuncio
 import br.senai.sp.jandira.s_book.model.VerificarFavoritoBaseResponse
 import br.senai.sp.jandira.s_book.service.RetrofitHelper
@@ -45,14 +49,7 @@ import retrofit2.Response
 
 @Composable
 fun BoxAnuncio(
-    idAnuncio: Int,
-    nomeAnuncio: String,
-    listaGeneros: List<Genero>,
-    tipoAnuncio: List<TipoAnuncio>,
-    fotoUser: String,
-    nomeUser: String,
-    cidade: String,
-    estado: String,
+    dadosAnuncio: JsonAnuncios,
     context: Context,
     lifecycleScope: LifecycleCoroutineScope,
     navRotasController: NavController
@@ -60,6 +57,8 @@ fun BoxAnuncio(
     val dadosUser = UserRepository(context).findUsers()
     var isChecked by remember { mutableStateOf(false) }
     var visible by remember { mutableStateOf(true) }
+
+    var generosString = ""
 
     Column(
         modifier = Modifier
@@ -70,6 +69,7 @@ fun BoxAnuncio(
                 spotColor = Color(0x40000000),
                 ambientColor = Color(0x40000000)
             )
+            .background(color = Color(0xFFFFFFFF), shape = RoundedCornerShape(size = 8.dp))
             .padding(horizontal = 24.dp, vertical = 20.dp),
         verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
@@ -80,7 +80,8 @@ fun BoxAnuncio(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Diário de um Banana",
+                    modifier = Modifier.width(248.dp),
+                    text = dadosAnuncio.anuncio.nome,
                     style = TextStyle(
                         fontSize = 24.sp,
                         fontFamily = FontFamily(Font(R.font.intermedium)),
@@ -98,7 +99,7 @@ fun BoxAnuncio(
                         if(dadosUser.isNotEmpty()){
                             // Cria uma chamada para o EndPoint
                             val call = RetrofitHelper.getAnunciosFavoritadosService()
-                                .verificarFavorito(dadosUser[0].id, idAnuncio)
+                                .verificarFavorito(dadosUser[0].id, dadosAnuncio.anuncio.id)
 
 
                             // Executar a chamada
@@ -118,7 +119,7 @@ fun BoxAnuncio(
                                             isChecked = false
 
                                             removerDosFavoritos(
-                                                id_anuncio = idAnuncio,
+                                                id_anuncio = dadosAnuncio.anuncio.id,
                                                 id_usuario = dadosUser[0].id
                                             )
 
@@ -134,7 +135,7 @@ fun BoxAnuncio(
                                             )
                                             isChecked = true
                                             favoritarAnuncio(
-                                                id_anuncio = idAnuncio,
+                                                id_anuncio = dadosAnuncio.anuncio.id,
                                                 id_usuario = dadosUser[0].id,
                                                 lifecycleScope = lifecycleScope
                                             )
@@ -187,10 +188,26 @@ fun BoxAnuncio(
             modifier = Modifier
                 .fillMaxWidth()
         ) {
-            for (genero in listaGeneros){
-                if(genero == listaGeneros.last()){
+//            for (genero in dadosAnuncio.generos){
+//                if(genero == dadosAnuncio.generos.last()){
+//                    generosString += genero.nome
+//                    Text(
+//                        text = generosString,
+//                        fontSize = 14.sp,
+//                        fontFamily = FontFamily(Font(R.font.intermedium)),
+//                        fontWeight = FontWeight(600),
+//                        color = Color(0xFF808080),
+//                        modifier = Modifier
+//                    )
+//                }else{
+//                    generosString += "${genero.nome}, "
+//                }
+//            }
+            dadosAnuncio.generos.forEach {genero ->
+                if(genero == dadosAnuncio.generos.last()){
+                    generosString += genero.nome
                     Text(
-                        text = "${genero.nome} ",
+                        text = generosString,
                         fontSize = 14.sp,
                         fontFamily = FontFamily(Font(R.font.intermedium)),
                         fontWeight = FontWeight(600),
@@ -198,16 +215,59 @@ fun BoxAnuncio(
                         modifier = Modifier
                     )
                 }else{
-                    Text(
-                        text = "${genero.nome}, ",
-                        fontSize = 14.sp,
-                        fontFamily = FontFamily(Font(R.font.intermedium)),
-                        fontWeight = FontWeight(600),
-                        color = Color(0xFF808080),
-                        modifier = Modifier
-                    )
+                    generosString += "${genero.nome}, "
                 }
             }
         }
+
+        //if(dadosAnuncio.tipo_anuncio.size == 2){
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(28.dp)
+            ) {
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(50.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "R$50,00",
+                        style = TextStyle(
+                            fontSize = 20.sp,
+                            fontFamily = FontFamily(Font(R.font.intermedium)),
+                            fontWeight = FontWeight(700),
+                            color = Color(0xFF404040)
+                            )
+                    )
+                    Text(
+                        text = "Ou",
+                        style = TextStyle(
+                            fontSize = 22.sp,
+                            fontFamily = FontFamily(Font(R.font.intermedium)),
+                            fontWeight = FontWeight(700),
+                            color = Color(0xFF404040)
+                        )
+                    )
+                    Text(
+                        text = "Troca-se",
+                        style = TextStyle(
+                            fontSize = 20.sp,
+                            fontFamily = FontFamily(Font(R.font.intermedium)),
+                            fontWeight = FontWeight(700),
+                            color = Color(0xFF404040)
+                        )
+                    )
+                }
+                ButtonAnuncio(onClick = { /*TODO*/ }, text = "Clique Aqui")
+            }
+//        }else{
+//
+//        }
+            CardUser(
+                foto = dadosAnuncio.anunciante.foto,
+                ciade = dadosAnuncio.endereco.cidade,
+                ufEstado = dadosAnuncio.endereco.estado,
+                nome = dadosAnuncio.anunciante.nome
+            )
     }
 }

@@ -5,10 +5,12 @@ import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.LifecycleCoroutineScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import br.senai.sp.jandira.s_book.components.anuncio.screens.AnuncioScreen
 import br.senai.sp.jandira.s_book.components.chats.screen.ChatScreen
 import br.senai.sp.jandira.s_book.components.donations.screen.DonationsScreen
 import br.senai.sp.jandira.s_book.components.feed.screen.FeedScreen
@@ -23,7 +25,9 @@ import br.senai.sp.jandira.s_book.models_private.User
 import br.senai.sp.jandira.s_book.service.RetrofitHelper.HttpClientProvider.client
 import br.senai.sp.jandira.s_book.sqlite_repository.UserRepository
 import br.senai.sp.jandira.s_book.view_model.AnuncioViewModel
+import br.senai.sp.jandira.s_book.view_model.AnuncioViewModelV2
 import br.senai.sp.jandira.s_book.view_model.RotaViewModel
+import br.senai.sp.jandira.s_book.view_model.SharedViewModel
 import io.socket.client.Socket
 
 
@@ -35,7 +39,8 @@ fun ButtonNavGraph(
     context: Context,
     anuncioViewMODEL: AnuncioViewModel,
     chatViewModel: ChatViewModel,
-    viewModelId: viewModelId
+    viewModelId: viewModelId,
+    sharedViewModel: SharedViewModel
 ) {
     val context = LocalContext.current
 
@@ -44,6 +49,8 @@ fun ButtonNavGraph(
     var array = User()
 
     var data = ""
+
+    val viewModelAnuncioV2 = viewModel<AnuncioViewModelV2>()
 
 
     NavHost(
@@ -64,7 +71,11 @@ fun ButtonNavGraph(
         }
 
         composable("donations") {
-            DonationsScreen(navController = navController)
+            DonationsScreen(navController = navController, sharedViewModel, viewModelAnuncioV2)
+        }
+
+        composable("anuncio") {
+            AnuncioScreen(lifecycleScope = lifecycleScope, viewModel = viewModelAnuncioV2, navController = navController)
         }
 
         composable(route = BottomBarScreen.Chat.route){

@@ -33,13 +33,17 @@ import br.senai.sp.jandira.s_book.model.AnuncioDonationsResponse
 import br.senai.sp.jandira.s_book.model.AnunciosBaseResponse
 import br.senai.sp.jandira.s_book.model.JsonAnuncioDoacao
 import br.senai.sp.jandira.s_book.service.RetrofitHelper
+import br.senai.sp.jandira.s_book.view_model.AnuncioViewModelV2
+import br.senai.sp.jandira.s_book.view_model.SharedViewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 @Composable
 fun DonationsScreen(
-    navController: NavController
+    navController: NavController,
+    sharedViewModel: SharedViewModel,
+    viewModel: AnuncioViewModelV2
 ) {
     val context = LocalContext.current
 
@@ -124,7 +128,10 @@ fun DonationsScreen(
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
                             for (item in pair) {
-                                CardDonationsAnnounce(dados = item){}
+                                CardDonationsAnnounce(dados = item){
+                                    viewModel.idAnuncio = item.anuncio.id
+                                    navController.navigate("anuncio")
+                                }
                             }
                         }
                         Spacer(modifier = Modifier.height(25.dp))
