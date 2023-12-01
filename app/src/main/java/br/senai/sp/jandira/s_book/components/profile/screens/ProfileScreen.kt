@@ -36,7 +36,7 @@ fun ProfileScreen(
         HeaderProfile(
             onclick = { navController.navigate("navigation_home_bar")}
         )
-        CardProfile( navController = navController, context)
+        CardProfile( navController = navRotasController, context)
         RotasProfile(navRotasController = navRotasController, navController = navController)
     }
 }

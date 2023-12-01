@@ -225,7 +225,8 @@ fun Header(
                                 } else {
                                     navRotasController.navigate("login")
                                 }
-                            }
+                            },
+                        contentScale = ContentScale.Crop
                     )
                 }
             }
