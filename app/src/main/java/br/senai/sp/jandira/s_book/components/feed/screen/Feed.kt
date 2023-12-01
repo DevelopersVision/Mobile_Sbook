@@ -245,9 +245,8 @@ fun FeedScreen(
                 isLoading == true
                 ProgressBar(isDisplayed = !isLoading)
             }else{
+
                 val pairs = listAnunciosFeed.chunked(2)
-
-
 
                 for (pair in pairs) {
                     Row(

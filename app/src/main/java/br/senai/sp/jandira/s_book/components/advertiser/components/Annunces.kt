@@ -68,17 +68,16 @@ fun Annunces(
                 ambientColor = Color(0xFF000000)
             )
             .background(color = Color(0xFFFFFFFF), shape = RoundedCornerShape(size = 4.dp))
-            .padding(horizontal = 12.dp, vertical = 12.dp),
+            .padding(start = 12.dp,top = 12.dp),
         shape = RoundedCornerShape(4.dp)
     ) {
         Column(
-            modifier = Modifier
-                .height(260.dp),
-            verticalArrangement = Arrangement.SpaceBetween
+            modifier = Modifier,
         ) {
             Column(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.SpaceBetween
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.susanna_profile),
