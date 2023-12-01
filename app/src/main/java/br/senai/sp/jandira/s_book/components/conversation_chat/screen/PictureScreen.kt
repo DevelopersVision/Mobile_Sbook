@@ -42,6 +42,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.R
 import br.senai.sp.jandira.s_book.components.conversation_chat.components.HeaderPicture
+import br.senai.sp.jandira.s_book.components.conversation_chat.components.InputMenssagem
 import br.senai.sp.jandira.s_book.functions.FirebaseMessage
 import br.senai.sp.jandira.s_book.model.chat.ChatClient
 import br.senai.sp.jandira.s_book.model.chat.view_model.ChatViewModel
@@ -93,6 +94,10 @@ fun PictureScreen(
         }
     }
 
+    var message by remember {
+        mutableStateOf("")
+    }
+
     Surface(
         modifier = Modifier
             .fillMaxWidth()
@@ -113,16 +118,16 @@ fun PictureScreen(
                     .background(Color(190, 183, 183, 255))
                     .clickable {
                         launcher.launch("image/*")
-                        Log.e("foto", "$fotoUri",)
+                        Log.e("foto", "$fotoUri")
                         fotoUri?.let {
                             imagem = fotoUri.toString()
                         }
                     }
             ) {
                 AsyncImage(
-                    model = if(fotoUri == null){
+                    model = if (fotoUri == null) {
                         imagem
-                    }else{
+                    } else {
                         fotoUri
                     },
                     contentDescription = "",
@@ -137,7 +142,7 @@ fun PictureScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(start = 20.dp),
-                    horizontalArrangement = Arrangement.spacedBy(11.dp)
+                horizontalArrangement = Arrangement.spacedBy(11.dp)
             ) {
                 Text(
                     text = "Enviar para",
@@ -145,7 +150,7 @@ fun PictureScreen(
                     fontFamily = FontFamily(Font(R.font.intermedium)),
                     fontWeight = FontWeight(600),
                     color = Color(0xFF000000),
-                    )
+                )
                 Text(
                     text = nome,
                     fontSize = 16.sp,
@@ -159,12 +164,18 @@ fun PictureScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(end = 12.dp),
-                horizontalAlignment =  Alignment.End,
+                horizontalAlignment = Alignment.End,
 
-            ) {
-                Button(
-                    onClick = {
-                        val storageRefChild = storageRef.child("${System.currentTimeMillis()}_${fotoUri!!.lastPathSegment}")
+                ) {
+
+                InputMenssagem(
+                    mensagem = message,
+                    navController = navController,
+                    onclick = {
+
+                        message = it
+                        val storageRefChild =
+                            storageRef.child("${System.currentTimeMillis()}_${fotoUri!!.lastPathSegment}")
                         val uploadTask = storageRefChild.putFile(fotoUri!!)
 
                         uploadTask.addOnCompleteListener { task ->
@@ -176,7 +187,13 @@ fun PictureScreen(
                                     val json = JSONObject().apply {
                                         put("messageBy", idUsuario)
                                         put("messageTo", idUser2)
-                                        put("message", "")
+                                        put(
+                                            "message", if (message == "") {
+                                                ""
+                                            } else {
+                                                message
+                                            }
+                                        )
                                         put("image", imageUrl)
                                         put("chatId", idChat)
                                     }
@@ -186,20 +203,28 @@ fun PictureScreen(
                                     client.sendMessage(json)
                                 }
                             } else {
-                                Log.e("PictureScreen", "Error uploading image to Firebase Storage: ${task.exception}")
+                                Log.e(
+                                    "PictureScreen",
+                                    "Error uploading image to Firebase Storage: ${task.exception}"
+                                )
                             }
                         }
                         navController.navigate("conversa_chat")
-                    },
-                    modifier = Modifier.size(60.dp),
-                    shape = CircleShape,
-                    colors = ButtonDefaults.buttonColors(Color(221, 163, 93, 255))
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.baseline_send_24),
-                        contentDescription = ""
-                    )
-                }
+                    }
+                )
+//                Button(
+//                    onClick = {
+//
+//                    },
+//                    modifier = Modifier.size(60.dp),
+//                    shape = CircleShape,
+//                    colors = ButtonDefaults.buttonColors(Color(221, 163, 93, 255))
+//                ) {
+//                    Icon(
+//                        painter = painterResource(id = R.drawable.baseline_send_24),
+//                        contentDescription = ""
+//                    )
+//                }
             }
         }
 

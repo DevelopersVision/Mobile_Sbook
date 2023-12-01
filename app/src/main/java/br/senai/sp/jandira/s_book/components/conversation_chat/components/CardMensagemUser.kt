@@ -45,7 +45,10 @@ fun CardMensagemUser(
     var isLongPressActive by remember { mutableStateOf(false) }
     var isLongPressStarted by remember { mutableStateOf(false) }
 
-    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.End
+    ) {
         Card(
             shape = RoundedCornerShape(
                 topStart = 16.dp, topEnd = 0.dp, bottomStart = 16.dp, bottomEnd = 16.dp

@@ -21,6 +21,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
@@ -33,16 +34,19 @@ import coil.compose.AsyncImage
 
 @Composable
 fun CardFotoMessageUser(
-    menssagem : String,
+    menssagem: String,
     hora: String,
     cor: Color,
-    foto : String,
+    foto: String,
     onDelete: () -> Unit
-){
+) {
     var isLongPressActive by remember { mutableStateOf(false) }
     var isLongPressStarted by remember { mutableStateOf(false) }
 
-    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.End
+    ) {
         Card(
             shape = RoundedCornerShape(
                 topStart = 16.dp, topEnd = 0.dp, bottomStart = 16.dp, bottomEnd = 16.dp
@@ -79,30 +83,35 @@ fun CardFotoMessageUser(
                     )
                     // Adicionando o ícone de lixeira
                     if (isLongPressActive) {
-                        Column (
+                        Column(
                             modifier = Modifier
 //                                .zIndex(3f)
                                 .clickable {
                                     onDelete()
                                 }
-                        ){
+                        ) {
                             // Substitua o ícone padrão pelo ícone de lixeira real que você deseja usar
                             Icon(Icons.Default.Delete, contentDescription = "Delete")
                         }
                     }
                 }
-                AsyncImage(
-                    model = foto,
-                    contentDescription = ""
-                )
-                Text(
-                    text = menssagem,
-                    fontSize = 10.sp,
-                    fontWeight = FontWeight(400),
-                    color = Color(0xFF3B4A54),
+                Column(
                     modifier = Modifier.fillMaxWidth(),
-                    textAlign = TextAlign.End
-                )
+                    horizontalAlignment = Alignment.Start
+                ) {
+                    AsyncImage(
+                        model = foto,
+                        contentDescription = ""
+                    )
+                    Text(
+                        text = menssagem,
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight(400),
+                        color = Color(0xFF3B4A54),
+                        modifier = Modifier.fillMaxWidth(),
+                        textAlign = TextAlign.End
+                    )
+                }
                 Text(
                     text = hora,
                     fontSize = 10.sp,

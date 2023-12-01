@@ -31,7 +31,11 @@ fun CardFotoMessageCliente(
                 topStart = 0.dp, topEnd = 16.dp, bottomStart = 16.dp, bottomEnd = 16.dp
             ), modifier = Modifier.width(280.dp)
         ) {
-            Column(modifier = Modifier.padding(12.dp)) {
+            Column(
+                modifier = Modifier
+                    .padding(12.dp),
+                verticalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
                 AsyncImage(
                     model = foto,
                     contentDescription = ""
