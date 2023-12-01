@@ -1,4 +1,6 @@
-package br.senai.sp.jandira.s_book.components.anuncio.components
+package br.senai.sp.jandira.s_book.components.meu_anuncio.components
+
+import br.senai.sp.jandira.s_book.components.announce.components.ButtonAnuncio
 
 import android.content.Context
 import android.util.Log
@@ -29,7 +31,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.LifecycleCoroutineScope
@@ -37,7 +38,6 @@ import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.R
 import br.senai.sp.jandira.s_book.components.my_announces.components.favoritarAnuncio
 import br.senai.sp.jandira.s_book.components.my_announces.components.removerDosFavoritos
-import br.senai.sp.jandira.s_book.model.Genero
 import br.senai.sp.jandira.s_book.model.JsonAnuncios
 import br.senai.sp.jandira.s_book.model.TipoAnuncio
 import br.senai.sp.jandira.s_book.model.VerificarFavoritoBaseResponse
@@ -48,7 +48,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 @Composable
-fun BoxAnuncio(
+fun BoxMyAnnounce(
     dadosAnuncio: JsonAnuncios,
     context: Context,
     lifecycleScope: LifecycleCoroutineScope,
@@ -59,6 +59,9 @@ fun BoxAnuncio(
     var visible by remember { mutableStateOf(true) }
 
     var generosString = ""
+    var tipoAnuncio by remember {
+        mutableStateOf(listOf<TipoAnuncio>())
+    }
 
     Column(
         modifier = Modifier
@@ -220,36 +223,55 @@ fun BoxAnuncio(
             }
         }
 
-        //if(dadosAnuncio.tipo_anuncio.size == 2){
-            Column(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(28.dp)
-            ) {
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(50.dp),
-                    verticalAlignment = Alignment.CenterVertically
+        if(tipoAnuncio.isNotEmpty()){
+            if (tipoAnuncio.size == 2) {
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(28.dp)
+                ) {
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(50.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = "R$${dadosAnuncio.anuncio.preco}",
+                            style = TextStyle(
+                                fontSize = 20.sp,
+                                fontFamily = FontFamily(Font(R.font.intermedium)),
+                                fontWeight = FontWeight(700),
+                                color = Color(0xFF404040)
+                            )
+                        )
+                        Text(
+                            text = "Ou",
+                            style = TextStyle(
+                                fontSize = 22.sp,
+                                fontFamily = FontFamily(Font(R.font.intermedium)),
+                                fontWeight = FontWeight(700),
+                                color = Color(0xFF404040)
+                            )
+                        )
+                        Text(
+                            text = "Troca-se",
+                            style = TextStyle(
+                                fontSize = 20.sp,
+                                fontFamily = FontFamily(Font(R.font.intermedium)),
+                                fontWeight = FontWeight(700),
+                                color = Color(0xFF404040)
+                            )
+                        )
+                    }
+                    ButtonAnuncio(onClick = { /*TODO*/ }, text = "Clique Aqui")
+                }
+            } else if (tipoAnuncio[0].id == 3) {
+                Log.e("Entrou", "$tipoAnuncio")
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalArrangement = Arrangement.spacedBy(28.dp)
                 ) {
                     Text(
-                        text = "R$50,00",
-                        style = TextStyle(
-                            fontSize = 20.sp,
-                            fontFamily = FontFamily(Font(R.font.intermedium)),
-                            fontWeight = FontWeight(700),
-                            color = Color(0xFF404040)
-                            )
-                    )
-                    Text(
-                        text = "Ou",
-                        style = TextStyle(
-                            fontSize = 22.sp,
-                            fontFamily = FontFamily(Font(R.font.intermedium)),
-                            fontWeight = FontWeight(700),
-                            color = Color(0xFF404040)
-                        )
-                    )
-                    Text(
-                        text = "Troca-se",
+                        text = "R$${dadosAnuncio.anuncio.preco}",
                         style = TextStyle(
                             fontSize = 20.sp,
                             fontFamily = FontFamily(Font(R.font.intermedium)),
@@ -257,17 +279,12 @@ fun BoxAnuncio(
                             color = Color(0xFF404040)
                         )
                     )
+
+                    ButtonAnuncio(onClick = { /*TODO*/ }, text = "Clique Aqui")
                 }
-                ButtonAnuncio(onClick = { /*TODO*/ }, text = "Clique Aqui")
+            } else {
+                ButtonAnuncio(onClick = { /*TODO*/ }, text = "Doa-se, Clique Aqui")
             }
-//        }else{
-//
-//        }
-            CardUser(
-                foto = dadosAnuncio.anunciante.foto,
-                ciade = dadosAnuncio.endereco.cidade,
-                ufEstado = dadosAnuncio.endereco.estado,
-                nome = dadosAnuncio.anunciante.nome
-            )
+        }
     }
 }

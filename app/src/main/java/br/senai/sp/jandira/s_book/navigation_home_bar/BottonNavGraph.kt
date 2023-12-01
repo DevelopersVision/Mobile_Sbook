@@ -5,30 +5,28 @@ import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.LifecycleCoroutineScope
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import br.senai.sp.jandira.s_book.components.anuncio.screens.AnuncioScreen
+import br.senai.sp.jandira.s_book.components.announce.screens.AnnounceScreen
 import br.senai.sp.jandira.s_book.components.chats.screen.ChatScreen
 import br.senai.sp.jandira.s_book.components.donations.screen.DonationsScreen
 import br.senai.sp.jandira.s_book.components.feed.screen.FeedScreen
 import br.senai.sp.jandira.s_book.components.login.screen.LoginScreen
-import br.senai.sp.jandira.s_book.components.perfil.components.converterData
+import br.senai.sp.jandira.s_book.components.meu_anuncio.screen.MyAnnounceScreen
 import br.senai.sp.jandira.s_book.components.pesquisar.screen.SearchScreen
 import br.senai.sp.jandira.s_book.components.profile.screens.ProfileScreen
 import br.senai.sp.jandira.s_book.model.chat.ChatClient
 import br.senai.sp.jandira.s_book.model.chat.view_model.ChatViewModel
 import br.senai.sp.jandira.s_book.model.chat.view_model.viewModelId
 import br.senai.sp.jandira.s_book.models_private.User
-import br.senai.sp.jandira.s_book.service.RetrofitHelper.HttpClientProvider.client
 import br.senai.sp.jandira.s_book.sqlite_repository.UserRepository
 import br.senai.sp.jandira.s_book.view_model.AnuncioViewModel
 import br.senai.sp.jandira.s_book.view_model.AnuncioViewModelV2
-import br.senai.sp.jandira.s_book.view_model.RotaViewModel
 import br.senai.sp.jandira.s_book.view_model.SharedViewModel
-import io.socket.client.Socket
 
 
 @Composable
@@ -62,6 +60,15 @@ fun ButtonNavGraph(
             FeedScreen(navController = navController, lifecycleScope = lifecycleScope ,navRotasController = navRotasController, viewModelQueVaiPassarOsDados = anuncioViewMODEL, viewModelId = viewModelId)
         }
 
+        composable("my_announces"){
+            br.senai.sp.jandira.s_book.components.my_announces.screen.MyAnnounceScreen(
+                navRotasController = navRotasController,
+                lifecycleScope = lifecycleScope,
+                navController,
+                viewModelAnuncioV2
+            )
+        }
+
         composable(route = BottomBarScreen.Pesquisar.route){
             SearchScreen(
                 navController = navController,
@@ -74,8 +81,12 @@ fun ButtonNavGraph(
             DonationsScreen(navController = navController, sharedViewModel, viewModelAnuncioV2)
         }
 
-        composable("anuncio") {
-            AnuncioScreen(lifecycleScope = lifecycleScope, viewModel = viewModelAnuncioV2, navController = navController)
+        composable("announce") {
+            AnnounceScreen(lifecycleScope = lifecycleScope, viewModel = viewModelAnuncioV2, navController = navController)
+        }
+
+        composable("myAnnounce") {
+            MyAnnounceScreen(lifecycleScope = lifecycleScope, viewModel = viewModelAnuncioV2, navController = navController)
         }
 
         composable(route = BottomBarScreen.Chat.route){
@@ -102,7 +113,7 @@ fun ButtonNavGraph(
 
         composable(route = BottomBarScreen.Profile.route){
             if(dadaUser.isNotEmpty()){
-                ProfileScreen(navRotasController)
+                ProfileScreen(navRotasController = navRotasController, navController = navController)
             }else{
                 LoginScreen(navController = navRotasController, lifecycleScope = lifecycleScope)
             }

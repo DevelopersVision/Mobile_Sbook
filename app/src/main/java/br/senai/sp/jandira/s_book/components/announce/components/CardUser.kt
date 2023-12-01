@@ -1,4 +1,4 @@
-package br.senai.sp.jandira.s_book.components.anuncio.components
+package br.senai.sp.jandira.s_book.components.announce.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

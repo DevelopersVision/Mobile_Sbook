@@ -28,6 +28,7 @@ import br.senai.sp.jandira.s_book.model.AnunciosUserBaseResponse
 import br.senai.sp.jandira.s_book.model.JsonAnuncios
 import br.senai.sp.jandira.s_book.service.RetrofitHelper
 import br.senai.sp.jandira.s_book.sqlite_repository.UserRepository
+import br.senai.sp.jandira.s_book.view_model.AnuncioViewModelV2
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -35,7 +36,9 @@ import retrofit2.Response
 @Composable
 fun MyAnnounceScreen(
     navRotasController: NavController,
-    lifecycleScope: LifecycleCoroutineScope
+    lifecycleScope: LifecycleCoroutineScope,
+    navController: NavController,
+    viewModelV2: AnuncioViewModelV2
 ){
 
     val context = LocalContext.current
@@ -83,7 +86,8 @@ fun MyAnnounceScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             HeaderAnnounce(
-                onclick = { navRotasController.navigate("profile")}
+                onclick = { navController.navigate("profile")},
+                quantidadeAnuncio = listAnuncios.size
             )
             Spacer(modifier = Modifier.height(24.dp))
 
@@ -106,7 +110,9 @@ fun MyAnnounceScreen(
                             lifecycleScope = lifecycleScope!!,
                             id = item.anuncio.id,
                             onClick = {
-                                navRotasController.navigate("annouceDetail")
+                                viewModelV2.idAnuncio = item.anuncio.id
+                                navController.navigate("myAnnounce")
+                                //navRotasController.navigate("annouceDetail")
                             },
                             coracaoClik = {},
 

@@ -203,10 +203,6 @@ class MainActivity : ComponentActivity() {
                             FiltersScreen(navController = navController, viewModelFilters)
                         }
 
-                        composable("my_announces"){
-                            MyAnnounceScreen(navRotasController = navController, lifecycleScope = lifecycleScope)
-                        }
-
                         composable("filterGenero"){
                             FilterGeneroScreen(navController, viewModel = viewModelFilters)
                         }

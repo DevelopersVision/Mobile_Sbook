@@ -1,8 +1,9 @@
-package br.senai.sp.jandira.s_book.components.anuncio.components
+package br.senai.sp.jandira.s_book.components.announce.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -19,7 +20,7 @@ import br.senai.sp.jandira.s_book.model.JsonAnuncios
 @Composable
 fun EspecificacoesAnuncioBox(dadosAnuncios: JsonAnuncios) {
     Column(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth().padding(2.dp),
         verticalArrangement = Arrangement.spacedBy(24.dp)
     ) {
         Text(

@@ -25,12 +25,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.senai.sp.jandira.s_book.R
+import br.senai.sp.jandira.s_book.model.TipoAnuncio
 import br.senai.sp.jandira.s_book.sqlite_repository.UserRepository
 
 
 @Composable
 fun HeaderAnnounce(
     onclick: ()-> Unit,
+    quantidadeAnuncio: Int
 ) {
 
     val context = LocalContext.current
@@ -84,7 +86,7 @@ fun HeaderAnnounce(
                     color = Color(0xFFFFFFFF)
                 )
                 Text(
-                    text = "Você tem 1 anúncio",
+                    text = "Você tem $quantidadeAnuncio anúncio",
                     fontSize = 20.sp,
                     fontWeight = FontWeight(700),
                     color = Color(0xFFFFFFFF)

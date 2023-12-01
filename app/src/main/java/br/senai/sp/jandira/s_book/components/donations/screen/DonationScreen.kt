@@ -130,7 +130,7 @@ fun DonationsScreen(
                             for (item in pair) {
                                 CardDonationsAnnounce(dados = item){
                                     viewModel.idAnuncio = item.anuncio.id
-                                    navController.navigate("anuncio")
+                                    navController.navigate("announce")
                                 }
                             }
                         }

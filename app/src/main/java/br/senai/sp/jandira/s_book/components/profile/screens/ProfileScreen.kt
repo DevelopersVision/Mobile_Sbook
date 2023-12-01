@@ -20,6 +20,7 @@ import br.senai.sp.jandira.s_book.components.universal.HeaderProfile
 
 @Composable
 fun ProfileScreen(
+    navRotasController: NavController,
     navController: NavController
 ) {
     val context = LocalContext.current
@@ -36,6 +37,6 @@ fun ProfileScreen(
             onclick = { navController.navigate("navigation_home_bar")}
         )
         CardProfile( navController = navController, context)
-        RotasProfile(navController = navController)
+        RotasProfile(navRotasController = navRotasController, navController = navController)
     }
 }
