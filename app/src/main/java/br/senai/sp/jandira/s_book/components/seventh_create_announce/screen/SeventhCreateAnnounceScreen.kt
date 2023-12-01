@@ -49,6 +49,7 @@ import br.senai.sp.jandira.s_book.model.Usuario
 import br.senai.sp.jandira.s_book.service.RetrofitHelper
 import br.senai.sp.jandira.s_book.sqlite_repository.UserRepository
 import br.senai.sp.jandira.s_book.view_model.AnnouncePhotosViewModel
+import br.senai.sp.jandira.s_book.view_model.SharedViewModel
 import br.senai.sp.jandira.s_book.view_model.ViewModelDosAutores
 import br.senai.sp.jandira.s_book.view_model.ViewModelDosGenerosSelecionados
 import br.senai.sp.jandira.s_book.view_model.ViewModelDosIds
@@ -70,7 +71,8 @@ fun SeventhCreateAnnounceScreen(
     lifecycleScope: LifecycleCoroutineScope,
     rota: String,
     navController: NavController,
-    viewModelPreco: ViewModelPreco
+    viewModelPreco: ViewModelPreco,
+    sharedViewModel: SharedViewModel
 ){
     val context = LocalContext.current
 
@@ -78,7 +80,7 @@ fun SeventhCreateAnnounceScreen(
 
     val user = array[0]
 
-
+    val navRotaMenu = sharedViewModel.navController.value ?: return
 
 
 

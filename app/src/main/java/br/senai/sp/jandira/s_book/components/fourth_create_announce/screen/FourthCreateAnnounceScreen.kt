@@ -24,6 +24,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -63,7 +64,7 @@ fun FourthCreateAnnounceScreen(
         mutableStateOf(value = false)
     }
 
-    var generosSelecionados by remember {
+    var generosSelecionados by rememberSaveable {
         mutableStateOf<Set<String>>(emptySet())
     }
 
@@ -232,7 +233,13 @@ fun FourthCreateAnnounceScreen(
                             if (generosSelecionados.isNotEmpty()) {
                                 navController.navigate("quinto_anunciar")
                             } else {
-                                Toast.makeText(context, "Selecione pelo menos um gênero.", Toast.LENGTH_SHORT).show()
+                                Toast
+                                    .makeText(
+                                        context,
+                                        "Selecione pelo menos um gênero.",
+                                        Toast.LENGTH_SHORT
+                                    )
+                                    .show()
                             }
                         }
                 )

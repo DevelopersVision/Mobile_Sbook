@@ -250,7 +250,7 @@ class MainActivity : ComponentActivity() {
                         composable("setimo_anunciar"){
                             SeventhCreateAnnounceScreen(localStorage, viewModelDasImagens, viewModelGeneros, viewModelDosAutores, viewModelDosTiposDeLivro, viewModelDosIdentificadores, lifecycleScope = lifecycleScope,
                                 navController = navController,
-                                rota = "my_announces", viewModelPreco = viewModelPreco)
+                                rota = "navigation_home_bar", viewModelPreco = viewModelPreco, sharedViewModel = sharedViewModel)
                         }
 
                         composable("conversa_chat"){

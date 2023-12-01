@@ -28,6 +28,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -74,8 +75,8 @@ fun SixthCreateAnnounceScreen(
         mutableStateOf(value = false)
     }
 
-    var tiposSelecionados by remember {
-        mutableStateOf<Set<String>>(emptySet())
+    var tiposSelecionados by rememberSaveable {
+        mutableStateOf(viewModelDosTipoDeLivros.tiposSelecionados)
     }
 
     var isVendaChecked by remember {
@@ -221,25 +222,41 @@ fun SixthCreateAnnounceScreen(
                             if (tiposSelecionados.isNotEmpty()) {
                                 if (!isVendaChecked || (isVendaChecked && vendaPriceState.isNotBlank())) {
                                     navController.navigate("setimo_anunciar")
-                                    localStorage.salvarValorString(context, vendaPriceState, "venda_price")
+                                    localStorage.salvarValorString(
+                                        context,
+                                        vendaPriceState,
+                                        "venda_price"
+                                    )
                                     val preco: Double = if (vendaPriceState.isNotBlank()) {
                                         vendaPriceState.toDouble()
                                     } else {
                                         0.0
                                     }
                                     viewModelPreco.preco = preco
-                                    val tiposSelecionadosString = tiposSelecionados.joinToString(", ")
-                                    localStorage.salvarValorString(context = context, tiposSelecionadosString, "tipo_livro")
+                                    val tiposSelecionadosString =
+                                        tiposSelecionados.joinToString(", ")
+                                    localStorage.salvarValorString(
+                                        context = context,
+                                        tiposSelecionadosString,
+                                        "tipo_livro"
+                                    )
                                     viewModelDoPostAnuncio.tipoDoAnuncio = tiposSelecionadosString
                                 } else {
-                                    Toast.makeText(
-                                        context,
-                                        "Gostaria de vender por qual preço é obrigatório quando 'Venda' está selecionado.",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
+                                    Toast
+                                        .makeText(
+                                            context,
+                                            "Gostaria de vender por qual preço é obrigatório quando 'Venda' está selecionado.",
+                                            Toast.LENGTH_SHORT
+                                        )
+                                        .show()
                                 }
                             } else {
-                                Toast.makeText(context, "Selecione pelo menos um tipo de anúncio.", Toast.LENGTH_SHORT)
+                                Toast
+                                    .makeText(
+                                        context,
+                                        "Selecione pelo menos um tipo de anúncio.",
+                                        Toast.LENGTH_SHORT
+                                    )
                                     .show()
                             }
                         }

@@ -24,6 +24,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -70,8 +71,8 @@ fun FifthCreateAnnounceScreen(
 
 
 
-    var estadosSelecionados by remember {
-        mutableStateOf<Set<String>>(emptySet())
+    var estadosSelecionados by rememberSaveable {
+        mutableStateOf(viewModelDosIds.estadosSelecionados)
     }
 
     val context = LocalContext.current
@@ -141,6 +142,7 @@ fun FifthCreateAnnounceScreen(
                                 onCheckedChange = {isChecked ->
                                     estadosSelecionados = setOf(it.estado).takeIf { isChecked } ?: emptySet()
                                     viewModelDosIds.id_estadoLivro = it.id
+                                    viewModelDosIds.estadosSelecionados = setOf(it.estado).takeIf { isChecked } ?: emptySet()
                                     Log.e("thiago", "${estadosSelecionados}")
                                     val estadosSelecionadosString = estadosSelecionados.joinToString(", ")
                                     localStorage.salvarValorString(context = context, estadosSelecionadosString, "estado_livro")
@@ -212,7 +214,13 @@ fun FifthCreateAnnounceScreen(
                             if (estadosSelecionados.isNotEmpty()) {
                                 navController.navigate("sexto_anunciar")
                             } else {
-                                Toast.makeText(context, "Selecione pelo menos um estado.", Toast.LENGTH_SHORT).show()
+                                Toast
+                                    .makeText(
+                                        context,
+                                        "Selecione pelo menos um estado.",
+                                        Toast.LENGTH_SHORT
+                                    )
+                                    .show()
                             }
                         }
                 )
