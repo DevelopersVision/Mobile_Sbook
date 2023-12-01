@@ -34,6 +34,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.R
+import br.senai.sp.jandira.s_book.components.conversation_chat.components.CardFotoMessageCliente
+import br.senai.sp.jandira.s_book.components.conversation_chat.components.CardFotoMessageUser
 import br.senai.sp.jandira.s_book.components.conversation_chat.components.CardMensagemCliente
 import br.senai.sp.jandira.s_book.components.conversation_chat.components.CardMensagemClienteFoto
 import br.senai.sp.jandira.s_book.components.conversation_chat.components.CardMensagemUser
@@ -62,7 +64,6 @@ fun ConversationChatScreen(
     val idUser2 = chatViewModel.idUser2
     var foto = chatViewModel.foto
     var nome = chatViewModel.nome
-
 
 
     var message by remember {
@@ -104,7 +105,9 @@ fun ConversationChatScreen(
                             val mensagens =
                                 Gson().fromJson(data.toString(), MesagensResponse::class.java)
 
-                            listaMensagens = mensagens
+                            if (mensagens.id_chat == idChat) {
+                                listaMensagens = mensagens
+                            }
                             Log.e("TesteIndo", "${listaMensagens.mensagens.reversed()}")
                         }
                     }
@@ -126,7 +129,6 @@ fun ConversationChatScreen(
 //                }
 //            }
 //        }
-
 
 
         Log.e("jojo", "Lista de Mensagens: ${listaMensagens.mensagens}")
@@ -169,18 +171,18 @@ fun ConversationChatScreen(
                     ) {
                         items(listaMensagens.mensagens) {
 
-                            if (it.message == "" && it.image != ""){
+                            if (it.message == "" && it.image != "") {
                                 if (it.messageTo == idUsuario) {
                                     CardMensagemClienteFoto(
                                         menssagem = "",
-                                        hora = it.hora_criacao!!.substring(0,5),
+                                        hora = it.hora_criacao!!.substring(0, 5),
                                         cor = Color(0xFF000000),
                                         foto = it.image
                                     )
                                 } else {
                                     CardMensagemUserFoto(
                                         menssagem = "",
-                                        hora = it.hora_criacao!!.substring(0,5),
+                                        hora = it.hora_criacao!!.substring(0, 5),
                                         cor = Color(221, 163, 93, 255),
                                         foto = it.image,
                                         onDelete = {
@@ -201,17 +203,17 @@ fun ConversationChatScreen(
                                         }
                                     )
                                 }
-                            }else{
+                            } else if (it.message != "" && it.image == "") {
                                 if (it.messageTo == idUsuario) {
                                     CardMensagemCliente(
                                         menssagem = it.message,
-                                        hora = it.hora_criacao!!.substring(0,5),
+                                        hora = it.hora_criacao!!.substring(0, 5),
                                         cor = Color(0xFF000000)
                                     )
-                                } else {
+                                }else{
                                     CardMensagemUser(
                                         menssagem = it.message,
-                                        hora = it.hora_criacao!!.substring(0,5),
+                                        hora = it.hora_criacao!!.substring(0, 5),
                                         cor = Color(221, 163, 93, 255),
                                         onDelete = {
                                             socket.on("deleteMessage") { args ->
@@ -231,6 +233,37 @@ fun ConversationChatScreen(
                                         }
                                     )
                                 }
+                            } else {
+                                if (it.messageTo == idUsuario) {
+                                    CardFotoMessageCliente(
+                                        menssagem = it.message,
+                                        hora = it.hora_criacao!!.substring(0, 5),
+                                        cor = Color(0xFF000000),
+                                        foto = it.image
+                                    )
+                                } else {
+                                    CardFotoMessageUser(
+                                        menssagem = it.message,
+                                        hora = it.hora_criacao!!.substring(0, 5),
+                                        cor = Color(221, 163, 93, 255),
+                                        foto = it.image
+                                    ) {
+                                        socket.on("deleteMessage") { args ->
+                                            args.let { d ->
+                                                if (d.isNotEmpty()) {
+                                                    val idMessageDeleted = d[0] as String
+                                                    listaMensagens = listaMensagens.copy(
+                                                        mensagens = listaMensagens.mensagens
+                                                            .filterNot { it.message == idMessageDeleted }
+                                                            .toMutableList()
+                                                    )
+                                                    Log.e("IDMANO", "${idMessageDeleted}")
+                                                }
+                                            }
+                                        }
+                                        client.deleteMessage(it._id.toString())
+                                    }
+                                }
                             }
                             LaunchedEffect(true) {
                                 listState.scrollToItem(listaMensagens.mensagens.size - 1)
@@ -244,7 +277,7 @@ fun ConversationChatScreen(
 
 
 
-        Column (
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(320.dp)
@@ -253,7 +286,7 @@ fun ConversationChatScreen(
                     color = Color(0xFF808080),
                     shape = RoundedCornerShape(topEnd = 8.dp, topStart = 8.dp)
                 ),
-        ){
+        ) {
             InputMenssagem(
                 mensagem = message,
                 onclick = {

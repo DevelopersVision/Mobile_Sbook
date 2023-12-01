@@ -67,6 +67,23 @@ fun ChatScreen(
             )
         )
     }
+//    socket.on("socketId"){args ->
+//        args.let { d ->
+//            if (d.isNotEmpty()) {
+//                val data = d[0]
+//                if (data.toString().isNotEmpty()) {
+//                    val chat = Gson().fromJson(data.toString(), SocketResponse::class.java)
+//
+//                    Log.e("tentativa erro", "ChatScreen: ${chat}", )
+//
+//                    if(chat.id_user == idUsuario){
+//                        listaContatos = chat
+//                    }
+//                }
+//            }
+//        }
+//    }
+
 
     // Ouça o evento do socket
     socket.on("receive_contacts") { args ->

@@ -203,7 +203,7 @@ fun Header(
                         painter = painterResource(id = R.drawable.padrao),
                         contentDescription = "",
                         modifier = Modifier
-                            .size(32.dp)
+                            .size(36.dp)
                             .clickable {
                                 if (statusPerfil) {
                                     //navRotasController.navigate("profile")
