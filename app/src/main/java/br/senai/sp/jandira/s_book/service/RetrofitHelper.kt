@@ -27,6 +27,9 @@ object RetrofitHelper {
             .client(HttpClientProvider.client)
             .build()
 
+    fun getAdvertiserService(): AdvertiserService {
+        return retrofitFactory.create(AdvertiserService::class.java)
+    }
     fun getLoginService(): LoginService {
         return retrofitFactory.create(LoginService::class.java)
     }

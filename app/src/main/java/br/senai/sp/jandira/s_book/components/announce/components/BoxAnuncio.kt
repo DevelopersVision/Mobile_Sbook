@@ -41,7 +41,6 @@ import br.senai.sp.jandira.s_book.model.TipoAnuncio
 import br.senai.sp.jandira.s_book.model.VerificarFavoritoBaseResponse
 import br.senai.sp.jandira.s_book.service.RetrofitHelper
 import br.senai.sp.jandira.s_book.sqlite_repository.UserRepository
-import br.senai.sp.jandira.s_book.view_model.AnuncioViewModelV2
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -293,7 +292,7 @@ fun BoxAnuncio(
             ufEstado = dadosAnuncio.endereco.estado,
             nome = dadosAnuncio.anunciante.nome
         ){
-
+            navRotasController.navigate("advertiser")
         }
     }
 }

@@ -48,8 +48,6 @@ fun AnnounceScreen(
 
     //val dadosUser = UserRepository(context).findUsers()
 
-
-
     var dadosAnuncio by remember {
         mutableStateOf(
             JsonAnuncios(
@@ -136,7 +134,9 @@ fun AnnounceScreen(
                 context = context,
                 lifecycleScope = lifecycleScope,
                 navRotasController = navController,
-                onClick = {}
+                onClick = {
+
+                }
             )
             Spacer(modifier = Modifier.height(20.dp))
             DescricaoAnuncioBox(descricao = dadosAnuncio.anuncio.descricao)
