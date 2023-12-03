@@ -24,6 +24,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.AppBarDefaults
+import androidx.compose.material.BottomSheetScaffold
 import androidx.compose.material.BottomSheetValue
 import androidx.compose.material.Card
 import androidx.compose.material.ExperimentalMaterialApi
@@ -40,6 +41,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -82,112 +84,160 @@ fun AdOptionsScreen(
 
     val keyboardController = LocalSoftwareKeyboardController.current
 
-    val sheetState = rememberBottomSheetState(
+//    val sheetState = rememberBottomSheetState(
+//        initialValue = BottomSheetValue.Collapsed
+//    )
+//    val scaffoldState = rememberBottomSheetScaffoldState(
+//        bottomSheetState = sheetState
+//    )
+
+    val sheetStateEncerrar = rememberBottomSheetState(
         initialValue = BottomSheetValue.Collapsed
     )
-    val scaffoldState = rememberBottomSheetScaffoldState(
-        bottomSheetState = sheetState
+    val scaffoldStateEncerrar = rememberBottomSheetScaffoldState(
+        bottomSheetState = sheetStateEncerrar
     )
 
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(380.dp)
-    ) {
-        Row(
-            Modifier
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.bar_icon),
-                contentDescription = "",
-                Modifier.size(75.dp)
-            )
-        }
+    val scopeEncerrar = rememberCoroutineScope()
 
-        Column(
+    var encerrarOuApagar by remember {
+        mutableStateOf(false)
+    }
+
+    BottomSheetScaffold(
+        modifier = Modifier.height(380.dp),
+        scaffoldState = scaffoldStateEncerrar,
+        sheetShape = RoundedCornerShape(20.dp),
+        sheetElevation = 10.dp,
+        sheetContent = {
+            //viewModel.dadosAnuncio = dadosAnuncio
+            //AdOptionsScreen(navController = navController, lifecycleScope = lifecycleScope, navRotasController = navRotasController, viewModelV2 = viewModel)
+            modalOptionAnnounce(statusEncerrar = encerrarOuApagar, navController, viewModelV2.dadosAnuncio)
+        },
+        sheetBackgroundColor = Color.White,
+        sheetPeekHeight = 0.dp,
+    ) {
+        Box(
             modifier = Modifier
-                .align(Alignment.TopCenter)
-                .padding(top = 45.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+                .fillMaxWidth()
+                .height(380.dp)
         ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(
-                    text = "Excluir",
-                    color = Color.Red,
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(top = 15.dp, bottom = 15.dp)
-                )
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(1.dp)
-                        .background(Color(0xFFE0E0E0))
-                ) {}
-            }
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(
-                    text = "Encerrar Anuncio",
-                    color = Color.Black,
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Normal,
-                    modifier = Modifier.padding(top = 15.dp, bottom = 15.dp)
-                )
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(1.dp)
-                        .background(Color(0xFFE0E0E0))
-                ) {}
-            }
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable {
-                               navRotasController.navigate("editAnnounce")
-                    },
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(
-                    text = "Editar",
-                    color = Color.Black,
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Normal,
-                    modifier = Modifier.padding(top = 15.dp, bottom = 15.dp)
-                )
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(1.dp)
-                        .background(Color(0xFFE0E0E0))
-                ) {}
-            }
             Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 60.dp)
-                    .clickable {
-                        navController.navigate("myAnnounce")
-                    },
+                Modifier
+                    .fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center
             ) {
-                Text(
-                    text = "Cancelar",
-                    color = Color.Black,
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Normal,
-                    modifier = Modifier.padding(top = 15.dp, bottom = 15.dp)
+                Image(
+                    painter = painterResource(id = R.drawable.bar_icon),
+                    contentDescription = "",
+                    Modifier.size(75.dp)
                 )
+            }
+
+            Column(
+                modifier = Modifier
+                    .align(Alignment.TopCenter)
+                    .padding(top = 45.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable {
+                            encerrarOuApagar = false
+                            scopeEncerrar.launch {
+                                if (sheetStateEncerrar.isCollapsed) {
+                                    sheetStateEncerrar.expand()
+                                } else {
+                                    sheetStateEncerrar.collapse()
+                                }
+                            }
+                        },
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = "Excluir",
+                        color = Color.Red,
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.padding(top = 15.dp, bottom = 15.dp)
+                    )
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(1.dp)
+                            .background(Color(0xFFE0E0E0))
+                    ) {
+                    }
+                }
+//                Column(
+//                    modifier = Modifier
+//                        .fillMaxWidth()
+//                        .clickable {
+//                            encerrarOuApagar = true
+//                            scopeEncerrar.launch {
+//                                if (sheetStateEncerrar.isCollapsed) {
+//                                    sheetStateEncerrar.expand()
+//                                } else {
+//                                    sheetStateEncerrar.collapse()
+//                                }
+//                            }
+//                        },
+//                    horizontalAlignment = Alignment.CenterHorizontally
+//                ) {
+//                    Text(
+//                        text = "Encerrar Anuncio",
+//                        color = Color.Black,
+//                        fontSize = 18.sp,
+//                        fontWeight = FontWeight.Normal,
+//                        modifier = Modifier.padding(top = 15.dp, bottom = 15.dp)
+//                    )
+//                    Row(
+//                        modifier = Modifier
+//                            .fillMaxWidth()
+//                            .height(1.dp)
+//                            .background(Color(0xFFE0E0E0))
+//                    ) {}
+//                }
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable {
+                            navRotasController.navigate("editAnnounce")
+                        },
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = "Editar",
+                        color = Color.Black,
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Normal,
+                        modifier = Modifier.padding(top = 15.dp, bottom = 15.dp)
+                    )
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(1.dp)
+                            .background(Color(0xFFE0E0E0))
+                    ) {}
+                }
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 60.dp)
+                        .clickable {
+                            navController.navigate("myAnnounce")
+                        },
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Text(
+                        text = "Cancelar",
+                        color = Color.Black,
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Normal,
+                        modifier = Modifier.padding(top = 15.dp, bottom = 15.dp)
+                    )
+                }
             }
         }
     }
