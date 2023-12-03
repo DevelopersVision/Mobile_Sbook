@@ -8,13 +8,22 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.BottomSheetScaffold
+import androidx.compose.material.BottomSheetValue
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.rememberBottomSheetScaffoldState
+import androidx.compose.material.rememberBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.ColorMatrix
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.LifecycleCoroutineScope
@@ -35,10 +44,12 @@ import br.senai.sp.jandira.s_book.model.JsonAnuncios
 import br.senai.sp.jandira.s_book.model.chat.UserChat
 import br.senai.sp.jandira.s_book.service.RetrofitHelper
 import br.senai.sp.jandira.s_book.view_model.AnuncioViewModelV2
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun MyAnnounceScreen(
     lifecycleScope: LifecycleCoroutineScope,
@@ -47,6 +58,15 @@ fun MyAnnounceScreen(
 ) {
 
     val context = LocalContext.current
+
+    val sheetState = rememberBottomSheetState(
+        initialValue = BottomSheetValue.Collapsed
+    )
+    val scaffoldState = rememberBottomSheetScaffoldState(
+        bottomSheetState = sheetState
+    )
+
+    val scope = rememberCoroutineScope()
 
     //val dadosUser = UserRepository(context).findUsers()
 
@@ -105,7 +125,7 @@ fun MyAnnounceScreen(
         ) {
             Log.e("ResponseAnuncio", "resposta: $response")
 
-            if(response.isSuccessful){
+            if (response.isSuccessful) {
                 dadosAnuncio = response.body()!!.anuncios
             }
         }
@@ -121,28 +141,48 @@ fun MyAnnounceScreen(
         }
     })
 
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.White)
-            .padding(horizontal = 12.dp, vertical = 32.dp)
-    ) {
-        items(1){
-            Log.e("ResponseFotos", "${dadosAnuncio}" )
-            PhotoCarouselMyAnnounce(jsonAnuncios = dadosAnuncio){
 
+    BottomSheetScaffold(
+        scaffoldState = scaffoldState,
+        sheetShape = RoundedCornerShape(20.dp),
+        sheetElevation = 10.dp,
+        sheetContent = {
+
+            AdOptionsScreen(navController = navController, lifecycleScope = lifecycleScope, onClick = {})
+
+        },
+        sheetBackgroundColor = Color.White,
+        sheetPeekHeight = 0.dp,
+    ) {
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.White)
+                .padding(horizontal = 12.dp, vertical = 32.dp)
+        ) {
+            items(1) {
+                Log.e("ResponseFotos", "${dadosAnuncio}")
+                PhotoCarouselMyAnnounce(jsonAnuncios = dadosAnuncio) {
+                    scope.launch {
+                        if (sheetState.isCollapsed) {
+                            sheetState.expand()
+                        } else {
+                            sheetState.collapse()
+                        }
+                    }
+                }
+                Spacer(modifier = Modifier.height(5.dp))
+                BoxMyAnnounce(
+                    dadosAnuncio = dadosAnuncio,
+                    context = context,
+                    lifecycleScope = lifecycleScope,
+                    navRotasController = navController
+                )
+                Spacer(modifier = Modifier.height(20.dp))
+                DescricaoAnuncioBox(descricao = dadosAnuncio.anuncio.descricao)
+                Spacer(modifier = Modifier.height(30.dp))
+                EspecificacoesAnuncioBox(dadosAnuncios = dadosAnuncio)
             }
-            Spacer(modifier = Modifier.height(5.dp))
-            BoxMyAnnounce(
-                dadosAnuncio = dadosAnuncio,
-                context = context,
-                lifecycleScope = lifecycleScope,
-                navRotasController = navController
-            )
-            Spacer(modifier = Modifier.height(20.dp))
-            DescricaoAnuncioBox(descricao = dadosAnuncio.anuncio.descricao)
-            Spacer(modifier = Modifier.height(30.dp))
-            EspecificacoesAnuncioBox(dadosAnuncios = dadosAnuncio)
         }
     }
 }
