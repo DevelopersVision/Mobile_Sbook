@@ -43,6 +43,7 @@ fun EspecificacoesAnuncioBox(dadosAnuncios: JsonAnuncios) {
             EspecificacaoCardSimples(text = "Estado do livro", valor = dadosAnuncios.estado_livro.estado)
             EspecificacaoCardSimples(text = "Edição", valor = dadosAnuncios.anuncio.edicao)
             EspecificacaoCardSimples(text = "Numero de páginas", valor = dadosAnuncios.anuncio.numero_paginas.toString())
+            EspecificacaoCardSimples(text = "ISBN", valor = dadosAnuncios.anuncio.isbn)
         }
     }
 }

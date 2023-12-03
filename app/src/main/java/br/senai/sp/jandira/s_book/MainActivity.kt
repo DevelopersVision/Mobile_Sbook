@@ -36,7 +36,6 @@ import br.senai.sp.jandira.s_book.components.forgot_password.screen.ForgotPasswo
 import br.senai.sp.jandira.s_book.components.fourth_create_announce.screen.FourthCreateAnnounceScreen
 import br.senai.sp.jandira.s_book.components.insert_code.screen.InsertCode
 import br.senai.sp.jandira.s_book.components.login.screen.LoginScreen
-import br.senai.sp.jandira.s_book.components.my_announces.screen.MyAnnounceScreen
 import br.senai.sp.jandira.s_book.components.my_informations.screen.MyInformationsScreen
 import br.senai.sp.jandira.s_book.components.profile.screens.NewFavoriteGenres
 import br.senai.sp.jandira.s_book.components.rediscover_password.screen.RediscoverPasswordScreen
@@ -45,7 +44,8 @@ import br.senai.sp.jandira.s_book.components.seventh_create_announce.screen.Seve
 import br.senai.sp.jandira.s_book.components.sixth_create_announce.screen.SixthCreateAnnounceScreen
 import br.senai.sp.jandira.s_book.components.tela_generica.screen.GenericScreen
 import br.senai.sp.jandira.s_book.components.third_create_announce.screen.ThirdCreateAnnounceScreen
-import br.senai.sp.jandira.s_book.components.update_announce.screens.UpdateAnnounceScreen
+import br.senai.sp.jandira.s_book.components.update_announce.screens.UpdateAnnounceFirstScreen
+import br.senai.sp.jandira.s_book.components.update_announce.screens.UpdateAnnounceSecondScreen
 import br.senai.sp.jandira.s_book.model.chat.ChatClient
 import br.senai.sp.jandira.s_book.model.chat.view_model.ChatViewModel
 import br.senai.sp.jandira.s_book.model.chat.view_model.viewModelId
@@ -203,7 +203,16 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable("editAnnounce"){
-                            UpdateAnnounceScreen(viewModelV2 = viewModelAnuncioV2)
+                            UpdateAnnounceFirstScreen(viewModelV2 = viewModelAnuncioV2, navController)
+                        }
+
+                        composable("editAnnounceSecond"){
+                            UpdateAnnounceSecondScreen(
+                                navController = navController,
+                                viewModelV2 = viewModelAnuncioV2,
+                                viewModelDosIds = viewModelDosIdentificadores,
+                                viewModelDosTipoDeLivros = viewModelDosTiposDeLivro
+                            )
                         }
 
                         composable("filters"){

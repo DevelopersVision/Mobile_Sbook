@@ -61,19 +61,20 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.R
+import br.senai.sp.jandira.s_book.view_model.AnuncioViewModelV2
 import coil.compose.AsyncImage
 import kotlinx.coroutines.launch
 
 @SuppressLint("SuspiciousIndentation", "CoroutineCreationDuringComposition")
 @OptIn(
-    ExperimentalMaterialApi::class, ExperimentalComposeUiApi::class,
-    ExperimentalMaterial3Api::class
+    ExperimentalMaterialApi::class, ExperimentalComposeUiApi::class
 )
 @Composable
 fun AdOptionsScreen(
     navController: NavController,
+    viewModelV2: AnuncioViewModelV2,
     lifecycleScope: LifecycleCoroutineScope,
-    onClick: () -> Unit
+    navRotasController: NavController
 ) {
     var context = LocalContext.current
 
@@ -91,7 +92,7 @@ fun AdOptionsScreen(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(425.dp)
+            .height(380.dp)
     ) {
         Row(
             Modifier
@@ -111,48 +112,82 @@ fun AdOptionsScreen(
                 .padding(top = 45.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Row(
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = "Excluir",
+                    color = Color.Red,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(top = 15.dp, bottom = 15.dp)
+                )
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(1.dp)
+                        .background(Color(0xFFE0E0E0))
+                ) {}
+            }
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = "Encerrar Anuncio",
+                    color = Color.Black,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Normal,
+                    modifier = Modifier.padding(top = 15.dp, bottom = 15.dp)
+                )
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(1.dp)
+                        .background(Color(0xFFE0E0E0))
+                ) {}
+            }
+            Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clickable {
-                        onClick()
+                               navRotasController.navigate("editAnnounce")
+                    },
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = "Editar",
+                    color = Color.Black,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Normal,
+                    modifier = Modifier.padding(top = 15.dp, bottom = 15.dp)
+                )
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(1.dp)
+                        .background(Color(0xFFE0E0E0))
+                ) {}
+            }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 60.dp)
+                    .clickable {
+                        navController.navigate("myAnnounce")
                     },
                 horizontalArrangement = Arrangement.Center
             ) {
-                Text(text = "Excluir", color = Color.Red, fontSize = 24.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(top = 15.dp, bottom = 15.dp))
-            }
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable {
-                        onClick()
-                    }
-                    .border(1.dp, Color.Black),
-                horizontalArrangement = Arrangement.Center
-            ) {
-                Text(text = "Encerrar Anuncio", color = Color.Black, fontSize = 24.sp, fontWeight = FontWeight.Normal, modifier = Modifier.padding(top = 15.dp, bottom = 15.dp))
-            }
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable {
-                        onClick()
-                    }
-                    .border(1.dp, Color.Black),
-                horizontalArrangement = Arrangement.Center
-            ) {
-                Text(text = "Editar", color = Color.Black, fontSize = 24.sp, fontWeight = FontWeight.Normal, modifier = Modifier.padding(top = 15.dp, bottom = 15.dp))
-            }
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 65.dp)
-                    .clickable {
-                        onClick()
-                    },
-                horizontalArrangement = Arrangement.Center
-            ) {
-                Text(text = "Cancelar", color = Color.Black, fontSize = 24.sp, fontWeight = FontWeight.Normal, modifier = Modifier.padding(top = 15.dp, bottom = 15.dp))
+                Text(
+                    text = "Cancelar",
+                    color = Color.Black,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Normal,
+                    modifier = Modifier.padding(top = 15.dp, bottom = 15.dp)
+                )
             }
         }
     }

@@ -54,7 +54,8 @@ import retrofit2.Response
 fun MyAnnounceScreen(
     lifecycleScope: LifecycleCoroutineScope,
     viewModel: AnuncioViewModelV2,
-    navController: NavController
+    navController: NavController,
+    navRotasController: NavController
 ) {
 
     val context = LocalContext.current
@@ -83,7 +84,8 @@ fun MyAnnounceScreen(
                     preco = 0.0,
                     descricao = "",
                     numero_paginas = 0,
-                    anunciante = 0
+                    anunciante = 0,
+                    isbn = ""
                 ),
                 idioma = Idioma(
                     id = 0,
@@ -147,9 +149,8 @@ fun MyAnnounceScreen(
         sheetShape = RoundedCornerShape(20.dp),
         sheetElevation = 10.dp,
         sheetContent = {
-
-            AdOptionsScreen(navController = navController, lifecycleScope = lifecycleScope, onClick = {})
-
+            viewModel.dadosAnuncio = dadosAnuncio
+            AdOptionsScreen(navController = navController, lifecycleScope = lifecycleScope, navRotasController = navRotasController, viewModelV2 = viewModel)
         },
         sheetBackgroundColor = Color.White,
         sheetPeekHeight = 0.dp,

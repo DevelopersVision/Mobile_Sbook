@@ -90,7 +90,7 @@ fun ButtonNavGraph(
         }
 
         composable("myAnnounce") {
-            MyAnnounceScreen(lifecycleScope = lifecycleScope, viewModel = viewModelAnuncioV2, navController = navController)
+            MyAnnounceScreen(lifecycleScope = lifecycleScope, viewModel = viewModelAnuncioV2, navController = navController, navRotasController)
         }
 
         composable(route = BottomBarScreen.Chat.route){

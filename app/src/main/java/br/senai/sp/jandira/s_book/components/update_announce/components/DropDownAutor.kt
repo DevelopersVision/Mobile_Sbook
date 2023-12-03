@@ -41,8 +41,8 @@ import retrofit2.Response
 @Composable
 fun DropDownAutor(
     viewModelDadosLivros: AnuncioViewModelV2,
-    autorState: String,
-    onAutorChange: (String) -> Unit
+    autorState: Autores,
+    onAutorChange: (Autores) -> Unit
 ) {
 
     var isExpanded by remember {
@@ -89,9 +89,8 @@ fun DropDownAutor(
             onExpandedChange = { isExpanded = it }
         ) {
             OutlinedTextField(
-                value = autorState,
+                value = autorState.nome,
                 onValueChange = {
-                    onAutorChange(it)
                     isExpanded = true
                                 },
                 readOnly = true,
@@ -125,7 +124,7 @@ fun DropDownAutor(
                     DropdownMenuItem(
                         text = { Text(text = it.nome, color = Color.Black) },
                         onClick = {
-                            onAutorChange(it.nome)
+                            onAutorChange(it)
                             isExpanded = false
                         }
                     )

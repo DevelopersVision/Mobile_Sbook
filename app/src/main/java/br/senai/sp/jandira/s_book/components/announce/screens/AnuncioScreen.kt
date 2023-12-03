@@ -61,7 +61,8 @@ fun AnnounceScreen(
                     preco = 0.0,
                     descricao = "",
                     numero_paginas = 0,
-                    anunciante = 0
+                    anunciante = 0,
+                    isbn = ""
                 ),
                 idioma = Idioma(
                     id = 0,

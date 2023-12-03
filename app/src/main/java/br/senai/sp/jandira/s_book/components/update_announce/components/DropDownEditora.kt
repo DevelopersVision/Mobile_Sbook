@@ -28,10 +28,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.senai.sp.jandira.s_book.R
 import br.senai.sp.jandira.s_book.Storage
-import br.senai.sp.jandira.s_book.model.AnunciosBaseResponse
+import br.senai.sp.jandira.s_book.model.Editora
+import br.senai.sp.jandira.s_book.model.EditoraBaseResponse
 import br.senai.sp.jandira.s_book.model.Idioma
 import br.senai.sp.jandira.s_book.model.IdiomaBaseResponse
-import br.senai.sp.jandira.s_book.model.JsonAnuncios
 import br.senai.sp.jandira.s_book.service.RetrofitHelper
 import br.senai.sp.jandira.s_book.view_model.AnuncioViewModelV2
 import br.senai.sp.jandira.s_book.view_model.ViewModelDoPostAnuncio
@@ -43,35 +43,35 @@ import retrofit2.Response
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DropDownIdioma(
-    viewModelDadosLivros: AnuncioViewModelV2,
-    idiomaState: Idioma,
-    onIdiomaChange: (Idioma) -> Unit
+fun DropDownEditora(
+    viewModelV2: AnuncioViewModelV2,
+    editoraState: Editora,
+    onEditoraChange: (Editora) -> Unit
 ) {
 
     var isExpanded by remember {
         mutableStateOf(false)
     }
 
-    var listIdioma by remember {
-        mutableStateOf(listOf<Idioma>())
+    var listEditora by remember {
+        mutableStateOf(listOf<Editora>())
     }
 
     val context = LocalContext.current
 
-    val call = RetrofitHelper.getIdiomasService().getIdiomas()
+    val call = RetrofitHelper.getEditorasService().getEditoras()
 
     // Executar a chamada
-    call.enqueue(object : Callback<IdiomaBaseResponse> {
+    call.enqueue(object : Callback<EditoraBaseResponse> {
         override fun onResponse(
-            call: Call<IdiomaBaseResponse>,
-            response: Response<IdiomaBaseResponse>
+            call: Call<EditoraBaseResponse>,
+            response: Response<EditoraBaseResponse>
         ) {
-            listIdioma = response.body()!!.idiomas
+            listEditora = response.body()!!.editoras
         }
 
 
-        override fun onFailure(call: Call<IdiomaBaseResponse>, t: Throwable) {
+        override fun onFailure(call: Call<EditoraBaseResponse>, t: Throwable) {
             // Log.d("API Call", "Depois da chamada da API: ${listAnuncios}")
         }
     })
@@ -85,7 +85,7 @@ fun DropDownIdioma(
             onExpandedChange = { isExpanded = it }
         ) {
             OutlinedTextField(
-                value = idiomaState.nome,
+                value = editoraState.nome,
                 onValueChange = {
                     isExpanded = true},
                 readOnly = true,
@@ -98,7 +98,7 @@ fun DropDownIdioma(
                     .height(60.dp),
                 label = {
                     Text(
-                        text = "Qual o idioma do livro?",
+                        text = "Qual a editora do livro?",
                         fontSize = 16.sp,
                         fontWeight = FontWeight(500),
                         color = Color(0xFF2A2929)
@@ -115,12 +115,11 @@ fun DropDownIdioma(
                 onDismissRequest = { isExpanded = false },
                 modifier = Modifier.background(Color.White),
             ) {
-                listIdioma.forEach {
+                listEditora.forEach {
                     DropdownMenuItem(
                         text = { Text(text = it.nome, color = Color.Black) },
                         onClick = {
-                            onIdiomaChange(it)
-                            isExpanded = false
+                            onEditoraChange(it)
                         }
                     )
                 }
