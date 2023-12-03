@@ -34,6 +34,7 @@ import br.senai.sp.jandira.s_book.R
 import br.senai.sp.jandira.s_book.model.chat.view_model.ChatViewModel
 import br.senai.sp.jandira.s_book.model.chat.view_model.viewModelId
 import br.senai.sp.jandira.s_book.view_model.AnuncioViewModel
+import br.senai.sp.jandira.s_book.view_model.AnuncioViewModelV2
 import br.senai.sp.jandira.s_book.view_model.SharedViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -45,7 +46,8 @@ fun MainScreen(
     anuncioViewMODEL: AnuncioViewModel,
     chatViewModel: ChatViewModel,
     viewModelId: viewModelId,
-    sharedViewModel: SharedViewModel
+    sharedViewModel: SharedViewModel,
+    viewModelV2: AnuncioViewModelV2
 ) {
     val context = LocalContext.current
     val navController = rememberNavController()
@@ -62,7 +64,8 @@ fun MainScreen(
             anuncioViewMODEL,
             chatViewModel = chatViewModel,
             viewModelId = viewModelId,
-            sharedViewModel
+            sharedViewModel,
+            viewModelV2
         )
     }
 }

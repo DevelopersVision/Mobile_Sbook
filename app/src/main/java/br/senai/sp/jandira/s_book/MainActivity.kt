@@ -45,6 +45,7 @@ import br.senai.sp.jandira.s_book.components.seventh_create_announce.screen.Seve
 import br.senai.sp.jandira.s_book.components.sixth_create_announce.screen.SixthCreateAnnounceScreen
 import br.senai.sp.jandira.s_book.components.tela_generica.screen.GenericScreen
 import br.senai.sp.jandira.s_book.components.third_create_announce.screen.ThirdCreateAnnounceScreen
+import br.senai.sp.jandira.s_book.components.update_announce.screens.UpdateAnnounceScreen
 import br.senai.sp.jandira.s_book.model.chat.ChatClient
 import br.senai.sp.jandira.s_book.model.chat.view_model.ChatViewModel
 import br.senai.sp.jandira.s_book.model.chat.view_model.viewModelId
@@ -59,6 +60,7 @@ import br.senai.sp.jandira.s_book.sqlite_repository.UserRepository
 import br.senai.sp.jandira.s_book.ui.theme.SBOOKTheme
 import br.senai.sp.jandira.s_book.view_model.AnnouncePhotosViewModel
 import br.senai.sp.jandira.s_book.view_model.AnuncioViewModel
+import br.senai.sp.jandira.s_book.view_model.AnuncioViewModelV2
 import br.senai.sp.jandira.s_book.view_model.SharedViewModel
 import br.senai.sp.jandira.s_book.view_model.UserGenresViewModel
 import br.senai.sp.jandira.s_book.view_model.ViewModelDoPostAnuncio
@@ -99,6 +101,7 @@ class MainActivity : ComponentActivity() {
                     val viewModelPreco = viewModel<ViewModelPreco>()
                     val viewModelDoPostAnuncio = viewModel<ViewModelDoPostAnuncio>()
                     val sharedViewModel = viewModel<SharedViewModel>()
+                    val viewModelAnuncioV2 = viewModel<AnuncioViewModelV2>()
                     val context = LocalContext.current
 
                     val client = ChatClient()
@@ -108,7 +111,7 @@ class MainActivity : ComponentActivity() {
                     ){
 
                         composable("navigation_home_bar") {
-                            MainScreen(navController, lifecycleScope, anuncioViewMODEL = viewModelAnuncio, chatViewModel, viewModelId, sharedViewModel)
+                            MainScreen(navController, lifecycleScope, anuncioViewMODEL = viewModelAnuncio, chatViewModel, viewModelId, sharedViewModel, viewModelV2 = viewModelAnuncioV2)
                         }
 
                         composable("login") {
@@ -197,6 +200,10 @@ class MainActivity : ComponentActivity() {
 
                         composable("editUser"){
                             EditUser(navController, viewModelUserGenres, lifecycleScope)
+                        }
+
+                        composable("editAnnounce"){
+                            UpdateAnnounceScreen(viewModelV2 = viewModelAnuncioV2)
                         }
 
                         composable("filters"){

@@ -229,7 +229,8 @@ fun FeedScreen(
                     }
                 },
                 doacao = {
-                    navController.navigate("donations")
+                    //navController.navigate("donations")
+                    navRotasController.navigate("editAnnounce")
                 }
             )
             Spacer(modifier = Modifier.height(18.dp))

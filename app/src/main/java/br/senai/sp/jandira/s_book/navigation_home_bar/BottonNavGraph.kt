@@ -39,7 +39,8 @@ fun ButtonNavGraph(
     anuncioViewMODEL: AnuncioViewModel,
     chatViewModel: ChatViewModel,
     viewModelId: viewModelId,
-    sharedViewModel: SharedViewModel
+    sharedViewModel: SharedViewModel,
+    viewModelAnuncioV2: AnuncioViewModelV2
 ) {
     val context = LocalContext.current
 
@@ -48,8 +49,6 @@ fun ButtonNavGraph(
     var array = User()
 
     var data = ""
-
-    val viewModelAnuncioV2 = viewModel<AnuncioViewModelV2>()
 
 
     NavHost(
