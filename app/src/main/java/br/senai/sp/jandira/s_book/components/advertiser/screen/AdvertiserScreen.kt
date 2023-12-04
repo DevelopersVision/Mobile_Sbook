@@ -44,6 +44,10 @@ fun AdvertiserScreen(
     viewModelV2: AnuncioViewModelV2
 ) {
 
+    val id = viewModelV2.idAnunciante
+
+    Log.d("id do anunciante", "${id}")
+
     var listAnuncio by remember{
         mutableStateOf(
             AnuncioAdvertiserUser(
@@ -56,7 +60,7 @@ fun AdvertiserScreen(
             ))
     }
 
-    val call = RetrofitHelper.getAdvertiserService().getAdvertiser(1)
+    val call = RetrofitHelper.getAdvertiserService().getAdvertiser(id)
 
     // Executar a chamada
     call.enqueue(object : Callback<Advertiser> {
@@ -77,8 +81,8 @@ fun AdvertiserScreen(
             .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.spacedBy(24.dp),
     ) {
-        HeaderBoxAdvertiser(navController = navController)
-        ListCategory()
+        HeaderBoxAdvertiser(navController = navController, viewModelV2)
+        ListCategory(viewModel = viewModelV2)
         Column(
             modifier = Modifier
                 .fillMaxWidth()

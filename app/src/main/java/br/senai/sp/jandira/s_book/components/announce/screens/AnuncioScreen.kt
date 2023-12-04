@@ -135,9 +135,8 @@ fun AnnounceScreen(
                 context = context,
                 lifecycleScope = lifecycleScope,
                 navRotasController = navController,
-                onClick = {
-
-                }
+                viewModel = viewModel,
+                onClick = {}
             )
             Spacer(modifier = Modifier.height(20.dp))
             DescricaoAnuncioBox(descricao = dadosAnuncio.anuncio.descricao)

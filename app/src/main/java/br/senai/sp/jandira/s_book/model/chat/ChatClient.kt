@@ -8,8 +8,8 @@ import org.json.JSONObject
 
 class ChatClient() {
 
-//    private val socket: Socket = IO.socket("http://26.254.150.48:3001")
     private val socket: Socket = IO.socket("https://sbookapp.azurewebsites.net")
+
 //    private val socket: Socket = IO.socket("http://10.107.144.5:3001")
 
     fun connect(idUsuario: Int) {

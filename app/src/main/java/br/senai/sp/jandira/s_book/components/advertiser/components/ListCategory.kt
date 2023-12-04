@@ -33,12 +33,79 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.senai.sp.jandira.s_book.R
+import br.senai.sp.jandira.s_book.model.Advertiser
+import br.senai.sp.jandira.s_book.model.AnuncioAdvertiser
+import br.senai.sp.jandira.s_book.model.AnuncioAdvertiserUser
+import br.senai.sp.jandira.s_book.model.DadosAdvertiser
 import br.senai.sp.jandira.s_book.model.GeneroProfileV2
+import br.senai.sp.jandira.s_book.model.GenerosAdvertiser
+import br.senai.sp.jandira.s_book.service.RetrofitHelper
+import br.senai.sp.jandira.s_book.view_model.AnuncioViewModelV2
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
-@Preview(showSystemUi = true)
 @Composable
-fun ListCategory() {
+fun ListCategory(
+    viewModel: AnuncioViewModelV2
+) {
+
+    val id = viewModel.idAnunciante
+
+    Log.d("id do anunciante", "${id}")
+
+    var usuarioHeader by remember {
+        mutableStateOf(
+            DadosAdvertiser(
+                id_usuario = 0,
+                nome = "",
+                email = "",
+                foto = "",
+                cidade = "",
+                estado = "",
+                generos = mutableListOf(
+                    GenerosAdvertiser(
+                        id_genero_preferido_usuario = 0,
+                        id_genero = 0,
+                        nome_genero = ""
+                    )
+                ),
+                anuncios = AnuncioAdvertiser(
+                    anuncios = listOf(
+                        AnuncioAdvertiserUser(
+                            id = 0,
+                            nome = "",
+                            ano_lancamento = 0,
+                            edicao = "",
+                            preco = 0.0,
+                            anunciante = 0
+                        )
+                    )
+                )
+            )
+        )
+    }
+
+    val call = RetrofitHelper.getAdvertiserService().getAdvertiser(id)
+
+    // Executar a chamada
+    call.enqueue(object : Callback<Advertiser> {
+        override fun onResponse(
+            call: Call<Advertiser>,
+            response: Response<Advertiser>
+        ) {
+            Log.e("TAG", "onResponse: ${response.body()}")
+            usuarioHeader = response.body()!!.dados
+            Log.e("Thiago2", "onResponse: ${usuarioHeader}")
+            Log.d("nome do anunciante thiago", "${usuarioHeader.nome}")
+
+        }
+
+        override fun onFailure(call: Call<Advertiser>, t: Throwable) {
+            Log.e("ERR", "oMOrreu ")
+        }
+    })
 
     Column(
         modifier = Modifier
@@ -62,7 +129,7 @@ fun ListCategory() {
         LazyRow(
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            items(1) {
+            items(usuarioHeader.generos) {
                 Column(
                     modifier = Modifier
                         .height(80.dp),
@@ -81,29 +148,8 @@ fun ListCategory() {
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            text = "Suspense", style = TextStyle(
-                                fontSize = 14.sp,
-                                fontFamily = FontFamily(Font(R.font.intermedium)),
-                                fontWeight = FontWeight(600),
-                                color = Color.Black
-                            )
-                        )
-                    }
-                    // categoria 2
-                    Row(
-                        modifier = Modifier
-                            .border(
-                                width = 1.dp,
-                                color = Color(0xFFAA6231),
-                                shape = RoundedCornerShape(size = 8.dp)
-                            )
-                            .background(Color(0xFFFFFFFF))
-                            .padding(18.5.dp, 7.dp),
-                        horizontalArrangement = Arrangement.spacedBy(15.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(
-                            text = "ficção cientifica e editorial ", style = TextStyle(
+                            text = "${usuarioHeader.generos[0].nome_genero}",
+                            style = TextStyle(
                                 fontSize = 14.sp,
                                 fontFamily = FontFamily(Font(R.font.intermedium)),
                                 fontWeight = FontWeight(600),

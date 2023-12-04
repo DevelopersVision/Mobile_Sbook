@@ -41,6 +41,7 @@ import br.senai.sp.jandira.s_book.model.TipoAnuncio
 import br.senai.sp.jandira.s_book.model.VerificarFavoritoBaseResponse
 import br.senai.sp.jandira.s_book.service.RetrofitHelper
 import br.senai.sp.jandira.s_book.sqlite_repository.UserRepository
+import br.senai.sp.jandira.s_book.view_model.AnuncioViewModelV2
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -51,7 +52,8 @@ fun BoxAnuncio(
     context: Context,
     lifecycleScope: LifecycleCoroutineScope,
     navRotasController: NavController,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    viewModel : AnuncioViewModelV2
 ) {
     val dadosUser = UserRepository(context).findUsers()
     var isChecked by remember { mutableStateOf(false) }
@@ -292,6 +294,8 @@ fun BoxAnuncio(
             ufEstado = dadosAnuncio.endereco.estado,
             nome = dadosAnuncio.anunciante.nome
         ){
+//            chatViewModel.idChat = it.id_chat
+            viewModel.idAnunciante = dadosAnuncio.anunciante.id
             navRotasController.navigate("advertiser")
         }
     }
