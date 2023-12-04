@@ -91,8 +91,12 @@ fun UpdateAnnounceSecondScreen(
 //    var estadosSelecionados by rememberSaveable {
 //        mutableStateOf(viewModelDosIds.estadosSelecionados)
 //    }
-    var estadosSelecionados by remember {
-        mutableStateOf(listOf<Int>())
+
+
+    viewModelDosIds.estadosSelecionados = setOf(viewModelV2.dadosAnuncio.estado_livro.estado)
+
+    var estadosSelecionados by rememberSaveable {
+        mutableStateOf(viewModelDosIds.estadosSelecionados)
     }
 
 
@@ -162,7 +166,7 @@ fun UpdateAnnounceSecondScreen(
 //                    viewModelDosIds.estadosSelecionados = setOf(viewModelV2.dadosAnuncio.estado_livro.estado)
 //                    estadosSelecionados = setOf(viewModelV2.dadosAnuncio.estado_livro.estado)
                     listEstadosLivro.forEach { estadoLivro ->
-                        val isChecked = estadosSelecionados.contains(estadoLivro.id)
+                        val isChecked = estadosSelecionados.contains(estadoLivro.estado)
 
                         Row(
                             modifier = Modifier
@@ -183,23 +187,23 @@ fun UpdateAnnounceSecondScreen(
                                 checked = isChecked,
                                 onCheckedChange = { isChecked ->
 
-                                    Log.e("Check", "$estadosSelecionados")
-
-                                    if(isChecked){
-                                        if(estadosSelecionados.size == 1){
-                                            estadosSelecionados.dropLast(1)
-                                            estadosSelecionados = estadosSelecionados + estadoLivro.id
-                                        }else{
-                                            estadosSelecionados = estadosSelecionados + estadoLivro.id
-                                        }
-                                    }else{
-                                        estadosSelecionados.dropLast(1)
-                                    }
-//                                    estadosSelecionados =
-//                                        setOf(estadoLivro.estado).takeIf { isChecked } ?: emptySet()
-//                                    viewModelDosIds.id_estadoLivro = estadoLivro.id
-//                                    viewModelDosIds.estadosSelecionados =
-//                                        setOf(estadoLivro.estado).takeIf { isChecked } ?: emptySet()
+//                                    Log.e("Check", "$estadosSelecionados")
+//
+//                                    if(isChecked){
+//                                        if(estadosSelecionados.size == 1){
+//                                            estadosSelecionados.dropLast(1)
+//                                            estadosSelecionados = estadosSelecionados + estadoLivro.id
+//                                        }else{
+//                                            estadosSelecionados = estadosSelecionados + estadoLivro.id
+//                                        }
+//                                    }else{
+//                                        estadosSelecionados.dropLast(1)
+//                                    }
+                                    estadosSelecionados =
+                                        setOf(estadoLivro.estado).takeIf { isChecked } ?: emptySet()
+                                    viewModelDosIds.id_estadoLivro = estadoLivro.id
+                                    viewModelDosIds.estadosSelecionados =
+                                        setOf(estadoLivro.estado).takeIf { isChecked } ?: emptySet()
                                 }
                             )
                         }
