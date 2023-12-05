@@ -4,9 +4,13 @@ import br.senai.sp.jandira.s_book.model.chat.UserChat
 
 data class AnuncioAdvertiserUser(
     val id: Int,
-    val nome: String,
-    val ano_lancamento: Int,
-    val edicao: String,
+    var nome: String,
+    var ano_lancamento: Int,
+    val data_criacao: String,
+    val status_anuncio: Boolean,
+    var edicao: String,
     val preco: Double?,
-    val anunciante: Long
+    var descricao: String,
+    var numero_paginas: Int,
+    val anunciante: Long,
 )

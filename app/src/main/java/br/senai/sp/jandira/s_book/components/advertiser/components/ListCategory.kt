@@ -33,8 +33,14 @@ import br.senai.sp.jandira.s_book.model.Advertiser
 import br.senai.sp.jandira.s_book.model.AnuncioAdvertiser
 import br.senai.sp.jandira.s_book.model.AnuncioAdvertiserUser
 import br.senai.sp.jandira.s_book.model.DadosAdvertiser
+import br.senai.sp.jandira.s_book.model.Editora
+import br.senai.sp.jandira.s_book.model.Endereco
+import br.senai.sp.jandira.s_book.model.EstadoLivro
+import br.senai.sp.jandira.s_book.model.Foto
+import br.senai.sp.jandira.s_book.model.Genero
 import br.senai.sp.jandira.s_book.model.GeneroProfileV2
 import br.senai.sp.jandira.s_book.model.GenerosAdvertiser
+import br.senai.sp.jandira.s_book.model.Idioma
 import br.senai.sp.jandira.s_book.service.RetrofitHelper
 import br.senai.sp.jandira.s_book.view_model.AnuncioViewModelV2
 import retrofit2.Call
@@ -75,9 +81,44 @@ fun ListCategory(
                             ano_lancamento = 0,
                             edicao = "",
                             preco = 0.0,
-                            anunciante = 0
+                            anunciante = 0,
+                            data_criacao = "",
+                            status_anuncio = false,
+                            descricao = "",
+                            numero_paginas = 0
                         )
-                    )
+                    ),
+                    autores = mutableListOf(),
+                    editora = Editora(
+                        id = 0,
+                        nome = "",
+                    ),
+                    endereco = Endereco(
+                        estado = "",
+                        cidade = "",
+                        bairro = ""
+                    ),
+                    estado_livro = EstadoLivro(
+                        id = 0,
+                        estado = ""
+                    ),
+                    foto = mutableListOf(
+                        Foto(
+                            id = 0,
+                            foto = ""
+                        )
+                    ),
+                    generos = mutableListOf(
+                        Genero(
+                            id = 0,
+                            nome = ""
+                        )
+                    ),
+                    idioma = Idioma(
+                            id = 0,
+                            nome = ""
+                    ),
+                    tipo_anuncio = mutableListOf()
                 )
             )
         )

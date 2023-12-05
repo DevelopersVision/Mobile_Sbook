@@ -25,6 +25,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.components.advertiser.components.Annunces
 import br.senai.sp.jandira.s_book.components.advertiser.components.HeaderBoxAdvertiser
@@ -33,7 +34,14 @@ import br.senai.sp.jandira.s_book.model.Advertiser
 import br.senai.sp.jandira.s_book.model.Anuncio
 import br.senai.sp.jandira.s_book.model.AnuncioAdvertiser
 import br.senai.sp.jandira.s_book.model.AnuncioAdvertiserUser
+import br.senai.sp.jandira.s_book.model.DadosAdvertiser
+import br.senai.sp.jandira.s_book.model.Editora
+import br.senai.sp.jandira.s_book.model.Endereco
+import br.senai.sp.jandira.s_book.model.EstadoLivro
+import br.senai.sp.jandira.s_book.model.Foto
 import br.senai.sp.jandira.s_book.model.Genero
+import br.senai.sp.jandira.s_book.model.GenerosAdvertiser
+import br.senai.sp.jandira.s_book.model.Idioma
 import br.senai.sp.jandira.s_book.model.JsonAnuncios
 import br.senai.sp.jandira.s_book.service.RetrofitHelper
 import br.senai.sp.jandira.s_book.view_model.AnuncioViewModelV2
@@ -45,6 +53,7 @@ import retrofit2.Response
 @Composable
 fun AdvertiserScreen(
     navController: NavController,
+    lifecycleScope: LifecycleCoroutineScope?,
     viewModelV2: AnuncioViewModelV2
 ) {
 
@@ -52,17 +61,59 @@ fun AdvertiserScreen(
 
     Log.d("id do anunciante", "${id}")
 
-    var listAnuncio by remember{
+    var usuarioAnuncioss by remember {
         mutableStateOf(
-            AnuncioAdvertiserUser(
-                id = 0,
-                nome = "",
-                ano_lancamento = 0,
-                edicao = "",
-                preco = 0.0,
-                anunciante = 0
-            ))
+            AnuncioAdvertiser(
+                anuncios = listOf(
+                    AnuncioAdvertiserUser(
+                        id = 0,
+                        nome = "",
+                        ano_lancamento = 0,
+                        edicao = "",
+                        preco = 0.0,
+                        anunciante = 0,
+                        data_criacao = "",
+                        status_anuncio = false,
+                        descricao = "",
+                        numero_paginas = 0
+                    )
+                ),
+                autores = mutableListOf(),
+                editora = Editora(
+                    id = 0,
+                    nome = "",
+                ),
+                endereco = Endereco(
+                    estado = "",
+                    cidade = "",
+                    bairro = ""
+                ),
+                estado_livro = EstadoLivro(
+                    id = 0,
+                    estado = ""
+                ),
+                foto = mutableListOf(
+                    Foto(
+                        id = 0,
+                        foto = ""
+                    )
+                ),
+                generos = mutableListOf(
+                    Genero(
+                        id = 0,
+                        nome = ""
+                    )
+                ),
+                idioma = Idioma(
+                    id = 0,
+                    nome = ""
+                ),
+                tipo_anuncio = mutableListOf()
+            )
+        )
     }
+
+
 
     val call = RetrofitHelper.getAdvertiserService().getAdvertiser(id)
 
@@ -72,9 +123,9 @@ fun AdvertiserScreen(
             call: Call<Advertiser>,
             response: Response<Advertiser>
         ) {
-            Log.e("TAG", "onResponse: ${response.body()}", )
-            val listAnuncio = response.body()?.dados?.anuncios
+            usuarioAnuncioss = response.body()!!.dados.anuncios
         }
+
         override fun onFailure(call: Call<Advertiser>, t: Throwable) {
         }
     })
@@ -100,20 +151,39 @@ fun AdvertiserScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = listAnuncio.nome,
+                    text = "Anuncio",
                     fontSize = 20.sp,
                     fontWeight = FontWeight(600),
                     color = Color(170, 98, 49, 255),
                 )
             }
-            Row (
-                modifier = Modifier
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement. spacedBy(12.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ){
+//            LazyRow(
+//                modifier = Modifier
+//                    .fillMaxWidth(),
+//                horizontalArrangement = Arrangement.spacedBy(12.dp),
+//                verticalAlignment = Alignment.CenterVertically
+//            ) {
+//                items(usuarioAnuncioss.anuncios) { anuncio ->
+//                    Annunces(
+//                        id = anuncio.id ,
+//                        nome_livro = anuncio.nome,
+//                        autor = "",
+//                        tipo_anuncio = "" ,
+//                        preco = anuncio.preco ,
+//                        foto = "",
+//                        lifecycleScope = lifecycleScope,
+//                        navController = navController
+//                    ) {}
+//                }
+//            }
+//            Row (
+//                modifier = Modifier
+//                    .fillMaxWidth(),
+//                horizontalArrangement = Arrangement. spacedBy(12.dp),
+//                verticalAlignment = Alignment.CenterVertically
+//            ){
 //                Annunces()
-            }
+//            }
         }
 
         Spacer(modifier = Modifier.height(38.dp))
