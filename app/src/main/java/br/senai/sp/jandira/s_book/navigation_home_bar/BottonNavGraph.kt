@@ -82,7 +82,7 @@ fun ButtonNavGraph(
         }
 
         composable("advertiser") {
-            AdvertiserScreen(navController = navController, viewModelAnuncioV2)
+            AdvertiserScreen(navController = navController, lifecycleScope = lifecycleScope, viewModelV2 = viewModelAnuncioV2 )
         }
 
         composable("announce") {

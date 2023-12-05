@@ -3,18 +3,15 @@ package br.senai.sp.jandira.s_book.components.advertiser.components
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -24,7 +21,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -95,10 +91,18 @@ fun ListCategory(
             call: Call<Advertiser>,
             response: Response<Advertiser>
         ) {
-            Log.e("TAG", "onResponse: ${response.body()}")
-            usuarioHeader = response.body()!!.dados
-            Log.e("Thiago2", "onResponse: ${usuarioHeader}")
-            Log.d("nome do anunciante thiago", "${usuarioHeader.nome}")
+            if (response.isSuccessful) {
+                val dados = response.body()?.dados
+                if (dados != null) {
+                    usuarioHeader = dados
+                    Log.e("Thiago2", "onResponse: $usuarioHeader")
+                    Log.d("nome do anunciante thiago", "${usuarioHeader.nome}")
+                } else {
+                    // Tratar o caso em que dados é nulo
+                }
+            } else {
+                // Tratar a resposta não bem-sucedida
+            }
 
         }
 
@@ -126,37 +130,44 @@ fun ListCategory(
                 color = Color(170, 98, 49, 255),
             )
         }
-        LazyRow(
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            items(usuarioHeader.generos) {
-                Column(
-                    modifier = Modifier
-                        .height(80.dp),
-                    verticalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Row(
+        val pairs = usuarioHeader.generos.chunked(3)
+
+        for (pair in pairs) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                for (item in pair) {
+                    Column(
                         modifier = Modifier
-                            .border(
-                                width = 1.dp,
-                                color = Color(0xFFAA6231),
-                                shape = RoundedCornerShape(size = 8.dp)
-                            )
-                            .background(Color(0xFFFFFFFF))
-                            .padding(18.5.dp, 7.dp),
-                        horizontalArrangement = Arrangement.spacedBy(15.dp),
-                        verticalAlignment = Alignment.CenterVertically
+                            .height(40.dp),
+                        verticalArrangement = Arrangement.SpaceBetween
                     ) {
-                        Text(
-                            text = "${usuarioHeader.generos[0].nome_genero}",
-                            style = TextStyle(
-                                fontSize = 14.sp,
-                                fontFamily = FontFamily(Font(R.font.intermedium)),
-                                fontWeight = FontWeight(600),
-                                color = Color.Black
+                        Row(
+                            modifier = Modifier
+                                .border(
+                                    width = 1.dp,
+                                    color = Color(0xFFAA6231),
+                                    shape = RoundedCornerShape(size = 8.dp)
+                                )
+                                .background(Color(0xFFFFFFFF))
+                                .padding(18.5.dp, 7.dp),
+                            horizontalArrangement = Arrangement.spacedBy(15.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                text = item.nome_genero,
+                                style = TextStyle(
+                                    fontSize = 14.sp,
+                                    fontFamily = FontFamily(Font(R.font.intermedium)),
+                                    fontWeight = FontWeight(600),
+                                    color = Color.Black
+                                )
                             )
-                        )
+                        }
                     }
+
                 }
             }
         }

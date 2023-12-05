@@ -27,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -34,24 +35,64 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.LifecycleCoroutineScope
+import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.R
 import br.senai.sp.jandira.s_book.components.my_announces.components.favoritarAnuncio
 import br.senai.sp.jandira.s_book.components.my_announces.components.removerDosFavoritos
 import br.senai.sp.jandira.s_book.model.VerificarFavoritoBaseResponse
+import br.senai.sp.jandira.s_book.models_private.User
 import br.senai.sp.jandira.s_book.service.RetrofitHelper
 import br.senai.sp.jandira.s_book.sqlite_repository.UserRepository
 import coil.compose.AsyncImage
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-
-@Preview(showSystemUi = true)
 @Composable
 fun Annunces(
-
+    id: Int,
+    nome_livro: String,
+    autor: String,
+    tipo_anuncio: String,
+    preco: Double?,
+    foto: String,
+    lifecycleScope: LifecycleCoroutineScope?,
+    navController: NavController,
+    onClick: () -> Unit
 ) {
-
     var isChecked by remember { mutableStateOf(false) }
+
+    val context = LocalContext.current
+    val array = UserRepository(context).findUsers()
+    var user = User()
+
+    if (array.isNotEmpty()) {
+        user = array[0]
+    }
+
+    // Cria uma chamada para o EndPoint
+    val callPraCorDosCard = RetrofitHelper.getAnunciosFavoritadosService().verificarFavorito(user.id, id)
+
+
+
+    // Executar a chamada
+    callPraCorDosCard.enqueue(object : Callback<VerificarFavoritoBaseResponse> {
+        override fun onResponse(
+            call: Call<VerificarFavoritoBaseResponse>,
+            response: Response<VerificarFavoritoBaseResponse>
+        ) {
+            isChecked = response.code() == 200
+        }
+
+
+        override fun onFailure(call: Call<VerificarFavoritoBaseResponse>, t: Throwable) {
+
+        }
+    })
+
+
+
+
 
 
     Card(
@@ -59,53 +100,45 @@ fun Annunces(
             .width(156.dp)
             .height(260.dp)
             .clickable {
-//                onClick()
-//                navController.navigate("annouceDetail")
+                onClick()
+                navController.navigate("announce")
             }
             .shadow(
                 elevation = 6.dp,
                 spotColor = Color(0xFF000000),
                 ambientColor = Color(0xFF000000)
-            )
-            .background(color = Color(0xFFFFFFFF), shape = RoundedCornerShape(size = 4.dp))
-            .padding(start = 12.dp,top = 12.dp),
+            ),
         shape = RoundedCornerShape(4.dp)
     ) {
         Column(
-            modifier = Modifier,
+            modifier = Modifier
+                .height(260.dp)
+                .padding(start = 8.dp),
+            verticalArrangement = Arrangement.SpaceBetween
         ) {
             Column(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.SpaceBetween
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Image(
-                    painter = painterResource(id = R.drawable.susanna_profile),
+                AsyncImage(
+                    model = "${foto}",
                     contentDescription = "",
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
                         .width(96.dp)
                         .height(148.dp)
                 )
-//                AsyncImage(
-//                    model = "${foto}",
-//                    contentDescription = "",
-//                    contentScale = ContentScale.Crop,
-//                    modifier = Modifier
-//                        .width(96.dp)
-//                        .height(148.dp)
-//                )
             }
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = "Morreu",
+                text = "${nome_livro}",
                 fontSize = 12.sp,
                 fontFamily = FontFamily(Font(R.font.poppinsmedium)),
                 fontWeight = FontWeight(400),
                 color = Color(0xFF000000),
             )
             Text(
-                text = "Lucas",
+                text = "${autor}",
                 fontSize = 10.sp,
                 fontFamily = FontFamily(Font(R.font.intermedium)),
                 fontWeight = FontWeight(600),
@@ -119,30 +152,109 @@ fun Annunces(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(
-                    text = "Troca-se",
-                    fontSize = 16.sp,
-                    fontFamily = FontFamily(
-                        Font(
-                            R.font.poppinsmedium
-                        )
-                    ),
-                    fontWeight = FontWeight(600),
-                    color = Color(0xFF000000),
-                )
+                if (tipo_anuncio == "Doação") {
+                    Text(
+                        text = "Doa-se",
+                        fontSize = 16.sp,
+                        fontFamily = FontFamily(
+                            Font(
+                                R.font.poppinsmedium
+                            )
+                        ),
+                        fontWeight = FontWeight(600),
+                        color = Color(0xFF000000),
+                    )
+                } else if (tipo_anuncio == "Troca") {
+                    Text(
+                        text = "Troca-se",
+                        fontSize = 16.sp,
+                        fontFamily = FontFamily(
+                            Font(
+                                R.font.poppinsmedium
+                            )
+                        ),
+                        fontWeight = FontWeight(600),
+                        color = Color(0xFF000000),
+                    )
+                } else {
+                    Text(
+                        text = "R$" + preco,
+                        fontSize = 16.sp,
+                        fontFamily = FontFamily(
+                            Font(
+                                R.font.poppinsmedium
+                            )
+                        ),
+                        fontWeight = FontWeight(600),
+                        color = Color(0xFF000000),
+                    )
+                }
                 IconButton(
                     modifier = Modifier
                         .size(40.dp),
-                    onClick = {}
+                    onClick = {
+
+                        val dadosUser = UserRepository(context).findUsers()
+
+                        if(dadosUser.isEmpty()){
+                            navController.navigate("login")
+                        }else{
+                            // Cria uma chamada para o EndPoint
+                            val call = RetrofitHelper.getAnunciosFavoritadosService()
+                                .verificarFavorito(user.id, id)
+
+
+                            // Executar a chamada
+                            call.enqueue(object : Callback<VerificarFavoritoBaseResponse> {
+                                override fun onResponse(
+                                    call: Call<VerificarFavoritoBaseResponse>,
+                                    response: Response<VerificarFavoritoBaseResponse>
+                                ) {
+
+                                    Log.e("BODY", "onResponse: ${response.body()}")
+
+                                    if (response.code() == 200) {
+
+                                        Log.e("Ja ta favoritado bixo burro", "Plim")
+
+                                        isChecked = false
+                                        removerDosFavoritos(id_anuncio = id, id_usuario = user.id)
+
+                                    } else {
+                                        Log.e("Não ta favoritado", "Plum")
+                                        isChecked = true
+
+                                        if (lifecycleScope != null) {
+                                            favoritarAnuncio(
+                                                id_anuncio = id,
+                                                id_usuario = user.id,
+                                                lifecycleScope = lifecycleScope,
+                                            )
+                                        }
+                                    }
+                                }
+
+
+                                override fun onFailure(
+                                    call: Call<VerificarFavoritoBaseResponse>,
+                                    t: Throwable
+                                ) {
+                                    Log.d("mudou o nome", "Depois da chamada da API:")
+                                }
+                            })
+                            Log.i("testando123", "${call}")
+                        }
+                    }
                 ) {
-                    if (isChecked) {
+
+                    if (isChecked){
                         Image(
                             painter = painterResource(
                                 id = R.drawable.coracao_certo
                             ),
                             contentDescription = ""
                         )
-                    } else {
+                    }else{
                         Image(
                             painter = painterResource(
                                 id = R.drawable.desfavoritar
@@ -152,10 +264,10 @@ fun Annunces(
                     }
                 }
             }
-            Row(
+            Row (
                 modifier = Modifier
                     .height(10.dp)
-            ) {}
+            ){}
         }
     }
 }

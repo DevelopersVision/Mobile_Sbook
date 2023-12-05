@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Text
@@ -29,8 +31,10 @@ import br.senai.sp.jandira.s_book.components.advertiser.components.HeaderBoxAdve
 import br.senai.sp.jandira.s_book.components.advertiser.components.ListCategory
 import br.senai.sp.jandira.s_book.model.Advertiser
 import br.senai.sp.jandira.s_book.model.Anuncio
+import br.senai.sp.jandira.s_book.model.AnuncioAdvertiser
 import br.senai.sp.jandira.s_book.model.AnuncioAdvertiserUser
 import br.senai.sp.jandira.s_book.model.Genero
+import br.senai.sp.jandira.s_book.model.JsonAnuncios
 import br.senai.sp.jandira.s_book.service.RetrofitHelper
 import br.senai.sp.jandira.s_book.view_model.AnuncioViewModelV2
 import retrofit2.Call
@@ -108,8 +112,7 @@ fun AdvertiserScreen(
                 horizontalArrangement = Arrangement. spacedBy(12.dp),
                 verticalAlignment = Alignment.CenterVertically
             ){
-                Annunces()
-                Annunces()
+//                Annunces()
             }
         }
 
