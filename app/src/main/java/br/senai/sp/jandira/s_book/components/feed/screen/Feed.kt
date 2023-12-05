@@ -64,6 +64,8 @@ fun FeedScreen(
 
     val TAG = "Teste FEED"
 
+    var text = ""
+
     val context = LocalContext.current
 
     val dadaUser = UserRepository(context).findUsers()
@@ -278,9 +280,9 @@ fun FeedScreen(
 //
 //                                            viewModelQueVaiPassarOsDados.id_anunciante = item.anuncio.anunciante
 //
-//                                            viewModelId.id_anunciante = item.anuncio.anunciante
-//                                            viewModelId.foto_anunciante = usuario.foto
-//                                            viewModelId.nome_anunciante = usuario.nome
+                                            viewModelId.id_anunciante = item.anuncio.anunciante
+                                            viewModelId.foto_anunciante = usuario.foto
+                                            viewModelId.nome_anunciante = usuario.nome
 //
 //                                            Log.e("Id do Anunciante", "${viewModelQueVaiPassarOsDados.id_anunciante}")
 //

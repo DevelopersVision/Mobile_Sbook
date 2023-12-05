@@ -1,5 +1,6 @@
 package br.senai.sp.jandira.s_book.components.edit_user.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -19,7 +20,8 @@ import br.senai.sp.jandira.s_book.components.universal.ButtonProfile
 
 @Composable
 fun ButtonsEditUser(
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    onClickPassword: () -> Unit
 ) {
 
     Column(
@@ -32,6 +34,9 @@ fun ButtonsEditUser(
             onClick()
         })
         Text(
+            modifier = Modifier.clickable {
+                                          onClickPassword()
+            },
             text = "Redefinir senha",
             fontSize = 12.sp,
             fontWeight = FontWeight(600),

@@ -61,7 +61,7 @@ fun Header(
     statusPerfil: Boolean
 ) {
 
-//    val dadaUser = UserRepository(context).findUsers()
+    val dadaUser = UserRepository(context).findUsers()
 //
 //    var array = User()
 //
@@ -230,12 +230,23 @@ fun Header(
                     )
                 }
             }
-            Text(
-                text = "Bem-Vindo, Usuário(a)!",
-                color = Color.White,
-                fontSize = 20.sp,
-                fontWeight = FontWeight(700)
-            )
+            if(dadaUser.isNotEmpty()){
+                val nome = dadaUser[0].nome.split(" ")
+
+                Text(
+                    text = "Bem-Vindo, ${nome[0]}",
+                    color = Color.White,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight(700)
+                )
+            }else{
+                Text(
+                    text = "Bem-Vindo, Usuário(a)!",
+                    color = Color.White,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight(700)
+                )
+            }
         }
     }
 }

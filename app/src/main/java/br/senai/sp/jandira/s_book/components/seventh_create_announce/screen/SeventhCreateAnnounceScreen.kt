@@ -122,7 +122,7 @@ fun SeventhCreateAnnounceScreen(
     }
 
     Column(modifier = Modifier.verticalScroll(ScrollState(0))) {
-        HeaderCreateAnnounce()
+        HeaderCreateAnnounce(){ navController.popBackStack() }
         Column(
             modifier = Modifier
                 .fillMaxSize()

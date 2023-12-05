@@ -96,7 +96,13 @@ fun changePassword (
             Log.e("Tag", "changePassword: $response", )
 
             if(response.isSuccessful){
-                navController.navigate("login")
+                Toast.makeText(contexto, "Senha alterada com sucesso", Toast.LENGTH_SHORT).show()
+
+                if(viewModel.status){
+                    navController.navigate("editUser")
+                }else{
+                    navController.navigate("login")
+                }
             }else{
                 val erroBody = response.errorBody()?.string()
 

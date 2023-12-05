@@ -93,7 +93,9 @@ fun FourthCreateAnnounceScreen(
     })
 
     Column() {
-        HeaderCreateAnnounce()
+        HeaderCreateAnnounce(){
+            navController.popBackStack()
+        }
         Column(
             modifier = Modifier
                 .fillMaxSize(),

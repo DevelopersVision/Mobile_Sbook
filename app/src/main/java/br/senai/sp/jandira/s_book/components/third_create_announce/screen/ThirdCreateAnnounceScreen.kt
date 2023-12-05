@@ -99,7 +99,9 @@ fun ThirdCreateAnnounceScreen(
     val maxImageCount = 5
 
     Column() {
-        HeaderCreateAnnounce()
+        HeaderCreateAnnounce(){
+            navController.popBackStack()
+        }
         Column(
             modifier = Modifier
                 .fillMaxSize()

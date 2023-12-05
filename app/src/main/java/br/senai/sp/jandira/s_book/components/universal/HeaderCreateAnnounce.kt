@@ -24,10 +24,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.senai.sp.jandira.s_book.R
 
-@Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun  HeaderCreateAnnounce(
-//    onclick : () -> Unit
+    onclick : () -> Unit
 ){
     Column() {
 
@@ -42,7 +41,7 @@ fun  HeaderCreateAnnounce(
         ) {
             IconButton(
                 onClick = {
-//                    onclick()
+                    onclick()
                 }
             ) {
                 Icon(

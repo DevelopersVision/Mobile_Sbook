@@ -61,6 +61,7 @@ import br.senai.sp.jandira.s_book.repository.UserUpdateRepository
 import br.senai.sp.jandira.s_book.service.RetrofitHelper
 import br.senai.sp.jandira.s_book.service.RetrofitHelperViaCep
 import br.senai.sp.jandira.s_book.sqlite_repository.UserRepository
+import br.senai.sp.jandira.s_book.view_model.ResetPasswordView
 import br.senai.sp.jandira.s_book.view_model.UserGenresViewModel
 import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FirebaseFirestore
@@ -84,7 +85,8 @@ import java.util.TimeZone
 fun EditUser(
     navController: NavController,
     userGenresViewModel: UserGenresViewModel,
-    lifecycleScope: LifecycleCoroutineScope
+    lifecycleScope: LifecycleCoroutineScope,
+    viewModelResetPassword: ResetPasswordView
 ) {
 
     val context = LocalContext.current
@@ -271,7 +273,7 @@ fun EditUser(
             generosState = it
         }
         Spacer(modifier = Modifier.height(5.dp))
-        ButtonsEditUser {
+        ButtonsEditUser(onClick = {
             Log.d("Sizes", "${user.generos.size} -- ${generosState.size}")
 
             if (user.generos.size != generosState.size && generosState.isNotEmpty()) {
@@ -328,7 +330,13 @@ fun EditUser(
                     photo = photoState
                 )
             }
-        }
+        },
+            onClickPassword = {
+                viewModelResetPassword.id = dadosUser[0].id.toInt()
+                viewModelResetPassword.email = dadosUser[0].email
+                viewModelResetPassword.status = true
+                navController.navigate("change_password")
+            })
     }
 }
 
@@ -402,18 +410,26 @@ fun updateUser(
                                             .limit(1)
                                             .get()
                                             .addOnSuccessListener { querySnapshot ->
-                                                imagemUrl = querySnapshot.documents[0].data!!["pic"].toString()
+                                                imagemUrl =
+                                                    querySnapshot.documents[0].data!!["pic"].toString()
 
                                                 lifecycleScope.launch {
-                                                   val respondeURL = userUpdateRepository.atualizarFotoUsuario(id_usuario, imagemUrl)
+                                                    val respondeURL =
+                                                        userUpdateRepository.atualizarFotoUsuario(
+                                                            id_usuario,
+                                                            imagemUrl
+                                                        )
 
-                                                    if(respondeURL.isSuccessful){
-                                                         navController.navigate("navigation_home_bar")
+                                                    if (respondeURL.isSuccessful) {
+                                                        navController.navigate("navigation_home_bar")
                                                     }
                                                 }
                                             }
                                             .addOnFailureListener { exception ->
-                                                Log.e("Firebase", "Erro ao obter imagens: $exception")
+                                                Log.e(
+                                                    "Firebase",
+                                                    "Erro ao obter imagens: $exception"
+                                                )
                                                 exception.printStackTrace()  // Adiciona esta linha para imprimir o stack trace
                                             }
 
@@ -454,8 +470,8 @@ fun updateUser(
             if (response.isSuccessful) {
                 Toast.makeText(context, "Dados atualizado com sucesso", Toast.LENGTH_LONG).show()
 
-                if(photo == null){
-                     navController.navigate("navigation_home_bar")
+                if (photo == null) {
+                    navController.navigate("navigation_home_bar")
                 }
             } else {
                 when (code) {
@@ -592,7 +608,7 @@ fun updateUserWithListGenero(
 
             if (response.isSuccessful) {
                 Toast.makeText(context, "Dados atualizado com sucesso", Toast.LENGTH_LONG).show()
-                 navController.navigate("navigation_home_bar")
+                navController.navigate("navigation_home_bar")
             } else {
                 when (code) {
                     400 -> {

@@ -5,4 +5,5 @@ import androidx.lifecycle.ViewModel
 class ResetPasswordView: ViewModel() {
     var id: Int? = 0
     var email: String? = ""
+    var status: Boolean = false
 }

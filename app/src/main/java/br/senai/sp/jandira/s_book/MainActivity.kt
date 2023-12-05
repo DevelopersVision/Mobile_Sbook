@@ -199,7 +199,7 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable("editUser"){
-                            EditUser(navController, viewModelUserGenres, lifecycleScope)
+                            EditUser(navController, viewModelUserGenres, lifecycleScope, viewModelResetPassword = viewModelResetPassword)
                         }
 
                         composable("editAnnounce"){

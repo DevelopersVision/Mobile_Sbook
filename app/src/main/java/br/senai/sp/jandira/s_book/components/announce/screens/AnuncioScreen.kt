@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -30,9 +31,17 @@ import br.senai.sp.jandira.s_book.model.Endereco
 import br.senai.sp.jandira.s_book.model.EstadoLivro
 import br.senai.sp.jandira.s_book.model.Idioma
 import br.senai.sp.jandira.s_book.model.JsonAnuncios
+import br.senai.sp.jandira.s_book.model.chat.MesagensResponse
 import br.senai.sp.jandira.s_book.model.chat.UserChat
+import br.senai.sp.jandira.s_book.model.chat.view_model.ChatViewModel
+import br.senai.sp.jandira.s_book.model.chat.view_model.viewModelId
 import br.senai.sp.jandira.s_book.service.RetrofitHelper
+import br.senai.sp.jandira.s_book.sqlite_repository.UserRepository
 import br.senai.sp.jandira.s_book.view_model.AnuncioViewModelV2
+import com.google.gson.Gson
+import com.google.gson.JsonArray
+import com.google.gson.JsonObject
+import io.socket.client.Socket
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -41,12 +50,26 @@ import retrofit2.Response
 fun AnnounceScreen(
     lifecycleScope: LifecycleCoroutineScope,
     viewModel: AnuncioViewModelV2,
-    navController: NavController
+    navController: NavController,
+    viewModelId: viewModelId,
+    socket: Socket?,
+    chatViewModel: ChatViewModel,
+    navRotasController: NavController
 ) {
 
     val context = LocalContext.current
 
-    //val dadosUser = UserRepository(context).findUsers()
+    val dadaUser = UserRepository(context).findUsers()
+
+    val fotoAnunciante = viewModelId.foto_anunciante
+    val nomeAnunciante = viewModelId.nome_anunciante
+    val idAnunciante = viewModelId.id_anunciante
+
+    var listUsuario by remember {
+        mutableStateOf(
+            listOf<UserChat>()
+        )
+    }
 
     var dadosAnuncio by remember {
         mutableStateOf(
@@ -94,6 +117,20 @@ fun AnnounceScreen(
         )
     }
 
+    var newChat by remember {
+        mutableStateOf(
+            MesagensResponse(
+                status = 0,
+                message = "",
+                id_chat = "",
+                usuarios = listOf(),
+                data_criacao = "",
+                hora_criacao = "",
+                mensagens = mutableStateListOf()
+            )
+        )
+    }
+
 
     val call = RetrofitHelper.getAnunciosService().getAnuncioByID(viewModel.idAnuncio)
 
@@ -136,7 +173,110 @@ fun AnnounceScreen(
                 lifecycleScope = lifecycleScope,
                 navRotasController = navController,
                 viewModel = viewModel,
-                onClick = {}
+                onClick = {
+                    if (socket != null) {
+                        //                val jsonUser1 = JSONObject().apply {
+//                    put("id", idUsuario )
+//                    put("foto", dadaUser[0].foto)
+//                    put("nome", dadaUser[0].nome)
+//                }
+//
+//                val jsonUserAnunciante = JSONObject().apply {
+//                    put("id", idAnunciante)
+//                    put("foto", fotoAnunciante)
+//                    put("nome", nomeAnunciante)
+//                }
+
+                        val jsonUser1 = UserChat(
+                            id = dadaUser[0].id.toInt(),
+                            foto = dadaUser[0].foto,
+                            nome = dadaUser[0].nome
+                        )
+
+                        Log.w("idmeu", "id meu: ${dadaUser[0].id.toInt()}")
+
+                        val jsonUserAnunciante = UserChat(
+                            id = idAnunciante.toInt(),
+                            foto = fotoAnunciante,
+                            nome = nomeAnunciante
+                        )
+
+                        listUsuario = listUsuario + jsonUser1
+
+                        listUsuario = listUsuario + jsonUserAnunciante
+
+//                val jsonBody = JSONObject().apply {
+////                    val usersArray = JsonArray()
+////
+////                    if (listUsuario.isNotEmpty()) {
+////                        for (user in listUsuario) {
+////                            val userObject = JsonObject().apply {
+////                                addProperty("id", user.id)
+////                                addProperty("nome", user.nome)
+////                                addProperty("foto", user.foto)
+////                            }
+////                            usersArray.add(userObject)
+////                        }
+////                    }
+//
+//                    accumulate("users", listUsuario)
+//                }
+
+                        val jsonBody = JsonObject().apply {
+                            val usersArray = JsonArray()
+
+                            for (user in listUsuario) {
+                                val userObject = JsonObject().apply {
+                                    addProperty("id", user.id)
+                                    addProperty("nome", user.nome)
+                                    addProperty("foto", user.foto)
+                                }
+                                usersArray.add(userObject)
+                            }
+
+                            add("users", usersArray)
+                            //addProperty("status", true)
+                        }
+
+
+                        socket.emit("createRooom", jsonBody)
+
+
+                        // Ouça o evento do socket
+                        socket.on("newChat") { args ->
+                            args.let { d ->
+                                if (d.isNotEmpty()) {
+                                    val data = d[0]
+
+                                    Log.e("Data", "$data")
+                                    if (data.toString().isNotEmpty()) {
+                                        val chat =
+                                            Gson().fromJson(
+                                                data.toString(),
+                                                MesagensResponse::class.java
+                                            )
+
+                                        newChat = chat
+                                        Log.e("luiz aquiiii", "AnnouceDetail: ${chat}")
+                                        Log.e("luiz testando dentro", "${newChat.id_chat}")
+                                        chatViewModel.idChat = newChat.id_chat
+                                    }
+                                }
+                            }
+                        }
+
+
+
+                        Log.e("luiz testando fora", "${newChat.id_chat}")
+                        chatViewModel.idUser2 = idAnunciante.toInt()
+                        chatViewModel.foto = fotoAnunciante
+                        chatViewModel.nome = nomeAnunciante
+
+                        navRotasController.navigate("conversa_chat")
+                    } else {
+                        navRotasController.navigate("login")
+                    }
+                }
             )
             Spacer(modifier = Modifier.height(20.dp))
             DescricaoAnuncioBox(descricao = dadosAnuncio.anuncio.descricao)

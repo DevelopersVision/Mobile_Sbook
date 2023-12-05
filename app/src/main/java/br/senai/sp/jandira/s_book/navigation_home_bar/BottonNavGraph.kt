@@ -28,6 +28,7 @@ import br.senai.sp.jandira.s_book.sqlite_repository.UserRepository
 import br.senai.sp.jandira.s_book.view_model.AnuncioViewModel
 import br.senai.sp.jandira.s_book.view_model.AnuncioViewModelV2
 import br.senai.sp.jandira.s_book.view_model.SharedViewModel
+import io.socket.client.Socket
 
 
 @Composable
@@ -86,8 +87,29 @@ fun ButtonNavGraph(
         }
 
         composable("announce") {
-            AnnounceScreen(lifecycleScope = lifecycleScope, viewModel = viewModelAnuncioV2, navController = navController)
-        }
+            val context = LocalContext.current
+
+            val dadaUser = UserRepository(context).findUsers()
+
+            var array = User()
+
+            var data = ""
+
+            var socket: Socket? = null
+
+            if(dadaUser.isNotEmpty()){
+                array = dadaUser[0]
+
+
+                data = array.id.toString()
+
+                val client = ChatClient()
+                client.connect(data.toInt())
+                socket = client.getSocket()
+            }else{
+                data = 0.toString()
+            }
+            AnnounceScreen(lifecycleScope = lifecycleScope, viewModel = viewModelAnuncioV2, navController = navController, viewModelId, socket = socket, chatViewModel, navRotasController)        }
 
         composable("myAnnounce") {
             MyAnnounceScreen(lifecycleScope = lifecycleScope, viewModel = viewModelAnuncioV2, navController = navController, navRotasController)

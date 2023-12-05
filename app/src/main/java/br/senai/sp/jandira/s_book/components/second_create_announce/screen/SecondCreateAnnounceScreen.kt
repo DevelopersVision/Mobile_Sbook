@@ -74,7 +74,9 @@ fun SecondCreateAnnounceScreen(
     val context = LocalContext.current
 
     Column() {
-        HeaderCreateAnnounce()
+        HeaderCreateAnnounce(){
+            navController.popBackStack()
+        }
         Column(
             modifier = Modifier
                 .fillMaxSize()
