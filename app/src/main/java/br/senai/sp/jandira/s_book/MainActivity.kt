@@ -211,7 +211,8 @@ class MainActivity : ComponentActivity() {
                                 navController = navController,
                                 viewModelV2 = viewModelAnuncioV2,
                                 viewModelDosIds = viewModelDosIdentificadores,
-                                viewModelDosTipoDeLivros = viewModelDosTiposDeLivro
+                                viewModelDosTipoDeLivros = viewModelDosTiposDeLivro,
+                                viewModelGeneros
                             )
                         }
 

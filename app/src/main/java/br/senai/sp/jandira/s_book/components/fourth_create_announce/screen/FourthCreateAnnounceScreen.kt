@@ -105,7 +105,7 @@ fun FourthCreateAnnounceScreen(
             Column {
                 Spacer(modifier = Modifier.height(32.dp))
                 Text(
-                    text = "Estamos quase lá... Selecione os gêneros que seu livro mais de encaixa.",
+                    text = "Estamos quase lá... Selecione os gêneros que seu livro mais se encaixa.",
                     fontSize = 16.sp,
                     fontWeight = FontWeight(700),
                     color = Color(0xFF2A2929),

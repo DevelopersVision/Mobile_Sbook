@@ -2,16 +2,27 @@ package br.senai.sp.jandira.s_book.components.update_announce.screens
 
 import android.util.Log
 import android.widget.Toast
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Card
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.material3.Checkbox
@@ -26,9 +37,11 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -38,15 +51,19 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.R
+import br.senai.sp.jandira.s_book.Storage
 import br.senai.sp.jandira.s_book.components.update_announce.components.HeaderUpdateAnnounce
 import br.senai.sp.jandira.s_book.model.AutorBaseResponse
 import br.senai.sp.jandira.s_book.model.Autores
 import br.senai.sp.jandira.s_book.model.EstadoLivro
 import br.senai.sp.jandira.s_book.model.EstadoLivroBaseResponse
+import br.senai.sp.jandira.s_book.model.Genero
 import br.senai.sp.jandira.s_book.model.TipoAnuncio
 import br.senai.sp.jandira.s_book.model.TipoAnuncioBaseResponse
+import br.senai.sp.jandira.s_book.repository.CategoryList
 import br.senai.sp.jandira.s_book.service.RetrofitHelper
 import br.senai.sp.jandira.s_book.view_model.AnuncioViewModelV2
+import br.senai.sp.jandira.s_book.view_model.ViewModelDosGenerosSelecionados
 import br.senai.sp.jandira.s_book.view_model.ViewModelDosIds
 import br.senai.sp.jandira.s_book.view_model.ViewModelDosTipoDeLivros
 import retrofit2.Call
@@ -60,6 +77,7 @@ fun UpdateAnnounceSecondScreen(
     viewModelV2: AnuncioViewModelV2,
     viewModelDosIds: ViewModelDosIds,
     viewModelDosTipoDeLivros: ViewModelDosTipoDeLivros,
+    viewlModel: ViewModelDosGenerosSelecionados
 ) {
     val context = LocalContext.current
 
@@ -78,6 +96,18 @@ fun UpdateAnnounceSecondScreen(
         mutableStateOf(array)
     }
 
+    var generosSelecionados by rememberSaveable {
+        mutableStateOf<Set<String>>(emptySet())
+    }
+
+    var arrayDeGeneros by remember {
+        mutableStateOf(listOf<Int>())
+    }
+
+    var listGeneros by remember {
+        mutableStateOf(listOf<Genero>())
+    }
+
     var isVendaChecked by remember {
         mutableStateOf(false)
     }
@@ -88,9 +118,7 @@ fun UpdateAnnounceSecondScreen(
     var listEstadosLivro by remember {
         mutableStateOf(listOf<EstadoLivro>())
     }
-//    var estadosSelecionados by rememberSaveable {
-//        mutableStateOf(viewModelDosIds.estadosSelecionados)
-//    }
+
 
 
     viewModelDosIds.estadosSelecionados = setOf(viewModelV2.dadosAnuncio.estado_livro.estado)
@@ -117,6 +145,24 @@ fun UpdateAnnounceSecondScreen(
         }
     })
 
+    val callGeneros = RetrofitHelper.getCategoryService().getGeneros()
+
+
+    // Executar a chamada
+    callGeneros.enqueue(object : Callback<CategoryList> {
+        override fun onResponse(
+            call: Call<CategoryList>,
+            response: Response<CategoryList>
+        ) {
+            listGeneros = response.body()!!.dados
+        }
+
+
+        override fun onFailure(call: Call<CategoryList>, t: Throwable) {
+
+        }
+    })
+
     val callEstado = RetrofitHelper.getEstadoLivroService().getEstadoLivro()
 
 
@@ -135,183 +181,307 @@ fun UpdateAnnounceSecondScreen(
         }
     })
 
-    LazyColumn(
-        modifier = Modifier.fillMaxSize()
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+
     ) {
-        items(1) {
-            HeaderUpdateAnnounce {
-                navController.popBackStack()
-            }
+        HeaderUpdateAnnounce {
+            navController.popBackStack()
+        }
+        Column(
+            Modifier.fillMaxWidth()
+        ) {
+            Text(
+                modifier = Modifier
+                    .width(350.dp)
+                    .padding(24.dp),
+                text = "Selecione a condição do livro ",
+                style = TextStyle(
+                    fontSize = 16.sp,
+                    fontFamily = FontFamily(Font(R.font.intermedium)),
+                    fontWeight = FontWeight(700),
+                    color = Color(0xFF2A2929)
+                )
+            )
             Column(
                 Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(32.dp)
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(
-                    modifier = Modifier
-                        .width(350.dp)
-                        .padding(horizontal = 30.dp, vertical = 4.dp),
-                    text = "Selecione a condição do livro ",
-                    style = TextStyle(
-                        fontSize = 16.sp,
-                        fontFamily = FontFamily(Font(R.font.intermedium)),
-                        fontWeight = FontWeight(700),
-                        color = Color(0xFF2A2929)
+                listEstadosLivro.forEach { estadoLivro ->
+                    val isChecked = estadosSelecionados.contains(estadoLivro.estado)
+                    Divider(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(0.8.dp),
+                        color = Color(0xFFE0E0E0)
                     )
-                )
-                Column(
-                    Modifier.fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-//                    viewModelDosIds.id_estadoLivro = viewModelV2.dadosAnuncio.estado_livro.id
-//                    viewModelDosIds.estadosSelecionados = setOf(viewModelV2.dadosAnuncio.estado_livro.estado)
-//                    estadosSelecionados = setOf(viewModelV2.dadosAnuncio.estado_livro.estado)
-                    listEstadosLivro.forEach { estadoLivro ->
-                        val isChecked = estadosSelecionados.contains(estadoLivro.estado)
 
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(52.dp)
-                                .padding(horizontal = 16.dp),
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.SpaceBetween
-                        ) {
-                            androidx.compose.material3.Text(
-                                text = estadoLivro.estado,
-                                fontSize = 14.sp,
-                                fontFamily = FontFamily(Font(R.font.intermedium)),
-                                fontWeight = FontWeight(500),
-                                color = Color(0xFF808080),
-                            )
-                            Checkbox(
-                                checked = isChecked,
-                                onCheckedChange = { isChecked ->
-
-//                                    Log.e("Check", "$estadosSelecionados")
-//
-//                                    if(isChecked){
-//                                        if(estadosSelecionados.size == 1){
-//                                            estadosSelecionados.dropLast(1)
-//                                            estadosSelecionados = estadosSelecionados + estadoLivro.id
-//                                        }else{
-//                                            estadosSelecionados = estadosSelecionados + estadoLivro.id
-//                                        }
-//                                    }else{
-//                                        estadosSelecionados.dropLast(1)
-//                                    }
-                                    estadosSelecionados =
-                                        setOf(estadoLivro.estado).takeIf { isChecked } ?: emptySet()
-                                    viewModelDosIds.id_estadoLivro = estadoLivro.id
-                                    viewModelDosIds.estadosSelecionados =
-                                        setOf(estadoLivro.estado).takeIf { isChecked } ?: emptySet()
-                                }
-                            )
-                        }
-                        Divider(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(0.8.dp),
-                            color = Color(0xFFE0E0E0)
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(52.dp)
+                            .padding(horizontal = 16.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        androidx.compose.material3.Text(
+                            text = estadoLivro.estado,
+                            fontSize = 14.sp,
+                            fontFamily = FontFamily(Font(R.font.intermedium)),
+                            fontWeight = FontWeight(500),
+                            color = Color(0xFF808080),
                         )
+                        Checkbox(
+                            checked = isChecked,
+                            onCheckedChange = { isChecked ->
+                                estadosSelecionados =
+                                    setOf(estadoLivro.estado).takeIf { isChecked } ?: emptySet()
+                                viewModelDosIds.id_estadoLivro = estadoLivro.id
+                                viewModelDosIds.estadosSelecionados =
+                                    setOf(estadoLivro.estado).takeIf { isChecked } ?: emptySet()
+                            }
+                        )
+                    }
+                    Divider(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(0.8.dp),
+                        color = Color(0xFFE0E0E0)
+                    )
+                }
+                Spacer(modifier = Modifier.height(32.dp))
+                androidx.compose.material3.Text(
+                    text = "Selecione os gêneros que seu livro mais se encaixa.",
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight(700),
+                    color = Color(0xFF2A2929),
+                    modifier = Modifier.padding(horizontal = 24.dp)
+                )
+                Spacer(modifier = Modifier.height(36.dp))
+                Divider(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(0.8.dp),
+                    color = Color(0xFFE0E0E0)
+                )
+                val pairs = listGeneros
+                for (it in pairs) {
+                    val isChecked = generosSelecionados.contains(it.nome)
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(52.dp)
+                            .padding(horizontal = 16.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        androidx.compose.material3.Text(
+                            text = it.nome,
+                            fontSize = 14.sp,
+                            fontFamily = FontFamily(Font(R.font.intermedium)),
+                            fontWeight = FontWeight(500),
+                            color = Color(0xFF808080),
+                        )
+                        Checkbox(
+                            checked = isChecked,
+                            onCheckedChange = { isChecked ->
+
+                                if (isChecked) {
+                                    generosSelecionados = generosSelecionados + it.nome
+
+                                    arrayDeGeneros = arrayDeGeneros.plus(it.id)
+
+                                    Log.e("TAGATAGATTATATATATTATATATATAT", "${arrayDeGeneros}")
+
+                                } else {
+                                    generosSelecionados = generosSelecionados - it.nome
+
+                                    arrayDeGeneros = arrayDeGeneros.minus(it.id)
+
+                                    Log.e("TAGATAGATTATATATATTATATATATAT", "${arrayDeGeneros}")
+                                }
+                                Log.e("thiago", "${generosSelecionados}")
+                                val generosSelecionadosString =
+                                    generosSelecionados.joinToString(", ")
+
+                                Log.e("TAGATAGATTATATATATTATATATATAT", "${arrayDeGeneros}")
+
+                                viewlModel.selectedGeneros = arrayDeGeneros
+                            }
+                        )
+                    }
+                    Divider(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(0.8.dp),
+                        color = Color(0xFFE0E0E0)
+                    )
+                }
+
+                Divider(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(0.8.dp),
+                    color = Color(0xFFE0E0E0)
+                )
+                Spacer(modifier = Modifier.height(32.dp))
+                androidx.compose.material3.Text(
+                    text = "Perfeito! Agora informe que tipo de negociação você gostaria de fazer com o livro.",
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight(700),
+                    color = Color(0xFF2A2929),
+                    modifier = Modifier.padding(horizontal = 24.dp)
+                )
+                Spacer(modifier = Modifier.height(36.dp))
+                Divider(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(0.8.dp),
+                    color = Color(0xFFE0E0E0)
+                )
+
+                val pair = listTipoAnuncio
+                for (it in pair) {
+                    val isChecked = tiposSelecionados.contains(it.tipo)
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(52.dp)
+                            .padding(horizontal = 16.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        androidx.compose.material3.Text(
+                            text = it.tipo,
+                            fontSize = 14.sp,
+                            fontFamily = FontFamily(Font(R.font.intermedium)),
+                            fontWeight = FontWeight(500),
+                            color = Color(0xFF808080),
+                        )
+                        Checkbox(
+                            checked = isChecked,
+                            onCheckedChange = { isChecked ->
+                                if (isChecked) {
+                                    tiposSelecionados = tiposSelecionados + it.tipo
+                                    viewModelDosTipoDeLivros.tiposDoAnuncio =
+                                        arrayDosTiposDeAnuncio.plus(it.id)
+                                } else {
+                                    tiposSelecionados = tiposSelecionados - it.tipo
+                                    viewModelDosTipoDeLivros.tiposDoAnuncio =
+                                        arrayDosTiposDeAnuncio.minus(it.id)
+                                }
+                                isVendaChecked = tiposSelecionados.contains("Venda")
+                            }
+                        )
+                    }
+                    Divider(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(0.8.dp),
+                        color = Color(0xFFE0E0E0)
+                    )
+                }
+                if (isVendaChecked) {
+                    OutlinedTextField(
+                        value = vendaPriceState,
+                        onValueChange = {
+                            vendaPriceState = it
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(60.dp)
+                            .padding(horizontal = 24.dp),
+                        label = {
+                            androidx.compose.material3.Text(
+                                text = "Gostaria de vender por qual preço?",
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight(500),
+                                color = Color(0xFF2A2929)
+                            )
+                        },
+                        colors = TextFieldDefaults.outlinedTextFieldColors(
+                            focusedBorderColor = colorResource(id = R.color.cinza),
+                            unfocusedBorderColor = colorResource(id = R.color.cinza)
+                        ),
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Number
+                        )
+                    )
+                }
+            }
+        }
+        Row(
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                val pages = listOf<Int>(1, 2, 3)
+
+                for (page in pages) {
+                    if (page == 2) {
+                        Box(
+                            modifier = Modifier
+                                .clip(CircleShape)
+                                .width(4.dp)
+                                .height(4.dp)
+                                .background(color = Color(0xFFAA6231))
+                        )
+                    } else {
+                        Card(
+                            modifier = Modifier
+                                .width(4.dp)
+                                .height(4.dp),
+                            backgroundColor = Color(0xFFC1BCCC),
+                            shape = CircleShape,
+                        ) {}
                     }
                 }
             }
-//            Column(
-//                modifier = Modifier.fillMaxWidth()
-//            ) {
-//                Text(
-//                    modifier = Modifier
-//                        .width(350.dp)
-//                        .padding(horizontal = 30.dp, vertical = 4.dp),
-//                    text = "Selecione o tipo de negociação",
-//                    style = TextStyle(
-//                        fontSize = 16.sp,
-//                        fontFamily = FontFamily(Font(R.font.intermedium)),
-//                        fontWeight = FontWeight(700),
-//                        color = Color(0xFF2A2929)
-//                    )
-//                )
-//                Column(
-//                    Modifier.fillMaxWidth(),
-//                    horizontalAlignment = Alignment.CenterHorizontally
-//                ) {
-//                    viewModelDosIds.id_estadoLivro = viewModelV2.dadosAnuncio.estado_livro.id
-//
-//                    listTipoAnuncio.forEach { tipo ->
-//                        val isChecked = tiposSelecionados.contains(tipo.tipo)
-//                        Row(
-//                            modifier = Modifier
-//                                .fillMaxWidth()
-//                                .height(52.dp)
-//                                .padding(horizontal = 16.dp),
-//                            verticalAlignment = Alignment.CenterVertically,
-//                            horizontalArrangement = Arrangement.SpaceBetween
+            Image(
+                painter = painterResource(id = R.drawable.seta_prosseguir),
+                contentDescription = "",
+                modifier = Modifier
+                    .size(72.dp)
+                    .clickable {
+//                        if (
+//                            nomeState.isNotEmpty() && sinopseState.isNotEmpty() &&
+//                            autorState.nome.isNotEmpty() && numeroPaginaState
+//                                .toString()
+//                                .isNotEmpty() &&
+//                            anoState
+//                                .toString()
+//                                .isNotEmpty() && edicaoState.isNotEmpty() &&
+//                            isbnState.isNotEmpty() && idiomaState.nome.isNotEmpty() && editoraState.nome.isNotEmpty()
 //                        ) {
-//                            androidx.compose.material3.Text(
-//                                text = tipo.tipo,
-//                                fontSize = 14.sp,
-//                                fontFamily = FontFamily(Font(R.font.intermedium)),
-//                                fontWeight = FontWeight(500),
-//                                color = Color(0xFF808080),
-//                            )
-//                            Checkbox(
-//                                checked = isChecked,
-//                                onCheckedChange = { isChecked ->
-//                                    if (isChecked) {
-//                                        tiposSelecionados = tiposSelecionados + tipo.tipo
-//                                        viewModelDosTipoDeLivros.tiposDoAnuncio =
-//                                            arrayDosTiposDeAnuncio.plus(tipo.id)
-//                                    } else {
-//                                        tiposSelecionados = tiposSelecionados - tipo.tipo
-//                                        viewModelDosTipoDeLivros.tiposDoAnuncio =
-//                                            arrayDosTiposDeAnuncio.minus(tipo.id)
-//                                    }
-//                                    isVendaChecked = tiposSelecionados.contains("Venda")
-//                                }
-//                            )
+//                            viewModelV2.dadosAnuncio.anuncio.nome = nomeState
+//                            viewModelV2.dadosAnuncio.anuncio.descricao = sinopseState
+//                            viewModelV2.dadosAnuncio.autores[0].id = autorState.id
+//                            viewModelV2.dadosAnuncio.autores[0].nome = autorState.nome
+//                            viewModelV2.dadosAnuncio.anuncio.numero_paginas =
+//                                numeroPaginaState
+//                            viewModelV2.dadosAnuncio.anuncio.ano_lancamento = anoState
+//                            viewModelV2.dadosAnuncio.anuncio.edicao = edicaoState
+//                            viewModelV2.dadosAnuncio.anuncio.isbn = isbnState
+//                            viewModelV2.dadosAnuncio.idioma = idiomaState
+//                            viewModelV2.dadosAnuncio.editora = editoraState
+//                            navController.navigate("editAnnounceSecond")
+//                        } else {
+//                            Toast
+//                                .makeText(
+//                                    context,
+//                                    "Preencha todos os campos antes de prosseguir",
+//                                    Toast.LENGTH_SHORT
+//                                )
+//                                .show()
 //                        }
-//                        Divider(
-//                            modifier = Modifier
-//                                .fillMaxWidth()
-//                                .height(0.8.dp),
-//                            color = Color(0xFFE0E0E0)
-//                        )
-//                    }
-//                }
-//                if (isVendaChecked) {
-//                    OutlinedTextField(
-//                        value = vendaPriceState,
-//                        onValueChange = {
-//                            vendaPriceState = it
-//                        },
-//                        modifier = Modifier
-//                            .fillMaxWidth()
-//                            .height(60.dp)
-//                            .padding(horizontal = 24.dp),
-//                        label = {
-//                            androidx.compose.material3.Text(
-//                                text = "Gostaria de vender por qual preço?",
-//                                fontSize = 16.sp,
-//                                fontWeight = FontWeight(500),
-//                                color = Color(0xFF2A2929)
-//                            )
-//                        },
-//                        colors = TextFieldDefaults.outlinedTextFieldColors(
-//                            focusedBorderColor = colorResource(id = R.color.cinza),
-//                            unfocusedBorderColor = colorResource(id = R.color.cinza)
-//                        ),
-//                        keyboardOptions = KeyboardOptions(
-//                            keyboardType = KeyboardType.Number
-//                        )
-//                    )
-//                }
-//                Divider(
-//                    modifier = Modifier
-//                        .fillMaxWidth()
-//                        .height(0.8.dp),
-//                    color = Color(0xFFE0E0E0)
-//                )
-//            }
+                    }
+            )
         }
+
     }
 }
