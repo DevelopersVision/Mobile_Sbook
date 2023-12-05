@@ -45,6 +45,7 @@ import br.senai.sp.jandira.s_book.model.chat.view_model.ChatViewModel
 import coil.compose.AsyncImage
 import com.google.gson.Gson
 import io.socket.client.Socket
+import java.text.SimpleDateFormat
 
 //@Preview()
 @Composable
@@ -219,17 +220,11 @@ fun ChatScreen(
                                 fontWeight = FontWeight(600),
                                 color = Color(0xFF000000)
                             )
-                            Spacer(modifier = Modifier.height(8.dp))
-                            Text(
-                                text = "Bom trabalho, fico feliz em v...",
-                                fontSize = 14.sp,
-                                fontWeight = FontWeight(400),
-                                color = Color(0xFF3B4A54)
-                            )
+
                         }
                     }
                     Text(
-                        text = it.data_criacao,
+                        text = formatarData( it.data_criacao),
                         fontSize = 12.sp,
                         fontWeight = FontWeight(400),
                         color = Color(0xFF3B4A54)
@@ -243,5 +238,15 @@ fun ChatScreen(
                 .fillMaxWidth(),
             color = Color(0xFFCECECE)
         )
+    }
+}
+private fun formatarData(data: String): String {
+    val formatoOriginal = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+    val formatoBrasileiro = SimpleDateFormat("dd/MM/yyyy")
+    return try {
+        val date = formatoOriginal.parse(data)
+        formatoBrasileiro.format(date)
+    } catch (e: Exception) {
+        data
     }
 }

@@ -161,31 +161,94 @@ fun ConversationChatScreen(
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    LazyColumn(
-                        modifier = Modifier
-                            .height(730.dp)
-                            .padding(12.dp),
-                        verticalArrangement = Arrangement.spacedBy(8.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        state = listState
-                    ) {
-                        items(listaMensagens.mensagens) {
+                    if (listaMensagens.mensagens != null) {
+                        LazyColumn(
+                            modifier = Modifier
+                                .height(730.dp)
+                                .padding(12.dp),
+                            verticalArrangement = Arrangement.spacedBy(8.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            state = listState
+                        ) {
+                            items(listaMensagens.mensagens) {
 
-                            if (it.message == "" && it.image != "") {
-                                if (it.messageTo == idUsuario) {
-                                    CardMensagemClienteFoto(
-                                        menssagem = "",
-                                        hora = it.hora_criacao!!.substring(0, 5),
-                                        cor = Color(0xFF000000),
-                                        foto = it.image
-                                    )
+                                if (it.message == "" && it.image != "") {
+                                    if (it.messageTo == idUsuario) {
+                                        CardMensagemClienteFoto(
+                                            menssagem = "",
+                                            hora = it.hora_criacao!!.substring(0, 5),
+                                            cor = Color(0xFF000000),
+                                            foto = it.image
+                                        )
+                                    } else {
+                                        CardMensagemUserFoto(
+                                            menssagem = "",
+                                            hora = it.hora_criacao!!.substring(0, 5),
+                                            cor = Color(221, 163, 93, 255),
+                                            foto = it.image,
+                                            onDelete = {
+                                                socket.on("deleteMessage") { args ->
+                                                    args.let { d ->
+                                                        if (d.isNotEmpty()) {
+                                                            val idMessageDeleted = d[0] as String
+                                                            listaMensagens = listaMensagens.copy(
+                                                                mensagens = listaMensagens.mensagens
+                                                                    .filterNot { it.message == idMessageDeleted }
+                                                                    .toMutableList()
+                                                            )
+                                                            Log.e("IDMANO", "${idMessageDeleted}")
+                                                        }
+                                                    }
+                                                }
+                                                client.deleteMessage(it._id.toString())
+                                            }
+                                        )
+                                    }
+                                } else if (it.message != "" && it.image == "") {
+                                    if (it.messageTo == idUsuario) {
+                                        CardMensagemCliente(
+                                            menssagem = it.message,
+                                            hora = it.hora_criacao!!.substring(0, 5),
+                                            cor = Color(0xFF000000)
+                                        )
+                                    } else {
+                                        CardMensagemUser(
+                                            menssagem = it.message,
+                                            hora = it.hora_criacao!!.substring(0, 5),
+                                            cor = Color(221, 163, 93, 255),
+                                            onDelete = {
+                                                socket.on("deleteMessage") { args ->
+                                                    args.let { d ->
+                                                        if (d.isNotEmpty()) {
+                                                            val idMessageDeleted = d[0] as String
+                                                            listaMensagens = listaMensagens.copy(
+                                                                mensagens = listaMensagens.mensagens
+                                                                    .filterNot { it.message == idMessageDeleted }
+                                                                    .toMutableList()
+                                                            )
+                                                            Log.e("IDMANO", "${idMessageDeleted}")
+                                                        }
+                                                    }
+                                                }
+                                                client.deleteMessage(it._id.toString())
+                                            }
+                                        )
+                                    }
                                 } else {
-                                    CardMensagemUserFoto(
-                                        menssagem = "",
-                                        hora = it.hora_criacao!!.substring(0, 5),
-                                        cor = Color(221, 163, 93, 255),
-                                        foto = it.image,
-                                        onDelete = {
+                                    if (it.messageTo == idUsuario) {
+                                        CardFotoMessageCliente(
+                                            menssagem = it.message,
+                                            hora = it.hora_criacao!!.substring(0, 5),
+                                            cor = Color(0xFF000000),
+                                            foto = it.image
+                                        )
+                                    } else {
+                                        CardFotoMessageUser(
+                                            menssagem = it.message,
+                                            hora = it.hora_criacao!!.substring(0, 5),
+                                            cor = Color(221, 163, 93, 255),
+                                            foto = it.image
+                                        ) {
                                             socket.on("deleteMessage") { args ->
                                                 args.let { d ->
                                                     if (d.isNotEmpty()) {
@@ -201,76 +264,15 @@ fun ConversationChatScreen(
                                             }
                                             client.deleteMessage(it._id.toString())
                                         }
-                                    )
-                                }
-                            } else if (it.message != "" && it.image == "") {
-                                if (it.messageTo == idUsuario) {
-                                    CardMensagemCliente(
-                                        menssagem = it.message,
-                                        hora = it.hora_criacao!!.substring(0, 5),
-                                        cor = Color(0xFF000000)
-                                    )
-                                }else{
-                                    CardMensagemUser(
-                                        menssagem = it.message,
-                                        hora = it.hora_criacao!!.substring(0, 5),
-                                        cor = Color(221, 163, 93, 255),
-                                        onDelete = {
-                                            socket.on("deleteMessage") { args ->
-                                                args.let { d ->
-                                                    if (d.isNotEmpty()) {
-                                                        val idMessageDeleted = d[0] as String
-                                                        listaMensagens = listaMensagens.copy(
-                                                            mensagens = listaMensagens.mensagens
-                                                                .filterNot { it.message == idMessageDeleted }
-                                                                .toMutableList()
-                                                        )
-                                                        Log.e("IDMANO", "${idMessageDeleted}")
-                                                    }
-                                                }
-                                            }
-                                            client.deleteMessage(it._id.toString())
-                                        }
-                                    )
-                                }
-                            } else {
-                                if (it.messageTo == idUsuario) {
-                                    CardFotoMessageCliente(
-                                        menssagem = it.message,
-                                        hora = it.hora_criacao!!.substring(0, 5),
-                                        cor = Color(0xFF000000),
-                                        foto = it.image
-                                    )
-                                } else {
-                                    CardFotoMessageUser(
-                                        menssagem = it.message,
-                                        hora = it.hora_criacao!!.substring(0, 5),
-                                        cor = Color(221, 163, 93, 255),
-                                        foto = it.image
-                                    ) {
-                                        socket.on("deleteMessage") { args ->
-                                            args.let { d ->
-                                                if (d.isNotEmpty()) {
-                                                    val idMessageDeleted = d[0] as String
-                                                    listaMensagens = listaMensagens.copy(
-                                                        mensagens = listaMensagens.mensagens
-                                                            .filterNot { it.message == idMessageDeleted }
-                                                            .toMutableList()
-                                                    )
-                                                    Log.e("IDMANO", "${idMessageDeleted}")
-                                                }
-                                            }
-                                        }
-                                        client.deleteMessage(it._id.toString())
                                     }
                                 }
-                            }
-                            LaunchedEffect(true) {
-                                listState.scrollToItem(listaMensagens.mensagens.size - 1)
+                                LaunchedEffect(true) {
+                                    listState.scrollToItem(listaMensagens.mensagens.size - 1)
+                                }
                             }
                         }
-                    }
 
+                    }
                 }
             }
         }
