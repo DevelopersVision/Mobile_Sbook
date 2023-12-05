@@ -30,6 +30,7 @@ import br.senai.sp.jandira.s_book.model.Advertiser
 import br.senai.sp.jandira.s_book.model.AnuncioAdvertiser
 import br.senai.sp.jandira.s_book.model.AnuncioAdvertiserUser
 import br.senai.sp.jandira.s_book.model.AnuncioNoPageBaseResponse
+import br.senai.sp.jandira.s_book.model.AnuncioResponse
 import br.senai.sp.jandira.s_book.model.DadosAdvertiser
 import br.senai.sp.jandira.s_book.model.Editora
 import br.senai.sp.jandira.s_book.model.Endereco
@@ -57,63 +58,16 @@ fun HeaderBoxAdvertiser(
 
     var usuarioHeader by remember {
         mutableStateOf(
-            DadosAdvertiser(
-                id_usuario = 0,
-                nome = "",
-                email = "",
-                foto = "",
-                cidade = "",
-                estado = "",
-                generos = mutableListOf(),
-                anuncios = AnuncioAdvertiser(
-                    anuncios = listOf(
-                        AnuncioAdvertiserUser(
-                            id = 0,
-                            nome = "",
-                            ano_lancamento = 0,
-                            edicao = "",
-                            preco = 0.0,
-                            anunciante = 0,
-                            data_criacao = "",
-                            status_anuncio = false,
-                            descricao = "",
-                            numero_paginas = 0
-                        )
-                    ),
-                    autores = mutableListOf(),
-                    editora = Editora(
-                        id = 0,
-                        nome = "",
-                    ),
-                    endereco = Endereco(
-                        estado = "",
-                        cidade = "",
-                        bairro = ""
-                    ),
-                    estado_livro = EstadoLivro(
-                        id = 0,
-                        estado = ""
-                    ),
-                    foto = mutableListOf(
-                        Foto(
-                            id = 0,
-                            foto = ""
-                        )
-                    ),
-                    generos = mutableListOf(
-                        Genero(
-                            id = 0,
-                            nome = ""
-                        )
-                    ),
-                    idioma = Idioma(
-                        id = 0,
-                        nome = ""
-                    ),
-                    tipo_anuncio = mutableListOf()
+
+                AnuncioAdvertiser(
+                    status = 0,
+                    message = "kanye West",
+                    quantidade = 0,
+                    anuncios = mutableListOf(AnuncioResponse(
+                        anuncio =
+                    ))
                 )
-            )
-        )
+
     }
 
     val call = RetrofitHelper.getAdvertiserService().getAdvertiser(id)
@@ -125,9 +79,9 @@ fun HeaderBoxAdvertiser(
             response: Response<Advertiser>
         ) {
             Log.e("TAG", "onResponse: ${response.body()}")
-            usuarioHeader = response.body()!!.dados
+            usuarioHeader = response.body()!!.dados.anuncios
             Log.e("Thiago2", "onResponse: ${usuarioHeader}")
-            Log.d("nome do anunciante thiago", "${usuarioHeader.nome}")
+            Log.d("nome do anunciante thiago", "${usuarioHeader}")
 
         }
 

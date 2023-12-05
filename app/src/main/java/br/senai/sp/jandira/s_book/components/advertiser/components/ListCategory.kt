@@ -5,11 +5,15 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
@@ -32,6 +36,7 @@ import br.senai.sp.jandira.s_book.R
 import br.senai.sp.jandira.s_book.model.Advertiser
 import br.senai.sp.jandira.s_book.model.AnuncioAdvertiser
 import br.senai.sp.jandira.s_book.model.AnuncioAdvertiserUser
+import br.senai.sp.jandira.s_book.model.AnuncioResponse
 import br.senai.sp.jandira.s_book.model.DadosAdvertiser
 import br.senai.sp.jandira.s_book.model.Editora
 import br.senai.sp.jandira.s_book.model.Endereco
@@ -74,54 +79,62 @@ fun ListCategory(
                     )
                 ),
                 anuncios = AnuncioAdvertiser(
+                    status = 0,
+                    message = "",
+                    quantidade = 0,
                     anuncios = listOf(
-                        AnuncioAdvertiserUser(
-                            id = 0,
-                            nome = "",
-                            ano_lancamento = 0,
-                            edicao = "",
-                            preco = 0.0,
-                            anunciante = 0,
-                            data_criacao = "",
-                            status_anuncio = false,
-                            descricao = "",
-                            numero_paginas = 0
+                        AnuncioResponse(
+                            anuncio =
+                            AnuncioAdvertiserUser(
+                                id = 0,
+                                nome = "",
+                                ano_lancamento = 0,
+                                edicao = "",
+                                preco = 0.0,
+                                anunciante = 0,
+                                data_criacao = "",
+                                status_anuncio = false,
+                                descricao = "",
+                                numero_paginas = 0
+                            ),
+
+                            autores = mutableListOf(),
+                            editora = Editora(
+                                id = 0,
+                                nome = "",
+                            ),
+                            endereco = Endereco(
+                                estado = "",
+                                cidade = "",
+                                bairro = ""
+                            ),
+                            estado_livro = EstadoLivro(
+                                id = 0,
+                                estado = ""
+                            ),
+                            foto = mutableListOf(
+                                Foto(
+                                    id = 0,
+                                    foto = ""
+                                )
+                            ),
+                            generos = mutableListOf(
+                                Genero(
+                                    id = 0,
+                                    nome = ""
+                                )
+                            ),
+                            idioma = Idioma(
+                                id = 0,
+                                nome = ""
+                            ),
+                            tipo_anuncio = mutableListOf()
                         )
-                    ),
-                    autores = mutableListOf(),
-                    editora = Editora(
-                        id = 0,
-                        nome = "",
-                    ),
-                    endereco = Endereco(
-                        estado = "",
-                        cidade = "",
-                        bairro = ""
-                    ),
-                    estado_livro = EstadoLivro(
-                        id = 0,
-                        estado = ""
-                    ),
-                    foto = mutableListOf(
-                        Foto(
-                            id = 0,
-                            foto = ""
-                        )
-                    ),
-                    generos = mutableListOf(
-                        Genero(
-                            id = 0,
-                            nome = ""
-                        )
-                    ),
-                    idioma = Idioma(
-                            id = 0,
-                            nome = ""
-                    ),
-                    tipo_anuncio = mutableListOf()
+                    )
                 )
             )
         )
+
     }
 
     val call = RetrofitHelper.getAdvertiserService().getAdvertiser(id)
@@ -171,15 +184,31 @@ fun ListCategory(
                 color = Color(170, 98, 49, 255),
             )
         }
+
+//        LazyHorizontalGrid(
+//            rows = GridCells.Adaptive(50.dp) ,
+//            contentPadding = PaddingValues(4.dp),
+//            modifier = Modifier
+//                .fillMaxWidth(),
+//            horizontalArrangement = Arrangement.spacedBy(5.dp)
+//        ) {
+//            items(usuarioHeader.generos) { item ->
+//
+//
+//            }
+//        }
+
+
         val pairs = usuarioHeader.generos.chunked(3)
 
         for (pair in pairs) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(10.dp)
+                horizontalArrangement = Arrangement.spacedBy(20.dp)
             ) {
                 for (item in pair) {
+
                     Column(
                         modifier = Modifier
                             .height(40.dp),
@@ -208,9 +237,9 @@ fun ListCategory(
                             )
                         }
                     }
-
                 }
             }
         }
     }
 }
+
