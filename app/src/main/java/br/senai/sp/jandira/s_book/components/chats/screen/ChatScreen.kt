@@ -176,7 +176,7 @@ fun ChatScreen(
             verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
 
-            items(listaContatos.users){
+            items(listaContatos.users.reversed()){
 
                 var contato = it.users.filter { user -> user.id != idUsuario }
 

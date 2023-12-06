@@ -17,6 +17,7 @@ import br.senai.sp.jandira.s_book.components.chats.screen.ChatScreen
 import br.senai.sp.jandira.s_book.components.donations.screen.DonationsScreen
 import br.senai.sp.jandira.s_book.components.feed.screen.FeedScreen
 import br.senai.sp.jandira.s_book.components.login.screen.LoginScreen
+import br.senai.sp.jandira.s_book.components.login.screen.LoginScreenRota
 import br.senai.sp.jandira.s_book.components.meu_anuncio.screen.MyAnnounceScreen
 import br.senai.sp.jandira.s_book.components.pesquisar.screen.SearchScreen
 import br.senai.sp.jandira.s_book.components.profile.screens.ProfileScreen
@@ -82,6 +83,10 @@ fun ButtonNavGraph(
             DonationsScreen(navController = navController, sharedViewModel, viewModelAnuncioV2)
         }
 
+        composable("login") {
+            LoginScreenRota(navController = navRotasController, lifecycleScope = lifecycleScope)
+        }
+
         composable("advertiser") {
             AdvertiserScreen(navController = navController, lifecycleScope, viewModelV2 = viewModelAnuncioV2 )
         }
@@ -133,7 +138,7 @@ fun ButtonNavGraph(
 
                 ChatScreen( navRotasController , socket = socket, idUsuario = data.toInt(), chatViewModel = chatViewModel, client )
             }else{
-                LoginScreen(navController = navRotasController, lifecycleScope = lifecycleScope)
+                LoginScreenRota(navController = navRotasController, lifecycleScope = lifecycleScope)
             }
         }
 
@@ -141,7 +146,7 @@ fun ButtonNavGraph(
             if(dadaUser.isNotEmpty()){
                 ProfileScreen(navRotasController = navRotasController, navController = navController)
             }else{
-                LoginScreen(navController = navRotasController, lifecycleScope = lifecycleScope)
+                LoginScreenRota(navController = navRotasController, lifecycleScope = lifecycleScope)
             }
         }
     }

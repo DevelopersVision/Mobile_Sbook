@@ -118,7 +118,9 @@ fun SearchScreen(
                             preco = item.anuncio.preco,
                             lifecycleScope = lifecycleScope!!,
                             id = item.anuncio.id,
-                            onClick = {},
+                            onClick = {
+                                navController.navigate("announce")
+                            },
                             coracaoClik = {},
                         )
                         Log.e("oiii joao", "aqui chegou:${pesquisar}")

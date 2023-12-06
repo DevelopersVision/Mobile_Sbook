@@ -52,10 +52,10 @@ fun CreateContScreen(
             )
 
 //            Spacer(modifier = Modifier.height(53.dp))
-            TextContinueScreen()
-
-//            Spacer(modifier = Modifier.height(12.dp))
-            GoogleScreen()
+//            TextContinueScreen()
+//
+////            Spacer(modifier = Modifier.height(12.dp))
+//            GoogleScreen()
 
 //            Spacer(modifier = Modifier.height(6.dp))
             TextContScreen(
