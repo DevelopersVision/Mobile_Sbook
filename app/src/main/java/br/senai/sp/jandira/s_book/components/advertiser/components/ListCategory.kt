@@ -78,64 +78,42 @@ fun ListCategory(
                         nome_genero = ""
                     )
                 ),
-                anuncios = AnuncioAdvertiser(
-                    status = 0,
-                    message = "",
-                    quantidade = 0,
-                    anuncios = listOf(
-                        AnuncioResponse(
-                            anuncio =
-                            AnuncioAdvertiserUser(
-                                id = 0,
-                                nome = "",
-                                ano_lancamento = 0,
-                                edicao = "",
-                                preco = 0.0,
-                                anunciante = 0,
-                                data_criacao = "",
-                                status_anuncio = false,
-                                descricao = "",
-                                numero_paginas = 0
-                            ),
-
-                            autores = mutableListOf(),
-                            editora = Editora(
-                                id = 0,
-                                nome = "",
-                            ),
-                            endereco = Endereco(
-                                estado = "",
-                                cidade = "",
-                                bairro = ""
-                            ),
-                            estado_livro = EstadoLivro(
-                                id = 0,
-                                estado = ""
-                            ),
-                            foto = mutableListOf(
-                                Foto(
-                                    id = 0,
-                                    foto = ""
-                                )
-                            ),
-                            generos = mutableListOf(
-                                Genero(
-                                    id = 0,
-                                    nome = ""
-                                )
-                            ),
-                            idioma = Idioma(
-                                id = 0,
-                                nome = ""
-                            ),
-                            tipo_anuncio = mutableListOf()
-                        )
-                    )
-                )
+                anuncios = mutableListOf()
             )
         )
 
     }
+//    autores = mutableListOf(),
+//                            editora = Editora(
+//                                id = 0,
+//                                nome = "",
+//                            ),
+//                            endereco = Endereco(
+//                                estado = "",
+//                                cidade = "",
+//                                bairro = ""
+//                            ),
+//                            estado_livro = EstadoLivro(
+//                                id = 0,
+//                                estado = ""
+//                            ),
+//                            foto = mutableListOf(
+//                                Foto(
+//                                    id = 0,
+//                                    foto = ""
+//                                )
+//                            ),
+//                            generos = mutableListOf(
+//                                Genero(
+//                                    id = 0,
+//                                    nome = ""
+//                                )
+//                            ),
+//                            idioma = Idioma(
+//                                id = 0,
+//                                nome = ""
+//                            ),
+//                            tipo_anuncio = mutableListOf()
 
     val call = RetrofitHelper.getAdvertiserService().getAdvertiser(id)
 

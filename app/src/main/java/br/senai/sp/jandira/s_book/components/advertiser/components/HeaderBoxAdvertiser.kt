@@ -39,6 +39,7 @@ import br.senai.sp.jandira.s_book.model.Foto
 import br.senai.sp.jandira.s_book.model.Genero
 import br.senai.sp.jandira.s_book.model.GenerosAdvertiser
 import br.senai.sp.jandira.s_book.model.Idioma
+import br.senai.sp.jandira.s_book.model.JsonAnuncios
 import br.senai.sp.jandira.s_book.service.RetrofitHelper
 import br.senai.sp.jandira.s_book.view_model.AnuncioViewModelV2
 import retrofit2.Call
@@ -58,17 +59,25 @@ fun HeaderBoxAdvertiser(
 
     var usuarioHeader by remember {
         mutableStateOf(
-
-                AnuncioAdvertiser(
-                    status = 0,
-                    message = "kanye West",
-                    quantidade = 0,
-                    anuncios = mutableListOf(AnuncioResponse(
-                        anuncio =
-                    ))
-                )
-
+            DadosAdvertiser(
+                id_usuario = 0,
+                nome = "",
+                email = "",
+                foto = "",
+                cidade = "",
+                estado = "",
+                generos = mutableListOf(
+                    GenerosAdvertiser(
+                        id_genero_preferido_usuario = 0,
+                        id_genero = 0,
+                        nome_genero = ""
+                    )
+                ),
+                anuncios = mutableListOf()
+            )
+        )
     }
+
 
     val call = RetrofitHelper.getAdvertiserService().getAdvertiser(id)
 
@@ -79,7 +88,7 @@ fun HeaderBoxAdvertiser(
             response: Response<Advertiser>
         ) {
             Log.e("TAG", "onResponse: ${response.body()}")
-            usuarioHeader = response.body()!!.dados.anuncios
+            usuarioHeader = response.body()!!.dados
             Log.e("Thiago2", "onResponse: ${usuarioHeader}")
             Log.d("nome do anunciante thiago", "${usuarioHeader}")
 

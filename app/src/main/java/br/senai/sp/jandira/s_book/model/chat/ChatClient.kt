@@ -16,7 +16,7 @@ class ChatClient() {
         val options = IO.Options()
         options.path = "/clients/socketio/hubs/Hub"
 
-        socket = IO.socket("https://testewebsocketsbook.webpubsub.azure.com", options)
+        socket = IO.socket("https://socket-grupo6.webpubsub.azure.com/", options)
     }
 
 

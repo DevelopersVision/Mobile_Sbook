@@ -66,61 +66,7 @@ fun AdvertiserScreen(
 
     var usuarioAnuncios by remember {
         mutableStateOf(
-            listOf<AnuncioResponse>()
-//            AnuncioAdvertiser(
-//                status = 0,
-//                message = "",
-//                quantidade = 0,
-//                anuncios = listOf(
-//                    AnuncioResponse(
-//                        anuncio =
-//                            AnuncioAdvertiserUser(
-//                                id = 0,
-//                                nome = "",
-//                                ano_lancamento = 0,
-//                                edicao = "",
-//                                preco = 0.0,
-//                                anunciante = 0,
-//                                data_criacao = "",
-//                                status_anuncio = false,
-//                                descricao = "",
-//                                numero_paginas = 0
-//                            ),
-//
-//                        autores = mutableListOf(),
-//                        editora = Editora(
-//                            id = 0,
-//                            nome = "",
-//                        ),
-//                        endereco = Endereco(
-//                            estado = "",
-//                            cidade = "",
-//                            bairro = ""
-//                        ),
-//                        estado_livro = EstadoLivro(
-//                            id = 0,
-//                            estado = ""
-//                        ),
-//                        foto = mutableListOf(
-//                            Foto(
-//                                id = 0,
-//                                foto = ""
-//                            )
-//                        ),
-//                        generos = mutableListOf(
-//                            Genero(
-//                                id = 0,
-//                                nome = ""
-//                            )
-//                        ),
-//                        idioma = Idioma(
-//                            id = 0,
-//                            nome = ""
-//                        ),
-//                        tipo_anuncio = mutableListOf()
-//                    )
-//                )
-//            )
+            listOf<AnuncioAdvertiser>()
         )
 
     }
@@ -134,7 +80,7 @@ fun AdvertiserScreen(
             call: Call<Advertiser>,
             response: Response<Advertiser>
         ) {
-            usuarioAnuncios = response.body()!!.dados.anuncios.anuncios
+            usuarioAnuncios = response.body()!!.dados.anuncios
         }
 
         override fun onFailure(call: Call<Advertiser>, t: Throwable) {
@@ -174,40 +120,20 @@ fun AdvertiserScreen(
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                items(usuarioAnuncios) { anuncio ->
+                items(usuarioAnuncios) { it ->
                     Annunces(
-                        id = anuncio.anuncio.id,
-                        nome_livro = anuncio.anuncio.nome,
-                        autor = "",
-                        tipo_anuncio = "",
-                        preco = anuncio.anuncio.preco,
-                        foto = "",
+                        id = it.anuncios.anuncio.id,
+                        nome_livro = it.anuncios.anuncio.nome,
+                        autor = it.autores[0].nome,
+                        tipo_anuncio = it.tipo_anuncio[0].tipo,
+                        preco = it.anuncios.anuncio.preco,
+                        foto = it.foto[0].foto,
                         lifecycleScope = lifecycleScope,
                         navController = navController
                     ) {}
                 }
             }
-//            Row(
-//                modifier = Modifier
-//                    .fillMaxWidth(),
-//                horizontalArrangement = Arrangement.spacedBy(12.dp),
-//                verticalAlignment = Alignment.CenterVertically
-//            ) {
-//                Annunces(
-//                    id = ,
-//                    nome_livro = ,
-//                    autor = ,
-//                    tipo_anuncio = ,
-//                    preco = ,
-//                    foto = ,
-//                    lifecycleScope = ,
-//                    navController =
-//                ) {
-//
-//                }
-//            }
         }
-
         Spacer(modifier = Modifier.height(38.dp))
     }
 }

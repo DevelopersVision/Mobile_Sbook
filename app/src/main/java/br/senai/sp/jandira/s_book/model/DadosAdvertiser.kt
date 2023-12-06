@@ -8,5 +8,5 @@ data class DadosAdvertiser(
     val cidade: String,
     val estado: String,
     val generos: List<GenerosAdvertiser>,
-    val anuncios: AnuncioAdvertiser
+    val anuncios: List<AnuncioAdvertiser>
 )
