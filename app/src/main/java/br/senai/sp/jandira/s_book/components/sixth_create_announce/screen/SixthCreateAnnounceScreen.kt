@@ -155,13 +155,24 @@ fun SixthCreateAnnounceScreen(
                                 checked = isChecked,
                                 onCheckedChange = { isChecked ->
                                     if (isChecked) {
+                                        when (it.tipo) {
+                                            "Doação" -> {
+                                                // Se Doação está marcado, desmarca os outros
+                                                tiposSelecionados = setOf(it.tipo)
+                                                isVendaChecked = false
+                                                vendaPriceState = ""
+                                            }
+                                            "Troca", "Venda" -> {
+                                                // Se Troca ou Venda estão marcados, desmarca Doação
+                                                tiposSelecionados = tiposSelecionados - "Doação"
+                                            }
+                                        }
                                         tiposSelecionados = tiposSelecionados + it.tipo
                                         viewModelDosTipoDeLivros.tiposDoAnuncio =
                                             arrayDosTiposDeAnuncio.plus(it.id)
                                     } else {
+                                        // Se Desmarcar, remove o tipo do conjunto
                                         tiposSelecionados = tiposSelecionados - it.tipo
-                                        viewModelDosTipoDeLivros.tiposDoAnuncio =
-                                            arrayDosTiposDeAnuncio.minus(it.id)
                                     }
                                     isVendaChecked = tiposSelecionados.contains("Venda")
                                 }
@@ -175,6 +186,7 @@ fun SixthCreateAnnounceScreen(
                         )
                     }
                 }
+
                 if (isVendaChecked) {
                     OutlinedTextField(
                         value = vendaPriceState,

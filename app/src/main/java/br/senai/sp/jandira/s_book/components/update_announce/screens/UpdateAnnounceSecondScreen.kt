@@ -81,23 +81,15 @@ fun UpdateAnnounceSecondScreen(
 ) {
     val context = LocalContext.current
 
-    var array = listOf<Int>()
-    for (tipo in viewModelV2.dadosAnuncio.tipo_anuncio) {
-        array = array + tipo.id
+
+    var arrayGenero = listOf<Int>()
+    for (genero in viewModelV2.dadosAnuncio.generos) {
+        arrayGenero = arrayGenero + genero.id
     }
 
-    var listTipoAnuncio by remember {
-        mutableStateOf(listOf<TipoAnuncio>())
-    }
-    var tiposSelecionados by rememberSaveable {
-        mutableStateOf(viewModelDosTipoDeLivros.tiposSelecionados)
-    }
-    var arrayDosTiposDeAnuncio by remember {
-        mutableStateOf(array)
-    }
-
+    viewlModel.selectedGeneros = arrayGenero
     var generosSelecionados by rememberSaveable {
-        mutableStateOf<Set<String>>(emptySet())
+        mutableStateOf(viewlModel.selectedGeneros)
     }
 
     var arrayDeGeneros by remember {
@@ -120,13 +112,32 @@ fun UpdateAnnounceSecondScreen(
     }
 
 
-
     viewModelDosIds.estadosSelecionados = setOf(viewModelV2.dadosAnuncio.estado_livro.estado)
-
     var estadosSelecionados by rememberSaveable {
         mutableStateOf(viewModelDosIds.estadosSelecionados)
     }
 
+    Log.e("morriiii felipe", "${estadosSelecionados}", )
+
+
+
+    var listTipoAnuncio by remember {
+        mutableStateOf(listOf<TipoAnuncio>())
+    }
+
+    var array = listOf<Int>()
+    for (tipo in viewModelV2.dadosAnuncio.tipo_anuncio) {
+        array = array + tipo.id
+    }
+
+    viewModelDosTipoDeLivros.tiposDoAnuncio = array
+    var tiposSelecionados by rememberSaveable {
+        mutableStateOf(viewModelDosTipoDeLivros.tiposDoAnuncio)
+    }
+
+    var arrayDosTiposDeAnuncio by remember {
+        mutableStateOf(listOf<Int>())
+    }
 
     val call = RetrofitHelper.getTipoAnuncioService().getTipoAnuncio()
 
@@ -268,7 +279,7 @@ fun UpdateAnnounceSecondScreen(
                 )
                 val pairs = listGeneros
                 for (it in pairs) {
-                    val isChecked = generosSelecionados.contains(it.nome)
+                    val isChecked = generosSelecionados!!.contains(it.id)
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -289,22 +300,21 @@ fun UpdateAnnounceSecondScreen(
                             onCheckedChange = { isChecked ->
 
                                 if (isChecked) {
-                                    generosSelecionados = generosSelecionados + it.nome
+
+                                    generosSelecionados = generosSelecionados!! + it.id
 
                                     arrayDeGeneros = arrayDeGeneros.plus(it.id)
 
                                     Log.e("TAGATAGATTATATATATTATATATATAT", "${arrayDeGeneros}")
 
                                 } else {
-                                    generosSelecionados = generosSelecionados - it.nome
+                                    generosSelecionados = generosSelecionados!! - it.id
 
                                     arrayDeGeneros = arrayDeGeneros.minus(it.id)
 
                                     Log.e("TAGATAGATTATATATATTATATATATAT", "${arrayDeGeneros}")
                                 }
                                 Log.e("thiago", "${generosSelecionados}")
-                                val generosSelecionadosString =
-                                    generosSelecionados.joinToString(", ")
 
                                 Log.e("TAGATAGATTATATATATTATATATATAT", "${arrayDeGeneros}")
 
@@ -342,9 +352,12 @@ fun UpdateAnnounceSecondScreen(
                     color = Color(0xFFE0E0E0)
                 )
 
-                val pair = listTipoAnuncio
+                var pair = listTipoAnuncio
                 for (it in pair) {
-                    val isChecked = tiposSelecionados.contains(it.tipo)
+                    val isChecked3 = tiposSelecionados!!.contains(it.id)
+                    //val isChecked4 = tiposSelecionados!!.contains(it.tipo)
+
+                    Log.e("morreremos aquiiii", "UpdateAnnounceSecondScreen: ${listTipoAnuncio}", )
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -360,21 +373,25 @@ fun UpdateAnnounceSecondScreen(
                             fontWeight = FontWeight(500),
                             color = Color(0xFF808080),
                         )
-                        Checkbox(
-                            checked = isChecked,
-                            onCheckedChange = { isChecked ->
-                                if (isChecked) {
-                                    tiposSelecionados = tiposSelecionados + it.tipo
-                                    viewModelDosTipoDeLivros.tiposDoAnuncio =
-                                        arrayDosTiposDeAnuncio.plus(it.id)
-                                } else {
-                                    tiposSelecionados = tiposSelecionados - it.tipo
-                                    viewModelDosTipoDeLivros.tiposDoAnuncio =
-                                        arrayDosTiposDeAnuncio.minus(it.id)
+                        if (isChecked3 != null) {
+                            Checkbox(
+                                checked = isChecked3,
+                                onCheckedChange = { isChecked3 ->
+                                    if (isChecked3) {
+                                        //tiposSelecionados = tiposSelecionados?.plus(it.tipo)!!
+                                        tiposSelecionados = tiposSelecionados?.minus(it.id)!!
+                                        viewModelDosTipoDeLivros.tiposDoAnuncio =
+                                            arrayDosTiposDeAnuncio.plus(it.id)
+                                    } else {
+                                        //tiposSelecionados = tiposSelecionados?.minus(it.tipo)!!
+                                        tiposSelecionados = tiposSelecionados?.minus(it.id)!!
+                                        viewModelDosTipoDeLivros.tiposDoAnuncio =
+                                            arrayDosTiposDeAnuncio.minus(it.id)
+                                    }
+                                    //isVendaChecked = tiposSelecionados!!.contains("Venda")
                                 }
-                                isVendaChecked = tiposSelecionados.contains("Venda")
-                            }
-                        )
+                            )
+                        }
                     }
                     Divider(
                         modifier = Modifier
@@ -413,7 +430,9 @@ fun UpdateAnnounceSecondScreen(
             }
         }
         Row(
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 24.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {

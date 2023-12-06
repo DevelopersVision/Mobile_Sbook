@@ -10,4 +10,6 @@ class ViewModelDosIds: ViewModel() {
     var id_estadoLivro: Int? = null
     var id_idioma: Int? = null
     var estadosSelecionados by mutableStateOf<Set<String>>(emptySet())
+    var tiposSelecionados by mutableStateOf<Set<String>>(emptySet())
+
 }
