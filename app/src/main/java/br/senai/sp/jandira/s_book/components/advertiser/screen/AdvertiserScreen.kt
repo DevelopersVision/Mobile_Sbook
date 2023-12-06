@@ -120,20 +120,21 @@ fun AdvertiserScreen(
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                items(usuarioAnuncios) { it ->
+                items(usuarioAnuncios) { anuncio ->
                     Annunces(
-                        id = it.anuncios.anuncio.id,
-                        nome_livro = it.anuncios.anuncio.nome,
-                        autor = it.autores[0].nome,
-                        tipo_anuncio = it.tipo_anuncio[0].tipo,
-                        preco = it.anuncios.anuncio.preco,
-                        foto = it.foto[0].foto,
+                        id = anuncio.anuncios.anuncio.id,
+                        nome_livro = anuncio.anuncios.anuncio.nome,
+                        autor = anuncio.autores[0].nome,
+                        tipo_anuncio = anuncio.tipo_anuncio[0].tipo,
+                        preco = anuncio.anuncios.anuncio.preco,
+                        foto = anuncio.foto[0].foto,
                         lifecycleScope = lifecycleScope,
                         navController = navController
                     ) {}
                 }
             }
         }
+
         Spacer(modifier = Modifier.height(38.dp))
     }
 }
