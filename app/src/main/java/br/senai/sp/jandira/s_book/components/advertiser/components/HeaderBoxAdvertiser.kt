@@ -79,7 +79,8 @@ fun HeaderBoxAdvertiser(
     }
 
 
-    val call = RetrofitHelper.getAdvertiserService().getAdvertiser(id)
+    Log.e("Porque ta vindo nullo 2?", "${id}")
+    val call = RetrofitHelper.getAdvertiserService().getAdvertiser(id!!)
 
     // Executar a chamada
     call.enqueue(object : Callback<Advertiser> {

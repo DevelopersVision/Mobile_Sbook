@@ -1,7 +1,7 @@
 package br.senai.sp.jandira.s_book.model
 
 data class AnuncioAdvertiser(
-    var anuncios:  AnuncioResponse,
+    var anuncio:  AnuncioAdvertiserUser,
     var idioma: Idioma,
     var endereco: Endereco,
     var estado_livro: EstadoLivro,

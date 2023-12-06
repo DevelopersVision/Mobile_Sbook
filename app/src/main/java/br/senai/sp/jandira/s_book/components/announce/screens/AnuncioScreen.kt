@@ -132,7 +132,7 @@ fun AnnounceScreen(
     }
 
 
-    val call = RetrofitHelper.getAnunciosService().getAnuncioByID(viewModel.idAnuncio)
+    val call = RetrofitHelper.getAnunciosService().getAnuncioByID(viewModel.idAnuncio!!)
 
     // Executar a chamada
     call.enqueue(object : Callback<AnuncioResponseById> {

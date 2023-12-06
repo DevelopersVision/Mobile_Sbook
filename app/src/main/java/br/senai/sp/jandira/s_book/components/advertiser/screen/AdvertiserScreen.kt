@@ -60,7 +60,8 @@ fun AdvertiserScreen(
     viewModelV2: AnuncioViewModelV2
 ) {
 
-    val id = viewModelV2.idAnunciante
+
+    var id = viewModelV2.idAnunciante
 
     Log.d("id do anunciante", "${id}")
 
@@ -72,20 +73,40 @@ fun AdvertiserScreen(
     }
 
 
-    val call = RetrofitHelper.getAdvertiserService().getAdvertiser(id)
+    Log.e("Porque ta vindo nullo?", "${id}")
+
+    if (id != null) {
+        Log.d("id do anunciante", "${id}")
+
+        val call = RetrofitHelper.getAdvertiserService().getAdvertiser(id)
+
+        call.enqueue(object : Callback<Advertiser> {
+            override fun onResponse(
+                call: Call<Advertiser>,
+                response: Response<Advertiser>
+            ) {
+                val body = response.body()
+
+                if (body != null) {
+                    usuarioAnuncios = body.dados.anuncios
+                } else {
+                    Log.e("Erro", "Resposta do servidor é nula")
+                }
+            }
+
+            override fun onFailure(call: Call<Advertiser>, t: Throwable) {
+                Log.e("Erro", "Falha na chamada Retrofit: ${t.message}")
+            }
+        })
+
+        // Restante do código...
+    } else {
+        Log.e("Erro", "idAnunciante é nulo")
+    }
+
 
     // Executar a chamada
-    call.enqueue(object : Callback<Advertiser> {
-        override fun onResponse(
-            call: Call<Advertiser>,
-            response: Response<Advertiser>
-        ) {
-            usuarioAnuncios = response.body()!!.dados.anuncios
-        }
 
-        override fun onFailure(call: Call<Advertiser>, t: Throwable) {
-        }
-    })
 
     Column(
         modifier = Modifier
@@ -122,11 +143,11 @@ fun AdvertiserScreen(
             ) {
                 items(usuarioAnuncios) { anuncio ->
                     Annunces(
-                        id = anuncio.anuncios.anuncio.id,
-                        nome_livro = anuncio.anuncios.anuncio.nome,
+                        id = anuncio.anuncio.id,
+                        nome_livro = anuncio.anuncio.nome,
                         autor = anuncio.autores[0].nome,
                         tipo_anuncio = anuncio.tipo_anuncio[0].tipo,
-                        preco = anuncio.anuncios.anuncio.preco,
+                        preco = anuncio.anuncio.preco,
                         foto = anuncio.foto[0].foto,
                         lifecycleScope = lifecycleScope,
                         navController = navController

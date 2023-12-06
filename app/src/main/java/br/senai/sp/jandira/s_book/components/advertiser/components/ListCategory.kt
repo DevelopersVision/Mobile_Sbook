@@ -115,7 +115,7 @@ fun ListCategory(
 //                            ),
 //                            tipo_anuncio = mutableListOf()
 
-    val call = RetrofitHelper.getAdvertiserService().getAdvertiser(id)
+    val call = RetrofitHelper.getAdvertiserService().getAdvertiser(id!!)
 
     // Executar a chamada
     call.enqueue(object : Callback<Advertiser> {
