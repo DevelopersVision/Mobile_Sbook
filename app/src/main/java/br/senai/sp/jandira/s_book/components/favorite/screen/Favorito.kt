@@ -57,7 +57,7 @@ fun FavoritoScreen(
     navController: NavController,
     navRotasController: NavController,
     lifecycleScope: LifecycleCoroutineScope?,
-    viewModelQueVaiPassarOsDados: AnuncioViewModel,
+    viewModelQueVaiPassarOsDados: AnuncioViewModelV2,
 //    viewModelId: viewModelId
 ) {
 
@@ -214,13 +214,8 @@ fun FavoritoScreen(
                             }
                             navRotasController.navigate("announce")
                         },
-                        coracaoClik = {
-
-                        },
-
+                        coracaoClik = {},
                         )
-
-
                 }
             }
         } else {
