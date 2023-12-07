@@ -43,9 +43,11 @@ import br.senai.sp.jandira.s_book.components.feed.screen.getAnunciante
 import br.senai.sp.jandira.s_book.components.universal.NoExist
 import br.senai.sp.jandira.s_book.model.AnunciosFavoritosBaseResponse
 import br.senai.sp.jandira.s_book.model.JsonFavoritados
+import br.senai.sp.jandira.s_book.model.chat.view_model.viewModelId
 import br.senai.sp.jandira.s_book.service.RetrofitHelper
 import br.senai.sp.jandira.s_book.sqlite_repository.UserRepository
 import br.senai.sp.jandira.s_book.view_model.AnuncioViewModel
+import br.senai.sp.jandira.s_book.view_model.AnuncioViewModelV2
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -55,13 +57,13 @@ fun FavoritoScreen(
     navController: NavController,
     navRotasController: NavController,
     lifecycleScope: LifecycleCoroutineScope?,
-    viewModelQueVaiPassarOsDados: AnuncioViewModel
-
+    viewModelQueVaiPassarOsDados: AnuncioViewModel,
+//    viewModelId: viewModelId
 ) {
 
     val context = LocalContext.current
 
-    var listAnuncios by remember{
+    var listAnuncios by remember {
         mutableStateOf(listOf<JsonFavoritados>())
     }
 
@@ -76,7 +78,8 @@ fun FavoritoScreen(
     val user = array[0]
 
     // Cria uma chamada para o EndPoint
-    val call = RetrofitHelper.getAnunciosFavoritadosService().getAnunciosFavoritosByUsuarioId(user.id)
+    val call =
+        RetrofitHelper.getAnunciosFavoritadosService().getAnunciosFavoritosByUsuarioId(user.id)
 
     Log.e("API Call", "Antes da chamada da API1: ${listAnuncios}")
 
@@ -96,126 +99,141 @@ fun FavoritoScreen(
         }
     })
 
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(24.dp)
-        ) {
-            Header(
-                navController = navController,
-                navRotasController = navRotasController
-            )
-            Spacer(modifier = Modifier.height(46.dp))
-            Text(
-                text = "Veja o que você mais gostou",
-                fontSize = 24.sp,
-                fontWeight = FontWeight(600),
-                modifier = Modifier.width(228.dp)
-            )
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(24.dp)
+    ) {
+        Header(
+            navController = navController,
+            navRotasController = navRotasController
+        )
+        Spacer(modifier = Modifier.height(46.dp))
+        Text(
+            text = "Veja o que você mais gostou",
+            fontSize = 24.sp,
+            fontWeight = FontWeight(600),
+            modifier = Modifier.width(228.dp)
+        )
 
-            TextField(
-                value = filterState,
-                onValueChange = {
-                    filterState = it
-                },
-                modifier = Modifier.fillMaxWidth(),
-                colors = TextFieldDefaults.textFieldColors(
-                    backgroundColor = Color.Transparent,
-                    focusedIndicatorColor = Color.Black,
-                    unfocusedIndicatorColor = Color.Black,
-                    disabledIndicatorColor = Color.Black,
-                    errorIndicatorColor = Color.Black
-                ),
-                textStyle = TextStyle(
-                    color = Color.Black,
-                    fontSize = 20.sp
-                ),
-                leadingIcon = {
-                    Image(
-                        painter = painterResource(id = R.drawable.pesquisa),
-                        contentDescription = "",
-                        modifier = Modifier.size(24.dp)
-                    )
-                }
-            )
-            Spacer(modifier = Modifier.height(24.dp))
-            if(listAnuncios.isNotEmpty()){
-                LazyColumn(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .fillMaxHeight(),
-                    verticalArrangement = Arrangement.spacedBy(24.dp, Alignment.Top),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                ) {
-                    items(listAnuncios.filter { it.anuncio.nome.contains(filterState, ignoreCase = true) }) { item ->
-                        AnimatedVisibility(
-                            visible = !listAnuncios.contains(item),
-                            enter = expandVertically(),
-                            exit = slideOutHorizontally()
-                        ) {
-                        }
-                            Card(
-                                nome_livro = item.anuncio.nome,
-                                ano_lancamento = item.anuncio.ano_lancamento,
-                                foto = item.foto[0].foto,
-                                tipo_anuncio = item.tipo_anuncio[0].tipo,
-                                autor = item.autores[0].nome,
-                                preco = item.anuncio.preco,
-                                lifecycleScope = lifecycleScope!!,
-                                id = item.anuncio.id,
-                                onClick = {
-                                    viewModelQueVaiPassarOsDados.foto = item.foto
-                                    val anunciante = getAnunciante(item.anuncio.anunciante) { usuario ->
-                                        if (usuario != null) {
-                                            viewModelQueVaiPassarOsDados.id = item.anuncio.id
-
-                                            viewModelQueVaiPassarOsDados.nome = item.anuncio.nome
-
-                                            viewModelQueVaiPassarOsDados.generos = item.generos
-                                            viewModelQueVaiPassarOsDados.tipo_anuncio =
-                                                item.tipo_anuncio
-
-                                            viewModelQueVaiPassarOsDados.anunciante_foto = usuario.foto
-
-                                            viewModelQueVaiPassarOsDados.anunciante_nome = usuario.nome
-                                            viewModelQueVaiPassarOsDados.cidade_anuncio = usuario.cidade
-                                            viewModelQueVaiPassarOsDados.estado_anuncio = usuario.estado
-                                            viewModelQueVaiPassarOsDados.descricao =
-                                                item.anuncio.descricao
-
-                                            viewModelQueVaiPassarOsDados.ano_edicao =
-                                                item.anuncio.ano_lancamento
-                                            viewModelQueVaiPassarOsDados.autor = item.autores
-                                            viewModelQueVaiPassarOsDados.editora = item.editora
-                                            viewModelQueVaiPassarOsDados.idioma = item.idioma
-                                            viewModelQueVaiPassarOsDados.preco = item.anuncio.preco
-//                                        Log.e("Valor Preco", "${viewModelQueVaiPassarOsDados.preco}")
-                                        } else {
-                                            Log.e("Anunciante", "null")
-                                        }
-                                    }
-                                    navRotasController.navigate("annouceDetail")
-                                },
-                                coracaoClik = {
-
-                                },
-
-                            )
-
-
-                    }
-                }
-            }else{
-                Spacer(modifier = Modifier.height(100.dp))
-                NoExist(
-                    onclick = {
-                        navController.navigate("navigation_home_bar")
-                    },
-                    textTitulo = "Nenhum favorito ainda :(",
-                    textSubTitulo = "Escolha o que você mais gostou",
-                    textDecisão = "Ir para o início"
+        TextField(
+            value = filterState,
+            onValueChange = {
+                filterState = it
+            },
+            modifier = Modifier.fillMaxWidth(),
+            colors = TextFieldDefaults.textFieldColors(
+                backgroundColor = Color.Transparent,
+                focusedIndicatorColor = Color.Black,
+                unfocusedIndicatorColor = Color.Black,
+                disabledIndicatorColor = Color.Black,
+                errorIndicatorColor = Color.Black
+            ),
+            textStyle = TextStyle(
+                color = Color.Black,
+                fontSize = 20.sp
+            ),
+            leadingIcon = {
+                Image(
+                    painter = painterResource(id = R.drawable.pesquisa),
+                    contentDescription = "",
+                    modifier = Modifier.size(24.dp)
                 )
             }
-            Spacer(modifier = Modifier.height(135.dp))
+        )
+        Spacer(modifier = Modifier.height(24.dp))
+        if (listAnuncios.isNotEmpty()) {
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight(),
+                verticalArrangement = Arrangement.spacedBy(24.dp, Alignment.Top),
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                items(listAnuncios.filter {
+                    it.anuncio.nome.contains(
+                        filterState,
+                        ignoreCase = true
+                    )
+                }) { item ->
+                    AnimatedVisibility(
+                        visible = !listAnuncios.contains(item),
+                        enter = expandVertically(),
+                        exit = slideOutHorizontally()
+                    ) {
+                    }
+                    Card(
+                        nome_livro = item.anuncio.nome,
+                        ano_lancamento = item.anuncio.ano_lancamento,
+                        foto = item.foto[0].foto,
+                        tipo_anuncio = item.tipo_anuncio[0].tipo,
+                        autor = item.autores[0].nome,
+                        preco = item.anuncio.preco,
+                        lifecycleScope = lifecycleScope!!,
+                        id = item.anuncio.id,
+                        onClick = {
+//                                    viewModelQueVaiPassarOsDados.foto = item.foto
+                            val anunciante = getAnunciante(item.anuncio.anunciante) { usuario ->
+                                if (usuario != null) {
+
+//                                    viewModelQueVaiPassarOsDados.idAnuncio = item.anuncio.id
+////                                    viewModelQueVaiPassarOsDados.dadosAnuncio = item
+//                                    viewModelQueVaiPassarOsDados.idAnunciante =
+//                                        item.anuncio.anunciante.toInt()
+//
+//                                    viewModelId.id_anunciante = item.anuncio.anunciante
+//                                    viewModelId.foto_anunciante = usuario.foto
+//                                    viewModelId.nome_anunciante = usuario.nome
+//
+//                                            viewModelQueVaiPassarOsDados.id = item.anuncio.id
+//
+//                                            viewModelQueVaiPassarOsDados.nome = item.anuncio.nome
+//
+//                                            viewModelQueVaiPassarOsDados.generos = item.generos
+//                                            viewModelQueVaiPassarOsDados.tipo_anuncio =
+//                                                item.tipo_anuncio
+//
+//                                            viewModelQueVaiPassarOsDados.anunciante_foto = usuario.foto
+//
+//                                            viewModelQueVaiPassarOsDados.anunciante_nome = usuario.nome
+//                                            viewModelQueVaiPassarOsDados.cidade_anuncio = usuario.cidade
+//                                            viewModelQueVaiPassarOsDados.estado_anuncio = usuario.estado
+//                                            viewModelQueVaiPassarOsDados.descricao =
+//                                                item.anuncio.descricao
+//
+//                                            viewModelQueVaiPassarOsDados.ano_edicao =
+//                                                item.anuncio.ano_lancamento
+//                                            viewModelQueVaiPassarOsDados.autor = item.autores
+//                                            viewModelQueVaiPassarOsDados.editora = item.editora
+//                                            viewModelQueVaiPassarOsDados.idioma = item.idioma
+//                                            viewModelQueVaiPassarOsDados.preco = item.anuncio.preco
+//                                        Log.e("Valor Preco", "${viewModelQueVaiPassarOsDados.preco}")
+                                } else {
+                                    Log.e("Anunciante", "null")
+                                }
+                            }
+                            navRotasController.navigate("announce")
+                        },
+                        coracaoClik = {
+
+                        },
+
+                        )
+
+
+                }
+            }
+        } else {
+            Spacer(modifier = Modifier.height(100.dp))
+            NoExist(
+                onclick = {
+                    navController.navigate("navigation_home_bar")
+                },
+                textTitulo = "Nenhum favorito ainda :(",
+                textSubTitulo = "Escolha o que você mais gostou",
+                textDecisão = "Ir para o início"
+            )
         }
+        Spacer(modifier = Modifier.height(135.dp))
     }
+}

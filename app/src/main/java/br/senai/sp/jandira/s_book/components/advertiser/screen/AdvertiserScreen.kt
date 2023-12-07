@@ -142,9 +142,24 @@ fun AdvertiserScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 items(usuarioAnuncios) { anuncio ->
+
+                    var shortDesc = anuncio.anuncio.descricao
+                    var titleList =anuncio.anuncio.nome.split("")
+                    var shortTitle = ""
+
+                    if (shortDesc.length > 30) {
+                        shortDesc = shortDesc.substring(0, 30).plus("...")
+                    }
+                    titleList.forEach { string ->
+                        if (titleList.indexOf(string) < 4) {
+                            shortTitle += "$string "
+                        } else if (titleList.indexOf(string) == 4) {
+                            shortTitle += "..."
+                        }
+                    }
                     Annunces(
                         id = anuncio.anuncio.id,
-                        nome_livro = anuncio.anuncio.nome,
+                        nome_livro = shortDesc,
                         autor = anuncio.autores[0].nome,
                         tipo_anuncio = anuncio.tipo_anuncio[0].tipo,
                         preco = anuncio.anuncio.preco,

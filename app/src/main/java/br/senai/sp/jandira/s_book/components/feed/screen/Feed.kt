@@ -122,19 +122,20 @@ fun FeedScreen(
         override fun onResponse(
             call: Call<AnunciosBaseResponse>, response: Response<AnunciosBaseResponse>
         ) {
-            Log.e(TAG, "resposta: $response", )
+            Log.e(TAG, "resposta: $response")
 
-            if(response.code() == 200){
+            if (response.code() == 200) {
                 listAnuncios = response.body()!!.anuncios
 
-                if(cont && listAnuncios.isNotEmpty() && response.body()!!.page == page){
+                if (cont && listAnuncios.isNotEmpty() && response.body()!!.page == page) {
                     listAnunciosFeed += listAnuncios
 
                     cont = false
                 }
-            }else{
+            } else {
                 cont = false
-                Toast.makeText(context, "Não tem mais anuncios a ser mostrado", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Não tem mais anuncios a ser mostrado", Toast.LENGTH_SHORT)
+                    .show()
             }
 
         }
@@ -150,60 +151,60 @@ fun FeedScreen(
     })
 
 
-    LaunchedEffect(key1 = true){
-            Thread{
-                var array = User()
+    LaunchedEffect(key1 = true) {
+        Thread {
+            var array = User()
 
-                var data = ""
+            var data = ""
 
-                if (dadaUser.isNotEmpty()) {
-                    statusPerfil = true
+            if (dadaUser.isNotEmpty()) {
+                statusPerfil = true
 
-                    array = dadaUser[0]
+                array = dadaUser[0]
 
-                    imagemPefil = array.foto
+                imagemPefil = array.foto
 
-                    data = converterData(array.dataNascimento)
+                data = converterData(array.dataNascimento)
 
-                    // Cria uma chamada para o EndPoint
-                    val call = RetrofitHelper.getUserByIdService().getUsuarioById(array.id)
+                // Cria uma chamada para o EndPoint
+                val call = RetrofitHelper.getUserByIdService().getUsuarioById(array.id)
 
-                    // Executar a chamada
-                    call.enqueue(object : Callback<ResponseUsuario> {
-                        override fun onResponse(
-                            call: Call<ResponseUsuario>,
-                            response: Response<ResponseUsuario>
-                        ) {
-                            Log.e("TAG", "onResponse: ${response.body()}")
-                            user2 = response.body()?.dados!!
+                // Executar a chamada
+                call.enqueue(object : Callback<ResponseUsuario> {
+                    override fun onResponse(
+                        call: Call<ResponseUsuario>,
+                        response: Response<ResponseUsuario>
+                    ) {
+                        Log.e("TAG", "onResponse: ${response.body()}")
+                        user2 = response.body()?.dados!!
 
-                            deleteUserSQLite(context = context, array.id.toInt())
+                        deleteUserSQLite(context = context, array.id.toInt())
 
-                            saveLogin(
-                                context = context,
-                                id = user2.id_usuario,
-                                nome = user2.nome,
-                                token = array.token,
-                                email = user2.email,
-                                cep = user2.cep,
-                                idEndereco = user2.id_endereco,
-                                foto = user2.foto,
-                                dataNascimento = user2.data_nascimento,
-                                logradouro = user2.logradouro,
-                                bairro = user2.bairro,
-                                cidade = user2.cidade,
-                                ufEstado = user2.estado,
-                                senha = array.senha,
-                                cpf = user2.cpf
-                            )
-                        }
+                        saveLogin(
+                            context = context,
+                            id = user2.id_usuario,
+                            nome = user2.nome,
+                            token = array.token,
+                            email = user2.email,
+                            cep = user2.cep,
+                            idEndereco = user2.id_endereco,
+                            foto = user2.foto,
+                            dataNascimento = user2.data_nascimento,
+                            logradouro = user2.logradouro,
+                            bairro = user2.bairro,
+                            cidade = user2.cidade,
+                            ufEstado = user2.estado,
+                            senha = array.senha,
+                            cpf = user2.cpf
+                        )
+                    }
 
-                        override fun onFailure(call: Call<ResponseUsuario>, t: Throwable) {
-                            Log.e("Morreu User", "Morreu na call de user no feed")
-                        }
-                    })
-                }
-            }.start()
+                    override fun onFailure(call: Call<ResponseUsuario>, t: Throwable) {
+                        Log.e("Morreu User", "Morreu na call de user no feed")
+                    }
+                })
+            }
+        }.start()
     }
 
     var isLoading by remember { mutableStateOf(false) } // Variável para controlar a visibilidade da ProgressBar
@@ -224,9 +225,9 @@ fun FeedScreen(
             EscolhaFazer(
                 filter = { navRotasController.navigate("Filters") },
                 anuncio = {
-                    if(dadaUser.isNotEmpty()){
+                    if (dadaUser.isNotEmpty()) {
                         navRotasController.navigate("primeiro_anunciar")
-                    }else{
+                    } else {
                         navRotasController.navigate("login")
                     }
                 },
@@ -244,12 +245,13 @@ fun FeedScreen(
             )
             Spacer(modifier = Modifier.height(18.dp))
 
-            if (listAnuncios.isEmpty() ) {
+            if (listAnuncios.isEmpty()) {
                 isLoading == true
                 ProgressBar(isDisplayed = !isLoading)
-            }else{
+            } else {
 
                 val pairs = listAnunciosFeed.chunked(2)
+
 
                 for (pair in pairs) {
                     Row(
@@ -259,8 +261,23 @@ fun FeedScreen(
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         for (item in pair) {
+
+                            var shortDesc = item.anuncio.descricao
+                            var titleList =item.anuncio.nome.split("")
+                            var shortTitle = ""
+
+                            if (shortDesc.length > 30) {
+                                shortDesc = shortDesc.substring(0, 30).plus("...")
+                            }
+                            titleList.forEach { string ->
+                                if (titleList.indexOf(string) < 4) {
+                                    shortTitle += "$string "
+                                } else if (titleList.indexOf(string) == 4) {
+                                    shortTitle += "..."
+                                }
+                            }
                             AnunciosProximos(
-                                nome_livro = item.anuncio.nome,
+                                nome_livro = shortDesc,
                                 foto = item.foto[0].foto,
                                 tipo_anuncio = item.tipo_anuncio[0].tipo,
                                 autor = item.autores[0].nome,
@@ -269,20 +286,23 @@ fun FeedScreen(
                                 navController = navController,
                                 lifecycleScope = lifecycleScope,
                                 onClick = {
-                                   // viewModelQueVaiPassarOsDados.foto = item.foto
-                                    val anunciante = getAnunciante(item.anuncio.anunciante) { usuario ->
-                                        if (usuario != null) {
-                                            viewModelQueVaiPassarOsDados.idAnuncio = item.anuncio.id
-                                            viewModelQueVaiPassarOsDados.dadosAnuncio = item
-                                            viewModelQueVaiPassarOsDados.idAnunciante = item.anuncio.anunciante.toInt()
+                                    // viewModelQueVaiPassarOsDados.foto = item.foto
+                                    val anunciante =
+                                        getAnunciante(item.anuncio.anunciante) { usuario ->
+                                            if (usuario != null) {
+                                                viewModelQueVaiPassarOsDados.idAnuncio =
+                                                    item.anuncio.id
+                                                viewModelQueVaiPassarOsDados.dadosAnuncio = item
+                                                viewModelQueVaiPassarOsDados.idAnunciante =
+                                                    item.anuncio.anunciante.toInt()
 
 //                                            viewModelQueVaiPassarOsDados.id = item.anuncio.id
 //
 //                                            viewModelQueVaiPassarOsDados.id_anunciante = item.anuncio.anunciante
 //
-                                            viewModelId.id_anunciante = item.anuncio.anunciante
-                                            viewModelId.foto_anunciante = usuario.foto
-                                            viewModelId.nome_anunciante = usuario.nome
+                                                viewModelId.id_anunciante = item.anuncio.anunciante
+                                                viewModelId.foto_anunciante = usuario.foto
+                                                viewModelId.nome_anunciante = usuario.nome
 //
 //                                            Log.e("Id do Anunciante", "${viewModelQueVaiPassarOsDados.id_anunciante}")
 //
@@ -306,23 +326,23 @@ fun FeedScreen(
 //                                            viewModelQueVaiPassarOsDados.editora = item.editora
 //                                            viewModelQueVaiPassarOsDados.idioma = item.idioma
 //                                            viewModelQueVaiPassarOsDados.preco = item.anuncio.preco
+                                            }
                                         }
-                                    }
                                 },
 
-                            )
+                                )
                         }
                     }
                     Spacer(modifier = Modifier.height(20.dp))
                 }
 
-                Log.e("Morreeeu", "FeedScreen: ${isLoading}", )
+                Log.e("Morreeeu", "FeedScreen: ${isLoading}")
                 if (cont == true) {
                     isLoading = true
                     ProgressBar(isDisplayed = isLoading)
                     Spacer(modifier = Modifier.height(48.dp))
-                    Log.e("favela venceu", "FeedScreen: ${isLoading}", )
-                }else{
+                    Log.e("favela venceu", "FeedScreen: ${isLoading}")
+                } else {
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -332,7 +352,7 @@ fun FeedScreen(
                         ButtonCarregar {
                             page++
                             cont = true
-                            Log.e("favela morreu", "FeedScreen: ${isLoading}", )
+                            Log.e("favela morreu", "FeedScreen: ${isLoading}")
                         }
                     }
                     Spacer(modifier = Modifier.height(48.dp))

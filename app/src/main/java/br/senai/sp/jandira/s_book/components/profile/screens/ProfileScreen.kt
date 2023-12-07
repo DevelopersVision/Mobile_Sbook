@@ -34,7 +34,7 @@ fun ProfileScreen(
         verticalArrangement = Arrangement.spacedBy(35.dp)
     ) {
         HeaderProfile(
-            onclick = { navController.navigate("navigation_home_bar")}
+            onclick = { navController.popBackStack()}
         )
         CardProfile( navController = navRotasController, context)
         RotasProfile(navRotasController = navRotasController, navController = navController)

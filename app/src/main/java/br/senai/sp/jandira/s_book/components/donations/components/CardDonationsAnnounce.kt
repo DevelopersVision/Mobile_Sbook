@@ -58,8 +58,22 @@ fun CardDonationsAnnounce(dados: JsonAnuncioDoacao, onClick: () -> Unit) {
             modifier = Modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(2.dp)
         ) {
+            var shortDesc = dados.anuncio.descricao
+            var titleList = dados.anuncio.nome.split("")
+            var shortTitle = ""
+
+            if (shortDesc.length > 30) {
+                shortDesc = shortDesc.substring(0, 30).plus("...")
+            }
+            titleList.forEach { string ->
+                if (titleList.indexOf(string) < 4) {
+                    shortTitle += "$string "
+                } else if (titleList.indexOf(string) == 4) {
+                    shortTitle += "..."
+                }
+            }
             Text(
-                text = dados.anuncio.nome,
+                text = shortDesc,
                 style = TextStyle(
                     fontSize = 12.sp,
                     fontFamily = FontFamily(Font(R.font.poppinsmedium)),
