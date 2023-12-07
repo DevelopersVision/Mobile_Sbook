@@ -255,19 +255,19 @@ fun AnnounceScreen(
                                                 data.toString(),
                                                 MesagensResponse::class.java
                                             )
-
+                                        Log.e("Chat - Luizão", "$chat")
                                         newChat = chat
-                                        Log.e("luiz aquiiii", "AnnouceDetail: ${chat}")
-                                        Log.e("luiz testando dentro", "${newChat.id_chat}")
+                                        Log.e("mumu aquiiii", "AnnouceDetail: ${chat}")
+                                        Log.e(
+                                            "mumu testando dentro",
+                                            "${newChat.id_chat}",
+                                        )
                                         chatViewModel.idChat = newChat.id_chat
                                     }
                                 }
                             }
                         }
 
-
-
-                        Log.e("luiz testando fora", "${newChat.id_chat}")
                         chatViewModel.idUser2 = idAnunciante.toInt()
                         chatViewModel.foto = fotoAnunciante
                         chatViewModel.nome = nomeAnunciante

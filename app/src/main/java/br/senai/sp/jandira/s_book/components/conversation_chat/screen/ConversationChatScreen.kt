@@ -56,8 +56,8 @@ fun ConversationChatScreen(
     navController: NavController,
     client: ChatClient,
     socket: Socket,
-    chatViewModel: ChatViewModel,
-    idUsuario: Int
+    idUsuario: Int,
+    chatViewModel: ChatViewModel
 ) {
 
     val idChat = chatViewModel.idChat
@@ -65,11 +65,12 @@ fun ConversationChatScreen(
     var foto = chatViewModel.foto
     var nome = chatViewModel.nome
 
+    Log.d("Luizão", "idChat: $idChat, idUser: $idUser2")
+
 
     var message by remember {
         mutableStateOf("")
     }
-
 
     val listState = rememberLazyListState()
 
@@ -101,37 +102,29 @@ fun ConversationChatScreen(
                 args.let { d ->
                     if (d.isNotEmpty()) {
                         val data = d[0]
+                        Log.e("Data", "$data")
                         if (data.toString().isNotEmpty()) {
                             val mensagens =
                                 Gson().fromJson(data.toString(), MesagensResponse::class.java)
 
-                            if (mensagens.id_chat == idChat) {
-                                listaMensagens = mensagens
-                            }
-                            Log.e("TesteIndo", "${listaMensagens.mensagens.reversed()}")
+                            Log.w("CHATYYY", "$idChat")
+
+                            listaMensagens = mensagens
+                        } else {
+                            listaMensagens = MesagensResponse(
+                                status = 0,
+                                message = "",
+                                id_chat = "",
+                                usuarios = listOf(),
+                                data_criacao = "",
+                                hora_criacao = "",
+                                mensagens = mutableStateListOf()
+                            )
                         }
                     }
                 }
             }
         }
-
-//        socket.on("receive_message") { args ->
-//            args.let { d ->
-//                if (d.isNotEmpty()) {
-//                    val data = d[0]
-//                    if (data.toString().isNotEmpty()) {
-//                        val mensagens =
-//                            Gson().fromJson(data.toString(), MesagensResponse::class.java)
-//
-//                        listaMensagens = mensagens
-//                        Log.e("TesteIndo", "${listaMensagens.mensagens.reversed()}")
-//                    }
-//                }
-//            }
-//        }
-
-
-        Log.e("jojo", "Lista de Mensagens: ${listaMensagens.mensagens}")
 
 
 

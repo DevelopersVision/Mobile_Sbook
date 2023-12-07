@@ -91,7 +91,10 @@ fun ChatScreen(
         args.let { d ->
             if (d.isNotEmpty()) {
                 val data = d[0]
-                if (data.toString().isNotEmpty()) {
+                Log.e("Data", "$data")
+                if (data is String && data == "receive_contacts") {
+                    Log.e(TAG, "Morri mas passo bem", )
+                } else if (data.toString().isNotEmpty()) {
                     val chat = Gson().fromJson(data.toString(), SocketResponse::class.java)
 
                     Log.e("tentativa erro", "ChatScreen: ${chat}", )
