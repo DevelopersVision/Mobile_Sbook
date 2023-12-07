@@ -10,19 +10,19 @@ class ChatClient() {
 
 //    private val socket: Socket = IO.socket("http://26.254.150.48:3001")
 
-//    private val socket: Socket
-//
-//    init {
-//        val options = IO.Options()
-//        options.path = "/clients/socketio/hubs/Hub"
-//
-//        socket = IO.socket("https://socket-grupo6.webpubsub.azure.com/", options)
-//    }
+    private val socket: Socket
+
+    init {
+        val options = IO.Options()
+        options.path = "/clients/socketio/hubs/Hub"
+
+        socket = IO.socket("https://socket-grupo6.webpubsub.azure.com/", options)
+    }
 
 
     //private val socket: Socket = IO.socket("https://sbookapp.azurewebsites.net:443")
 
-    private val socket: Socket = IO.socket("http://10.107.144.24:3001")
+    //private val socket: Socket = IO.socket("http://10.107.144.24:3001")
 
     fun connect(idUsuario: Int) {
 
