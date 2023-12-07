@@ -25,8 +25,10 @@ import br.senai.sp.jandira.s_book.components.universal.SearchFilter
 import br.senai.sp.jandira.s_book.model.AnuncioNoPageBaseResponse
 import br.senai.sp.jandira.s_book.model.AnunciosBaseResponse
 import br.senai.sp.jandira.s_book.model.JsonAnuncios
+import br.senai.sp.jandira.s_book.model.chat.view_model.viewModelId
 import br.senai.sp.jandira.s_book.service.RetrofitHelper
 import br.senai.sp.jandira.s_book.view_model.AnuncioViewModel
+import br.senai.sp.jandira.s_book.view_model.AnuncioViewModelV2
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -35,7 +37,8 @@ import retrofit2.Response
 fun SearchScreen(
     navController: NavController,
     lifecycleScope: LifecycleCoroutineScope?,
-    viewModelQueVaiPassarOsDados: AnuncioViewModel
+    viewModelQueVaiPassarOsDados: AnuncioViewModelV2,
+    viewModelId: viewModelId
 ) {
     var pesquisar by remember {
         mutableStateOf(value = "")
@@ -52,8 +55,7 @@ fun SearchScreen(
         val call = RetrofitHelper.getPesquisar().getAnunciosNoPage()
         call.enqueue(object : Callback<AnuncioNoPageBaseResponse> {
             override fun onResponse(
-                call: Call<AnuncioNoPageBaseResponse>,
-                response: Response<AnuncioNoPageBaseResponse>
+                call: Call<AnuncioNoPageBaseResponse>, response: Response<AnuncioNoPageBaseResponse>
             ) {
                 listAnuncios = response.body()!!.anuncios
                 isLoading = true
@@ -71,31 +73,16 @@ fun SearchScreen(
         modifier = Modifier.fillMaxSize()
     ) {
         Column(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+            modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             HeaderFilter(
                 text = "Procurar"
             ) {
                 navController.navigate("feed")
             }
-            SearchFilter(
-                label = "Digite nome, gênero ou ...",
-                valor = pesquisar,
-                aoMudar = {
-                    pesquisar = it
-
-                    if (it.isEmpty()) {
-                        // Lógica para iniciar a carga (por exemplo, isLoading = true)
-                        isLoading = true
-                        // Isso pode ser feito no ViewModel ou onde você está controlando a lógica da pesquisa
-                        viewModelQueVaiPassarOsDados.recarregarDadosEspecificos()
-                        Log.e("oiii joao", "Texto do campo de pesquisa está vazio, iniciando isReload")
-                    }else if (it.isNotEmpty()){
-                        isLoading = false
-                    }
-                }
-            )
+            SearchFilter(label = "Digite nome, gênero ou ...", valor = pesquisar, aoMudar = {
+                pesquisar = it
+            })
             LazyColumn(
                 modifier = Modifier.fillMaxSize()
             ) {
@@ -119,12 +106,22 @@ fun SearchScreen(
                             lifecycleScope = lifecycleScope!!,
                             id = item.anuncio.id,
                             onClick = {
+                                viewModelQueVaiPassarOsDados.idAnuncio = item.anuncio.id
+
+                                viewModelQueVaiPassarOsDados.dadosAnuncio = item
+
+                                viewModelQueVaiPassarOsDados.idAnunciante = item.anuncio.anunciante.toInt()
+
+//                                viewModelId.id_anunciante = item.anuncio.anunciante
+//
+//                                viewModelId.foto_anunciante = item.anunciante.foto
+//
+//                                viewModelId.nome_anunciante =  item.anunciante.nome
                                 navController.navigate("announce")
                             },
                             coracaoClik = {},
                         )
                         Log.e("oiii joao", "aqui chegou:${pesquisar}")
-
                     }
                 }
             }

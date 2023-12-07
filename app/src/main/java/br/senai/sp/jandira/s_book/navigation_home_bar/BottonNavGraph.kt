@@ -42,7 +42,7 @@ fun ButtonNavGraph(
     chatViewModel: ChatViewModel,
     viewModelId: viewModelId,
     sharedViewModel: SharedViewModel,
-    viewModelAnuncioV2: AnuncioViewModelV2
+    viewModelAnuncioV2: AnuncioViewModelV2,
 ) {
     val context = LocalContext.current
 
@@ -75,7 +75,8 @@ fun ButtonNavGraph(
             SearchScreen(
                 navController = navController,
                 lifecycleScope = lifecycleScope,
-                viewModelQueVaiPassarOsDados = anuncioViewMODEL
+                viewModelQueVaiPassarOsDados = viewModelAnuncioV2,
+                viewModelId = viewModelId
             )
         }
 
