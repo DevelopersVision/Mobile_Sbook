@@ -30,6 +30,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -45,6 +46,7 @@ import br.senai.sp.jandira.s_book.components.conversation_chat.components.InputM
 import br.senai.sp.jandira.s_book.model.chat.ChatClient
 import br.senai.sp.jandira.s_book.model.chat.MesagensResponse
 import br.senai.sp.jandira.s_book.model.chat.view_model.ChatViewModel
+import br.senai.sp.jandira.s_book.sqlite_repository.UserRepository
 import com.google.gson.Gson
 import io.socket.client.Socket
 import org.json.JSONObject
@@ -59,6 +61,9 @@ fun ConversationChatScreen(
     idUsuario: Int,
     chatViewModel: ChatViewModel
 ) {
+
+    val context = LocalContext.current
+    val user = UserRepository(context)
 
     val idChat = chatViewModel.idChat
     val idUser2 = chatViewModel.idUser2
@@ -107,9 +112,13 @@ fun ConversationChatScreen(
                             val mensagens =
                                 Gson().fromJson(data.toString(), MesagensResponse::class.java)
 
-                            Log.w("CHATYYY", "$idChat")
+                            val idChatOfc = user.findUsers()[0].idChat
 
-                            listaMensagens = mensagens
+                            Log.e("IDCHAT", "$idChatOfc")
+
+                            if(mensagens.id_chat == idChatOfc){
+                                listaMensagens = mensagens
+                            }
                         } else {
                             listaMensagens = MesagensResponse(
                                 status = 0,

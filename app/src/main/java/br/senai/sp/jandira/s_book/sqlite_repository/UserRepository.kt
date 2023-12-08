@@ -16,6 +16,14 @@ class UserRepository(context: Context) {
         return db.userDao().update(user).toLong()
     }
 
+    fun updateIdChat(idChat: String): Int{
+        return db.userDao().updateIdChat(idChat)
+    }
+
+    fun findIdChat(idChat: String): User{
+        return db.userDao().findIdChat(idChat)
+    }
+
     fun findUserByEmail(id: Int): User{
         return db.userDao().findUserById(id)
     }

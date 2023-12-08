@@ -59,6 +59,8 @@ fun AnnounceScreen(
 
     val context = LocalContext.current
 
+    val user = UserRepository(context)
+
     val dadaUser = UserRepository(context).findUsers()
 
     val fotoAnunciante = viewModelId.foto_anunciante
@@ -263,6 +265,7 @@ fun AnnounceScreen(
                                             "${newChat.id_chat}",
                                         )
                                         chatViewModel.idChat = newChat.id_chat
+                                        user.updateIdChat(newChat.id_chat)
                                     }
                                 }
                             }

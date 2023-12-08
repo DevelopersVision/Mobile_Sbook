@@ -264,7 +264,7 @@ fun UpdateAnnounceSecondScreen(
                 }
                 Spacer(modifier = Modifier.height(32.dp))
                 androidx.compose.material3.Text(
-                    text = "Selecione os gêneros que seu livro mais se encaixa.",
+                    text = "Selecione os gêneros para alterar no livro que foi criado",
                     fontSize = 16.sp,
                     fontWeight = FontWeight(700),
                     color = Color(0xFF2A2929),
@@ -305,18 +305,13 @@ fun UpdateAnnounceSecondScreen(
 
                                     arrayDeGeneros = arrayDeGeneros.plus(it.id)
 
-                                    Log.e("TAGATAGATTATATATATTATATATATAT", "${arrayDeGeneros}")
 
                                 } else {
                                     generosSelecionados = generosSelecionados!! - it.id
 
                                     arrayDeGeneros = arrayDeGeneros.minus(it.id)
 
-                                    Log.e("TAGATAGATTATATATATTATATATATAT", "${arrayDeGeneros}")
                                 }
-                                Log.e("thiago", "${generosSelecionados}")
-
-                                Log.e("TAGATAGATTATATATATTATATATATAT", "${arrayDeGeneros}")
 
                                 viewlModel.selectedGeneros = arrayDeGeneros
                             }
@@ -338,7 +333,7 @@ fun UpdateAnnounceSecondScreen(
                 )
                 Spacer(modifier = Modifier.height(32.dp))
                 androidx.compose.material3.Text(
-                    text = "Perfeito! Agora informe que tipo de negociação você gostaria de fazer com o livro.",
+                    text = "Perfeito! Agora você pode alterar o tipo de negociação você gostaria para o seu livro.",
                     fontSize = 16.sp,
                     fontWeight = FontWeight(700),
                     color = Color(0xFF2A2929),
@@ -357,7 +352,6 @@ fun UpdateAnnounceSecondScreen(
                     val isChecked3 = tiposSelecionados!!.contains(it.id)
                     //val isChecked4 = tiposSelecionados!!.contains(it.tipo)
 
-                    Log.e("morreremos aquiiii", "UpdateAnnounceSecondScreen: ${listTipoAnuncio}", )
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -373,30 +367,37 @@ fun UpdateAnnounceSecondScreen(
                             fontWeight = FontWeight(500),
                             color = Color(0xFF808080),
                         )
-                        if (isChecked3 != null) {
-                            Checkbox(
-                                checked = isChecked3,
-                                onCheckedChange = { isChecked3 ->
-                                    if (isChecked3) {
-                                        //tiposSelecionados = tiposSelecionados?.plus(it.tipo)!!
-                                        tiposSelecionados = tiposSelecionados?.minus(it.id)!!
-                                        viewModelDosTipoDeLivros.tiposDoAnuncio =
-                                            arrayDosTiposDeAnuncio.plus(it.id)
-                                    } else {
-                                        //tiposSelecionados = tiposSelecionados?.minus(it.tipo)!!
-                                        tiposSelecionados = tiposSelecionados?.minus(it.id)!!
-                                        viewModelDosTipoDeLivros.tiposDoAnuncio =
-                                            arrayDosTiposDeAnuncio.minus(it.id)
+                        Checkbox(
+                            checked = isChecked3,
+                            onCheckedChange = { isChecked ->
+                                if (isChecked) {
+                                    when (it.id) {
+                                        1 -> {
+                                            // Se Doação está marcado, desmarca os outros
+                                            tiposSelecionados = listOf(it.id)
+                                            isVendaChecked = false
+                                            vendaPriceState = ""
+                                        }
+                                        3,2 -> {
+                                            // Se Troca ou Venda estão marcados, desmarca Doação
+                                            tiposSelecionados = tiposSelecionados!! - 1
+                                        }
                                     }
-                                    //isVendaChecked = tiposSelecionados!!.contains("Venda")
+                                    tiposSelecionados = tiposSelecionados!! + it.id
+                                    viewModelDosTipoDeLivros.tiposDoAnuncio =
+                                        arrayDosTiposDeAnuncio.plus(it.id)
+                                } else {
+                                    // Se Desmarcar, remove o tipo do conjunto
+                                    tiposSelecionados = tiposSelecionados!! - it.id
                                 }
-                            )
-                        }
+                                isVendaChecked = tiposSelecionados!!.contains(3)
+                            }
+                        )
                     }
-                    Divider(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(0.8.dp),
+                            Divider(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(0.8.dp),
                         color = Color(0xFFE0E0E0)
                     )
                 }

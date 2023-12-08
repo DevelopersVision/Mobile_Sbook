@@ -262,7 +262,7 @@ fun FeedScreen(
                     ) {
                         for (item in pair) {
 
-                            var shortDesc = item.anuncio.descricao
+                            var shortDesc = item.anuncio.nome
                             var titleList =item.anuncio.nome.split("")
                             var shortTitle = ""
 

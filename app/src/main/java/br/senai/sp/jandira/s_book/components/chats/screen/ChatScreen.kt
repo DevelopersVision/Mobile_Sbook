@@ -32,6 +32,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -42,6 +43,8 @@ import br.senai.sp.jandira.s_book.R
 import br.senai.sp.jandira.s_book.model.chat.ChatClient
 import br.senai.sp.jandira.s_book.model.chat.SocketResponse
 import br.senai.sp.jandira.s_book.model.chat.view_model.ChatViewModel
+import br.senai.sp.jandira.s_book.models_private.User
+import br.senai.sp.jandira.s_book.sqlite_repository.UserRepository
 import coil.compose.AsyncImage
 import com.google.gson.Gson
 import io.socket.client.Socket
@@ -57,6 +60,9 @@ fun ChatScreen(
     client: ChatClient,
     ){
     val TAG = "Teste tela chat"
+
+    val context = LocalContext.current
+    val user = UserRepository(context)
 
     Log.e(TAG, "ChatScreen: auiiiiiiiiiiii", )
 
@@ -98,6 +104,7 @@ fun ChatScreen(
                     val chat = Gson().fromJson(data.toString(), SocketResponse::class.java)
 
                     Log.e("tentativa erro", "ChatScreen: ${chat}", )
+
 
                     if(chat.id_user == idUsuario){
                         listaContatos = chat
@@ -195,6 +202,7 @@ fun ChatScreen(
                             chatViewModel.idUser2 = contato[0].id
                             chatViewModel.foto = contato[0].foto
                             chatViewModel.nome = contato[0].nome
+                            user.updateIdChat(idChat = it.id_chat)
                             socket.emit("listMessages", it.id_chat)
                             Log.e("luiz", "ChatScreen: ${contato[0].id}",)
                         }
