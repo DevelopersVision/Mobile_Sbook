@@ -15,6 +15,7 @@ class ChatClient() {
     init {
         val options = IO.Options()
         options.path = "/clients/socketio/hubs/Hub"
+        options.reconnection = true
 
         socket = IO.socket("https://socket-grupo6.webpubsub.azure.com/", options)
     }
@@ -37,6 +38,13 @@ class ChatClient() {
             val deletedMessage = args[0] as JSONObject
             println("Delete Message: $deletedMessage")
 
+        }
+
+        socket.on(Socket.EVENT_CONNECT_ERROR){
+            println("CONNECT_ERROR from server")
+//            socket.disconnect()
+//            socket.connect()
+            //socket.io().isReconnecting
         }
 
         socket.on("message") { args ->
