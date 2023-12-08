@@ -380,7 +380,7 @@ fun UpdateAnnounceSecondScreen(
                                         }
                                         3,2 -> {
                                             // Se Troca ou Venda estão marcados, desmarca Doação
-                                            tiposSelecionados = tiposSelecionados!! - 1
+                                            tiposSelecionados = tiposSelecionados!!.filter { it != 1 }
                                         }
                                     }
                                     tiposSelecionados = tiposSelecionados!! + it.id
