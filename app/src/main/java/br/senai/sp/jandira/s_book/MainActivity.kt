@@ -46,6 +46,7 @@ import br.senai.sp.jandira.s_book.components.tela_generica.screen.GenericScreen
 import br.senai.sp.jandira.s_book.components.third_create_announce.screen.ThirdCreateAnnounceScreen
 import br.senai.sp.jandira.s_book.components.update_announce.screens.UpdateAnnounceFirstScreen
 import br.senai.sp.jandira.s_book.components.update_announce.screens.UpdateAnnounceSecondScreen
+import br.senai.sp.jandira.s_book.components.update_announce.screens.UpdateAnnounceThirdScreen
 import br.senai.sp.jandira.s_book.model.chat.ChatClient
 import br.senai.sp.jandira.s_book.model.chat.view_model.ChatViewModel
 import br.senai.sp.jandira.s_book.model.chat.view_model.viewModelId
@@ -213,6 +214,15 @@ class MainActivity : ComponentActivity() {
                                 viewModelDosIds = viewModelDosIdentificadores,
                                 viewModelDosTipoDeLivros = viewModelDosTiposDeLivro,
                                 viewModelGeneros
+                            )
+                        }
+
+                        composable("editAnnounceThird"){
+                            UpdateAnnounceThirdScreen(
+                                navController = navController,
+                                localStorage = localStorage,
+                                viewModelDoPostAnuncio = ViewModelDoPostAnuncio(),
+                                viewModelImagens =  viewModelDasImagens
                             )
                         }
 

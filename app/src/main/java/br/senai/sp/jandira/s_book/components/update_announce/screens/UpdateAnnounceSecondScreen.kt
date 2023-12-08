@@ -468,6 +468,7 @@ fun UpdateAnnounceSecondScreen(
                 modifier = Modifier
                     .size(72.dp)
                     .clickable {
+                        navController.navigate("editAnnounceThird")
 //                        if (
 //                            nomeState.isNotEmpty() && sinopseState.isNotEmpty() &&
 //                            autorState.nome.isNotEmpty() && numeroPaginaState
