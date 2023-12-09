@@ -91,64 +91,58 @@ fun createAnnounceApp (
     }
 }
 
-//fun UpdateAnnounceAPP (
-//    dadosAnuncio: JsonAnuncios,
-//    navController: NavController,
-//    lifecycleScope: LifecycleCoroutineScope,
-//    context: Context,
-//){
-//    val createAnnounceRepository = CadastroAnuncioRepository()
-//
-//    lifecycleScope.launch {
-//
-////        val response = createAnnounceRepository.cadastroAnuncio(
-////            nome, numeroPaginas, anoLancamento, descricao, edicao, isbn, preco!!, idUsuario, idEstadoLivro, idIdioma, idEditora, autores = autores, fotos = fotos, tiposAnuncio =  tiposAnuncio,  generos = generos!!
-////        )
-//        val code = response.code()
-//
-//        if(response.isSuccessful){
-//
-//            Log.e("CADASTRO - SUCESS - 201", "cadastro: ${response.body()}")
-//
-//            val jsonString = response.body().toString()
-//            val jsonObject = JSONObject(jsonString)
-//            //val id = jsonObject.getInt("id")
-//
-//            Log.e("jsonString", "$jsonString")
-//            Log.e("jsonObject", "$jsonObject")
-//            //Log.e("id", "$id")
-//
-//
-//
-//            Toast.makeText(context, "Bem Vindo $nome", Toast.LENGTH_SHORT).show()
-//
-//            navController.navigate(rota)
-//        }else{
-//            when (code) {
-//                404 -> {
-//                    Log.e("CADASTRO - ERROR - 404", "cadastro: ${response.errorBody()?.string()}")
-//                    Toast.makeText(
-//                        context, "ALGUMA INFORMAÇÃO NÃO É VALIDADA", Toast.LENGTH_LONG
-//                    ).show()
-//                }
-//                500 -> {
-//                    Log.e("CADASTRO - ERROR - 500", "cadastro: ${response.errorBody()?.string()}")
-//                    Toast.makeText(context, "SERVIDOR INDISPONIVEL NO MOMENTO", Toast.LENGTH_LONG)
-//                        .show()
-//                }
-//                400 -> {
-//                    Log.e("CADASTRO - ERROR - 400", "cadastro: ${response.errorBody()?.string()}")
-//                    Toast.makeText(
-//                        context,
-//                        "NÃO FORAM PREENCHIDO TODOS OS CAMPOS OBRIGATÓRIOS",
-//                        Toast.LENGTH_LONG
-//                    ).show()
-//                }
-//                403 -> {
-//                    Log.e("CADASTRO - ERROR - 403", "cadastro: ${response.errorBody()?.string()}")
-//                    Toast.makeText(context, "A CONTA ESTÁ DESATIVADA", Toast.LENGTH_LONG).show()
-//                }
-//            }
-//        }
-//    }
-//}
+fun updateAnnounceAPP (
+    dadosAnuncio: JsonAnuncios,
+    navController: NavController,
+    lifecycleScope: LifecycleCoroutineScope,
+    context: Context,
+){
+    val createAnnounceRepository = CadastroAnuncioRepository()
+
+    lifecycleScope.launch {
+
+        val response = createAnnounceRepository.updateAnnounce(dadosAnuncio)
+        val code = response.code()
+
+        if(response.isSuccessful){
+
+            Log.e("CADASTRO - SUCESS - 201", "cadastro: ${response.body()}")
+
+            val jsonString = response.body().toString()
+            val jsonObject = JSONObject(jsonString)
+
+            Log.e("jsonString", "$jsonString")
+            Log.e("jsonObject", "$jsonObject")
+
+            Toast.makeText(context, "Anuncio Atualizado", Toast.LENGTH_SHORT).show()
+
+            navController.navigate("navigation_home_bar")
+        }else{
+            when (code) {
+                404 -> {
+                    Log.e("CADASTRO - ERROR - 404", "cadastro: ${response.errorBody()?.string()}")
+                    Toast.makeText(
+                        context, "ALGUMA INFORMAÇÃO NÃO É VALIDADA", Toast.LENGTH_LONG
+                    ).show()
+                }
+                500 -> {
+                    Log.e("CADASTRO - ERROR - 500", "cadastro: ${response.errorBody()?.string()}")
+                    Toast.makeText(context, "SERVIDOR INDISPONIVEL NO MOMENTO", Toast.LENGTH_LONG)
+                        .show()
+                }
+                400 -> {
+                    Log.e("CADASTRO - ERROR - 400", "cadastro: ${response.errorBody()?.string()}")
+                    Toast.makeText(
+                        context,
+                        "NÃO FORAM PREENCHIDO TODOS OS CAMPOS OBRIGATÓRIOS",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+                403 -> {
+                    Log.e("CADASTRO - ERROR - 403", "cadastro: ${response.errorBody()?.string()}")
+                    Toast.makeText(context, "A CONTA ESTÁ DESATIVADA", Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+    }
+}

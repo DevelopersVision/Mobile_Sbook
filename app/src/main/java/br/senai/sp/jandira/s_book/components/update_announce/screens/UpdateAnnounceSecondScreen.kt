@@ -99,11 +99,15 @@ fun UpdateAnnounceSecondScreen(
         mutableStateOf(listOf<Genero>())
     }
 
-    var isVendaChecked by remember {
-        mutableStateOf(false)
+    var valor = if(viewModelV2.dadosAnuncio.anuncio.preco == null){
+        ""
+    }else{
+        viewModelV2.dadosAnuncio.anuncio.preco.toString()
     }
+
+
     var vendaPriceState by remember {
-        mutableStateOf("")
+        mutableStateOf(valor)
     }
 
     var listEstadosLivro by remember {
@@ -140,6 +144,10 @@ fun UpdateAnnounceSecondScreen(
 
     var newTipoAnuncio by remember {
         mutableStateOf(viewModelV2.dadosAnuncio.tipo_anuncio)
+    }
+
+    var isVendaChecked by remember {
+        mutableStateOf(false)
     }
 
     val call = RetrofitHelper.getTipoAnuncioService().getTipoAnuncio()
@@ -354,6 +362,8 @@ fun UpdateAnnounceSecondScreen(
                     color = Color(0xFFE0E0E0)
                 )
 
+                isVendaChecked = tiposSelecionados!!.contains(3)
+
                 var pair = listTipoAnuncio
                 for (it in pair) {
                     val isChecked3 = tiposSelecionados!!.contains(it.id)
@@ -488,6 +498,9 @@ fun UpdateAnnounceSecondScreen(
                         )
                         viewModelV2.dadosAnuncio.generos = newGeneros
                         viewModelV2.dadosAnuncio.tipo_anuncio = newTipoAnuncio
+                        if(viewModelV2.dadosAnuncio.tipo_anuncio[0].id != 1 && viewModelV2.dadosAnuncio.tipo_anuncio[0].id != 2){
+                            viewModelV2.dadosAnuncio.anuncio.preco = vendaPriceState.toDouble()
+                        }
                         viewModelV2.dadosAnuncio.estado_livro = estadoLivroNew
 
                         navController.navigate("editAnnounceThird")

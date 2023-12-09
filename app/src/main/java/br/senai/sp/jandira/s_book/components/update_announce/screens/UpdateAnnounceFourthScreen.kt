@@ -32,6 +32,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -44,6 +46,7 @@ import br.senai.sp.jandira.s_book.components.feed.screen.getAnunciante
 import br.senai.sp.jandira.s_book.components.universal.HeaderCreateAnnounce
 import br.senai.sp.jandira.s_book.components.update_announce.components.HeaderUpdateAnnounce
 import br.senai.sp.jandira.s_book.functions.createAnnounceApp
+import br.senai.sp.jandira.s_book.functions.updateAnnounceAPP
 import br.senai.sp.jandira.s_book.model.AutoresParaPostAnuncio
 import br.senai.sp.jandira.s_book.model.ResponseUsuario
 import br.senai.sp.jandira.s_book.model.Usuario
@@ -73,6 +76,8 @@ fun UpdateAnnounceFourthScrenn(
     val array = UserRepository(context).findUsers()
 
     val user = array[0]
+
+    var generosString = ""
 
     Column(modifier = Modifier.verticalScroll(ScrollState(0))) {
         HeaderUpdateAnnounce {
@@ -154,12 +159,32 @@ fun UpdateAnnounceFourthScrenn(
                         color = Color(0xFF808080)
                     )
                     Spacer(modifier = Modifier.height(16.dp))
-                    Text(
-                        text = "${viewModelV2.dadosAnuncio.generos}",
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight(600),
-                        color = Color(0xFF808080)
-                    )
+//                    Text(
+//                        text = "${viewModelV2.dadosAnuncio.generos}",
+//                        fontSize = 14.sp,
+//                        fontWeight = FontWeight(600),
+//                        color = Color(0xFF808080)
+//                    )
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    ) {
+                        viewModelV2.dadosAnuncio.generos.forEach { genero ->
+                            if (genero == viewModelV2.dadosAnuncio.generos.last()) {
+                                generosString += genero.nome
+                                Text(
+                                    text = generosString,
+                                    fontSize = 14.sp,
+                                    fontFamily = FontFamily(Font(R.font.intermedium)),
+                                    fontWeight = FontWeight(600),
+                                    color = Color(0xFF808080),
+                                    modifier = Modifier
+                                )
+                            } else {
+                                generosString += "${genero.nome}, "
+                            }
+                        }
+                    }
                     Spacer(modifier = Modifier.height(24.dp))
                     Text(
                         text = "${viewModelV2.dadosAnuncio.tipo_anuncio[0].tipo}",
@@ -449,8 +474,12 @@ fun UpdateAnnounceFourthScrenn(
             Spacer(modifier = Modifier.height(48.dp))
             Button(
                 onClick = {
-
-
+                         updateAnnounceAPP(
+                             dadosAnuncio = viewModelV2.dadosAnuncio,
+                             context = context,
+                             lifecycleScope = lifecycleScope,
+                             navController = navController
+                         )
                 },
                 colors = ButtonDefaults.buttonColors(Color(218, 108, 39, 255)),
                 modifier = Modifier

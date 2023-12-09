@@ -148,9 +148,9 @@ class MainActivity : ComponentActivity() {
                             CategoryScreen(navController = navController, lifecycleScope = lifecycleScope, viewModel = viewModelUserCategory)
                         }
 
-                        composable("favorite"){
-                            FavoritoScreen(navController = navController, lifecycleScope = lifecycleScope ,navRotasController = navController, viewModelQueVaiPassarOsDados = viewModelAnuncioV2)
-                        }
+//                        composable("favorite"){
+//                            FavoritoScreen(navController = navController, lifecycleScope = lifecycleScope ,navRotasController = navController, viewModelQueVaiPassarOsDados = viewModelAnuncioV2)
+//                        }
 
                         composable("cep"){
                             CepScreen(navController = navController, viewModel = viewModelCreateAccount)

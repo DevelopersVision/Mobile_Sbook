@@ -15,6 +15,7 @@ import br.senai.sp.jandira.s_book.components.advertiser.screen.AdvertiserScreen
 import br.senai.sp.jandira.s_book.components.announce.screens.AnnounceScreen
 import br.senai.sp.jandira.s_book.components.chats.screen.ChatScreen
 import br.senai.sp.jandira.s_book.components.donations.screen.DonationsScreen
+import br.senai.sp.jandira.s_book.components.favorite.screen.FavoritoScreen
 import br.senai.sp.jandira.s_book.components.feed.screen.FeedScreen
 import br.senai.sp.jandira.s_book.components.login.screen.LoginScreen
 import br.senai.sp.jandira.s_book.components.login.screen.LoginScreenRota
@@ -119,6 +120,10 @@ fun ButtonNavGraph(
 
         composable("myAnnounce") {
             MyAnnounceScreen(lifecycleScope = lifecycleScope, viewModel = viewModelAnuncioV2, navController = navController, navRotasController)
+        }
+
+        composable("favorite"){
+            FavoritoScreen(navController = navController, lifecycleScope = lifecycleScope ,navRotasController = navRotasController, viewModelQueVaiPassarOsDados = viewModelAnuncioV2)
         }
 
         composable(route = BottomBarScreen.Chat.route){

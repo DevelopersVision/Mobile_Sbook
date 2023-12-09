@@ -21,6 +21,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -99,10 +100,23 @@ fun FavoritoScreen(
         }
     })
 
+    DisposableEffect(Unit){
+        // Função a ser executada ao sair da tela
+        Log.e("SAINDO", "SAINDO DA TELA"  )
+
+        // Lembre-se de limpar recursos, se necessário
+        onDispose {
+            Log.e("SAINDO", "LIMPOU"  )
+            viewModelQueVaiPassarOsDados.favoritado = false
+        }
+    }
+
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(24.dp)
+            .padding(bottom = 45.dp)
     ) {
         Header(
             navController = navController,
@@ -212,7 +226,9 @@ fun FavoritoScreen(
                                     Log.e("Anunciante", "null")
                                 }
                             }
-                            navRotasController.navigate("announce")
+                            viewModelQueVaiPassarOsDados.idAnuncio = item.anuncio.id
+                            viewModelQueVaiPassarOsDados.favoritado = true
+                            navController.navigate("announce")
                         },
                         coracaoClik = {},
                         )

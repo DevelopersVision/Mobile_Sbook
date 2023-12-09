@@ -10,5 +10,6 @@ class AnuncioViewModelV2: ViewModel(){
     var nome: String? = ""
     var endereco: String? = ""
     lateinit var dadosAnuncio: JsonAnuncios
+    var favoritado: Boolean = false
 }
 
