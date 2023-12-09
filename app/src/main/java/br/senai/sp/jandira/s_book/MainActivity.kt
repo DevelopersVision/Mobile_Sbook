@@ -45,6 +45,7 @@ import br.senai.sp.jandira.s_book.components.sixth_create_announce.screen.SixthC
 import br.senai.sp.jandira.s_book.components.tela_generica.screen.GenericScreen
 import br.senai.sp.jandira.s_book.components.third_create_announce.screen.ThirdCreateAnnounceScreen
 import br.senai.sp.jandira.s_book.components.update_announce.screens.UpdateAnnounceFirstScreen
+import br.senai.sp.jandira.s_book.components.update_announce.screens.UpdateAnnounceFourthScrenn
 import br.senai.sp.jandira.s_book.components.update_announce.screens.UpdateAnnounceSecondScreen
 import br.senai.sp.jandira.s_book.components.update_announce.screens.UpdateAnnounceThirdScreen
 import br.senai.sp.jandira.s_book.model.chat.ChatClient
@@ -222,7 +223,16 @@ class MainActivity : ComponentActivity() {
                                 navController = navController,
                                 localStorage = localStorage,
                                 viewModelDoPostAnuncio = ViewModelDoPostAnuncio(),
-                                viewModelImagens =  viewModelDasImagens
+                                viewModelImagens =  viewModelDasImagens,
+                                viewModelV2 = viewModelAnuncioV2
+                            )
+                        }
+
+                        composable("editAnnounceFourth"){
+                            UpdateAnnounceFourthScrenn(
+                                viewModelV2 = viewModelAnuncioV2,
+                                lifecycleScope = lifecycleScope,
+                                navController = navController
                             )
                         }
 

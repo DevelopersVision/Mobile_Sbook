@@ -39,6 +39,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -52,7 +53,9 @@ import br.senai.sp.jandira.s_book.R
 import br.senai.sp.jandira.s_book.Storage
 import br.senai.sp.jandira.s_book.components.universal.HeaderCreateAnnounce
 import br.senai.sp.jandira.s_book.components.update_announce.components.HeaderUpdateAnnounce
+import br.senai.sp.jandira.s_book.model.Foto
 import br.senai.sp.jandira.s_book.view_model.AnnouncePhotosViewModel
+import br.senai.sp.jandira.s_book.view_model.AnuncioViewModelV2
 import br.senai.sp.jandira.s_book.view_model.ViewModelDoPostAnuncio
 import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
@@ -67,7 +70,8 @@ fun UpdateAnnounceThirdScreen(
     localStorage: Storage,
     viewModelDoPostAnuncio: ViewModelDoPostAnuncio,
     viewModelImagens: AnnouncePhotosViewModel,
-) {
+    viewModelV2: AnuncioViewModelV2
+    ) {
 
     val context = LocalContext.current
 
@@ -89,6 +93,10 @@ fun UpdateAnnounceThirdScreen(
         mutableStateOf<List<Uri>>(emptyList())
     }
 
+    var fotoSelecionado by rememberSaveable {
+        mutableStateOf<List<Foto>>(viewModelV2.dadosAnuncio.foto)
+    }
+
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
     ) { uri ->
@@ -99,7 +107,7 @@ fun UpdateAnnounceThirdScreen(
         }
     }
 
-    val maxImageCount = 5
+    val maxImageCount = 3
 
     Column(
         modifier = Modifier
@@ -143,7 +151,7 @@ fun UpdateAnnounceThirdScreen(
                     modifier = Modifier
                         .size(128.dp)
                         .clickable {
-                            if (selectedMedia.size < maxImageCount) {
+                            if (selectedMedia.size + fotoSelecionado.size < maxImageCount) {
                                 launcher.launch("image/*")
                             }
                         }
@@ -154,7 +162,8 @@ fun UpdateAnnounceThirdScreen(
                     horizontalArrangement = Arrangement.spacedBy(24.dp)
                 ) {
                     LazyRow(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                        items(selectedMedia) {
+                        items(fotoSelecionado) {
+                            Log.e("Imagens", "$selectedMedia")
                             Column(
                                 modifier = Modifier
                                     .height(260.dp)
@@ -164,16 +173,47 @@ fun UpdateAnnounceThirdScreen(
                                 horizontalAlignment = Alignment.CenterHorizontally
                             ) {
                                 AsyncImage(
-                                    model = it,
+                                    model = it.foto,
                                     contentDescription = "",
                                     contentScale = ContentScale.Crop,
-                                    modifier = Modifier.fillMaxSize()
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .clickable {
+                                            fotoSelecionado = fotoSelecionado.filter { foto ->
+                                                foto.id != it.id
+                                            }
+                                        }
                                 )
+                            }
+                        }
+                        items(1){
+                            for (imagem in selectedMedia){
+                                Column(
+                                    modifier = Modifier
+                                        .height(260.dp)
+                                        .width(160.dp)
+                                        .background(Color.Transparent),
+                                    verticalArrangement = Arrangement.Center,
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
+                                    AsyncImage(
+                                        model = imagem,
+                                        contentDescription = "",
+                                        contentScale = ContentScale.Crop,
+                                        modifier = Modifier
+                                            .fillMaxSize()
+                                            .clickable {
+                                                selectedMedia = selectedMedia.filter { foto ->
+                                                    foto != imagem
+                                                }
+                                            }
+                                    )
+                                }
                             }
                         }
                     }
                 }
-                if (selectedMedia.size >= maxImageCount) {
+                if (selectedMedia.size + fotoSelecionado.size >= maxImageCount) {
                     Toast.makeText(
                         context,
                         "Limite de $maxImageCount imagens atingido",
@@ -187,43 +227,30 @@ fun UpdateAnnounceThirdScreen(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                    Card(
-                        modifier = Modifier
-                            .size(8.dp),
-                        shape = CircleShape,
-                        backgroundColor = Color(193, 188, 204, 255)
-                    ) {}
-                    Card(
-                        modifier = Modifier
-                            .size(8.dp),
-                        shape = CircleShape,
-                        backgroundColor = Color(193, 188, 204, 255)
-                    ) {}
-                    Card(
-                        modifier = Modifier
-                            .size(8.dp),
-                        shape = CircleShape,
-                        backgroundColor = Color(170, 98, 49, 255)
-                    ) {}
-                    Card(
-                        modifier = Modifier
-                            .size(8.dp),
-                        shape = CircleShape,
-                        backgroundColor = Color(193, 188, 204, 255)
-                    ) {}
-                    Card(
-                        modifier = Modifier
-                            .size(8.dp),
-                        shape = CircleShape,
-                        backgroundColor = Color(193, 188, 204, 255)
-                    ) {}
-                    Card(
-                        modifier = Modifier
-                            .size(8.dp),
-                        shape = CircleShape,
-                        backgroundColor = Color(193, 188, 204, 255)
-                    ) {}
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    val pages = listOf<Int>(1, 2, 3,4)
+
+                    for (page in pages) {
+                        if (page == 3) {
+                            Box(
+                                modifier = Modifier
+                                    .clip(CircleShape)
+                                    .width(4.dp)
+                                    .height(4.dp)
+                                    .background(color = Color(0xFFAA6231))
+                            )
+                        } else {
+                            Card(
+                                modifier = Modifier
+                                    .width(4.dp)
+                                    .height(4.dp),
+                                backgroundColor = Color(0xFFC1BCCC),
+                                shape = CircleShape,
+                            ) {}
+                        }
+                    }
                 }
                 Image(
                     painter = painterResource(id = R.drawable.seta_prosseguir),
@@ -275,7 +302,9 @@ fun UpdateAnnounceThirdScreen(
                                             }
                                         }
                                 }
-                            } else {
+                            }else if(fotoSelecionado.size == 3){
+                                navController.navigate("editAnnounceFourth")
+                            }else {
                                 Toast
                                     .makeText(
                                         context,

@@ -301,7 +301,7 @@ fun UpdateAnnounceFirstScreen(
                     Row(
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        val pages = listOf<Int>(1, 2, 3)
+                        val pages = listOf<Int>(1, 2, 3,4)
 
                         for (page in pages) {
                             if (page == 1) {
