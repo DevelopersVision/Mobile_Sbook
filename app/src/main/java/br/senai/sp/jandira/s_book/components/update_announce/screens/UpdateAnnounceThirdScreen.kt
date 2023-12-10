@@ -54,6 +54,7 @@ import br.senai.sp.jandira.s_book.Storage
 import br.senai.sp.jandira.s_book.components.universal.HeaderCreateAnnounce
 import br.senai.sp.jandira.s_book.components.update_announce.components.HeaderUpdateAnnounce
 import br.senai.sp.jandira.s_book.model.Foto
+import br.senai.sp.jandira.s_book.model.chat.view_model.viewModelId
 import br.senai.sp.jandira.s_book.view_model.AnnouncePhotosViewModel
 import br.senai.sp.jandira.s_book.view_model.AnuncioViewModelV2
 import br.senai.sp.jandira.s_book.view_model.ViewModelDoPostAnuncio
@@ -61,8 +62,12 @@ import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import kotlinx.coroutines.launch
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 @Composable
 fun UpdateAnnounceThirdScreen(
@@ -75,11 +80,52 @@ fun UpdateAnnounceThirdScreen(
 
     val context = LocalContext.current
 
+//    val storageRef: StorageReference = FirebaseStorage.getInstance().reference.child("images")
+//
+//    val firebaseFirestore: FirebaseFirestore = FirebaseFirestore.getInstance()
+//
+//    var fotoUri by rememberSaveable {
+//        mutableStateOf<Uri?>(null)
+//    }
+//
+//    val painter = rememberAsyncImagePainter(
+//        ImageRequest.Builder(context).data(fotoUri).build()
+//    )
+//
+//    var isImageSelected by remember { mutableStateOf(false) }
+//
+//    var selectedMedia by rememberSaveable {
+//        mutableStateOf<List<Uri>>(emptyList())
+//    }
+//
+    var arrayFoto = listOf<String>()
+    viewModelV2.dadosAnuncio.foto.forEach {
+        arrayFoto = arrayFoto + it.foto
+    }
+
+
+    var fotoSelecionado by rememberSaveable {
+        mutableStateOf<List<String>>(arrayFoto)
+    }
+//
+//    val launcher = rememberLauncherForActivityResult(
+//        contract = ActivityResultContracts.GetContent()
+//    ) { uri ->
+//        uri?.let {
+//            fotoUri = it
+//            selectedMedia = selectedMedia + listOf(it)
+//            viewModelDoPostAnuncio.imagensJaselecionadas = selectedMedia
+//        }
+//    }
+
+
+    //REFERENCIA PARA ACESSO E MANiPULACAO DO CLOUD STORAGE
     val storageRef: StorageReference = FirebaseStorage.getInstance().reference.child("images")
 
+    //REFERENCIA PARA ACESSO E MANIPULACAO DO CLOUD FIRESTORE
     val firebaseFirestore: FirebaseFirestore = FirebaseFirestore.getInstance()
 
-    var fotoUri by rememberSaveable {
+    var fotoUri by remember {
         mutableStateOf<Uri?>(null)
     }
 
@@ -89,21 +135,158 @@ fun UpdateAnnounceThirdScreen(
 
     var isImageSelected by remember { mutableStateOf(false) }
 
-    var selectedMedia by rememberSaveable {
-        mutableStateOf<List<Uri>>(emptyList())
+    var anexo by remember {
+        mutableStateOf(viewModelDoPostAnuncio.imagensCertas)
     }
 
-    var fotoSelecionado by rememberSaveable {
-        mutableStateOf<List<Foto>>(viewModelV2.dadosAnuncio.foto)
-    }
+    /*fun urlDownload(it: String) {
+        val storageRefs: StorageReference =
+            FirebaseStorage.getInstance().reference.child("teste/${Uri.parse(it)}")
+
+
+        val uploadTask = storageRefs.putFile(Uri.parse(it))
+
+        uploadTask
+            .addOnCompleteListener { task ->
+
+                if (task.isSuccessful) {
+                    Log.i(
+                        "urlDown",
+                        "it: ${it}"
+                    )
+                    storageRefs.downloadUrl.addOnSuccessListener { uri ->
+                        val map = HashMap<String, Any>()
+                        map["pic"] = uri.toString()
+                        Log.i(
+                            "urlDown",
+                            "uri: ${uri}"
+                        )
+                        Log.i(
+                            "urlDown",
+                            "it: ${it}"
+                        )
+
+                        firebaseFirestore
+                            .collection("images")
+                            .add(map)
+                            .addOnCompleteListener { firestoreTask ->
+                                if (firestoreTask.isSuccessful) {
+
+                                    val anexo = uri.toString()
+                                    selectedMediaUri += uri
+                                    Log.i(
+                                        "urlDown",
+                                        "selectedMediaUrl: ${selectedMediaUri}"
+                                    )
+
+                                } else {
+                                    Toast
+                                        .makeText(
+                                            context,
+                                            "ERRO AO TENTAR REALIZAR O UPLOAD",
+                                            Toast.LENGTH_SHORT
+                                        )
+                                        .show()
+                                }
+                            }
+                    }
+
+                } else {
+                    Toast
+                        .makeText(
+                            context,
+                            "ERRO AO TENTAR REALIZAR O UPLOAD",
+                            Toast.LENGTH_SHORT
+                        )
+                        .show()
+
+                }
+            }
+
+    }*/
 
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
     ) { uri ->
-        uri?.let {
-            fotoUri = it
-            selectedMedia = selectedMedia + listOf(it)
-            viewModelDoPostAnuncio.imagensJaselecionadas = selectedMedia
+        if (uri != null) {
+           fotoUri = uri
+
+            if(fotoSelecionado.size < 3){
+                val storageReference: StorageReference =
+                    FirebaseStorage.getInstance().reference.child("images")
+
+                val firebaseFirestore: FirebaseFirestore = FirebaseFirestore.getInstance()
+
+                var imagemUrl: String = ""
+
+                val storageRef = storageReference.child(System.currentTimeMillis().toString())
+                storageRef.putFile(fotoUri!!).addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        storageRef.downloadUrl.addOnSuccessListener { downloadUri ->
+                            //val map = hashMapOf("pic" to downloadUri.toString())
+
+                            val map = HashMap<String, Any>()
+                            map["pic"] = downloadUri.toString()
+                            map["timestamp"] =
+                                LocalDateTime.parse(LocalDateTime.now().toString()).toString()
+                            Log.w("NOW", "${LocalDateTime.parse(LocalDateTime.now().toString())}")
+                            Log.w(
+                                "NOW", "${
+                                    LocalDateTime.parse(
+                                        LocalDateTime.now().format(
+                                            DateTimeFormatter.ISO_DATE_TIME
+                                        )
+                                    )
+                                }"
+                            )
+
+                            firebaseFirestore.collection("images").add(map)
+                                .addOnCompleteListener { firestoreTask ->
+                                    if (firestoreTask.isSuccessful) {
+                                        Log.e("Firebase", "Foto adicionada")
+                                        Toast.makeText(
+                                            context,
+                                            "FOTO ADICIONADA COM SUCESSO",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+
+                                        firebaseFirestore.collection("images") // Substitua "pic" pelo nome do campo correto
+                                            .orderBy("timestamp", Query.Direction.DESCENDING)
+                                            .limit(1)
+                                            .get()
+                                            .addOnSuccessListener { querySnapshot ->
+                                                imagemUrl =
+                                                    querySnapshot.documents[0].data!!["pic"].toString()
+
+                                                fotoSelecionado = fotoSelecionado + imagemUrl
+                                            }
+                                            .addOnFailureListener { exception ->
+                                                Log.e(
+                                                    "Firebase",
+                                                    "Erro ao obter imagens: $exception"
+                                                )
+                                                exception.printStackTrace()  // Adiciona esta linha para imprimir o stack trace
+                                            }
+
+                                    } else {
+                                        Log.e("Firebase", "Erro, ${firestoreTask.result}")
+                                        Toast.makeText(
+                                            context,
+                                            "ERRO AO TENTAR REALIZAR O UPLOAD",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+                                }
+                        }
+                    } else {
+                        Toast.makeText(
+                            context,
+                            "ERRO AO TENTAR REALIZAR O UPLOAD",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+            }
         }
     }
 
@@ -163,7 +346,6 @@ fun UpdateAnnounceThirdScreen(
                 ) {
                     LazyRow(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                         items(fotoSelecionado) {
-                            Log.e("Imagens", "$selectedMedia")
                             Column(
                                 modifier = Modifier
                                     .height(260.dp)
@@ -173,47 +355,22 @@ fun UpdateAnnounceThirdScreen(
                                 horizontalAlignment = Alignment.CenterHorizontally
                             ) {
                                 AsyncImage(
-                                    model = it.foto,
+                                    model = it,
                                     contentDescription = "",
                                     contentScale = ContentScale.Crop,
                                     modifier = Modifier
                                         .fillMaxSize()
                                         .clickable {
                                             fotoSelecionado = fotoSelecionado.filter { foto ->
-                                                foto.id != it.id
+                                                foto != it
                                             }
                                         }
                                 )
                             }
                         }
-                        items(1){
-                            for (imagem in selectedMedia){
-                                Column(
-                                    modifier = Modifier
-                                        .height(260.dp)
-                                        .width(160.dp)
-                                        .background(Color.Transparent),
-                                    verticalArrangement = Arrangement.Center,
-                                    horizontalAlignment = Alignment.CenterHorizontally
-                                ) {
-                                    AsyncImage(
-                                        model = imagem,
-                                        contentDescription = "",
-                                        contentScale = ContentScale.Crop,
-                                        modifier = Modifier
-                                            .fillMaxSize()
-                                            .clickable {
-                                                selectedMedia = selectedMedia.filter { foto ->
-                                                    foto != imagem
-                                                }
-                                            }
-                                    )
-                                }
-                            }
-                        }
                     }
                 }
-                if (selectedMedia.size + fotoSelecionado.size >= maxImageCount) {
+                if (fotoSelecionado.size >= maxImageCount) {
                     Toast.makeText(
                         context,
                         "Limite de $maxImageCount imagens atingido",
@@ -258,51 +415,7 @@ fun UpdateAnnounceThirdScreen(
                     modifier = Modifier
                         .size(72.dp)
                         .clickable {
-                            if (selectedMedia.size >= 3) {
-                                val uploadedImageUrls =
-                                    mutableListOf<String>() // Para armazenar as URLs das imagens
-
-                                for (uri in selectedMedia) {
-                                    val storageRef =
-                                        storageRef.child("${uri.lastPathSegment}-${System.currentTimeMillis()}.jpg")
-                                    storageRef
-                                        .putFile(uri)
-                                        .addOnCompleteListener { task ->
-                                            if (task.isSuccessful) {
-                                                storageRef.downloadUrl.addOnSuccessListener { downloadUri ->
-                                                    val imageUrl = downloadUri.toString()
-                                                    uploadedImageUrls.add(imageUrl)
-
-                                                    if (uploadedImageUrls.size == selectedMedia.size) {
-                                                        // Todas as imagens foram carregadas, agora atualize a ViewModel
-                                                        viewModelImagens.fotos = uploadedImageUrls
-                                                        navController.navigate("quarto_anunciar")
-                                                        localStorage.salvarValorString(
-                                                            context = context,
-                                                            uploadedImageUrls.toString(),
-                                                            "foto_livro"
-                                                        )
-                                                    }
-                                                }
-                                            } else {
-                                                Toast
-                                                    .makeText(
-                                                        context,
-                                                        "ERRO AO TENTAR REALIZAR O UPLOAD",
-                                                        Toast.LENGTH_SHORT
-                                                    )
-                                                    .show()
-                                                Toast
-                                                    .makeText(
-                                                        context,
-                                                        "Selecione ao menos 3 imagens para prosseguir",
-                                                        Toast.LENGTH_SHORT
-                                                    )
-                                                    .show()
-                                            }
-                                        }
-                                }
-                            }else if(fotoSelecionado.size == 3){
+                            if(fotoSelecionado.size == 3){
                                 navController.navigate("editAnnounceFourth")
                             }else {
                                 Toast

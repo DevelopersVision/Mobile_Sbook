@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -29,31 +30,35 @@ fun CardFotoMessageCliente(
         Card(
             shape = RoundedCornerShape(
                 topStart = 0.dp, topEnd = 16.dp, bottomStart = 16.dp, bottomEnd = 16.dp
-            ), modifier = Modifier.width(280.dp)
+            ),
+            backgroundColor = cor
         ) {
             Column(
                 modifier = Modifier
-                    .padding(12.dp),
-                verticalArrangement = Arrangement.spacedBy(4.dp)
+                    .padding(12.dp)
+                    .width(280.dp)
             ) {
                 AsyncImage(
                     model = foto,
-                    contentDescription = ""
+                    contentDescription = "",
+                    modifier = Modifier.size(280.dp)
                 )
-                Text(
-                    text = menssagem,
-                    fontSize = 12.sp,
-                    fontWeight = FontWeight(400),
-                    color = cor
-                )
-                Text(
-                    text = hora,
-                    fontSize = 10.sp,
-                    fontWeight = FontWeight(400),
-                    color = Color(0xFF3B4A54),
-                    modifier = Modifier.fillMaxWidth(),
-                    textAlign = TextAlign.End
-                )
+                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                    Text(
+                        text = menssagem,
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight(400),
+                        color = Color(0xFF3B4A54)
+                    )
+                    Text(
+                        text = hora,
+                        fontSize = 10.sp,
+                        fontWeight = FontWeight(400),
+                        color = Color(0xFF3B4A54),
+                        textAlign = TextAlign.End
+                    )
+                }
+
 
             }
         }

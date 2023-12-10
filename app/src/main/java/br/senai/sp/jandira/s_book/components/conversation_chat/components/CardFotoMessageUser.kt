@@ -64,7 +64,11 @@ fun CardFotoMessageUser(
             backgroundColor = if (isLongPressActive) Color.Black.copy(alpha = 0.2f) else cor
         ) {
 
-            Column(modifier = Modifier.padding(12.dp)) {
+            Column(
+                modifier = Modifier
+                    .padding(12.dp)
+                    .width(280.dp)
+            ) {
                 Row(
                     modifier = Modifier
                         .padding(12.dp)
@@ -90,36 +94,34 @@ fun CardFotoMessageUser(
                                     onDelete()
                                 }
                         ) {
-                            // Substitua o ícone padrão pelo ícone de lixeira real que você deseja usar
                             Icon(Icons.Default.Delete, contentDescription = "Delete")
                         }
                     }
                 }
-                Column(
+
+                AsyncImage(
+                    model = foto,
+                    contentDescription = "",
+                    modifier = Modifier.size(280.dp)
+                )
+                Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalAlignment = Alignment.Start
+                    horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    AsyncImage(
-                        model = foto,
-                        contentDescription = ""
-                    )
                     Text(
                         text = menssagem,
-                        fontSize = 16.sp,
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight(400),
+                        color = Color(0xFF3B4A54)
+                    )
+                    Text(
+                        text = hora,
+                        fontSize = 10.sp,
                         fontWeight = FontWeight(400),
                         color = Color(0xFF3B4A54),
-                        modifier = Modifier.fillMaxWidth(),
                         textAlign = TextAlign.End
                     )
                 }
-                Text(
-                    text = hora,
-                    fontSize = 10.sp,
-                    fontWeight = FontWeight(400),
-                    color = Color(0xFF3B4A54),
-                    modifier = Modifier.fillMaxWidth(),
-                    textAlign = TextAlign.End
-                )
             }
         }
     }

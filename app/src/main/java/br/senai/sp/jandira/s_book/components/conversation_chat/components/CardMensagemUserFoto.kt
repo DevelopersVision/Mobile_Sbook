@@ -21,87 +21,75 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
+import br.senai.sp.jandira.s_book.R
 import coil.compose.AsyncImage
 
 @Composable
 fun CardMensagemUserFoto(
-    menssagem : String,
+    menssagem: String,
     hora: String,
     cor: Color,
-    foto : String,
+    foto: String,
     onDelete: () -> Unit
 ) {
 
     var isLongPressActive by remember { mutableStateOf(false) }
     var isLongPressStarted by remember { mutableStateOf(false) }
 
+
     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-        Card(
+        androidx.compose.material.Card(
             shape = RoundedCornerShape(
                 topStart = 16.dp, topEnd = 0.dp, bottomStart = 16.dp, bottomEnd = 16.dp
             ),
             modifier = Modifier
-                .width(280.dp)
-            .pointerInput(Unit) {
-            detectTransformGestures { _, pan, _, _ ->
-                if (pan != androidx.compose.ui.geometry.Offset(0f, 0f)) {
-                    isLongPressStarted = true
-                    isLongPressActive = true
-                }
-            }
-        },
-        backgroundColor = if (isLongPressActive) Color.Black.copy(alpha = 0.2f) else cor
-        ) {
-
-            Column(modifier = Modifier.padding(12.dp)) {
-                Row(
-                    modifier = Modifier
-                        .padding(12.dp)
-                        .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Center
-                ) {
-                    androidx.compose.foundation.Canvas(
-                        modifier = Modifier
-                            .size(12.dp)
-                            .fillMaxWidth(),
-                        onDraw = {
-                            drawCircle(
-                                color = if (isLongPressActive) Color.Transparent else Color.Transparent
-                            )
-                        }
-                    )
-                    // Adicionando o ícone de lixeira
-                    if (isLongPressActive) {
-                        Column (
-                            modifier = Modifier
-//                                .zIndex(3f)
-                                .clickable {
-                                    onDelete()
-                                }
-                        ){
-                            // Substitua o ícone padrão pelo ícone de lixeira real que você deseja usar
-                            Icon(Icons.Default.Delete, contentDescription = "Delete")
+                .pointerInput(Unit) {
+                    detectTransformGestures { _, pan, _, _ ->
+                        if (pan != Offset(0f, 0f)) {
+                            isLongPressActive = true
                         }
                     }
-                }
+                },
+            backgroundColor = cor
+        ) {
+            Column(modifier = Modifier.padding(12.dp)) {
                 AsyncImage(
                     model = foto,
-                    contentDescription = ""
+                    contentDescription = "",
+                    modifier = Modifier.size(280.dp)
                 )
                 Text(
                     text = hora,
-                    fontSize = 10.sp,
-                    fontWeight = FontWeight(400),
-                    color = Color(0xFF3B4A54),
-                    modifier = Modifier.fillMaxWidth(),
-                    textAlign = TextAlign.End
+                    textAlign = TextAlign.End,
+                    modifier = Modifier
+                        .padding(end = 3.dp)
+                        .width(280.dp),
+                    fontSize = 8.sp,
+                    color = Color.Black
+                )
+
+            }
+
+            if (isLongPressActive) {
+                Icon(
+                    Icons.Default.Delete,
+                    contentDescription = "Delete",
+                    modifier = Modifier
+                        .size(35.dp)
+                        .padding(8.dp)
+                        .clickable {
+                            onDelete()
+                            isLongPressActive = false
+                        }
                 )
             }
         }

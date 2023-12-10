@@ -108,7 +108,9 @@ fun ConversationChatScreen(
                     if (d.isNotEmpty()) {
                         val data = d[0]
                         Log.e("Data", "$data")
-                        if (data.toString().isNotEmpty()) {
+                        if (data is String && data == "receive_message") {
+                            Log.e("MORREU MAS NAO PAASSA", "Morri mas passo bem", )
+                        } else if (data.toString().isNotEmpty()) {
                             val mensagens =
                                 Gson().fromJson(data.toString(), MesagensResponse::class.java)
 
@@ -179,7 +181,7 @@ fun ConversationChatScreen(
                                         CardMensagemClienteFoto(
                                             menssagem = "",
                                             hora = it.hora_criacao!!.substring(0, 5),
-                                            cor = Color(0xFF000000),
+                                            cor = Color.White,
                                             foto = it.image
                                         )
                                     } else {
@@ -211,7 +213,7 @@ fun ConversationChatScreen(
                                         CardMensagemCliente(
                                             menssagem = it.message,
                                             hora = it.hora_criacao!!.substring(0, 5),
-                                            cor = Color(0xFF000000)
+                                            cor = Color.White
                                         )
                                     } else {
                                         CardMensagemUser(
@@ -241,7 +243,7 @@ fun ConversationChatScreen(
                                         CardFotoMessageCliente(
                                             menssagem = it.message,
                                             hora = it.hora_criacao!!.substring(0, 5),
-                                            cor = Color(0xFF000000),
+                                            cor = Color.White,
                                             foto = it.image
                                         )
                                     } else {

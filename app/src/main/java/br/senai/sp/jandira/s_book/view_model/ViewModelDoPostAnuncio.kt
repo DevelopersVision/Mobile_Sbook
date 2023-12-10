@@ -15,5 +15,6 @@ class ViewModelDoPostAnuncio: ViewModel() {
     var isbn: String? = ""
     var tipoDoAnuncio: String? = ""
     var imagensJaselecionadas: List<Uri>? = null
+    var imagensCertas: String = ""
 
 }

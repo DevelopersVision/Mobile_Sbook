@@ -1,38 +1,38 @@
 package br.senai.sp.jandira.s_book.components.conversation_chat.components
 
-import androidx.compose.foundation.background
+
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTransformGestures
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Canvas
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import br.senai.sp.jandira.s_book.R
 
 
 @Composable
@@ -40,7 +40,8 @@ fun CardMensagemUser(
     menssagem: String,
     hora: String,
     cor: Color,
-    onDelete: () -> Unit
+    onDelete: () -> Unit,
+    maxBubbleWidth: Dp = 200.dp,
 ) {
     var isLongPressActive by remember { mutableStateOf(false) }
     var isLongPressStarted by remember { mutableStateOf(false) }
@@ -50,67 +51,114 @@ fun CardMensagemUser(
         horizontalArrangement = Arrangement.End
     ) {
         Card(
-            shape = RoundedCornerShape(
-                topStart = 16.dp, topEnd = 0.dp, bottomStart = 16.dp, bottomEnd = 16.dp
-            ),
             modifier = Modifier
-                .width(280.dp)
                 .pointerInput(Unit) {
+
                     detectTransformGestures { _, pan, _, _ ->
                         if (pan != Offset(0f, 0f)) {
-                            isLongPressStarted = true
                             isLongPressActive = true
                         }
                     }
+                }
+                .onFocusChanged {
+                    isLongPressActive = false
                 },
-            backgroundColor = if (isLongPressActive) Color.Black.copy(alpha = 0.2f) else cor
+            backgroundColor = if (isLongPressActive) {
+                Color.Gray
+            } else {
+                cor
+            },
+            shape = RoundedCornerShape(8.dp)
         ) {
-            Row(
-                modifier = Modifier
-                    .padding(12.dp)
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center
-            ) {
-                androidx.compose.foundation.Canvas(
-                    modifier = Modifier
-                        .size(12.dp)
-                        .fillMaxWidth(),
-                    onDraw = {
-                        drawCircle(
-                            color = if (isLongPressActive) Color.Transparent else Color.Transparent
+            if (!isLongPressActive) {
+                Row(
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.Bottom,
+                    modifier = Modifier.padding(12.dp)
+                ) {
+
+                    if (menssagem.length > 25) {
+                        Text(
+                            text = menssagem,
+                            fontSize = 14.sp,
+                            modifier = Modifier
+                                .width(maxBubbleWidth)
+                                .padding(end = 10.dp),
+                            color = Color.Black
+                        )
+                    } else {
+                        Text(
+                            text = menssagem,
+                            fontSize = 14.sp,
+                            modifier = Modifier
+                                .width(IntrinsicSize.Max)
+                                .padding(end = 10.dp),
+                            color = Color.Black
                         )
                     }
-                )
-                // Adicionando o ícone de lixeira
-                if (isLongPressActive) {
-                    Column (
+
+                    Text(
+                        text = hora,
+                        fontSize = 8.sp,
+                        color = Color.Black
+                    )
+
+
+                }
+            } else {
+                Box(
+                    contentAlignment = Alignment.Center
+                ) {
+                    Row(
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.Bottom,
+                        modifier = Modifier.padding(12.dp)
+                    ) {
+
+                        if (menssagem.length > 25) {
+                            Text(
+                                text = menssagem,
+                                fontSize = 14.sp,
+                                modifier = Modifier
+                                    .width(maxBubbleWidth)
+                                    .padding(end = 10.dp),
+                                color = Color.Black
+                            )
+                        } else {
+                            Text(
+                                text = menssagem,
+                                fontSize = 14.sp,
+                                modifier = Modifier
+                                    .width(IntrinsicSize.Max)
+                                    .padding(end = 10.dp),
+                                color = Color.Black
+                            )
+                        }
+
+                        Text(
+                            text = hora,
+                            fontSize = 8.sp,
+                            color = Color.Black
+                        )
+
+                    }
+
+                    Icon(
+                        Icons.Default.Delete,
+                        contentDescription = "Delete",
                         modifier = Modifier
+                            .size(35.dp)
+                            .padding(8.dp)
                             .clickable {
                                 onDelete()
+                                isLongPressActive = false
                             }
-                    ){
-                        // Substitua o ícone padrão pelo ícone de lixeira real que você deseja usar
-                        Icon(Icons.Default.Delete, contentDescription = "Delete")
-                    }
+                    )
                 }
             }
 
-            Column(modifier = Modifier.padding(12.dp)) {
-                Text(
-                    text = menssagem,
-                    fontSize = 12.sp,
-                    fontWeight = FontWeight(400),
-                    color = Color(0xFF000000)
-                )
-                Text(
-                    text = hora,
-                    fontSize = 10.sp,
-                    fontWeight = FontWeight(400),
-                    color = Color(0xFF3B4A54),
-                    modifier = Modifier.fillMaxWidth(),
-                    textAlign = TextAlign.End
-                )
-            }
         }
+
     }
 }
+
