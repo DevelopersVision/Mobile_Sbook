@@ -56,7 +56,7 @@ fun BoxAnuncio(
     viewModel : AnuncioViewModelV2
 ) {
     val dadosUser = UserRepository(context).findUsers()
-    var isChecked by remember { mutableStateOf(false) }
+    var isChecked by remember { mutableStateOf(viewModel.favoritado) }
     var visible by remember { mutableStateOf(true) }
 
     var generosString = ""
@@ -121,18 +121,20 @@ fun BoxAnuncio(
 
                                         if (response.isSuccessful) {
 
-                                            Log.e("Ja ta favoritado bixo burro", "Plim")
-                                            isChecked = false
+                                            if(response.body() != null){
+                                                Log.e("Ja ta favoritado bixo burro", "Plim")
+                                                isChecked = false
 
-                                            removerDosFavoritos(
-                                                id_anuncio = dadosAnuncio.anuncio.id,
-                                                id_usuario = dadosUser[0].id
-                                            )
-
-
-                                            visible = false
+                                                removerDosFavoritos(
+                                                    id_anuncio = dadosAnuncio.anuncio.id,
+                                                    id_usuario = dadosUser[0].id
+                                                )
 
 
+                                                visible = false
+                                            }else{
+                                                Log.e("Adicionar icon", " ICon")
+                                            }
                                         } else {
                                             Log.e("MORREU", "morreu")
                                             Log.e(

@@ -216,7 +216,7 @@ fun FeedScreen(
             .verticalScroll(rememberScrollState())
             .background(Color.White)
     ) {
-        Header(navController, navRotasController, context, imagemPefil, statusPerfil)
+        Header(navController, navRotasController, context, user2.foto, statusPerfil)
         Column(
             modifier = Modifier
                 .fillMaxSize()

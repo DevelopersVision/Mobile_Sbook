@@ -22,16 +22,12 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.graphics.ColorMatrix
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.navigation.NavController
-import br.senai.sp.jandira.s_book.components.announce.components.BoxAnuncio
 import br.senai.sp.jandira.s_book.components.announce.components.DescricaoAnuncioBox
 import br.senai.sp.jandira.s_book.components.announce.components.EspecificacoesAnuncioBox
-import br.senai.sp.jandira.s_book.components.announce.components.PhotoCarousel
 import br.senai.sp.jandira.s_book.components.meu_anuncio.components.BoxMyAnnounce
 import br.senai.sp.jandira.s_book.components.meu_anuncio.components.PhotoCarouselMyAnnounce
 import br.senai.sp.jandira.s_book.model.Anuncio

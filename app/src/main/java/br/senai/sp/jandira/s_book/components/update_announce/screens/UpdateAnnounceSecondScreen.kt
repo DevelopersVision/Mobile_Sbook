@@ -16,8 +16,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -51,10 +49,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import br.senai.sp.jandira.s_book.R
-import br.senai.sp.jandira.s_book.Storage
 import br.senai.sp.jandira.s_book.components.update_announce.components.HeaderUpdateAnnounce
-import br.senai.sp.jandira.s_book.model.AutorBaseResponse
-import br.senai.sp.jandira.s_book.model.Autores
 import br.senai.sp.jandira.s_book.model.EstadoLivro
 import br.senai.sp.jandira.s_book.model.EstadoLivroBaseResponse
 import br.senai.sp.jandira.s_book.model.Genero
@@ -92,6 +87,10 @@ fun UpdateAnnounceSecondScreen(
         mutableStateOf(viewlModel.selectedGeneros)
     }
 
+    var newGeneros by rememberSaveable {
+        mutableStateOf(viewModelV2.dadosAnuncio.generos)
+    }
+
     var arrayDeGeneros by remember {
         mutableStateOf(listOf<Int>())
     }
@@ -100,18 +99,22 @@ fun UpdateAnnounceSecondScreen(
         mutableStateOf(listOf<Genero>())
     }
 
-    var isVendaChecked by remember {
-        mutableStateOf(false)
+    var valor = if(viewModelV2.dadosAnuncio.anuncio.preco == null){
+        ""
+    }else{
+        viewModelV2.dadosAnuncio.anuncio.preco.toString()
     }
+
+
     var vendaPriceState by remember {
-        mutableStateOf("")
+        mutableStateOf(valor)
     }
 
     var listEstadosLivro by remember {
         mutableStateOf(listOf<EstadoLivro>())
     }
 
-
+    viewModelDosIds.id_estadoLivro = viewModelV2.dadosAnuncio.estado_livro.id
     viewModelDosIds.estadosSelecionados = setOf(viewModelV2.dadosAnuncio.estado_livro.estado)
     var estadosSelecionados by rememberSaveable {
         mutableStateOf(viewModelDosIds.estadosSelecionados)
@@ -137,6 +140,14 @@ fun UpdateAnnounceSecondScreen(
 
     var arrayDosTiposDeAnuncio by remember {
         mutableStateOf(listOf<Int>())
+    }
+
+    var newTipoAnuncio by remember {
+        mutableStateOf(viewModelV2.dadosAnuncio.tipo_anuncio)
+    }
+
+    var isVendaChecked by remember {
+        mutableStateOf(false)
     }
 
     val call = RetrofitHelper.getTipoAnuncioService().getTipoAnuncio()
@@ -301,12 +312,16 @@ fun UpdateAnnounceSecondScreen(
 
                                 if (isChecked) {
 
+                                    newGeneros = newGeneros + it
+
                                     generosSelecionados = generosSelecionados!! + it.id
 
                                     arrayDeGeneros = arrayDeGeneros.plus(it.id)
 
 
                                 } else {
+                                    newGeneros = newGeneros - it
+
                                     generosSelecionados = generosSelecionados!! - it.id
 
                                     arrayDeGeneros = arrayDeGeneros.minus(it.id)
@@ -347,6 +362,8 @@ fun UpdateAnnounceSecondScreen(
                     color = Color(0xFFE0E0E0)
                 )
 
+                isVendaChecked = tiposSelecionados!!.contains(3)
+
                 var pair = listTipoAnuncio
                 for (it in pair) {
                     val isChecked3 = tiposSelecionados!!.contains(it.id)
@@ -377,18 +394,24 @@ fun UpdateAnnounceSecondScreen(
                                             tiposSelecionados = listOf(it.id)
                                             isVendaChecked = false
                                             vendaPriceState = ""
+                                            newTipoAnuncio = listOf(it)
                                         }
                                         3,2 -> {
                                             // Se Troca ou Venda estão marcados, desmarca Doação
                                             tiposSelecionados = tiposSelecionados!!.filter { it != 1 }
+                                            newTipoAnuncio = newTipoAnuncio.filter { type ->
+                                                type.id != 1
+                                            }
                                         }
                                     }
+                                    newTipoAnuncio = newTipoAnuncio + it
                                     tiposSelecionados = tiposSelecionados!! + it.id
                                     viewModelDosTipoDeLivros.tiposDoAnuncio =
                                         arrayDosTiposDeAnuncio.plus(it.id)
                                 } else {
                                     // Se Desmarcar, remove o tipo do conjunto
                                     tiposSelecionados = tiposSelecionados!! - it.id
+                                    newTipoAnuncio = newTipoAnuncio - it
                                 }
                                 isVendaChecked = tiposSelecionados!!.contains(3)
                             }
@@ -440,7 +463,7 @@ fun UpdateAnnounceSecondScreen(
             Row(
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                val pages = listOf<Int>(1, 2, 3)
+                val pages = listOf<Int>(1, 2, 3,4)
 
                 for (page in pages) {
                     if (page == 2) {
@@ -468,38 +491,19 @@ fun UpdateAnnounceSecondScreen(
                 modifier = Modifier
                     .size(72.dp)
                     .clickable {
+
+                        val estadoLivroNew = EstadoLivro(
+                            id = viewModelDosIds.id_estadoLivro!!,
+                            estado = estadosSelecionados.toString()
+                        )
+                        viewModelV2.dadosAnuncio.generos = newGeneros
+                        viewModelV2.dadosAnuncio.tipo_anuncio = newTipoAnuncio
+                        if(viewModelV2.dadosAnuncio.tipo_anuncio[0].id != 1 && viewModelV2.dadosAnuncio.tipo_anuncio[0].id != 2){
+                            viewModelV2.dadosAnuncio.anuncio.preco = vendaPriceState.toDouble()
+                        }
+                        viewModelV2.dadosAnuncio.estado_livro = estadoLivroNew
+
                         navController.navigate("editAnnounceThird")
-//                        if (
-//                            nomeState.isNotEmpty() && sinopseState.isNotEmpty() &&
-//                            autorState.nome.isNotEmpty() && numeroPaginaState
-//                                .toString()
-//                                .isNotEmpty() &&
-//                            anoState
-//                                .toString()
-//                                .isNotEmpty() && edicaoState.isNotEmpty() &&
-//                            isbnState.isNotEmpty() && idiomaState.nome.isNotEmpty() && editoraState.nome.isNotEmpty()
-//                        ) {
-//                            viewModelV2.dadosAnuncio.anuncio.nome = nomeState
-//                            viewModelV2.dadosAnuncio.anuncio.descricao = sinopseState
-//                            viewModelV2.dadosAnuncio.autores[0].id = autorState.id
-//                            viewModelV2.dadosAnuncio.autores[0].nome = autorState.nome
-//                            viewModelV2.dadosAnuncio.anuncio.numero_paginas =
-//                                numeroPaginaState
-//                            viewModelV2.dadosAnuncio.anuncio.ano_lancamento = anoState
-//                            viewModelV2.dadosAnuncio.anuncio.edicao = edicaoState
-//                            viewModelV2.dadosAnuncio.anuncio.isbn = isbnState
-//                            viewModelV2.dadosAnuncio.idioma = idiomaState
-//                            viewModelV2.dadosAnuncio.editora = editoraState
-//                            navController.navigate("editAnnounceSecond")
-//                        } else {
-//                            Toast
-//                                .makeText(
-//                                    context,
-//                                    "Preencha todos os campos antes de prosseguir",
-//                                    Toast.LENGTH_SHORT
-//                                )
-//                                .show()
-//                        }
                     }
             )
         }
