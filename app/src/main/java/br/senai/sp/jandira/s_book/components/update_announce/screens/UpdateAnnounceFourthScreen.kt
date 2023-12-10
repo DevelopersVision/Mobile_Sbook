@@ -488,7 +488,7 @@ fun UpdateAnnounceFourthScrenn(
                 shape = RoundedCornerShape(10.dp),
             ) {
                 Text(
-                    text = "Anunciar",
+                    text = "Atualizar",
                     fontSize = 14.sp,
                     fontWeight = FontWeight(600),
                     color = Color(0xFFFFFFFF)

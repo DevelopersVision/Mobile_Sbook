@@ -127,7 +127,7 @@ fun UpdateAnnounceThirdScreen(
             Column {
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
-                    text = "Edite sua imagem agora, onde para adicionar é só clicar na imagem e trocar é apenas  clicar ensima da imagem que deseja trocar",
+                    text = "Edite sua imagem agora, onde para adicionar é só clicar na imagem e trocar é apenas clicar en cima da imagem que deseja trocar",
                     fontSize = 16.sp,
                     fontWeight = FontWeight(700),
                     color = Color(0xFF2A2929)
