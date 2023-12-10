@@ -61,7 +61,7 @@ fun LoginScreenRota(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Header()
-            if (!isLoading) {
+//            if (!isLoading) {
                 Form(
                     emailState,
                     senhaState,
@@ -71,23 +71,23 @@ fun LoginScreenRota(
                 )
 
                 DefaultButtonScreen(text = "Entrar", onClick = {
-                    isLoading = true // Mostra a ProgressBar antes de chamar a função de login
+//                    isLoading = true // Mostra a ProgressBar antes de chamar a função de login
                     login(emailState, senhaState, lifecycleScope!!, context, navController) {
-                        isLoading = true
+//                        isLoading = false
                         Toast.makeText(
                             context, it, Toast.LENGTH_LONG
                         ).show()
                     }
-                    isLoading =  false
+//                    isLoading =  false
                 })
 
                 Spacer(modifier = Modifier.height(30.dp))
                 TextContinueScreen2()
                 TextNotContScreen(navController)
                 Spacer(modifier = Modifier.height(30.dp))
-            } else {
-                ProgressBar(isDisplayed = true)
-            }
+//            } else {
+//                ProgressBar(isDisplayed = true)
+//            }
         }
     }
 }
