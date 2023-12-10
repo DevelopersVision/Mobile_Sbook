@@ -151,7 +151,7 @@ fun UpdateAnnounceThirdScreen(
                     modifier = Modifier
                         .size(128.dp)
                         .clickable {
-                            if (selectedMedia.size + fotoSelecionado.size < maxImageCount) {
+                            if (fotoSelecionado.size < maxImageCount) {
                                 launcher.launch("image/*")
                             }
                         }
